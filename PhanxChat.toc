@@ -1,0 +1,15 @@
+## Interface: 20400
+## Version: 3.0.1
+## Title: PhanxChat
+## Notes: Make your chat frames less cluttered and more user-friendly.
+## Notes-zhCN: 增强聊天体验（复制网址、姓名上色、允许方向键等）
+## Author: Phanx
+## X-Category: Chat/Communication
+## X-Website: http://www.wowinterface.com/downloads/info8243
+## SavedVariables: PhanxChatDB
+
+Locales\Locale-zhCN.lua
+Locales\Locale-zhTW.lua
+
+Core.lua
+Options.lua
