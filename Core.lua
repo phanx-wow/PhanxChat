@@ -192,8 +192,7 @@ local URL_PATTERNS = {
 }
 
 --[[------------------------------------------------------------
-	ChatFrame_MessageEventHandler
-	suppress
+	Suppress channel notices
 --------------------------------------------------------------]]
 
 local noticeEvents = {
@@ -202,6 +201,10 @@ local noticeEvents = {
 	CHAT_MSG_CHANNEL_NOTICE = true,
 	CHAT_MSG_CHANNEL_NOTICE_USER = true,
 }
+
+function PhanxChat.SuppressNotices(msg)
+	return true
+end
 
 local repeatEvents = {
 	CHAT_MSG_SAY = true,
@@ -214,17 +217,14 @@ local repeatEvents = {
 local NUM_HISTORY_LINES = 10
 local history = {}
 
-function PhanxChat.ChatFrame_MessageEventHandler(event, ...)
-	if noticeEvents[event] and db.suppress.notices then
-		return
-	end
-	if repeatEvents[event] and db.suppress.repeats and arg1 and arg2 and arg2 ~= playerName then
+function PhanxChat.SuppressRepeats(msg)
+	if arg2 and arg2 ~= playerName then
 		local frame = this
 		if not history[frame] then
 			history[frame] = {}
 		end
 		local t = history[frame]
-		local v = string.lower(arg2.." "..arg1)
+		local v = string.lower(arg2.." "..msg)
 
 		if t[v] then return end
 
@@ -235,7 +235,6 @@ function PhanxChat.ChatFrame_MessageEventHandler(event, ...)
 		table.insert(t, v)
 		t[v] = true
 	end
-	hooks.ChatFrame_MessageEventHandler(event, ...)
 end
 
 --[[------------------------------------------------------------
@@ -721,9 +720,16 @@ function PhanxChat:VARIABLES_LOADED()
 		end
 	end
 
-	if db.suppress.channels or db.suppress.repeats then
-		hooks.ChatFrame_MessageEventHandler = ChatFrame_MessageEventHandler
-		ChatFrame_MessageEventHandler = self.ChatFrame_MessageEventHandler
+	if db.suppress.channels then
+		for event in pairs(noticeEvents) do
+			ChatFrame_AddMessageEventFilter(event, self.SuppressNotices)
+		end
+	end
+
+	if db.suppress.repeats then
+		for event in pairs(repeatEvents) do
+			ChatFrame_AddMessageEventFilter(event, self.SuppressRepeats)
+		end
 	end
 
 	if db.tabs then
