@@ -192,18 +192,25 @@ local URL_PATTERNS = {
 }
 
 --[[------------------------------------------------------------
-	ChatFrame_MessageEventHandler
-	suppress
+	Suppress channel notices
 --------------------------------------------------------------]]
 
-local noticeEvents = {
+PhanxChat.eventsNotice = {
 	CHAT_MSG_CHANNEL_JOIN = true,
 	CHAT_MSG_CHANNEL_LEAVE = true,
 	CHAT_MSG_CHANNEL_NOTICE = true,
 	CHAT_MSG_CHANNEL_NOTICE_USER = true,
 }
 
-local repeatEvents = {
+function PhanxChat.SuppressNotices(msg)
+	return true
+end
+
+--[[------------------------------------------------------------
+	Suppress repeated messages
+--------------------------------------------------------------]]
+
+PhanxChat.eventsRepeat = {
 	CHAT_MSG_SAY = true,
 	CHAT_MSG_YELL = true,
 	CHAT_MSG_CHANNEL = true,
@@ -214,17 +221,14 @@ local repeatEvents = {
 local NUM_HISTORY_LINES = 10
 local history = {}
 
-function PhanxChat.ChatFrame_MessageEventHandler(event, ...)
-	if noticeEvents[event] and db.suppress.notices then
-		return
-	end
-	if repeatEvents[event] and db.suppress.repeats and arg1 and arg2 and arg2 ~= playerName then
+function PhanxChat.SuppressRepeats(msg)
+	if arg2 and arg2 ~= playerName then
 		local frame = this
 		if not history[frame] then
 			history[frame] = {}
 		end
 		local t = history[frame]
-		local v = string.lower(arg2.." "..arg1)
+		local v = string.lower(arg2.." "..msg)
 
 		if t[v] then return end
 
@@ -235,7 +239,6 @@ function PhanxChat.ChatFrame_MessageEventHandler(event, ...)
 		table.insert(t, v)
 		t[v] = true
 	end
-	hooks.ChatFrame_MessageEventHandler(event, ...)
 end
 
 --[[------------------------------------------------------------
@@ -287,41 +290,41 @@ end
 	Buttons
 --------------------------------------------------------------]]
 
-local function hide()
-	this:Hide()
+local function hide(frame)
+	frame:Hide()
 end
 
-local function scroll()
-	if arg1 > 0 then
+local function scroll(frame, delta)
+	if delta > 0 then
 		if IsShiftKeyDown() then
-			this:ScrollToTop()
+			frame:ScrollToTop()
 		elseif IsControlKeyDown() then
-			this:PageUp()
+			frame:PageUp()
 		else
 			for i = 1, NUM_SCROLL_LINES do
-				this:ScrollUp()
+				frame:ScrollUp()
 			end
 		end
-	elseif arg1 < 0 then
+	elseif delta < 0 then
 		if IsShiftKeyDown() then
-			this:ScrollToBottom()
+			frame:ScrollToBottom()
 		elseif IsControlKeyDown() then
-			this:PageDown()
+			frame:PageDown()
 		else
 			for i = 1, NUM_SCROLL_LINES do
-				this:ScrollDown()
+				frame:ScrollDown()
 			end
 		end
 	end
 end
 
-function PhanxChat.ChatFrame_OnUpdate(elapsed)
-	button = _G[this:GetName().."BottomButton"]
-	if this:AtBottom() then
+function PhanxChat.ChatFrame_OnUpdate(frame, elapsed)
+	button = _G[frame:GetName().."BottomButton"]
+	if frame:AtBottom() then
 		button:Hide()
 	else
 		button:Show()
-		hooks.ChatFrame_OnUpdate(elapsed)
+		hooks.ChatFrame_OnUpdate(frame, elapsed)
 	end
 end
 
@@ -344,11 +347,11 @@ function PhanxChat.ChatEdit_UpdateHeader(frame)
 	end
 end
 
-function PhanxChat:CHAT_MSG_CHANNEL_NOTICE()
-	if arg1 == "YOU_JOINED" then
+function PhanxChat:CHAT_MSG_CHANNEL_NOTICE(noticeType)
+	if noticeType == "YOU_JOINED" then
 		local name = arg9:match("^([^%s%-]+)")
 		self.channels[arg8] = CHANNEL_NAMES[name] or name
-	elseif arg1 == "YOU_LEFT" then
+	elseif noticeType == "YOU_LEFT" then
 		self.channels[arg8] = nil
 	end
 end
@@ -363,23 +366,96 @@ end
 --[[------------------------------------------------------------
 	Names
 	Non-English class names copied from LibBabble-Class-3.0
+	#TODO: Missing "Death Knight" for esES and frFR locales.
 --------------------------------------------------------------]]
 
 local english
 do
 	local locale = GetLocale()
-	if locale == "deDE" then
-		english = { ["Druide"] = "DRUID", ["Jäger"] = "HUNTER", ["Magier"] = "MAGE", ["Paladin"] = "PALADIN", ["Priester"] = "PRIEST", ["Schurke"] = "ROGUE", ["Schamane"] = "SHAMAN", ["Hexenmeister"] = "WARLOCK", ["Krieger"] = "WARRIOR" }
-	elseif locale == "esES" then
-		english = { ["Druida"] = "DRUID", ["Cazador"] = "HUNTER", ["Mago"] = "MAGE", ["Paladín"] = "PALADIN", ["Sacerdote"] = "PRIEST", ["Pícaro"] = "ROGUE", ["Chamán"] = "SHAMAN", ["Brujo"] = "WARLOCK", ["Guerrrero"] = "WARRIOR" }
-	elseif locale == "frFR" then
-		english = { ["Druide"] = "DRUID", ["Chasseur"] = "HUNTER", ["Mage"] = "MAGE", ["Paladin"] = "PALADIN", ["Prêtre"] = "PRIEST", ["Voleur"] = "ROGUE", ["Chaman"] = "SHAMAN", ["Démoniste"] = "WARLOCK", ["Guerrier"] = "WARRIOR" }
-	elseif locale == "koKR" then
-		english = { ["드루이드"] = "DRUID", ["사냥꾼"] = "HUNTER", ["마법사"] = "MAGE", ["성기사"] = "PALADIN", ["사제"] = "PRIEST", ["도적"] = "ROGUE", ["주술사"] = "SHAMAN", ["흑마법사"] = "WARLOCK", ["전사"] = "WARRIOR" }
-	elseif locale == "zhCN" then
-		english = { ["德鲁伊"] = "DRUID", ["猎人"] = "HUNTER", ["法师"] = "MAGE", ["圣骑士"] = "PALADIN", ["牧师"] = "PRIEST", ["潜行者"] = "ROGUE", ["萨满祭司"] = "SHAMAN", ["术士"] = "WARLOCK", ["战士"] = "WARRIOR" }
-	elseif locale == "zhTW" then
-		english = { ["德魯伊"] = "DRUID", ["獵人"] = "HUNTER", ["法師"] = "MAGE", ["聖騎士"] = "PALADIN", ["牧師"] = "PRIEST", ["盜賊"] = "ROGUE", ["薩滿"] = "SHAMAN", ["術士"] = "WARLOCK", ["戰士"] = "WARRIOR" }
+	if locale == "deDE" then english = {
+		["Todestritter"] = "DEATHKNIGHT",
+		["Druide"] = "DRUID", ["Druidin"] = "DRUID",
+		["Jäger"] = "HUNTER", ["Jägerin"] = "HUNTER",
+		["Magier"] = "MAGE", ["Magierin"] = "MAGE",
+		["Paladin"] = "PALADIN",
+		["Priester"] = "PRIEST", ["Priesterin"] = "PRIEST",
+		["Schurke"] = "ROGUE", ["Schurkin"] = "ROGUE",
+		["Schamane"] = "SHAMAN", ["Schamanin"] = "SHAMAN",
+		["Hexenmeister"] = "WARLOCK", ["Hexenmeisterin"] = "WARLOCK",
+		["Krieger"] = "WARRIOR", ["Kriegerin"] = "WARRIOR",
+	}
+	elseif locale == "esES" then english = {
+	--	[""] = "DEATHKNIGHT",
+		["Druida"] = "DRUID",
+		["Cazador"] = "HUNTER", ["Cazadora"] = "HUNTER",
+		["Mago"] = "MAGE", ["Maga"] = "MAGE",
+		["Paladín"] = "PALADIN",
+		["Sacerdote"] = "PRIEST", ["Sacerdotisa"] = "PRIEST",
+		["Pícaro"] = "ROGUE", ["Pícara"] = "ROGUE",
+		["Chamán"] = "SHAMAN",
+		["Brujo"] = "WARLOCK", ["Bruja"] = "WARLOCK",
+		["Guerrrero"] = "WARRIOR", ["Guerrera"] = "WARRIOR",
+	}
+	elseif locale == "frFR" then english = {
+	--	[""] = "DEATHKNIGHT",
+		["Druide"] = "DRUID", ["Druidesse"] = "DRUID",
+		["Chasseur"] = "HUNTER", ["Chasseresse"] = "HUNTER",
+		["Mage"] = "MAGE", 
+		["Paladin"] = "PALADIN", 
+		["Prêtre"] = "PRIEST", ["Prêtresse"] = "PRIEST",
+		["Voleur"] = "ROGUE", ["Voleuse"] = "ROGUE",
+		["Chaman"] = "SHAMAN",  ["Chamane"] = "SHAMAN",
+		["Démoniste"] = "WARLOCK",
+		["Guerrier"] = "WARRIOR", ["Guerrière"] = "WARRIOR",
+	}
+	elseif locale == "koKR" then english = {
+		["죽음의 기사"] = "DEATHKNIGHT",
+		["드루이드"] = "DRUID", 
+		["사냥꾼"] = "HUNTER", 
+		["마법사"] = "MAGE", 
+		["성기사"] = "PALADIN", 
+		["사제"] = "PRIEST", 
+		["도적"] = "ROGUE", 
+		["주술사"] = "SHAMAN", 
+		["흑마법사"] = "WARLOCK",
+		["전사"] = "WARRIOR",
+	}
+	elseif locale == "ruRU" then english = {
+		["Рыцарь Смерти"] = "DEATHKNIGHT",
+		["Друид"] = "DRUID",
+		["Охотник"] = "HUNTER", ["Охотница"] = "HUNTER",
+		["Маг"] = "MAGE",
+		["Паладин"] = "PALADIN",
+		["Жрец"] = "PRIEST", ["Жрица"] = "PRIEST",
+		["Разбойник"] = "ROGUE", ["Разбойница"] = "ROGUE",
+		["Шаман"] = "SHAMAN", ["Шаманка"] = "SHAMAN",
+		["Чернокнижник"] = "WARLOCK", ["Чернокнижница"] = "WARLOCK",
+		["Воин"] = "WARRIOR",
+	}
+	elseif locale == "zhCN" then english = {
+		["死亡骑士"] = "DEATHKNIGHT",
+		["德鲁伊"] = "DRUID",
+		["猎人"] = "HUNTER",
+		["法师"] = "MAGE",
+		["圣骑士"] = "PALADIN",
+		["牧师"] = "PRIEST",
+		["萨满祭司"] = "SHAMAN",
+		["潜行者"] = "ROGUE",
+		["术士"] = "WARLOCK",
+		["战士"] = "WARRIOR",
+	}
+	elseif locale == "zhTW" then english = {
+		["死亡騎士"] = "DEATHKNIGHT",
+		["德魯伊"] = "DRUID",
+		["獵人"] = "HUNTER",
+		["法師"] = "MAGE",
+		["聖騎士"] = "PALADIN",
+		["牧師"] = "PRIEST",
+		["盜賊"] = "ROGUE",
+		["薩滿"] = "SHAMAN",
+		["術士"] = "WARLOCK",
+		["戰士"] = "WARRIOR".
+	}
 	end
 end
 
@@ -721,9 +797,16 @@ function PhanxChat:VARIABLES_LOADED()
 		end
 	end
 
-	if db.suppress.channels or db.suppress.repeats then
-		hooks.ChatFrame_MessageEventHandler = ChatFrame_MessageEventHandler
-		ChatFrame_MessageEventHandler = self.ChatFrame_MessageEventHandler
+	if db.suppress.channels then
+		for event in pairs(self.eventsNotice) do
+			ChatFrame_AddMessageEventFilter(event, self.SuppressNotices)
+		end
+	end
+
+	if db.suppress.repeats then
+		for event in pairs(self.eventsRepeat) do
+			ChatFrame_AddMessageEventFilter(event, self.SuppressRepeats)
+		end
 	end
 
 	if db.tabs then

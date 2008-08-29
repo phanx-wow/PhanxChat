@@ -1,5 +1,6 @@
 --[[------------------------------------------------------------
-	Tab size is 5.
+	Configuration functions for PhanxChat
+	See README.TXT for license and additional information.
 --------------------------------------------------------------]]
 
 local _G = _G
@@ -285,16 +286,14 @@ end
 
 function PhanxChat:SetSuppressNotices()
 	if not db.suppress.notices then
-		if not self.hooks.ChatFrame_MessageEventHandler then
-			self.hooks.ChatFrame_MessageEventHandler = ChatFrame_MessageEventHandler
-			ChatFrame_MessageEventHandler = self.ChatFrame_MessageEventHandler
+		for event in pairs(self.eventsNotice) do
+			ChatFrame_AddMessageEventFilter(event, self.SuppressNotices)
 		end
 		db.suppress.notices = true
 		printf(L["Channel notice suppression %s."], ENABLED)
 	else
-		if not db.suppress.repeats then
-			ChatFrame_MessageEventHandler = self.hooks.ChatFrame_MessageEventHandler
-			self.hooks.ChatFrame_MessageEventHandler = nil
+		for event in pairs(self.eventsNotice) do
+			ChatFrame_RemoveMessageEventFilter(event, self.SuppressNotices)
 		end
 		db.suppress.channels = false
 		printf(L["Channel notice suppression %s."], DISABLED)
@@ -303,16 +302,14 @@ end
 
 function PhanxChat:SetSuppressRepeats()
 	if not db.suppress.repeats then
-		if not self.hooks.ChatFrame_MessageEventHandler then
-			self.hooks.ChatFrame_MessageEventHandler = ChatFrame_MessageEventHandler
-			ChatFrame_MessageEventHandler = self.ChatFrame_MessageEventHandler
+		for event in pairs(self.eventsRepeat) do
+			ChatFrame_AddMessageEventFilter(event, self.SuppressRepeats)
 		end
 		db.suppress.repeats = true
 		printf(L["Repeated message suppression %s."], ENABLED)
 	else
-		if not db.suppress.channels then
-			ChatFrame_MessageEventHandler = self.hooks.ChatFrame_MessageEventHandler
-			self.hooks.ChatFrame_MessageEventHandler = nil
+		for event in pairs(self.eventsRepeat) do
+			ChatFrame_RemoveMessageEventFilter(event, self.SuppressRepeats)
 		end
 		db.suppress.repeats = false
 		printf(L["Repeated message suppression %s."], DISABLED)
