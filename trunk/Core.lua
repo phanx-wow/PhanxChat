@@ -38,20 +38,29 @@ local STICKY_TYPES = {			-- 1 = sticky, 0 = not sticky
 
 local blacklist = {				-- frames to exempt from formatting
 	["default"] = {
-		ChatFrame2 = true, -- Combat Log
+		[ChatFrame2] = true, -- Combat Log
 	},
 	["Blackrock - Lirrel"] = {
-		ChatFrame3 = true, -- Loot
-		ChatFrame7 = true, -- Quiet
+		[ChatFrame3] = true, -- Loot
+		[ChatFrame7] = true, -- Quiet
+	},
+	["Sargeras - Bherasha"] = {
+		[ChatFrame3] = true, -- Loot
+	},
+	["Sargeras - Ghinjo"] = {
+		[ChatFrame3] = true, -- Loot
+	},
+	["Sargeras - Mauaji"] = {
+		[ChatFrame3] = true, -- Loot
 	},
 }
 
 local customchannels = {			-- short names for custom channels
-	["kittens"] = "k",
-	["medshaman"] = "ms",
+	["obgyns"] = "OB",
+	["totemorgy"] = "SH",
 }
 
-if not PHANXCHAT_LOCALS then PHANXCHAT_LOCALS = {
+local PHANXCHAT_LOCALS = PHANXCHAT_LOCALS or {
 	SHORT_SAY					= "s",	-- English custom chat strings
 	SHORT_YELL				= "y",	-- If you are playing in another locale you will need to change
 	SHORT_GUILD				= "g",	-- these in the relevant translation file instead of here.
@@ -87,7 +96,7 @@ if not PHANXCHAT_LOCALS then PHANXCHAT_LOCALS = {
 	CHANNEL_GUILDRECRUITMENT		= "GuildRecruitment",
 
 	WHO_QUERY_RESULT			= "^%|Hplayer:%w+|h%[(%w+)%]|h: Level %d+ %w+%s?[%w]* (%w+)%s?<?[^>]*>? %- .+$"
-} end
+}
 
 PhanxChat = CreateFrame("Frame")
 
@@ -97,8 +106,8 @@ local PhanxChat, self = PhanxChat, PhanxChat
 
 PhanxChat.version = tonumber(GetAddOnMetadata("PhanxChat", "Version"):match("(%d+)"))
 
-PhanxChat.L = setmetatable( PHANXCHAT_LOCALS, { __index = function(t, k) t[k] = k; return k end })
-PHANXCHAT_LOCALS = nil
+PhanxChat.L = setmetatable(PHANXCHAT_LOCALS, { __index = function(t, k) t[k] = k; return k end })
+_G.PHANXCHAT_LOCALS = nil
 
 PhanxChat.channels = {}
 PhanxChat.names = {}
@@ -364,33 +373,105 @@ end
 	Non-English class names copied from LibBabble-Class-3.0
 --------------------------------------------------------------]]
 
-local english
+local englishClass
 do
 	local locale = GetLocale()
-	if locale == "deDE" then
-		english = { ["Druide"] = "DRUID", ["Jäger"] = "HUNTER", ["Magier"] = "MAGE", ["Paladin"] = "PALADIN", ["Priester"] = "PRIEST", ["Schurke"] = "ROGUE", ["Schamane"] = "SHAMAN", ["Hexenmeister"] = "WARLOCK", ["Krieger"] = "WARRIOR" }
-	elseif locale == "esES" then
-		english = { ["Druida"] = "DRUID", ["Cazador"] = "HUNTER", ["Mago"] = "MAGE", ["Paladín"] = "PALADIN", ["Sacerdote"] = "PRIEST", ["Pícaro"] = "ROGUE", ["Chamán"] = "SHAMAN", ["Brujo"] = "WARLOCK", ["Guerrrero"] = "WARRIOR" }
-	elseif locale == "frFR" then
-		english = { ["Druide"] = "DRUID", ["Chasseur"] = "HUNTER", ["Mage"] = "MAGE", ["Paladin"] = "PALADIN", ["Prêtre"] = "PRIEST", ["Voleur"] = "ROGUE", ["Chaman"] = "SHAMAN", ["Démoniste"] = "WARLOCK", ["Guerrier"] = "WARRIOR" }
-	elseif locale == "koKR" then
-		english = { ["드루이드"] = "DRUID", ["사냥꾼"] = "HUNTER", ["마법사"] = "MAGE", ["성기사"] = "PALADIN", ["사제"] = "PRIEST", ["도적"] = "ROGUE", ["주술사"] = "SHAMAN", ["흑마법사"] = "WARLOCK", ["전사"] = "WARRIOR" }
-	elseif locale == "zhCN" then
-		english = { ["德鲁伊"] = "DRUID", ["猎人"] = "HUNTER", ["法师"] = "MAGE", ["圣骑士"] = "PALADIN", ["牧师"] = "PRIEST", ["潜行者"] = "ROGUE", ["萨满祭司"] = "SHAMAN", ["术士"] = "WARLOCK", ["战士"] = "WARRIOR" }
-	elseif locale == "zhTW" then
-		english = { ["德魯伊"] = "DRUID", ["獵人"] = "HUNTER", ["法師"] = "MAGE", ["聖騎士"] = "PALADIN", ["牧師"] = "PRIEST", ["盜賊"] = "ROGUE", ["薩滿"] = "SHAMAN", ["術士"] = "WARLOCK", ["戰士"] = "WARRIOR" }
+	if locale == "deDE" then englishClass = {
+		["Todestritter"] = "DEATHKNIGHT",
+		["Druide"] = "DRUID", ["Druidin"] = "DRUID",
+		["Jäger"] = "HUNTER", ["Jägerin"] = "HUNTER",
+		["Magier"] = "MAGE", ["Magierin"] = "MAGE",
+		["Paladin"] = "PALADIN",
+		["Priester"] = "PRIEST", ["Priesterin"] = "PRIEST",
+		["Schurke"] = "ROGUE", ["Schurkin"] = "ROGUE",
+		["Schamane"] = "SHAMAN", ["Schamanin"] = "SHAMAN",
+		["Hexenmeister"] = "WARLOCK", ["Hexenmeisterin"] = "WARLOCK",
+		["Krieger"] = "WARRIOR", ["Kriegerin"] = "WARRIOR",
+	}
+	elseif locale == "esES" then englishClass = {
+	--	[""] = "DEATHKNIGHT",
+		["Druida"] = "DRUID",
+		["Cazador"] = "HUNTER", ["Cazadora"] = "HUNTER",
+		["Mago"] = "MAGE", ["Maga"] = "MAGE",
+		["Paladín"] = "PALADIN",
+		["Sacerdote"] = "PRIEST", ["Sacerdotisa"] = "PRIEST",
+		["Pícaro"] = "ROGUE", ["Pícara"] = "ROGUE",
+		["Chamán"] = "SHAMAN",
+		["Brujo"] = "WARLOCK", ["Bruja"] = "WARLOCK",
+		["Guerrrero"] = "WARRIOR", ["Guerrera"] = "WARRIOR",
+	}
+	elseif locale == "frFR" then englishClass = {
+	--	[""] = "DEATHKNIGHT",
+		["Druide"] = "DRUID", ["Druidesse"] = "DRUID",
+		["Chasseur"] = "HUNTER", ["Chasseresse"] = "HUNTER",
+		["Mage"] = "MAGE", 
+		["Paladin"] = "PALADIN", 
+		["Prêtre"] = "PRIEST", ["Prêtresse"] = "PRIEST",
+		["Voleur"] = "ROGUE", ["Voleuse"] = "ROGUE",
+		["Chaman"] = "SHAMAN",  ["Chamane"] = "SHAMAN",
+		["Démoniste"] = "WARLOCK",
+		["Guerrier"] = "WARRIOR", ["Guerrière"] = "WARRIOR",
+	}
+	elseif locale == "koKR" then englishClass = {
+		["죽음의 기사"] = "DEATHKNIGHT",
+		["드루이드"] = "DRUID", 
+		["사냥꾼"] = "HUNTER", 
+		["마법사"] = "MAGE", 
+		["성기사"] = "PALADIN", 
+		["사제"] = "PRIEST", 
+		["도적"] = "ROGUE", 
+		["주술사"] = "SHAMAN", 
+		["흑마법사"] = "WARLOCK",
+		["전사"] = "WARRIOR",
+	}
+	elseif locale == "ruRU" then englishClass = {
+		["Рыцарь Смерти"] = "DEATHKNIGHT",
+		["Друид"] = "DRUID",
+		["Охотник"] = "HUNTER", ["Охотница"] = "HUNTER",
+		["Маг"] = "MAGE",
+		["Паладин"] = "PALADIN",
+		["Жрец"] = "PRIEST", ["Жрица"] = "PRIEST",
+		["Разбойник"] = "ROGUE", ["Разбойница"] = "ROGUE",
+		["Шаман"] = "SHAMAN", ["Шаманка"] = "SHAMAN",
+		["Чернокнижник"] = "WARLOCK", ["Чернокнижница"] = "WARLOCK",
+		["Воин"] = "WARRIOR",
+	}
+	elseif locale == "zhCN" then englishClass = {
+		["死亡骑士"] = "DEATHKNIGHT",
+		["德鲁伊"] = "DRUID",
+		["猎人"] = "HUNTER",
+		["法师"] = "MAGE",
+		["圣骑士"] = "PALADIN",
+		["牧师"] = "PRIEST",
+		["萨满祭司"] = "SHAMAN",
+		["潜行者"] = "ROGUE",
+		["术士"] = "WARLOCK",
+		["战士"] = "WARRIOR",
+	}
+	elseif locale == "zhTW" then englishClass = {
+		["死亡騎士"] = "DEATHKNIGHT",
+		["德魯伊"] = "DRUID",
+		["獵人"] = "HUNTER",
+		["法師"] = "MAGE",
+		["聖騎士"] = "PALADIN",
+		["牧師"] = "PRIEST",
+		["盜賊"] = "ROGUE",
+		["薩滿"] = "SHAMAN",
+		["術士"] = "WARLOCK",
+		["戰士"] = "WARRIOR",
+	}
 	end
 end
 
 function PhanxChat:RegisterName(name, class)
 	if not name or not class or names[name] then return end
-	class = class:upper()
-	if class == "UNKNOWN" then return end
-	if CLASS_COLORS[class] then
+	local upperclass = class:upper():gsub("%s", "", 1)
+	if upperclass == "UNKNOWN" then return end
+	if CLASS_COLORS[upperclass] then
 		--debug("adding "..class.." "..name)
-		names[name] = "|cff"..CLASS_COLORS[class]..name.."|r"
-	elseif english and CLASS_COLORS[english[class]] then
-		names[name] = "|cff"..CLASS_COLORS[english[class]]..name.."|r"
+		names[name] = "|cff"..CLASS_COLORS[upperclass]..name.."|r"
+	elseif englishClass and CLASS_COLORS[englishClass[class]] then
+		names[name] = "|cff"..CLASS_COLORS[englishClass[class]]..name.."|r"
 	end
 end
 
@@ -467,9 +548,9 @@ end
 	Tabs
 --------------------------------------------------------------]]
 
-function PhanxChat.OnDragStart()
-	if IsAltKeyDown() or not _G[this:GetName():sub(1, -4)].isDocked then
-		hooks[this].OnDragStart()
+function PhanxChat.OnDragStart(frame)
+	if IsAltKeyDown() or not _G[frame:GetName():sub(1, -4)].isDocked then
+		hooks[frame].OnDragStart()
 	end
 end
 
@@ -528,12 +609,12 @@ StaticPopupDialogs.URL_COPY_DIALOG = {
 	hideOnEscape = 1,
 }
 
-function PhanxChat.SetItemRef(link, text, button)
+function PhanxChat.SetItemRef(link, ...)
 	if link:sub(1, 3) == "url" then
 		URLCopyDialog_Show(link:sub(5))
 		return
 	end
-	hooks.SetItemRef(link, text, button)
+	hooks.SetItemRef(link, ...)
 end
 
 --[[------------------------------------------------------------
@@ -596,6 +677,7 @@ function PhanxChat:VARIABLES_LOADED()
 			ignore[k] = v
 		end
 	end
+	self.ignoredframes = ignore
 
 	for i = 1, 7 do
 		frame = _G["ChatFrame"..i]
