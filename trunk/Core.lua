@@ -1,5 +1,5 @@
 --[[------------------------------------------------------------
-	PhanxChat, Version 3.0
+	PhanxChat
 	Author: Phanx < addons AT phanx net >
 	Credits: Ammo, Aranarth, Curney, Grennon, Haxninja, Krtek,
 		Kyahx, Rabbit, Robinson, Sylvanaar, and others whose
@@ -7,7 +7,6 @@
 	Things To Do:
 		- add channel name color memory
 		- add channel name linking
-	Tab size is 5.
 --------------------------------------------------------------]]
 
 local NUM_SCROLL_LINES = 3		-- number of lines to scroll per mousewheel turn
@@ -40,24 +39,12 @@ local blacklist = {				-- frames to exempt from formatting
 	["default"] = {
 		[ChatFrame2] = true, -- Combat Log
 	},
-	["Blackrock - Lirrel"] = {
-		[ChatFrame3] = true, -- Loot
-		[ChatFrame7] = true, -- Quiet
-	},
-	["Sargeras - Bherasha"] = {
-		[ChatFrame3] = true, -- Loot
-	},
-	["Sargeras - Ghinjo"] = {
-		[ChatFrame3] = true, -- Loot
-	},
-	["Sargeras - Mauaji"] = {
-		[ChatFrame3] = true, -- Loot
+	["Server - Character"] = {
 	},
 }
 
 local customchannels = {			-- short names for custom channels
-	["obgyns"] = "OB",
-	["totemorgy"] = "SH",
+	["channel"] = "ABBR",
 }
 
 local PHANXCHAT_LOCALS = PHANXCHAT_LOCALS or {
