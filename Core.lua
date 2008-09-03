@@ -767,8 +767,7 @@ function PhanxChat:VARIABLES_LOADED()
 
 	if db.names then
 		self:RegisterEvent("FRIENDLIST_UPDATE")
-		-- workaround for people who can't get guild info immediately
-		self:RegisterEvent("PLAYER_GUILD_UPDATE")
+		self:RegisterEvent("PLAYER_GUILD_UPDATE") -- workaround for people who don't get guild info immediately
 		self:RegisterEvent("GUILD_ROSTER_UPDATE")
 		self:RegisterEvent("PARTY_MEMBERS_CHANGED")
 		self:RegisterEvent("RAID_ROSTER_UPDATE")
