@@ -1,5 +1,5 @@
 ## Interface: 20400
-## Version: 3.0.1
+## Version: 2.4.3.wowi:revision
 ## Title: PhanxChat
 ## Notes: Make your chat frames less cluttered and more user-friendly.
 ## Notes-zhCN: 增强聊天体验（复制网址、姓名上色、允许方向键等）
