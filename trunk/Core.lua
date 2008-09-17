@@ -204,7 +204,7 @@ local URL_PATTERNS = {
 	Suppress channel notices
 --------------------------------------------------------------]]
 
-local noticeEvents = {
+PhanxChat.eventsNotice = {
 	CHAT_MSG_CHANNEL_JOIN = true,
 	CHAT_MSG_CHANNEL_LEAVE = true,
 	CHAT_MSG_CHANNEL_NOTICE = true,
@@ -215,7 +215,7 @@ function PhanxChat.SuppressNotices(msg)
 	return true
 end
 
-local repeatEvents = {
+PhanxChat.eventsRepeat = {
 	CHAT_MSG_SAY = true,
 	CHAT_MSG_YELL = true,
 	CHAT_MSG_CHANNEL = true,
@@ -802,13 +802,13 @@ function PhanxChat:VARIABLES_LOADED()
 	end
 
 	if db.suppress.channels then
-		for event in pairs(noticeEvents) do
+		for event in pairs(self.eventsNotice) do
 			ChatFrame_AddMessageEventFilter(event, self.SuppressNotices)
 		end
 	end
 
 	if db.suppress.repeats then
-		for event in pairs(repeatEvents) do
+		for event in pairs(self.eventsRepeat) do
 			ChatFrame_AddMessageEventFilter(event, self.SuppressRepeats)
 		end
 	end

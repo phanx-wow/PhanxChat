@@ -285,13 +285,13 @@ end
 
 function PhanxChat:SetSuppressNotices()
 	if not db.suppress.notices then
-		for event in pairs(noticeEvents) do
+		for event in pairs(self.eventsNotice) do
 			ChatFrame_AddMessageEventFilter(event, self.SuppressNotices)
 		end
 		db.suppress.notices = true
 		printf(L["Channel notice suppression %s."], ENABLED)
 	else
-		for event in pairs(noticeEvents) do
+		for event in pairs(self.eventsNotice) do
 			ChatFrame_RemoveMessageEventFilter(event, self.SuppressNotices)
 		end
 		db.suppress.channels = false
@@ -301,13 +301,13 @@ end
 
 function PhanxChat:SetSuppressRepeats()
 	if not db.suppress.repeats then
-		for event in pairs(repeatEvents) do
+		for event in pairs(self.eventsRepeat) do
 			ChatFrame_AddMessageEventFilter(event, self.SuppressRepeats)
 		end
 		db.suppress.repeats = true
 		printf(L["Repeated message suppression %s."], ENABLED)
 	else
-		for event in pairs(repeatEvents) do
+		for event in pairs(self.eventsRepeat) do
 			ChatFrame_RemoveMessageEventFilter(event, self.SuppressRepeats)
 		end
 		db.suppress.repeats = false
