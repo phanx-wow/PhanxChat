@@ -1,16 +1,16 @@
 ﻿--[[
 	frFR translations for PhanxChat
-	Contributed by Kyron - Halcyon (Auchindoun)
+	Contributed by Kyron - Halcyon (Auchindoun); Nicolas (miaouxp)
 ]]
 
 if GetLocale() == "frFR" then PHANXCHAT_LOCALS = {
 
-	CHANNEL_GENERAL			= "General",
-	CHANNEL_TRADE				= "Trade",
-	CHANNEL_LOCALDEFENSE		= "LocalDefense",
-	CHANNEL_WORLDDEFENSE		= "WorldDefense",
-	CHANNEL_LOOKINGFORGROUP		= "LookingForGroup",
-	CHANNEL_GUILDRECRUITMENT		= "GuildRecruitment",
+	CHANNEL_GENERAL			= "Général",
+	CHANNEL_TRADE				= "Commerce",
+	CHANNEL_LOCALDEFENSE		= "Défense Locale",
+	CHANNEL_WORLDDEFENSE		= "Défense du monde",
+	CHANNEL_LOOKINGFORGROUP		= "Recherche de groupe",
+	CHANNEL_GUILDRECRUITMENT		= "Recrutement de guilde",
 
 	WHO_QUERY_RESULT			= "^%|Hplayer:%w+|h%[(%w+)%]|h: Level %d+ %w+%s?[%w]* (%w+)%s?<?[^>]*>? %- .+$",
 
@@ -34,18 +34,18 @@ if GetLocale() == "frFR" then PHANXCHAT_LOCALS = {
 	SHORT_WHISPER 				= "W",
 	SHORT_WHISPER_INFORM 		= "W",
 
-	["enabled"] = "Activer",
-	["disabled"] = "Désactiver",
+	["enabled"] = "activé",
+	["disabled"] = "désactivé",
 
-	["Use /pchat with the following commands:"] = "Utilisez /pchat avec les commandes suivantes：",
+	["Use /pchat with the following commands:"] = "Utilisez /pchat avec les commandes suivantes:",
 
 	["Hide the scroll buttons"] = "Cacher les boutons de défilement",
-	["Button hiding %s."] = "Cacher les boutons de défilement %s.",
+	["Button hiding %s."] = "Cacher le bouton %s.",
 
 	["Shorten channel names and chat strings"] = "Raccourcir le nom des canaux",
 	["Short channel names %s."] = "Nom des canaux raccourcis %s.",
 
-	["Clear the window"] = "Nettoyer la fenêtre de chat",
+	["Clear the window"] = "Vider la fenêtre de chat",
 
 	["Enable arrow keys in the edit box"] = "Activer les flèches dans la fenêtre de saisie",
 	["Edit box arrow keys %s."] = "Flèches dans la fenêtre de saisie %s.",
@@ -61,32 +61,32 @@ if GetLocale() == "frFR" then PHANXCHAT_LOCALS = {
 	["Stop tabs from flashing"] = "Désactiver le flash des onglets",
 	["Chat tab flash suppression %s."] = "Supression du flash de l'onglet %s",
 
-	["Set the font size for all windows"] = "Régler la taille de la police pour toutes les fenêtres",
-	["Chat font size set to %d."] = "Taille de la police du chat réglée sur %d.",
+	["Set the font size for all windows"] = "Définir la taille de la police pour toutes les fenêtres",
+	["Chat font size set to %d."] = "Taille de la police du chat définie à %d.",
 
 	["Start chat logging automatically"] = "Démarrer la sauvegarde du chat automatiquement",
 	["Automatic chat logging %s."] = "Sauvegarde du chat automatique %s.",
 
-	["Color player names by class if known"] = "Colorer le nom des joueurs par classe si connu",
+	["Color player names by class if known"] = "Colorer le nom des joueurs selon leur classe, si connu",
 	["Player name class coloring %s."] = "Noms des joueurs colorés par classe %s.",
 
-	["Enable mousewheel scrolling"] = "Activer le défilement molette",
+	["Enable mousewheel scrolling"] = "Autoriser le défilement via la molette",
 	["Mousewheel scrolling %s."] = "Défilement molette %s.",
 
-	["Make more chat types sticky"] = "Rendre plus de canaux "collant"",
+	["Make more chat types sticky"] = "Rendre plus de canaux \"collant\"",
 	["Sticky channels %s."] = "Canaux collants %s.",
 
---	["Suppress channel notification messages"] = "Suppress channel notification messages",
---	["Channel notice suppression %s."] = "Channel notice suppression %s.",
+	["Suppress channel notification messages"] = "Supprimer les messages de notification des canaux"
+	["Channel notice suppression %s."] = "Suppression des notifications des canaux %s.",
 
---	["Suppress repeated messages in public channels"] = "Suppress repeated messages in public channels",
---	["Repeated message suppression %s."] = "Repeated message suppression %s.",
+	["Suppress repeated messages in public channels"] = "Supprimer les messages redondants dans les canaux publics",
+	["Repeated message suppression %s."] = "Suppression des messages redondants %s."
 
 	["Lock docked tabs in place (hold Alt to drag)"] = "Bloquer le déplacement des onglets (maintenir Alt pour déplacer)",
 	["Chat tab locking %s."] = "Bloc du déplacement des onglets %s.",
 
-	["Link URLs for easy copying"] = "URL clickables pour la copie facile",
-	["URL linking %s."] = "URL Clickables %s.",
+	["Link URLs for easy copying"] = "URLs cliquables (permettant le copier/coller)",
+	["URL linking %s."] = "URLs cliquables %s.",
 
 	["Version %d loaded."] = "Version %d chargée.",
 
