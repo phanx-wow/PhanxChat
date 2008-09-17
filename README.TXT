@@ -1,18 +1,21 @@
 
-PhanxChat is a chat addon that aims to reduce chat frame clutter
-while increasing chat frame usability.
+PhanxChat is an addon for World of Warcraft that aims to make the chat
+frame less cluttered and more user-friendly. Type /pchat for a listing
+of available commands.
 
-Information and Download:
+Phanx < addons AT phanx net >
 http://www.wowinterface.com/downloads/info6323-PhanxChat.html
 
-Bug Reports:
-http://www.wowinterface.com/portal.php?uid=28751&a=listbugs
+Please use the bug report tracker on the download page to report issues.
+Please use the feature request tracker on the download page to suggest
+new feature. Please use the comment section only for general feedback.
 
-Feature Requests:
-http://www.wowinterface.com/portal.php?uid=28751&a=listfeatures
+I can be contacted directly by private message as "Phanx" on wowace.com,
+wowinterface.com, or curse.com; or by email at the address listed above.
 
-General Feedback:
-http://www.wowinterface.com/downloads/info6323-PhanxChat.html
+You MAY NOT include this addon in compilations or otherwise redistribute
+it without the express prior consent of its author.
 
-This addon is not to be included in any compilation or 
-redistributed without the permission of the author.
+You MAY freely distribute modified or derivitave versions of this addon,
+provided that the name of your version does not include the name of this
+addon or its author.
