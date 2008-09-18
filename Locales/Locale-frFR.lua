@@ -76,7 +76,7 @@ if GetLocale() == "frFR" then PHANXCHAT_LOCALS = {
 	["Make more chat types sticky"] = "Rendre plus de canaux \"collant\"",
 	["Sticky channels %s."] = "Canaux collants %s.",
 
-	["Suppress channel notification messages"] = "Supprimer les messages de notification des canaux"
+	["Suppress channel notification messages"] = "Supprimer les messages de notification des canaux",
 	["Channel notice suppression %s."] = "Suppression des notifications des canaux %s.",
 
 	["Suppress repeated messages in public channels"] = "Supprimer les messages redondants dans les canaux publics",
