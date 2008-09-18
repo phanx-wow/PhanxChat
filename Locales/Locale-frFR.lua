@@ -80,7 +80,7 @@ if GetLocale() == "frFR" then PHANXCHAT_LOCALS = {
 	["Channel notice suppression %s."] = "Suppression des notifications des canaux %s.",
 
 	["Suppress repeated messages in public channels"] = "Supprimer les messages redondants dans les canaux publics",
-	["Repeated message suppression %s."] = "Suppression des messages redondants %s."
+	["Repeated message suppression %s."] = "Suppression des messages redondants %s.",
 
 	["Lock docked tabs in place (hold Alt to drag)"] = "Bloquer le déplacement des onglets (maintenir Alt pour déplacer)",
 	["Chat tab locking %s."] = "Bloc du déplacement des onglets %s.",
