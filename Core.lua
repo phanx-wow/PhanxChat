@@ -378,39 +378,59 @@ do
 	local locale = GetLocale()
 	if locale == "deDE" then englishClass = {
 		["Todestritter"] = "DEATHKNIGHT",
-		["Druide"] = "DRUID", ["Druidin"] = "DRUID",
-		["Jäger"] = "HUNTER", ["Jägerin"] = "HUNTER",
-		["Magier"] = "MAGE", ["Magierin"] = "MAGE",
+		["Druide"] = "DRUID",
+		["Druidin"] = "DRUID",
+		["Jäger"] = "HUNTER",
+		["Jägerin"] = "HUNTER",
+		["Magier"] = "MAGE",
+		["Magierin"] = "MAGE",
 		["Paladin"] = "PALADIN",
-		["Priester"] = "PRIEST", ["Priesterin"] = "PRIEST",
-		["Schurke"] = "ROGUE", ["Schurkin"] = "ROGUE",
-		["Schamane"] = "SHAMAN", ["Schamanin"] = "SHAMAN",
-		["Hexenmeister"] = "WARLOCK", ["Hexenmeisterin"] = "WARLOCK",
-		["Krieger"] = "WARRIOR", ["Kriegerin"] = "WARRIOR",
+		["Priester"] = "PRIEST",
+		["Priesterin"] = "PRIEST",
+		["Schurke"] = "ROGUE",
+		["Schurkin"] = "ROGUE",
+		["Schamane"] = "SHAMAN",
+		["Schamanin"] = "SHAMAN",
+		["Hexenmeister"] = "WARLOCK",
+		["Hexenmeisterin"] = "WARLOCK",
+		["Krieger"] = "WARRIOR",
+		["Kriegerin"] = "WARRIOR",
 	}
 	elseif locale == "esES" then englishClass = {
 	--	[""] = "DEATHKNIGHT",
 		["Druida"] = "DRUID",
-		["Cazador"] = "HUNTER", ["Cazadora"] = "HUNTER",
-		["Mago"] = "MAGE", ["Maga"] = "MAGE",
+		["Cazador"] = "HUNTER",
+		["Cazadora"] = "HUNTER",
+		["Mago"] = "MAGE",
+		["Maga"] = "MAGE",
 		["Paladín"] = "PALADIN",
-		["Sacerdote"] = "PRIEST", ["Sacerdotisa"] = "PRIEST",
-		["Pícaro"] = "ROGUE", ["Pícara"] = "ROGUE",
+		["Sacerdote"] = "PRIEST",
+		["Sacerdotisa"] = "PRIEST",
+		["Pícaro"] = "ROGUE",
+		["Pícara"] = "ROGUE",
 		["Chamán"] = "SHAMAN",
-		["Brujo"] = "WARLOCK", ["Bruja"] = "WARLOCK",
-		["Guerrrero"] = "WARRIOR", ["Guerrera"] = "WARRIOR",
+		["Brujo"] = "WARLOCK",
+		["Bruja"] = "WARLOCK",
+		["Guerrrero"] = "WARRIOR",
+		["Guerrera"] = "WARRIOR",
 	}
 	elseif locale == "frFR" then englishClass = {
 		["Chevalier de la mort"] = "DEATHKNIGHT",
-		["Druide"] = "DRUID", ["Druidesse"] = "DRUID",
-		["Chasseur"] = "HUNTER", ["Chasseresse"] = "HUNTER",
+		["Druide"] = "DRUID",
+		["Druidesse"] = "DRUID",
+		["Chasseur"] = "HUNTER",
+		["Chasseresse"] = "HUNTER",
 		["Mage"] = "MAGE", 
 		["Paladin"] = "PALADIN", 
-		["Prêtre"] = "PRIEST", ["Prêtresse"] = "PRIEST",
-		["Voleur"] = "ROGUE", ["Voleuse"] = "ROGUE",
-		["Chaman"] = "SHAMAN",  ["Chamane"] = "SHAMAN",
+		["Prêtre"] = "PRIEST",
+		["Prêtresse"] = "PRIEST",
+		["Voleur"] = "ROGUE",
+		["Voleuse"] = "ROGUE",
+		["Chaman"] = "SHAMAN",
+		["Chamane"] = "SHAMAN",
 		["Démoniste"] = "WARLOCK",
-		["Guerrier"] = "WARRIOR", ["Guerrière"] = "WARRIOR",
+		["Guerrier"] = "WARRIOR",
+		["Guerrière"] = "WARRIOR",
 	}
 	elseif locale == "koKR" then englishClass = {
 		["죽음의 기사"] = "DEATHKNIGHT",
@@ -427,13 +447,18 @@ do
 	elseif locale == "ruRU" then englishClass = {
 		["Рыцарь Смерти"] = "DEATHKNIGHT",
 		["Друид"] = "DRUID",
-		["Охотник"] = "HUNTER", ["Охотница"] = "HUNTER",
+		["Охотник"] = "HUNTER",
+		["Охотница"] = "HUNTER",
 		["Маг"] = "MAGE",
 		["Паладин"] = "PALADIN",
-		["Жрец"] = "PRIEST", ["Жрица"] = "PRIEST",
-		["Разбойник"] = "ROGUE", ["Разбойница"] = "ROGUE",
-		["Шаман"] = "SHAMAN", ["Шаманка"] = "SHAMAN",
-		["Чернокнижник"] = "WARLOCK", ["Чернокнижница"] = "WARLOCK",
+		["Жрец"] = "PRIEST",
+		["Жрица"] = "PRIEST",
+		["Разбойник"] = "ROGUE",
+		["Разбойница"] = "ROGUE",
+		["Шаман"] = "SHAMAN",
+		["Шаманка"] = "SHAMAN",
+		["Чернокнижник"] = "WARLOCK",
+		["Чернокнижница"] = "WARLOCK",
 		["Воин"] = "WARRIOR",
 	}
 	elseif locale == "zhCN" then englishClass = {
@@ -465,7 +490,7 @@ end
 
 function PhanxChat:RegisterName(name, class)
 	if not name or not class or names[name] then return end
-	local upperclass = class:upper():gsub("%s", "", 1)
+	local upperclass = class:upper():gsub(" ", "", 1)
 	if upperclass == "UNKNOWN" then return end
 	if CLASS_COLORS[upperclass] then
 		--debug("adding "..class.." "..name)
@@ -502,6 +527,18 @@ function PhanxChat:GUILD_ROSTER_UPDATE()
 	end
 end
 
+function PhanxChat:LFG_UPDATE()
+	local type = UIDropDownMenu_GetSelectedID(LFMFrameTypeDropDown)
+	local name = UIDropDownMenu_GetSelectedID(LFMFrameNameDropDown)
+	for i = 1, select(1, GetNumLFGResults(selectedLFMType, selectedLFMName)) do
+		local name, _, _, _, _, _, _, _, _, _, classFileName = GetLFGResults(selectedLFMType, selectedLFMName, resultIndex)
+		if name then
+			self:RegisterName(name, classFileName)
+		end
+	end
+end
+PhanxChat.MEETINGSTONE_UPDATE = PhanxChat.PLAYER_LEVEL_UP
+
 function PhanxChat:PARTY_MEMBERS_CHANGED()
 	local name, class
 	for i = 1, GetNumPartyMembers() do
@@ -537,10 +574,9 @@ function PhanxChat:WHO_LIST_UPDATE()
 	end
 end
 
-function PhanxChat:CHAT_MSG_SYSTEM()
-	local _, _, name, class = arg1:find("^%|Hplayer:%w+|h%[(%w+)%]|h: Level %d+ %w+%s?[%w]* (%w+)%s?<?[^>]*>? %- .+$")
-	if name and class then
-		self:RegisterName(name, class)
+function PhanxChat:CHAT_MSG_SYSTEM(message)
+	if message:match("^%|Hplayer:") then
+		self:WHO_LIST_UPDATE()
 	end
 end
 
