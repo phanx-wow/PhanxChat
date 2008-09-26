@@ -9,10 +9,7 @@
 ## X-Website: http://www.wowinterface.com/downloads/info8243-PhanxChat.html
 ## SavedVariables: PhanxChatDB
 
-Locales\Locale-frFR.lua
-Locales\Locale-koKR.lua
-Locales\Locale-zhCN.lua
-Locales\Locale-zhTW.lua
+Locales\Locales.xml
 
 Core.lua
 Options.lua
