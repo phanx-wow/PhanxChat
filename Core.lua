@@ -60,7 +60,7 @@ local customchannels = {			-- short names for custom channels
 	["totemorgy"] = "SH",
 }
 
-local PHANXCHAT_LOCALS = PHANXCHAT_LOCALS or {
+local L = PHANXCHAT_LOCALS or {
 	SHORT_SAY					= "s",	-- English custom chat strings
 	SHORT_YELL				= "y",	-- If you are playing in another locale you will need to change
 	SHORT_GUILD				= "g",	-- these in the relevant translation file instead of here.
@@ -97,6 +97,8 @@ local PHANXCHAT_LOCALS = PHANXCHAT_LOCALS or {
 
 	WHO_QUERY_RESULT			= "^%|Hplayer:%w+|h%[(%w+)%]|h: Level %d+ %w+%s?[%w]* (%w+)%s?<?[^>]*>? %- .+$"
 }
+setmetatable(L, { __index = function(t, k) t[k] = k; return k end })
+if PHANXCHAT_LOCALS then PHANXCHAT_LOCALS = nil end
 
 PhanxChat = CreateFrame("Frame")
 
@@ -106,8 +108,7 @@ local PhanxChat, self = PhanxChat, PhanxChat
 
 PhanxChat.version = tonumber(GetAddOnMetadata("PhanxChat", "Version"):match("(%d+)"))
 
-PhanxChat.L = setmetatable(PHANXCHAT_LOCALS, { __index = function(t, k) t[k] = k; return k end })
-_G.PHANXCHAT_LOCALS = nil
+PhanxChat.L = L
 
 PhanxChat.channels = {}
 PhanxChat.names = {}
@@ -115,7 +116,6 @@ PhanxChat.hooks = {}
 PhanxChat.oldstrings = {}
 PhanxChat.stickytypes = STICKY_TYPES
 
-local L = PhanxChat.L
 local channels = PhanxChat.channels
 local names = PhanxChat.names
 local hooks = PhanxChat.hooks
