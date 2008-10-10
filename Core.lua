@@ -323,13 +323,13 @@ local function scroll()
 	end
 end
 
-function PhanxChat.ChatFrame_OnUpdate(elapsed)
-	button = _G[this:GetName().."BottomButton"]
-	if this:AtBottom() then
+function PhanxChat.ChatFrame_OnUpdate(frame, elapsed)
+	button = _G[frame:GetName().."BottomButton"]
+	if frame:AtBottom() then
 		button:Hide()
 	else
 		button:Show()
-		hooks.ChatFrame_OnUpdate(elapsed)
+		hooks.ChatFrame_OnUpdate(frame, elapsed)
 	end
 end
 
@@ -352,11 +352,11 @@ function PhanxChat.ChatEdit_UpdateHeader(frame)
 	end
 end
 
-function PhanxChat:CHAT_MSG_CHANNEL_NOTICE()
-	if arg1 == "YOU_JOINED" then
+function PhanxChat:CHAT_MSG_CHANNEL_NOTICE(kind, _, _, _, _, _, _, number, name)
+	if kind == "YOU_JOINED" then
 		local name = arg9:match("^([^%s%-]+)")
 		self.channels[arg8] = CHANNEL_NAMES[name] or name
-	elseif arg1 == "YOU_LEFT" then
+	elseif kind == "YOU_LEFT" then
 		self.channels[arg8] = nil
 	end
 end
@@ -537,7 +537,8 @@ function PhanxChat:LFG_UPDATE()
 		end
 	end
 end
-PhanxChat.MEETINGSTONE_UPDATE = PhanxChat.PLAYER_LEVEL_UP
+
+PhanxChat.MEETINGSTONE_UPDATE = PhanxChat.LFG_UPDATE
 
 function PhanxChat:PARTY_MEMBERS_CHANGED()
 	local name, class

@@ -294,7 +294,7 @@ function PhanxChat:SetSuppressNotices()
 		for event in pairs(self.eventsNotice) do
 			ChatFrame_RemoveMessageEventFilter(event, self.SuppressNotices)
 		end
-		db.suppress.channels = false
+		db.suppress.notices = false
 		printf(L["Channel notice suppression %s."], DISABLED)
 	end
 end
