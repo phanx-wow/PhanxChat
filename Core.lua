@@ -323,13 +323,25 @@ local function scroll()
 	end
 end
 
-function PhanxChat.ChatFrame_OnUpdate(frame, elapsed)
-	button = _G[frame:GetName().."BottomButton"]
-	if frame:AtBottom() then
-		button:Hide()
-	else
-		button:Show()
-		hooks.ChatFrame_OnUpdate(frame, elapsed)
+if IS_WRATH_BUILD then
+	function PhanxChat.ChatFrame_OnUpdate(frame, elapsed)
+		button = _G[frame:GetName().."BottomButton"]
+		if frame:AtBottom() then
+			button:Hide()
+		else
+			button:Show()
+			hooks.ChatFrame_OnUpdate(frame, elapsed)
+		end
+	end
+else
+	function PhanxChat.ChatFrame_OnUpdate(elapsed)
+		button = _G[this:GetName().."BottomButton"]
+		if this:AtBottom() then
+			button:Hide()
+		else
+			button:Show()
+			hooks.ChatFrame_OnUpdate(elapsed)
+		end
 	end
 end
 
