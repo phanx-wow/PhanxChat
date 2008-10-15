@@ -361,7 +361,7 @@ function PhanxChat:SetFont(v)
 		v = floor(v)
 		if v >= 6 and v <= 32 then
 			for i = 1, 7 do
-				FCF_SetChatWindowFontSize(_G["ChatFrame"..i], v)
+				FCF_SetChatWindowFontSize(nil, _G["ChatFrame"..i], v)
 			end
 			printf(L["Chat font size set to %d."], v)
 		end
