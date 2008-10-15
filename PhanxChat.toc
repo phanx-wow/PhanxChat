@@ -1,5 +1,5 @@
-## Interface: 20400
-## Version: 2.4.3.wowi:revision
+## Interface: 30000
+## Version: 3.0.2.wowi:revision
 ## Title: PhanxChat
 ## Author: Phanx
 ## Notes: Make your chat frames less cluttered and more user-friendly.
