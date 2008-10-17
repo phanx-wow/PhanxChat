@@ -5,6 +5,7 @@
 ## Notes: Make your chat frames less cluttered and more user-friendly.
 ## Notes-zhCN: 增强聊天体验（复制网址、姓名上色、允许方向键等）
 ## X-Category: Chat/Communication
+## X-Copyright: Copyright© 2008 Alyssa Kinley, aka Phanx
 ## X-Email: addons AT phanx net
 ## X-Website: http://www.wowinterface.com/downloads/info8243-PhanxChat.html
 ## SavedVariables: PhanxChatDB
