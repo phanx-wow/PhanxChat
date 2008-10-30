@@ -587,7 +587,7 @@ end
 
 function PhanxChat.OnDragStart(frame)
 	if IsAltKeyDown() or not _G[frame:GetName():sub(1, -4)].isDocked then
-		hooks[frame].OnDragStart()
+		hooks[frame].OnDragStart(frame)
 	end
 end
 
