@@ -1,13 +1,9 @@
 --[[------------------------------------------------------------
-	PhanxChat, Version 3.0
-	Author: Phanx < addons AT phanx net >
-	Credits: Ammo, Aranarth, Curney, Grennon, Haxninja, Krtek,
-		Kyahx, Rabbit, Robinson, Sylvanaar, and others whose
-		code has provided both inspiration and instruction.
-	Things To Do:
-		- add channel name color memory
-		- add channel name linking
-	Tab size is 5.
+	PhanxChat
+	Reduces chat frame clutter and improves chat frame usability.
+	By Phanx < addons@phanx.net >
+	http://www.wowinterface.com/downloads/info6323-PhanxChat.html
+	See README for license terms and other information.
 --------------------------------------------------------------]]
 
 local NUM_SCROLL_LINES = 3		-- number of lines to scroll per mousewheel turn
