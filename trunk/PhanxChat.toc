@@ -4,13 +4,13 @@
 ## Title: PhanxChat
 ## Notes: Make your chat frames less cluttered and more user-friendly.
 ## Notes-zhCN: 增强聊天体验（复制网址、姓名上色、允许方向键等）
-## X-Website: http://www.wowinterface.com/downloads/info8243-PhanxChat.html
 ## X-Category: Chat/Communication
+## X-Copyright: Copyright © 2007–2008 Alyssa Kinley, a.k.a. Phanx
+## X-License: Do not redistribute. See README for complete license terms.
+## X-Website: http://www.wowinterface.com/downloads/info8243-PhanxChat.html
 
 ## Author: Phanx
 ## X-Email: phanx1337 AT gmail com
-## X-Copyright: Copyright© 2008 Alyssa Kinley, aka Phanx
-## X-License: Do not distribute in any form without prior consent. See included README for full license terms.
 
 ## SavedVariables: PhanxChatDB
 
