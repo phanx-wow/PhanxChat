@@ -1,5 +1,5 @@
 ## Interface: 30000
-## Version: 3.0.2.wowi:revision
+## Version: 3.0.3.wowi:revision
 
 ## Title: PhanxChat
 ## Notes: Make your chat frames less cluttered and more user-friendly.
@@ -10,7 +10,7 @@
 ## X-Website: http://www.wowinterface.com/downloads/info8243-PhanxChat.html
 
 ## Author: Phanx
-## X-Email: phanx1337 AT gmail com
+## X-Email: addons@phanx.net
 
 ## SavedVariables: PhanxChatDB
 
