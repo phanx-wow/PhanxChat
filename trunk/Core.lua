@@ -834,7 +834,7 @@ function PhanxChat:VARIABLES_LOADED()
 		end
 	end
 
-	if db.suppress.channels then
+	if db.suppress.notices then
 		for event in pairs(self.eventsNotice) do
 			ChatFrame_AddMessageEventFilter(event, self.SuppressNotices)
 		end
