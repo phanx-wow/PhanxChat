@@ -264,6 +264,15 @@ local formatEvents = {
 	CHAT_MSG_AFK = true,
 	CHAT_MSG_DND = true,
 	CHAT_MSG_SYSTEM = true,
+	CHAT_MSG_ACHIEVEMENT = true,
+	CHAT_MSG_GUILD_ACHIEVEMENT = true,
+}
+local noURL = {
+	CHAT_MSG_AFK = true,
+	CHAT_MSG_DND = true,
+	CHAT_MSG_SYSTEM = true,
+	CHAT_MSG_ACHIEVEMENT = true,
+	CHAT_MSG_GUILD_ACHIEVEMENT = true,
 }
 
 function PhanxChat.AddMessage(frame, text, r, g, b, id)
@@ -277,7 +286,7 @@ function PhanxChat.AddMessage(frame, text, r, g, b, id)
 		if event == "CHAT_MSG_CHANNEL" and db.channels then
 			text = text:gsub( "%[%d+%.%s?[^%]%-]+%]%s?", CHANNEL_STYLE:gsub("%%1", arg8, 1):gsub("%%2", channels[arg8], 1), 1 )
 		end
-		if db.urls then
+		if db.urls and not noURL[event] then
 			text = text.." "
 			for i, v in ipairs(URL_PATTERNS) do
 				text = text:gsub(v[1], URL_STYLE:format(v[2], v[2]))
