@@ -402,7 +402,7 @@ do
 		["Kriegerin"] = "WARRIOR",
 	}
 	elseif locale == "esES" then englishClass = {
-	--	[""] = "DEATHKNIGHT",
+		["Caballero de la muerte"] = "DEATHKNIGHT",
 		["Druida"] = "DRUID",
 		["Cazador"] = "HUNTER",
 		["Cazadora"] = "HUNTER",
@@ -416,7 +416,7 @@ do
 		["Chamán"] = "SHAMAN",
 		["Brujo"] = "WARLOCK",
 		["Bruja"] = "WARLOCK",
-		["Guerrrero"] = "WARRIOR",
+		["Guerrero"] = "WARRIOR",
 		["Guerrera"] = "WARRIOR",
 	}
 	elseif locale == "frFR" then englishClass = {
