@@ -1,10 +1,10 @@
---[[------------------------------------------------------------
+--[[--------------------------------------------------------------------
 	PhanxChat
 	Reduces chat frame clutter and improves chat frame usability.
 	By Phanx < addons@phanx.net >
 	http://www.wowinterface.com/downloads/info6323-PhanxChat.html
 	See README for license terms and other information.
---------------------------------------------------------------]]
+----------------------------------------------------------------------]]
 
 local NUM_SCROLL_LINES = 3		-- number of lines to scroll per mousewheel turn
 
@@ -33,27 +33,20 @@ local STICKY_TYPES = {			-- 1 = sticky, 0 = not sticky
 }
 
 local blacklist = {				-- frames to exempt from formatting
-	["default"] = {
+	["*"] = {
 		[ChatFrame2] = true, -- Combat Log
 	},
 	["Blackrock - Lirrel"] = {
 		[ChatFrame3] = true, -- Loot
 		[ChatFrame7] = true, -- Quiet
 	},
-	["Sargeras - Bherasha"] = {
+	["Blackrock - Savra"] = {
 		[ChatFrame3] = true, -- Loot
-	},
-	["Sargeras - Ghinjo"] = {
-		[ChatFrame3] = true, -- Loot
-	},
-	["Sargeras - Mauaji"] = {
-		[ChatFrame3] = true, -- Loot
+		[ChatFrame7] = true, -- Quiet
 	},
 }
 
 local customchannels = {			-- short names for custom channels
-	["obgyns"] = "OB",
-	["totemorgy"] = "SH",
 }
 
 local L = PHANXCHAT_LOCALS or {
@@ -77,12 +70,12 @@ local L = PHANXCHAT_LOCALS or {
 	SHORT_LOOKINGFORGROUP		= "lf",
 	SHORT_GUILDRECRUITMENT		= "gr",
 
---[[------------------------------------------------------------
+--[[--------------------------------------------------------------------
 
 	That's all, folks!
 	Nothing past this line is intended to be user-configurable.
 
---------------------------------------------------------------]]
+----------------------------------------------------------------------]]
 
 	CHANNEL_GENERAL			= "General",
 	CHANNEL_TRADE				= "Trade",
@@ -107,12 +100,14 @@ PhanxChat.version = tonumber(GetAddOnMetadata("PhanxChat", "Version"):match("(%d
 PhanxChat.L = L
 
 PhanxChat.channels = {}
+PhanxChat.classes = {}
 PhanxChat.names = {}
 PhanxChat.hooks = {}
 PhanxChat.oldstrings = {}
 PhanxChat.stickytypes = STICKY_TYPES
 
 local channels = PhanxChat.channels
+local classes = PhanxChat.classes
 local names = PhanxChat.names
 local hooks = PhanxChat.hooks
 local oldstrings = PhanxChat.oldstrings
@@ -141,11 +136,14 @@ local UnitIsFriend = UnitIsFriend
 local UnitIsPlayer = UnitIsPlayer
 local UnitName = UnitName
 
-local function print(msg)		ChatFrame1:AddMessage("|cff00ddbaPhanxChat:|r "..msg)				end
-local function printf(msg, ...)	ChatFrame1:AddMessage("|cff00ddbaPhanxChat:|r "..msg:format(...))	end
+local function Print(str, ...)
+	if select(1, ...) then str = str:format(...) end
+	print("|cff00ddbaPhanxChat:|r " .. str)
+end
 
-local function debug(msg, ...)
---	ChatFrame1:AddMessage("|cffff7f7f[DEBUG] PhanxChat:|r "..msg)
+local function Debug(str, ...)
+	if select(1, ...) then str = str:format(...) end
+	print("|cffff7f7f[DEBUG] PhanxChat:|r " .. str)
 end
 
 local CHANNEL_NAMES = {
@@ -180,8 +178,23 @@ end
 PhanxChat.newstrings = CHAT_STRINGS
 
 local CLASS_COLORS = {}
-for k, v in pairs(RAID_CLASS_COLORS) do
-	CLASS_COLORS[k] = ("%02x%02x%02x"):format(v.r * 255, v.g * 255, v.b * 255)
+if CUSTOM_CLASS_COLORS then
+	for k, v in pairs(CUSTOM_CLASS_COLORS) do
+		CLASS_COLORS[k] = string.format("%02x%02x%02x", v.r * 255, v.g * 255, v.b * 255)
+	end
+	CUSTOM_CLASS_COLORS:RegisterCallback(function()
+		for k, v in pairs(CUSTOM_CLASS_COLORS) do
+			CLASS_COLORS[k] = string.format("%02x%02x%02x", v.r * 255, v.g * 255, v.b * 255)
+		end
+		for name, class in pairs(classes) do
+			names[name] = nil
+			PhanxChat:RegisterName(name, class)
+		end
+	end)
+else
+	for k, v in pairs(RAID_CLASS_COLORS) do
+		CLASS_COLORS[k] = string.format("%02x%02x%02x", v.r * 255, v.g * 255, v.b * 255)
+	end
 end
 
 PLAYER_STYLE = "|Hplayer:%s|h"..PLAYER_STYLE.."|h"
@@ -196,9 +209,9 @@ local URL_PATTERNS = {
 	{ "(%S+@[%w_%.%-]+%.%a+)", "%1" }, -- X@Y.Z
 }
 
---[[------------------------------------------------------------
+--[[--------------------------------------------------------------------
 	Suppress channel notices
---------------------------------------------------------------]]
+----------------------------------------------------------------------]]
 
 PhanxChat.eventsNotice = {
 	CHAT_MSG_CHANNEL_JOIN = true,
@@ -207,7 +220,7 @@ PhanxChat.eventsNotice = {
 	CHAT_MSG_CHANNEL_NOTICE_USER = true,
 }
 
-function PhanxChat.SuppressNotices(msg)
+function PhanxChat.SuppressNotices()
 	return true
 end
 
@@ -222,14 +235,15 @@ PhanxChat.eventsRepeat = {
 local NUM_HISTORY_LINES = 10
 local history = {}
 
-function PhanxChat.SuppressRepeats(msg)
-	if arg2 and arg2 ~= playerName then
+function PhanxChat.SuppressRepeats(message, sender)
+	sender = sender or arg2
+	if sender and sender ~= playerName then
 		local frame = this
 		if not history[frame] then
 			history[frame] = {}
 		end
 		local t = history[frame]
-		local v = string.lower(arg2.." "..msg)
+		local v = string.lower(sender.." "..message)
 
 		if t[v] then return end
 
@@ -242,10 +256,10 @@ function PhanxChat.SuppressRepeats(msg)
 	end
 end
 
---[[------------------------------------------------------------
+--[[--------------------------------------------------------------------
 	AddMessage
 	channels, names, urls
---------------------------------------------------------------]]
+----------------------------------------------------------------------]]
 
 local formatEvents = {
 	CHAT_MSG_SAY = true,
@@ -296,9 +310,9 @@ function PhanxChat.AddMessage(frame, text, r, g, b, id)
 	hooks[frame].AddMessage(frame, text, r, g, b, id)
 end
 
---[[------------------------------------------------------------
+--[[--------------------------------------------------------------------
 	Buttons
---------------------------------------------------------------]]
+----------------------------------------------------------------------]]
 
 local function hide()
 	this:Hide()
@@ -328,6 +342,9 @@ local function scroll()
 	end
 end
 
+PhanxChat.hide = hide
+PhanxChat.scroll = scroll
+
 function PhanxChat.ChatFrame_OnUpdate(frame, elapsed)
 	button = _G[frame:GetName().."BottomButton"]
 	if frame:AtBottom() then
@@ -338,9 +355,9 @@ function PhanxChat.ChatFrame_OnUpdate(frame, elapsed)
 	end
 end
 
---[[------------------------------------------------------------
+--[[--------------------------------------------------------------------
 	Channels
---------------------------------------------------------------]]
+----------------------------------------------------------------------]]
 
 function PhanxChat.ChatEdit_UpdateHeader(frame)
 	if not frame then
@@ -373,135 +390,132 @@ function PhanxChat:BuildChannelList(...)
 	end
 end
 
---[[------------------------------------------------------------
+--[[--------------------------------------------------------------------
 	Names
 	Non-English class names copied from LibBabble-Class-3.0
---------------------------------------------------------------]]
+----------------------------------------------------------------------]]
 
 local englishClass
-do
-	local locale = GetLocale()
-	if locale == "deDE" then englishClass = {
-		["Todestritter"] = "DEATHKNIGHT",
-		["Druide"] = "DRUID",
-		["Druidin"] = "DRUID",
-		["Jäger"] = "HUNTER",
-		["Jägerin"] = "HUNTER",
-		["Magier"] = "MAGE",
-		["Magierin"] = "MAGE",
-		["Paladin"] = "PALADIN",
-		["Priester"] = "PRIEST",
-		["Priesterin"] = "PRIEST",
-		["Schurke"] = "ROGUE",
-		["Schurkin"] = "ROGUE",
-		["Schamane"] = "SHAMAN",
-		["Schamanin"] = "SHAMAN",
-		["Hexenmeister"] = "WARLOCK",
-		["Hexenmeisterin"] = "WARLOCK",
-		["Krieger"] = "WARRIOR",
-		["Kriegerin"] = "WARRIOR",
-	}
-	elseif locale == "esES" then englishClass = {
-		["Caballero de la muerte"] = "DEATHKNIGHT",
-		["Druida"] = "DRUID",
-		["Cazador"] = "HUNTER",
-		["Cazadora"] = "HUNTER",
-		["Mago"] = "MAGE",
-		["Maga"] = "MAGE",
-		["Paladín"] = "PALADIN",
-		["Sacerdote"] = "PRIEST",
-		["Sacerdotisa"] = "PRIEST",
-		["Pícaro"] = "ROGUE",
-		["Pícara"] = "ROGUE",
-		["Chamán"] = "SHAMAN",
-		["Brujo"] = "WARLOCK",
-		["Bruja"] = "WARLOCK",
-		["Guerrero"] = "WARRIOR",
-		["Guerrera"] = "WARRIOR",
-	}
-	elseif locale == "frFR" then englishClass = {
-		["Chevalier de la mort"] = "DEATHKNIGHT",
-		["Druide"] = "DRUID",
-		["Druidesse"] = "DRUID",
-		["Chasseur"] = "HUNTER",
-		["Chasseresse"] = "HUNTER",
-		["Mage"] = "MAGE", 
-		["Paladin"] = "PALADIN", 
-		["Prêtre"] = "PRIEST",
-		["Prêtresse"] = "PRIEST",
-		["Voleur"] = "ROGUE",
-		["Voleuse"] = "ROGUE",
-		["Chaman"] = "SHAMAN",
-		["Chamane"] = "SHAMAN",
-		["Démoniste"] = "WARLOCK",
-		["Guerrier"] = "WARRIOR",
-		["Guerrière"] = "WARRIOR",
-	}
-	elseif locale == "koKR" then englishClass = {
-		["죽음의 기사"] = "DEATHKNIGHT",
-		["드루이드"] = "DRUID", 
-		["사냥꾼"] = "HUNTER", 
-		["마법사"] = "MAGE", 
-		["성기사"] = "PALADIN", 
-		["사제"] = "PRIEST", 
-		["도적"] = "ROGUE", 
-		["주술사"] = "SHAMAN", 
-		["흑마법사"] = "WARLOCK",
-		["전사"] = "WARRIOR",
-	}
-	elseif locale == "ruRU" then englishClass = {
-		["Рыцарь Смерти"] = "DEATHKNIGHT",
-		["Друид"] = "DRUID",
-		["Охотник"] = "HUNTER",
-		["Охотница"] = "HUNTER",
-		["Маг"] = "MAGE",
-		["Паладин"] = "PALADIN",
-		["Жрец"] = "PRIEST",
-		["Жрица"] = "PRIEST",
-		["Разбойник"] = "ROGUE",
-		["Разбойница"] = "ROGUE",
-		["Шаман"] = "SHAMAN",
-		["Шаманка"] = "SHAMAN",
-		["Чернокнижник"] = "WARLOCK",
-		["Чернокнижница"] = "WARLOCK",
-		["Воин"] = "WARRIOR",
-	}
-	elseif locale == "zhCN" then englishClass = {
-		["死亡骑士"] = "DEATHKNIGHT",
-		["德鲁伊"] = "DRUID",
-		["猎人"] = "HUNTER",
-		["法师"] = "MAGE",
-		["圣骑士"] = "PALADIN",
-		["牧师"] = "PRIEST",
-		["萨满祭司"] = "SHAMAN",
-		["潜行者"] = "ROGUE",
-		["术士"] = "WARLOCK",
-		["战士"] = "WARRIOR",
-	}
-	elseif locale == "zhTW" then englishClass = {
-		["死亡騎士"] = "DEATHKNIGHT",
-		["德魯伊"] = "DRUID",
-		["獵人"] = "HUNTER",
-		["法師"] = "MAGE",
-		["聖騎士"] = "PALADIN",
-		["牧師"] = "PRIEST",
-		["盜賊"] = "ROGUE",
-		["薩滿"] = "SHAMAN",
-		["術士"] = "WARLOCK",
-		["戰士"] = "WARRIOR",
-	}
-	end
-end
+if GetLocale() == "deDE" then englishClass = {
+	["Todestritter"] = "DEATHKNIGHT",
+	["Druide"] = "DRUID",
+	["Druidin"] = "DRUID",
+	["Jäger"] = "HUNTER",
+	["Jägerin"] = "HUNTER",
+	["Magier"] = "MAGE",
+	["Magierin"] = "MAGE",
+	["Paladin"] = "PALADIN",
+	["Priester"] = "PRIEST",
+	["Priesterin"] = "PRIEST",
+	["Schurke"] = "ROGUE",
+	["Schurkin"] = "ROGUE",
+	["Schamane"] = "SHAMAN",
+	["Schamanin"] = "SHAMAN",
+	["Hexenmeister"] = "WARLOCK",
+	["Hexenmeisterin"] = "WARLOCK",
+	["Krieger"] = "WARRIOR",
+	["Kriegerin"] = "WARRIOR",
+} elseif GetLocale() == "esES" then englishClass = {
+	["Caballero de la muerte"] = "DEATHKNIGHT",
+	["Druida"] = "DRUID",
+	["Cazador"] = "HUNTER",
+	["Cazadora"] = "HUNTER",
+	["Mago"] = "MAGE",
+	["Maga"] = "MAGE",
+	["Paladín"] = "PALADIN",
+	["Sacerdote"] = "PRIEST",
+	["Sacerdotisa"] = "PRIEST",
+	["Pícaro"] = "ROGUE",
+	["Pícara"] = "ROGUE",
+	["Chamán"] = "SHAMAN",
+	["Brujo"] = "WARLOCK",
+	["Bruja"] = "WARLOCK",
+	["Guerrero"] = "WARRIOR",
+	["Guerrera"] = "WARRIOR",
+} elseif GetLocale() == "frFR" then englishClass = {
+	["Chevalier de la mort"] = "DEATHKNIGHT",
+	["Druide"] = "DRUID",
+	["Druidesse"] = "DRUID",
+	["Chasseur"] = "HUNTER",
+	["Chasseresse"] = "HUNTER",
+	["Mage"] = "MAGE", 
+	["Paladin"] = "PALADIN", 
+	["Prêtre"] = "PRIEST",
+	["Prêtresse"] = "PRIEST",
+	["Voleur"] = "ROGUE",
+	["Voleuse"] = "ROGUE",
+	["Chaman"] = "SHAMAN",
+	["Chamane"] = "SHAMAN",
+	["Démoniste"] = "WARLOCK",
+	["Guerrier"] = "WARRIOR",
+	["Guerrière"] = "WARRIOR",
+} elseif GetLocale() == "koKR" then englishClass = {
+	["죽음의 기사"] = "DEATHKNIGHT",
+	["드루이드"] = "DRUID", 
+	["사냥꾼"] = "HUNTER", 
+	["마법사"] = "MAGE", 
+	["성기사"] = "PALADIN", 
+	["사제"] = "PRIEST", 
+	["도적"] = "ROGUE", 
+	["주술사"] = "SHAMAN", 
+	["흑마법사"] = "WARLOCK",
+	["전사"] = "WARRIOR",
+} elseif GetLocale() == "ruRU" then englishClass = {
+	["Рыцарь Смерти"] = "DEATHKNIGHT",
+	["Друид"] = "DRUID",
+	["Охотник"] = "HUNTER",
+	["Охотница"] = "HUNTER",
+	["Маг"] = "MAGE",
+	["Паладин"] = "PALADIN",
+	["Жрец"] = "PRIEST",
+	["Жрица"] = "PRIEST",
+	["Разбойник"] = "ROGUE",
+	["Разбойница"] = "ROGUE",
+	["Шаман"] = "SHAMAN",
+	["Шаманка"] = "SHAMAN",
+	["Чернокнижник"] = "WARLOCK",
+	["Чернокнижница"] = "WARLOCK",
+	["Воин"] = "WARRIOR",
+} elseif GetLocale() == "zhCN" then englishClass = {
+	["死亡骑士"] = "DEATHKNIGHT",
+	["德鲁伊"] = "DRUID",
+	["猎人"] = "HUNTER",
+	["法师"] = "MAGE",
+	["圣骑士"] = "PALADIN",
+	["牧师"] = "PRIEST",
+	["萨满祭司"] = "SHAMAN",
+	["潜行者"] = "ROGUE",
+	["术士"] = "WARLOCK",
+	["战士"] = "WARRIOR",
+} elseif GetLocale() == "zhTW" then englishClass = {
+	["死亡騎士"] = "DEATHKNIGHT",
+	["德魯伊"] = "DRUID",
+	["獵人"] = "HUNTER",
+	["法師"] = "MAGE",
+	["聖騎士"] = "PALADIN",
+	["牧師"] = "PRIEST",
+	["盜賊"] = "ROGUE",
+	["薩滿"] = "SHAMAN",
+	["術士"] = "WARLOCK",
+	["戰士"] = "WARRIOR",
+} end
 
 function PhanxChat:RegisterName(name, class)
 	if not name or not class or names[name] then return end
-	local upperclass = class:upper():gsub(" ", "", 1)
-	if upperclass == "UNKNOWN" then return end
-	if CLASS_COLORS[upperclass] then
-		--debug("adding "..class.." "..name)
-		names[name] = "|cff"..CLASS_COLORS[upperclass]..name.."|r"
-	elseif englishClass and CLASS_COLORS[englishClass[class]] then
-		names[name] = "|cff"..CLASS_COLORS[englishClass[class]]..name.."|r"
+	if not englishClass[class] then
+		class = class:upper():gsub(" ", "", 1)
+		if CLASS_COLORS[class] then
+			classes[name] = class
+			names[name] = "|cff" .. CLASS_COLORS[class] .. name .. "|r"
+		--	Print("PhanxChat > RegisterName " .. name .. " " .. class)
+		end
+	else
+		class = englishClass[class]
+		if class then
+			classes[name] = class
+			names[name] = "|cff" .. CLASS_COLORS[class] .. name .. "|r"
+		--	Print("PhanxChat > RegisterName " .. name .. " " .. class)
+		end
 	end
 end
 
@@ -536,9 +550,9 @@ function PhanxChat:LFG_UPDATE()
 	local type = UIDropDownMenu_GetSelectedID(LFMFrameTypeDropDown)
 	local name = UIDropDownMenu_GetSelectedID(LFMFrameNameDropDown)
 	for i = 1, select(1, GetNumLFGResults(selectedLFMType, selectedLFMName)) do
-		local name, _, _, _, _, _, _, _, _, _, classFileName = GetLFGResults(selectedLFMType, selectedLFMName, resultIndex)
+		local name, _, _, _, _, _, _, _, _, _, class = GetLFGResults(selectedLFMType, selectedLFMName, resultIndex)
 		if name then
-			self:RegisterName(name, classFileName)
+			self:RegisterName(name, class)
 		end
 	end
 end
@@ -586,9 +600,9 @@ function PhanxChat:CHAT_MSG_SYSTEM(message)
 	end
 end
 
---[[------------------------------------------------------------
+--[[--------------------------------------------------------------------
 	Tabs
---------------------------------------------------------------]]
+----------------------------------------------------------------------]]
 
 function PhanxChat.OnDragStart(frame)
 	if IsAltKeyDown() or not _G[frame:GetName():sub(1, -4)].isDocked then
@@ -596,9 +610,9 @@ function PhanxChat.OnDragStart(frame)
 	end
 end
 
---[[------------------------------------------------------------
+--[[--------------------------------------------------------------------
 	Tell Target
---------------------------------------------------------------]]
+----------------------------------------------------------------------]]
 
 local function TellTarget(msg)
 	if UnitExists("target") and UnitIsPlayer("target") and (UnitIsFriend("player", "target") or UnitIsCharmed("target")) then
@@ -606,9 +620,9 @@ local function TellTarget(msg)
 	end
 end
 
---[[------------------------------------------------------------
+--[[--------------------------------------------------------------------
 	URL Copy
---------------------------------------------------------------]]
+----------------------------------------------------------------------]]
 
 local function URLCopyDialog_Show(link)
 	currentLink = link
@@ -659,9 +673,9 @@ function PhanxChat.SetItemRef(link, ...)
 	hooks.SetItemRef(link, ...)
 end
 
---[[------------------------------------------------------------
+--[[--------------------------------------------------------------------
 	Initialize
---------------------------------------------------------------]]
+----------------------------------------------------------------------]]
 
 local defaults = {
 	buttons = true,
@@ -687,7 +701,7 @@ local defaults = {
 
 function PhanxChat:VARIABLES_LOADED()
 	if not PhanxChatDB then
-		--debug("Initializing new settings")
+		-- Debug("Initializing new settings")
 		PhanxChatDB = defaults
 		db = PhanxChatDB
 	else
@@ -697,7 +711,7 @@ function PhanxChat:VARIABLES_LOADED()
 			db.version = 0
 		end
 		if db.version ~= self.version then
-			--debug("Upgrading old settings")
+			-- Debug("Upgrading old settings")
 			for k, v in pairs(defaults) do
 				if db[k] == nil or type(db[k]) ~= type(defaults[k]) then
 					db[k] = v
@@ -715,7 +729,7 @@ function PhanxChat:VARIABLES_LOADED()
 				ignore[k] = v
 			end
 		end
-		for k, v in pairs(blacklist.default) do
+		for k, v in pairs(blacklist["*"]) do
 			ignore[k] = v
 		end
 	end
@@ -876,12 +890,14 @@ end
 
 PhanxChat:SetScript("OnEvent", function(self, event, ...)
 	if self[event] then
-		--debug("Handling event "..event)
+		-- Debug("Handling event "..event)
 		self[event](self, ...)
 	else
-		--debug("No handler found for event "..event)
+		-- Debug("No handler found for event "..event)
 		self:UnregisterEvent(event)
 	end
 end)
 
 PhanxChat:RegisterEvent("VARIABLES_LOADED")
+
+------------------------------------------------------------------------

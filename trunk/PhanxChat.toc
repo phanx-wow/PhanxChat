@@ -1,11 +1,11 @@
 ## Interface: 30000
-## Version: 3.0.3.wowi:revision
+## Version: 3.0.8.wowi:revision
 
 ## Title: PhanxChat
 ## Notes: Make your chat frames less cluttered and more user-friendly.
 ## Notes-zhCN: 增强聊天体验（复制网址、姓名上色、允许方向键等）
 ## X-Category: Chat/Communication
-## X-Copyright: Copyright © 2007–2008 Alyssa Kinley, a.k.a. Phanx
+## X-Copyright: Copyright © 2007–2009 Alyssa Kinley, a.k.a. Phanx
 ## X-License: Do not redistribute. See README for complete license terms.
 ## X-Website: http://www.wowinterface.com/downloads/info8243-PhanxChat.html
 
@@ -13,8 +13,14 @@
 ## X-Email: addons@phanx.net
 
 ## SavedVariables: PhanxChatDB
+## OptionalDeps: !ClassColors
 
-Locales\Locales.xml
+Locales\Locale-deDE.lua
+Locales\Locale-frFR.lua
+Locales\Locale-koKR.lua
+Locales\Locale-ruRU.lua
+Locales\Locale-zhCN.lua
+Locales\Locale-zhTW.lua
 
 Core.lua
 Options.lua
