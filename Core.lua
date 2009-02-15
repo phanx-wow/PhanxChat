@@ -178,24 +178,6 @@ end
 PhanxChat.newstrings = CHAT_STRINGS
 
 local CLASS_COLORS = {}
-if CUSTOM_CLASS_COLORS then
-	for k, v in pairs(CUSTOM_CLASS_COLORS) do
-		CLASS_COLORS[k] = string.format("%02x%02x%02x", v.r * 255, v.g * 255, v.b * 255)
-	end
-	CUSTOM_CLASS_COLORS:RegisterCallback(function()
-		for k, v in pairs(CUSTOM_CLASS_COLORS) do
-			CLASS_COLORS[k] = string.format("%02x%02x%02x", v.r * 255, v.g * 255, v.b * 255)
-		end
-		for name, class in pairs(classes) do
-			names[name] = nil
-			PhanxChat:RegisterName(name, class)
-		end
-	end)
-else
-	for k, v in pairs(RAID_CLASS_COLORS) do
-		CLASS_COLORS[k] = string.format("%02x%02x%02x", v.r * 255, v.g * 255, v.b * 255)
-	end
-end
 
 PLAYER_STYLE = "|Hplayer:%s|h"..PLAYER_STYLE.."|h"
 
@@ -502,16 +484,16 @@ if GetLocale() == "deDE" then englishClass = {
 
 function PhanxChat:RegisterName(name, class)
 	if not name or not class or names[name] then return end
-	if not englishClass[class] then
-		class = class:upper():gsub(" ", "", 1)
-		if CLASS_COLORS[class] then
+	if englishClass and englishClass[class] then
+		class = englishClass[class]
+		if class then
 			classes[name] = class
 			names[name] = "|cff" .. CLASS_COLORS[class] .. name .. "|r"
 		--	Print("PhanxChat > RegisterName " .. name .. " " .. class)
 		end
 	else
-		class = englishClass[class]
-		if class then
+		class = class:upper():gsub(" ", "", 1)
+		if CLASS_COLORS[class] then
 			classes[name] = class
 			names[name] = "|cff" .. CLASS_COLORS[class] .. name .. "|r"
 		--	Print("PhanxChat > RegisterName " .. name .. " " .. class)
@@ -718,6 +700,25 @@ function PhanxChat:VARIABLES_LOADED()
 				end
 			end
 			db.version = self.version
+		end
+	end
+
+	if CUSTOM_CLASS_COLORS then
+		for k, v in pairs(CUSTOM_CLASS_COLORS) do
+			CLASS_COLORS[k] = string.format("%02x%02x%02x", v.r * 255, v.g * 255, v.b * 255)
+		end
+		CUSTOM_CLASS_COLORS:RegisterCallback(function()
+			for k, v in pairs(CUSTOM_CLASS_COLORS) do
+				CLASS_COLORS[k] = string.format("%02x%02x%02x", v.r * 255, v.g * 255, v.b * 255)
+			end
+			for name, class in pairs(classes) do
+				names[name] = nil
+				PhanxChat:RegisterName(name, class)
+			end
+		end)
+	else
+		for k, v in pairs(RAID_CLASS_COLORS) do
+			CLASS_COLORS[k] = string.format("%02x%02x%02x", v.r * 255, v.g * 255, v.b * 255)
 		end
 	end
 
