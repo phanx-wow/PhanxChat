@@ -1,5 +1,5 @@
 ## Interface: 30000
-## Version: 3.0.8.wowi:revision
+## Version: 3.0.9.wowi:revision
 
 ## Title: PhanxChat
 ## Notes: Make your chat frames less cluttered and more user-friendly.
@@ -13,7 +13,6 @@
 ## X-Email: addons@phanx.net
 
 ## SavedVariables: PhanxChatDB
-## OptionalDeps: !ClassColors
 
 Locales\Locale-deDE.lua
 Locales\Locale-frFR.lua
