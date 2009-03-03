@@ -209,8 +209,8 @@ PhanxChat.eventsNotice = {
 	CHAT_MSG_CHANNEL_NOTICE_USER = true,
 }
 
-function PhanxChat.SuppressNotices()
-	return true
+function PhanxChat.SuppressNotices(...)
+	return true, ...
 end
 
 PhanxChat.eventsRepeat = {
@@ -224,8 +224,7 @@ PhanxChat.eventsRepeat = {
 local NUM_HISTORY_LINES = 10
 local history = {}
 
-function PhanxChat.SuppressRepeats(message, sender)
-	sender = sender or arg2
+function PhanxChat.SuppressRepeats(frame, event, message, sender, ...)
 	if sender and sender ~= playerName then
 		local frame = this
 		if not history[frame] then
@@ -234,7 +233,9 @@ function PhanxChat.SuppressRepeats(message, sender)
 		local t = history[frame]
 		local v = string.lower(sender.." "..message)
 
-		if t[v] then return end
+		if t[v] then
+			return true, frame, event, message, sender, ...
+		end
 
 		if #t == NUM_HISTORY_LINES then
 			local rem = table.remove(t, 1)
@@ -243,6 +244,7 @@ function PhanxChat.SuppressRepeats(message, sender)
 		table.insert(t, v)
 		t[v] = true
 	end
+	return false, frame, event, message, sender, ...
 end
 
 --[[--------------------------------------------------------------------
@@ -294,6 +296,7 @@ function PhanxChat.AddMessage(frame, text, r, g, b, id)
 			for i, v in ipairs(URL_PATTERNS) do
 				text = text:gsub(v[1], URL_STYLE:format(v[2], v[2]))
 			end
+			text = text:gsub("^ ", "", 1)
 		end
 	end
 	hooks[frame].AddMessage(frame, text, r, g, b, id)
@@ -386,7 +389,7 @@ end
 
 local englishClass
 if GetLocale() == "deDE" then englishClass = {
-	["Todestritter"] = "DEATHKNIGHT",
+	["Todesritter"] = "DEATHKNIGHT",
 	["Druide"] = "DRUID",
 	["Druidin"] = "DRUID",
 	["Jäger"] = "HUNTER",
