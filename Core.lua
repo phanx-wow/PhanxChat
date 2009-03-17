@@ -209,8 +209,8 @@ PhanxChat.eventsNotice = {
 	CHAT_MSG_CHANNEL_NOTICE_USER = true,
 }
 
-function PhanxChat.SuppressNotices(...)
-	return true, ...
+function PhanxChat.SuppressNotices()
+	return true
 end
 
 PhanxChat.eventsRepeat = {
@@ -224,27 +224,52 @@ PhanxChat.eventsRepeat = {
 local NUM_HISTORY_LINES = 10
 local history = {}
 
-function PhanxChat.SuppressRepeats(frame, event, message, sender, ...)
-	if sender and sender ~= playerName then
-		local frame = this
-		if not history[frame] then
-			history[frame] = {}
-		end
-		local t = history[frame]
-		local v = string.lower(sender.." "..message)
+if GetEquipmentSetItemLocations then
+	-- WoW 3.1
+	function PhanxChat.SuppressRepeats(frame, event, message, sender, ...)
+		if type(message) ~= "string" then return end
+		if sender and sender ~= playerName then
+			local frame = this
+			if not history[frame] then
+				history[frame] = {}
+			end
+			local t = history[frame]
+			local v = string.lower(sender.." "..message)
 
-		if t[v] then
-			return true, frame, event, message, sender, ...
-		end
+			if t[v] then return end
 
-		if #t == NUM_HISTORY_LINES then
-			local rem = table.remove(t, 1)
-			t[rem] = nil
+			if #t == NUM_HISTORY_LINES then
+				local rem = table.remove(t, 1)
+				t[rem] = nil
+			end
+			table.insert(t, v)
+			t[v] = true
 		end
-		table.insert(t, v)
-		t[v] = true
+		return false, frame, event, message, sender, ...
 	end
-	return false, frame, event, message, sender, ...
+else
+	-- WoW 3.0
+	function PhanxChat.SuppressRepeats(message)
+		if type(message) ~= "string" then return end
+		local sender = arg2
+		if sender and sender ~= playerName then
+			local frame = this
+			if not history[frame] then
+				history[frame] = {}
+			end
+			local t = history[frame]
+			local v = string.lower(sender.." "..message)
+
+			if t[v] then return end
+
+			if #t == NUM_HISTORY_LINES then
+				local rem = table.remove(t, 1)
+				t[rem] = nil
+			end
+			table.insert(t, v)
+			t[v] = true
+		end
+	end
 end
 
 --[[--------------------------------------------------------------------
