@@ -224,7 +224,7 @@ PhanxChat.eventsRepeat = {
 local NUM_HISTORY_LINES = 10
 local history = {}
 
-if GetEquipmentSetItemLocations then
+if select(4, GetBuildInfo()) >= 30100 then
 	-- WoW 3.1
 	function PhanxChat.SuppressRepeats(frame, event, message, sender, ...)
 		if type(message) ~= "string" then return end
@@ -245,7 +245,7 @@ if GetEquipmentSetItemLocations then
 			table.insert(t, v)
 			t[v] = true
 		end
-		return false, frame, event, message, sender, ...
+		return false, message, sender, ...
 	end
 else
 	-- WoW 3.0

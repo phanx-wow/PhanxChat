@@ -307,7 +307,7 @@ channels:SetScript("OnClick", function(self)
 			PhanxChat.oldstrings[k] = nil
 		end
 
-		for k in pairs(self.channels) do
+		for k in pairs(PhanxChat.channels) do
 			PhanxChat.channels[k] = nil
 		end
 
