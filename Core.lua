@@ -229,7 +229,6 @@ if select(4, GetBuildInfo()) >= 30100 then
 	function PhanxChat.SuppressRepeats(frame, event, message, sender, ...)
 		if type(message) ~= "string" then return end
 		if sender and sender ~= playerName then
-			local frame = this
 			if not history[frame] then
 				history[frame] = {}
 			end
