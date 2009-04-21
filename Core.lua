@@ -3,6 +3,7 @@
 	Reduces chat frame clutter and improves chat frame usability.
 	By Phanx < addons@phanx.net >
 	http://www.wowinterface.com/downloads/info6323-PhanxChat.html
+	Copyright ©2006–2009 Alyssa "Phanx" Kinley
 	See README for license terms and other information.
 ----------------------------------------------------------------------]]
 
