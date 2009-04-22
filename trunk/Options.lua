@@ -152,7 +152,7 @@ Options:SetScript("OnShow", function(self)
 	local arrows = self:CreateCheckbox(L["Enable arrow keys"])
 	arrows.hint = L["Enable the arrow keys in the chat edit box."]
 	arrows:SetPoint("TOPLEFT", channels, "BOTTOMLEFT", 0, -8)
-	arrows:SetChecked(db.arrows)
+	arrows:SetChecked(db.edit.arrows)
 	arrows:SetScript("OnClick", function(self)
 		local checked = self:GetChecked() and true or false
 		PlaySound(checked and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
@@ -171,7 +171,7 @@ Options:SetScript("OnShow", function(self)
 	local edit = self:CreateCheckbox(L["Move chat edit box"])
 	edit.hint = L["Move the chat edit box to the top of the chat frame"]
 	edit:SetPoint("TOPLEFT", arrows, "BOTTOMLEFT", 0, -8)
-	edit:SetChecked(db.edit)
+	edit:SetChecked(db.edit.move)
 	edit:SetScript("OnClick", function(self)
 		local checked = self:GetChecked() and true or false
 		PlaySound(checked and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
@@ -332,7 +332,7 @@ Options:SetScript("OnShow", function(self)
 	local notices = self:CreateCheckbox(L["Suppress notifications"])
 	notices.hint = L["Suppress the notification messages informing you when someone leaves or joins a channel, or when channel ownership changes."]
 	notices:SetPoint("TOPLEFT", sticky, "BOTTOMLEFT", 0, -8)
-	notices:SetChecked(db.notices)
+	notices:SetChecked(db.suppress.notices)
 	notices:SetScript("OnClick", function(self)
 		local checked = self:GetChecked() and true or false
 		PlaySound(checked and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
@@ -355,7 +355,7 @@ Options:SetScript("OnShow", function(self)
 	local repeats = self:CreateCheckbox(L["Suppress repeats"])
 	repeats.hint = L["Suppress repeated messages in public chat channels."]
 	repeats:SetPoint("TOPLEFT", notices, "BOTTOMLEFT", 0, -8)
-	repeats:SetChecked(db.repeats)
+	repeats:SetChecked(db.suppress.repeats)
 	repeats:SetScript("OnClick", function(self)
 		local checked = self:GetChecked() and true or false
 		PlaySound(checked and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")

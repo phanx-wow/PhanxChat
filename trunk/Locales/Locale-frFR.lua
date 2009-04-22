@@ -6,7 +6,7 @@
 		Nicolas (miaouxp)
 ----------------------------------------------------------------------]]
 
-if not GetLocale() == "frFR" then return end
+if GetLocale() ~= "frFR" then return end
 
 local L = {
 -- Translating these strings is required for the addon to function in

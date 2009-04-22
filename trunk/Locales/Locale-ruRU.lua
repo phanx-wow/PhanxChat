@@ -5,7 +5,7 @@
 		Valle of Warsong
 ----------------------------------------------------------------------]]
 
-if not GetLocale() == "ruRU" then return end
+if GetLocale() ~= "ruRU" then return end
 
 local L = {
 -- Translating these strings is required for the addon to function in

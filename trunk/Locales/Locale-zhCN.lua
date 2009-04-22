@@ -5,7 +5,7 @@
 		digmouse <CWDG> Magtheridon CN1 < whhao1988@gmail.com >
 ----------------------------------------------------------------------]]
 
-if not GetLocale() == "zhCN" then return end
+if GetLocale() ~= "zhCN" then return end
 
 local L = {
 -- Translating these strings is required for the addon to function in
