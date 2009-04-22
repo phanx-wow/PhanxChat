@@ -5,7 +5,7 @@
 		Melikae - Proudmoore (melikae@gmx.eu)
 ----------------------------------------------------------------------]]
 
-if not GetLocale() == "deDE" then return end
+if GetLocale() ~= "deDE" then return end
 
 local L = {
 -- Translating these strings is required for the addon to function in

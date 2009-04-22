@@ -5,7 +5,7 @@
 		TalksWind (TalksWind님 자료를 약간 수정했습니다. by Fansy)
 ----------------------------------------------------------------------]]
 
-if not GetLocale() == "koKR" then return end
+if GetLocale() ~= "koKR" then return end
 
 local L = {
 -- Translating these strings is required for the addon to function in
