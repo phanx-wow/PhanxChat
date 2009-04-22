@@ -5,7 +5,7 @@
 	http://www.wowinterface.com/downloads/info6323-PhanxChat.html
 	Copyright ©2006–2009 Alyssa "Phanx" Kinley
 	See README for license terms and other information.
-	
+
 	This file provides a configuration GUI for PhanxChat.
 ----------------------------------------------------------------------]]
 
@@ -15,19 +15,22 @@ local Options = CreateFrame("Frame", nil, InterfaceOptionsFramePanelContainer)
 Options.name = GetAddOnMetadata("PhanxChat", "Title")
 Options:Hide()
 
-Options:SetScript("OnShow", function(panel)
+Options:SetScript("OnShow", function(self)
 	local PhanxChat = PhanxChat
 	local db = PhanxChatDB
 	local L = PhanxChat.L
 
 	local noop = function() return end
 
-	local title = panel:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
+	-------------------------------------------------------------------
+
+	local title = self:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
 	title:SetPoint("TOPLEFT", 16, -16)
 	title:SetPoint("TOPRIGHT", -16, -16)
-	title:SetText(panel.name)
+	title:SetJustifyH("LEFT")
+	title:SetText(self.name)
 
-	local notes = panel:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
+	local notes = self:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
 	notes:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -8)
 	notes:SetPoint("TOPRIGHT", title, "BOTTOMRIGHT", 0, -8)
 	notes:SetHeight(48)
@@ -36,43 +39,16 @@ Options:SetScript("OnShow", function(panel)
 	notes:SetNonSpaceWrap(true)
 	notes:SetText(L["PhanxChat is a chat frame modification addon to help reduce chat frame clutter and improve chat frame usability. Use this panel to configure the addon's appearance and behavior."])
 
-	------------------------------------------------------------------------
+	-------------------------------------------------------------------
 
-	local scroll = CreateFrame("ScrollFrame", nil, panel)
-	scroll:SetPoint("TOP", notes, "BOTTOM", 0, -8)
-	scroll:SetPoint("BOTTOMLEFT", 16, 16)
-	scroll:SetPoint("BOTTOMRIGHT", -16, 16)
+	self.CreateCheckbox = LibStub:GetLibrary("PhanxConfig-Checkbox").CreateCheckbox
+	self.CreateSlider = LibStub:GetLibrary("PhanxConfig-Slider").CreateSlider
 
-	local frame = CreateFrame("Frame", nil, scroll)
-	scroll:SetScrollChild(frame)
-	frame:SetPoint("TOP")
-	frame:SetPoint("LEFT")
-	frame:SetPoint("RIGHT")
-	frame:SetHeight(750)
+	-------------------------------------------------------------------
 
-	local scrollbar, upbutton, downbutton = LibStub:GetLibrary("tekKonfig-Scroll").new(scroll, 6)
-	scrollbar:SetMinMaxValues(0, 300) -- height - 450
-	scrollbar:SetValue(0)
-
-	local f = scrollbar:GetScript("OnValueChanged")
-	scrollbar:SetScript("OnValueChanged", function(self, value, ...)
-		scroll:SetVerticalScroll(value)
-		frame:SetPoint("TOP", 0, value)
-		return f(self, value, ...)
-	end)
-
-	local offset = 0
-	scroll:UpdateScrollChildRect()
-	scroll:EnableMouseWheel(true)
-	scroll:SetScript("OnMouseWheel", function(self, val) scrollbar:SetValue(scrollbar:GetValue() - val * 50) end)
-
-	local self = frame
-
-	------------------------------------------------------------------------
-
-	local buttons = self:CreateCheckbox(L["Hide scroll buttons"])
+	local buttons = self:CreateCheckbox(L["Hide buttons"])
 	buttons.hint = L["Hide the scroll-up, scroll-down, scroll-to-bottom, and menu buttons next to the chat frame."]
-	buttons:SetPoint("TOPLEFT")
+	buttons:SetPoint("TOPLEFT", notes, "BOTTOMLEFT", 0, -8)
 	buttons:SetChecked(db.buttons)
 	buttons:SetScript("OnClick", function(self)
 		local checked = self:GetChecked() and true or false
@@ -138,9 +114,9 @@ Options:SetScript("OnShow", function(panel)
 		end
 	end)
 
-	------------------------------------------------------------------------
+	-------------------------------------------------------------------
 
-	local channels = self:CreateCheckbox(L["Shorten channel names"])
+	local channels = self:CreateCheckbox(L["Shorten channels"])
 	channels.hint = L["Shorten channel names in chat messages. For example, '[1. General]' might be shortened to '1|'."]
 	channels:SetPoint("TOPLEFT", buttons, "BOTTOMLEFT", 0, -8)
 	channels:SetChecked(db.channels)
@@ -171,7 +147,7 @@ Options:SetScript("OnShow", function(panel)
 		end
 	end)
 
-	------------------------------------------------------------------------
+	-------------------------------------------------------------------
 
 	local arrows = self:CreateCheckbox(L["Enable arrow keys"])
 	arrows.hint = L["Enable the arrow keys in the chat edit box."]
@@ -190,9 +166,9 @@ Options:SetScript("OnShow", function(panel)
 		end
 	end)
 
-	------------------------------------------------------------------------
+	-------------------------------------------------------------------
 
-	local edit = self:CreateCheckbox(L["Edit box above chat frame"])
+	local edit = self:CreateCheckbox(L["Move chat edit box"])
 	edit.hint = L["Move the chat edit box to the top of the chat frame"]
 	edit:SetPoint("TOPLEFT", arrows, "BOTTOMLEFT", 0, -8)
 	edit:SetChecked(db.edit)
@@ -214,9 +190,9 @@ Options:SetScript("OnShow", function(panel)
 		end
 	end)
 
-	------------------------------------------------------------------------
+	-------------------------------------------------------------------
 
-	local flash = self:CreateCheckbox(L["Disable chat tab flash"])
+	local flash = self:CreateCheckbox(L["Disable tab flashing"])
 	flash.hint = L["Disable the flashing effect on chat tabs when new messages are received."]
 	flash:SetPoint("TOPLEFT", edit, "BOTTOMLEFT", 0, -8)
 	flash:SetChecked(db.flash)
@@ -235,9 +211,9 @@ Options:SetScript("OnShow", function(panel)
 		end
 	end)
 
-	------------------------------------------------------------------------
+	-------------------------------------------------------------------
 
-	local log = self:CreateCheckbox(L["Auto-start chat logging"])
+	local log = self:CreateCheckbox(L["Auto-start logging"])
 	log.hint = L["Automatically enable chat logging when you log in. Chat logging can be started or stopped manually at any time using the '/chatlog' command. Logs are saved when you log out or exit the game to the 'World of Warcraft/Logs/WoWChatLog.txt' file."]
 	log:SetPoint("TOPLEFT", flash, "BOTTOMLEFT", 0, -8)
 	log:SetChecked(db.log)
@@ -253,9 +229,9 @@ Options:SetScript("OnShow", function(panel)
 		end
 	end)
 
-	------------------------------------------------------------------------
+	-------------------------------------------------------------------
 
-	local names = self:CreateCheckbox(L["Color player names by class"])
+	local names = self:CreateCheckbox(L["Color player names"])
 	names.hint = L["Color player names in chat by their class if known. Classes are known if you have seen the player in your group, in your guild, online on your friends list, in a '/who' query, or have targetted or moused over them since you logged in."]
 	names:SetPoint("TOPLEFT", log, "BOTTOMLEFT", 0, -8)
 	names:SetChecked(db.names)
@@ -300,11 +276,11 @@ Options:SetScript("OnShow", function(panel)
 		end
 	end)
 
-	------------------------------------------------------------------------
+	-------------------------------------------------------------------
 
-	local scroll = self:CreateCheckbox(L["Enable mouse wheel scrolling"])
+	local scroll = self:CreateCheckbox(L["Mousewheel scrolling"])
 	scroll.hint = L["Enable scrolling through chat frames with the mouse wheel. Hold the Shift key while scrolling to jump to the top or bottom of the chat frame."]
-	scroll:SetPoint("TOPLEFT", names, "BOTTOMLEFT", 0, -8)
+	scroll:SetPoint("TOPLEFT", notes, "BOTTOM", 8, -8)
 	scroll:SetChecked(db.scroll)
 	scroll:SetScript("OnClick", function(self)
 		local checked = self:GetChecked() and true or false
@@ -328,9 +304,9 @@ Options:SetScript("OnShow", function(panel)
 		end
 	end)
 
-	------------------------------------------------------------------------
+	-------------------------------------------------------------------
 
-	local sticky = self:CreateCheckbox(L["Enable sticky channels"])
+	local sticky = self:CreateCheckbox(L["Sticky channels"])
 	sticky.hint = L["Enable sticky channel behavior for all chat types except emotes."]
 	sticky:SetPoint("TOPLEFT", scroll, "BOTTOMLEFT", 0, -8)
 	sticky:SetChecked(db.sticky)
@@ -351,9 +327,9 @@ Options:SetScript("OnShow", function(panel)
 		end
 	end)
 
-	------------------------------------------------------------------------
+	-------------------------------------------------------------------
 
-	local notices = self:CreateCheckbox(L["Suppress channel notifications"])
+	local notices = self:CreateCheckbox(L["Suppress notifications"])
 	notices.hint = L["Suppress the notification messages informing you when someone leaves or joins a channel, or when channel ownership changes."]
 	notices:SetPoint("TOPLEFT", sticky, "BOTTOMLEFT", 0, -8)
 	notices:SetChecked(db.notices)
@@ -374,9 +350,9 @@ Options:SetScript("OnShow", function(panel)
 		end
 	end)
 
-	------------------------------------------------------------------------
+	-------------------------------------------------------------------
 
-	local repeats = self:CreateCheckbox(L["Suppress repeated messages"])
+	local repeats = self:CreateCheckbox(L["Suppress repeats"])
 	repeats.hint = L["Suppress repeated messages in public chat channels."]
 	repeats:SetPoint("TOPLEFT", notices, "BOTTOMLEFT", 0, -8)
 	repeats:SetChecked(db.repeats)
@@ -397,9 +373,9 @@ Options:SetScript("OnShow", function(panel)
 		end
 	end)
 
-	------------------------------------------------------------------------
+	-------------------------------------------------------------------
 
-	local tabs = self:CreateCheckbox(L["Lock docked chat tabs"])
+	local tabs = self:CreateCheckbox(L["Lock tabs"])
 	tabs.hint = L["Prevent docked chat tabs from being dragged unless the Alt key is down."]
 	tabs:SetPoint("TOPLEFT", repeats, "BOTTOMLEFT", 0, -8)
 	tabs:SetChecked(db.tabs)
@@ -428,9 +404,9 @@ Options:SetScript("OnShow", function(panel)
 		end
 	end)
 
-	------------------------------------------------------------------------
+	-------------------------------------------------------------------
 
-	local urls = self:CreateCheckbox(L["Link URLs in chat"])
+	local urls = self:CreateCheckbox(L["Link URLs"])
 	urls.hint = L["Turn URLs in chat messages into clickable links for easy copying."]
 	urls:SetPoint("TOPLEFT", tabs, "BOTTOMLEFT", 0, -8)
 	urls:SetChecked(db.urls)
@@ -449,12 +425,14 @@ Options:SetScript("OnShow", function(panel)
 		end
 	end)
 
-	------------------------------------------------------------------------
+	-------------------------------------------------------------------
 
-	local fade = CreateSlider(frame, L["Chat fade time"], 0, 10, 1)
+	local fade = self:CreateSlider(L["Chat fade time"], 0, 10, 1)
 	fade.hint = L["Set the time in minutes to keep chat messages visible before fading them out. Setting this to 0 will disable fading completely."]
-	fade:GetParent():SetPoint("TOPLEFT", urls, "BOTTOMLEFT", 0, -24)
-	fade:SetChecked(db.fade)
+	fade.container:SetPoint("TOPLEFT", notes, "BOTTOMLEFT", 0, -(buttons:GetHeight() + 8) * 7 - 12)
+	fade.container:SetPoint("TOPRIGHT", notes, "BOTTOM", -12, -(buttons:GetHeight() + 8) * 7 - 12)
+	fade.value:SetText(db.fade)
+	fade:SetValue(db.fade)
 	fade:SetScript("OnValueChanged", function(self)
 		local value = math.floor(self:GetValue() + 0.5)
 		local frame
@@ -474,13 +452,14 @@ Options:SetScript("OnShow", function(panel)
 		db.fade = value
 	end)
 
-	------------------------------------------------------------------------
+	-------------------------------------------------------------------
 
 	local fontsize = math.floor(select(2, ChatFrame1:GetFont()) + 0.5)
 
-	local font = CreateSlider(frame, L["Chat font size"], 6, 32, 1)
+	local font = self:CreateSlider(L["Chat font size"], 6, 32, 1)
 	font.hint = L["Set the font size for all chat tabs at once. This is only a shortcut for doing the same thing for each tab using the default UI."]
-	font:GetParent():SetPoint("TOPLEFT", fade, "BOTTOMLEFT", 0, -24)
+	font.container:SetPoint("TOPLEFT", notes, "BOTTOM", 12, -(buttons:GetHeight() + 8) * 7 - 12)
+	font.container:SetPoint("TOPRIGHT", notes, "BOTTOMRIGHT", -(buttons:GetHeight() + 8) * 7 - 12)
 	font.value:SetText(fontsize)
 	font:SetValue(fontsize)
 	font:SetScript("OnValueChanged", function(self)
@@ -491,7 +470,7 @@ Options:SetScript("OnShow", function(panel)
 		self.value:SetText(value)
 	end)
 
-	------------------------------------------------------------------------
+	-------------------------------------------------------------------
 
 	function self.refresh()
 		buttons:SetChecked(db.buttons)

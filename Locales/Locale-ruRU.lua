@@ -1,9 +1,15 @@
-﻿--[[
-	ruRU translations for PhanxChat
-	Contributed by Valle of Warsong
-]]
+--[[--------------------------------------------------------------------
+	Russian translations for PhanxChat
+	Last updated yyyy-mm-dd by Valle of Warsong
+	Contributors:
+		Valle of Warsong
+----------------------------------------------------------------------]]
 
-if GetLocale() == "ruRU" then PHANXCHAT_LOCALS = {
+if not GetLocale() == "ruRU" then return end
+
+local L = {
+-- Translating these strings is required for the addon to function in
+-- this locale. These strings are used to detect server channel names.
 
 	CHANNEL_GENERAL			= "Общий",
 	CHANNEL_TRADE				= "Торговля",
@@ -11,6 +17,9 @@ if GetLocale() == "ruRU" then PHANXCHAT_LOCALS = {
 	CHANNEL_WORLDDEFENSE		= "Оборона: глобальный",
 	CHANNEL_LOOKINGFORGROUP		= "Поис спутников",
 	CHANNEL_GUILDRECRUITMENT		= "Набор в гильдии",
+
+-- Translating these strings is optional, but highly recommended. These
+-- strings are displayed if the user has "short channel names" enabled.
 
 	SHORT_GENERAL 				= "О",
 	SHORT_TRADE 				= "Т",
@@ -31,61 +40,56 @@ if GetLocale() == "ruRU" then PHANXCHAT_LOCALS = {
 	SHORT_BATTLEGROUND_LEADER 	= "ЛПБ",
 	SHORT_WHISPER 				= "Ш",
 	SHORT_WHISPER_INFORM 		= "Ш",
+}
 
-	["enabled"] = "Включено",
-	["disabled"] = "Выключено",
+-- Translating these strings is optional, but recommended. These strings
+-- are shown in the configuration GUI.
 
-	["Use /pchat with the following commands:"] = "Используйте /pchat со следующими командами:",
+L["Hide buttons"] = "Скрыть кнопки чата"
+L["Hide the scroll-up, scroll-down, scroll-to-bottom, and menu buttons next to the chat frame."] = "Скрыть кнопки чата"
 
-	["Hide the scroll buttons"] = "Скрыть кнопки чата",
-	["Button hiding %s."] = "Скрытие кнопок %s.",
+L["Shorten channels"] = "Сокращать названия каналов"
+L["Shorten channel names in chat messages. For example, '[1. General]' might be shortened to '1|'."] = "Сокращать названия каналов и строки чата"
 
-	["Shorten channel names and chat strings"] = "Сокращать названия каналов и строки чата",
-	["Short channel names %s."] = "Короткие названия каналов %s.",
+L["Enable arrow keys"] = "Использовать кнопки передвижения"
+L["Enable the use of arrow keys in the chat edit box."] = "Использовать кнопки передвижения в строке ввода"
 
-	["Clear the window"] = "Очистить окно",
+L["Move chat edit box"] = "Перемещение строки ввода"
+L["Move the chat edit box to the top of the chat frame."] = "Переместить строку ввода наверх"
 
-	["Enable arrow keys in the edit box"] = "Использовать кнопки передвижения в строке ввода",
-	["Edit box arrow keys %s."] = "Кнопки передвижения в строке ввода %s.",
+L["Chat fade time"] = "Исчезновение текста"
+L["Set the time in minutes to keep chat messages visible before fading them out. Setting this to 0 will disable fading completely."] = "Установить время исчезновения текста в минутах (0 = отключить)"
 
-	["Move the edit box above the window"] = "Переместить строку ввода наверх",
-	["Edit box relocation %s."] = "Перемещение строки ввода %s.",
+L["Disable tab flashing"] = "Отключить мерцание закладок"
+L["Disable the flashing effect on chat tabs when new messages are received."] = "Отключить мерцание закладок"
 
-	["Set the text fade time in minutes (0 = disabled)"] = "Установить время исчезновения текста в минутах (0 = отключить)",
-	["Chat fading %s."] = "Исчезновение текста %s.",
-	["Chat fade time set to %d minutes."] = "Время исчезновения текста установлено на %d минут.",
-	["Fade time is currently set to %d minutes."] = "Время исчезновения текста в данный момент установлено на %d минут.",
+L["Chat font size"] = "Установить размер шрифта"
+L["Set the font size for all chat tabs at once. This is only a shortcut for doing the same thing for each tab using the default UI."] = "Установить размер шрифта для всех окон"
 
-	["Stop tabs from flashing"] = "Отключить мерцание закладок",
-	["Chat tab flash suppression %s."] = "Отключение мерцания закладок  %s",
+L["Auto-start logging"] = "Автоматическое включение записи чата"
+L["Automatically enable chat logging when you log in. Chat logging can be started or stopped manually at any time using the '/chatlog' command. Logs are saved when you log out or exit the game to the 'World of Warcraft/Logs/WoWChatLog.txt' file."] = "Автоматическое включение записи чата"
 
-	["Set the font size for all windows"] = "Установить размер шрифта для всех окон",
-	["Chat font size set to %d."] = "Установлен %d размер шрифта.",
+L["Color player names"] = "Окраска имен игроков"
+L["Color player names in chat by their class if known. Classes are known if you have seen the player in your group, in your guild, online on your friends list, in a '/who' query, or have targetted or moused over them since you logged in."] = "Окрашивать имена игроков в цвет класса если класс известен"
 
-	["Start chat logging automatically"] = "Автоматическое включение записи чата",
-	["Automatic chat logging %s."] = "Автоматическое включение записи чата %s.",
+L["Mousewheel scrolling"] = "Прокрутка колесиком мыши"
+L["Enable scrolling through chat frames with the mouse wheel. Hold the Shift key while scrolling to jump to the top or bottom of the chat frame."] = "Включить прокрутку колесиком мыши"
 
-	["Color player names by class if known"] = "Окрашивать имена игроков в цвет класса если класс известен",
-	["Player name class coloring %s."] = "Окраска  имен игроков %s.",
+L["Sticky channels"] = "Липкие каналы"
+L["Enable sticky channel behavior for all chat types except emotes."] = "Липкие каналы"
 
-	["Enable mousewheel scrolling"] = "Включить прокрутку колесиком мыши",
-	["Mousewheel scrolling %s."] = "Прокрутка колесиком мыши %s.",
+L["Suppress notifications"] = "Подавление уведомлений"
+L["Suppress the notification messages informing you when someone leaves or joins a channel, or when channel ownership changes."] = "Подавление уведомлений каналов"
 
-	["Make more chat types sticky"] = "'Липкие каналы'",
-	["Sticky channels %s."] = "'Липкие' каналы %s.",
+L["Suppress repeats"] = "Подавление повторяющихся сообщений"
+L["Suppress repeated messages in public chat channels."] = "Подавление повторяющихся сообщений в общих каналах"
 
-	["Suppress channel notification messages"] = "Подавление уведомлений каналов",
-	["Channel notice suppression %s."] = "Подавление уведомлений %s.",
+L["Lock tabs"] = "Закрепление закладок чата"
+L["Prevent docked chat tabs from being dragged unless the Alt key is down."] = "Закрепить закладки чата (удерживайте Alt для перемещения)"
 
-	["Suppress repeated messages in public channels"] = "Подавление повторяющихся сообщений в общих каналах",
-	["Repeated message suppression %s."] = "Подавление повторяющихся сообщений %s.",
+L["Link URLs"] = "Кликабельные URL"
+L["Turn URLs in chat messages into clickable links for easy copying."] = "Кликабельные URL для облегчения копирования"
 
-	["Lock docked tabs in place (hold Alt to drag)"] = "Закрепить закладки чата (удерживайте Alt для перемещения)",
-	["Chat tab locking %s."] = "Закрепление закладок чата %s.",
+-- Don't touch this.
 
-	["Link URLs for easy copying"] = "Кликабельные URL для облегчения копирования",
-	["URL linking %s."] = "Кликабельные URL %s.",
-
-	["Version %d loaded."] = "Загружена версия %d.",
-
-} end
+PHANXCHAT_LOCALS = L

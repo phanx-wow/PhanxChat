@@ -27,6 +27,5 @@ Libs\LibStub.lua
 Libs\PhanxConfig-Checkbox.lua
 Libs\PhanxConfig-Slider.lua
 Libs\tekKonfigAboutPanel.lua
-Libs\tekKonfigScroll.lua
 
 Options.lua

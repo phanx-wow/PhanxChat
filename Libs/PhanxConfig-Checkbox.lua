@@ -1,6 +1,8 @@
---[[
+--[[--------------------------------------------------------------------
 	PhanxConfig-Checkbox
---]]
+	Simple checkbox widget generator. Requires LibStub.
+	Based on tekKonfig-Checkbox by Tekkub.
+----------------------------------------------------------------------]]
 
 local lib, oldminor = LibStub:NewLibrary("PhanxConfig-Checkbox", 1)
 if not lib then return end
