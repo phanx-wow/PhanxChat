@@ -1,18 +1,25 @@
-﻿--[[
-	zhCN translations for PhanxChat
-	Contributed by digmouse <CWDG> Magtheridon CN1 < whhao1988@gmail.com >
-]]
+--[[--------------------------------------------------------------------
+	Traditional Chinese translations for PhanxChat
+	Last updated yyyy-mm-dd by digmouse
+	Contributors:
+		digmouse <CWDG> Magtheridon CN1 < whhao1988@gmail.com >
+----------------------------------------------------------------------]]
 
-if GetLocale() == "zhTW" then PHANXCHAT_LOCALS = {
+if not GetLocale() == "zhTW" then return end
+
+local L = {
+-- Translating these strings is required for the addon to function in
+-- this locale. These strings are used to detect server channel names.
 
 	CHANNEL_GENERAL			= "綜合",
 	CHANNEL_TRADE				= "交易",
-	CHANNEL_LOCALDEFENSE		= "本地防務", --need check
+	CHANNEL_LOCALDEFENSE		= "本地防務",
 	CHANNEL_WORLDDEFENSE		= "世界防務",
 	CHANNEL_LOOKINGFORGROUP		= "尋求組隊",
-	CHANNEL_GUILDRECRUITMENT		= "公會招募", --need check
+	CHANNEL_GUILDRECRUITMENT		= "公會招募",
 
-	WHO_QUERY_RESULT			= "^%|Hplayer:%w+|h%[(%w+)%]|h: 等級 %d+ %w+%s?[%w]* (%w+)%s?<?[^>]*>? %- .+$", --need check
+-- Translating these strings is optional, but highly recommended. These
+-- strings are displayed if the user has "short channel names" enabled.
 
 	SHORT_GENERAL				= "綜",
 	SHORT_TRADE				= "交",
@@ -33,61 +40,56 @@ if GetLocale() == "zhTW" then PHANXCHAT_LOCALS = {
 	SHORT_BATTLEGROUND_LEADER	= "戰領",
 	SHORT_WHISPER				= "密自",
 	SHORT_WHISPER_INFORM		= "密往",
+}
 
-	["enabled"] = "啟用",
-	["disabled"] = "禁用",
+-- Translating these strings is optional, but recommended. These strings
+-- are shown in the configuration GUI.
 
-	["Use /pchat with the following commands:"] = "使用/pchat加上如下命令：",
+L["Hide buttons"] = "隱藏滾動按鈕"
+L["Hide the scroll-up, scroll-down, scroll-to-bottom, and menu buttons next to the chat frame."] = "隱藏滾動按鈕"
 
-	["Hide the scroll buttons"] = "隱藏滾動按鈕",
-	["Button hiding %s."] = "按鈕隱藏%s。",
+L["Shorten channels"] = "縮寫頻道名和聊天類型名"
+L["Shorten channel names in chat messages. For example, '[1. General]' might be shortened to '1|'."] = "縮寫頻道名和聊天類型名"
 
-	["Shorten channel names and chat strings"] = "縮寫頻道名和聊天類型名",
-	["Short channel names %s."] = "簡化頻道名稱%s。",
+L["Enable arrow keys"] = "允許在輸入框中使用方向鍵"
+L["Enable the use of arrow keys in the chat edit box."] = "允許在輸入框中使用方向鍵"
 
-	["Clear the window"] = "清除聊天視窗內容",
+L["Move chat edit box"] = "將輸入框置於聊天視窗頂部"
+L["Move the chat edit box to the top of the chat frame."] = "將輸入框置於聊天視窗頂部"
 
-	["Enable arrow keys in the edit box"] = "允許在輸入框中使用方向鍵",
-	["Edit box arrow keys %s."] = "輸入框方向控制%s。",
+L["Chat fade time"] = "設置文字消隱時間"
+L["Set the time in minutes to keep chat messages visible before fading them out. Setting this to 0 will disable fading completely."] = "設置文字消隱時間（0 = 關閉）"
 
-	["Move the edit box above the window"] = "將輸入框置於聊天視窗頂部",
-	["Edit box relocation %s."] = "頂置輸入框%s。",
+L["Disable tab flashing"] = "關閉聊天標籤頁閃爍"
+L["Disable the flashing effect on chat tabs when new messages are received."] = "關閉聊天標籤頁閃爍"
 
-	["Set the text fade time in minutes (0 = disabled)"] = "設置文字消隱時間（0 = 關閉）",
-	["Chat fading %s."] = "聊天文字消隱%s。",
-	["Chat fade time set to %d minutes."] = "聊天文字消隱設置為%d分鐘。",
-	["Fade time is currently set to %d minutes."] = "聊天文字消隱時間目前設置為%d分鐘。",
+L["Chat font size"] = "設置所有視窗的字體大小"
+L["Set the font size for all chat tabs at once. This is only a shortcut for doing the same thing for each tab using the default UI."] = "設置所有視窗的字體大小"
 
-	["Stop tabs from flashing"] = "關閉聊天標籤頁閃爍",
-	["Chat tab flash suppression %s."] = "聊天標籤閃爍功能%s。",
+L["Auto-start logging"] = "自動保存聊天記錄"
+L["Automatically enable chat logging when you log in. Chat logging can be started or stopped manually at any time using the '/chatlog' command. Logs are saved when you log out or exit the game to the 'World of Warcraft/Logs/WoWChatLog.txt' file."] = "自動保存聊天記錄"
 
-	["Set the font size for all windows"] = "設置所有視窗的字體大小",
-	["Chat font size set to %d."] = "聊天視窗字體大小設置為%d。",
+L["Color player names"] = "將已知玩家名字按職業顏色標識"
+L["Color player names in chat by their class if known. Classes are known if you have seen the player in your group, in your guild, online on your friends list, in a '/who' query, or have targetted or moused over them since you logged in."] = "將已知玩家名字按職業顏色標識"
 
-	["Log chat text to a file"] = "自動保存聊天記錄",
-	["Chat logging %s."] = "自動聊天記錄%s。",
+L["Mousewheel scrolling"] = "啟用滑鼠捲動"
+L["Enable scrolling through chat frames with the mouse wheel. Hold the Shift key while scrolling to jump to the top or bottom of the chat frame."] = "啟用滑鼠捲動"
 
-	["Color player names by class if known"] = "將已知玩家名字按職業顏色標識",
-	["Player name class coloring %s."] = "玩家名稱染色%s。",
+L["Sticky channels"] = "保持當前聊天頻道"
+L["Enable sticky channel behavior for all chat types except emotes."] = "保持當前聊天頻道"
 
-	["Enable mousewheel scrolling"] = "啟用滑鼠捲動",
-	["Mousewheel scrolling %s."] = "滑鼠滾輪翻頁%s。",
+L["Suppress notifications"] = "屏蔽頻道更改提示信息"
+L["Suppress the notification messages informing you when someone leaves or joins a channel, or when channel ownership changes."] = "屏蔽頻道更改提示信息"
 
-	["Make more chat types sticky"] = "保持當前聊天頻道",
-	["Sticky channels %s."] = "聊天頻道保持%s。",
+L["Suppress repeats"] = "屏蔽公共頻道內的重復信息"
+L["Suppress repeated messages in public chat channels."] = "屏蔽公共頻道內的重復信息"
 
-	["Suppress channel notification messages"] = "屏蔽頻道更改提示信息",
-	["Channel notice suppression %s."] = "屏蔽頻道提示信息%s。",
+L["Lock tabs"] = "鎖定已附著的聊天標籤"
+L["Prevent docked chat tabs from being dragged unless the Alt key is down."] = "鎖定已附著的聊天標籤（按住Alt拖動）"
 
-	["Suppress repeated messages in public channels"] = "屏蔽公共頻道內的重復信息",
-	["Repeated message suppression %s."] = "屏蔽重復刷屏信息%s。",
+L["Link URLs"] = "URL連結快速複製"
+L["Turn URLs in chat messages into clickable links for easy copying."] = "URL連結快速複製"
 
-	["Lock docked tabs in place (hold Alt to drag)"] = "鎖定已附著的聊天標籤（按住Alt拖動）",
-	["Chat tab locking %s."] = "聊天標籤鎖定%s。",
+-- Don't touch this.
 
-	["Link URLs for easy copying"] = "URL連結快速複製",
-	["URL linking %s."] = "URL連結%s。",
-
-	["Version %d loaded."] = "版本%d已載入。",
-
-} end
+PHANXCHAT_LOCALS = L

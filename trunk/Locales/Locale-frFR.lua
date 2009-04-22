@@ -1,18 +1,26 @@
-ï»¿--[[
-	frFR translations for PhanxChat
-	Contributed by Kyron - Halcyon (Auchindoun); Nicolas (miaouxp)
-]]
+--[[--------------------------------------------------------------------
+	French translations for PhanxChat
+	Last updated yyyy-mm-dd by ????
+	Contributors:
+		Kyron - Halcyon (Auchindoun)
+		Nicolas (miaouxp)
+----------------------------------------------------------------------]]
 
-if GetLocale() == "frFR" then PHANXCHAT_LOCALS = {
+if not GetLocale() == "frFR" then return end
 
-	CHANNEL_GENERAL			= "GÃ©nÃ©ral",
+local L = {
+-- Translating these strings is required for the addon to function in
+-- this locale. These strings are used to detect server channel names.
+
+	CHANNEL_GENERAL			= "Général",
 	CHANNEL_TRADE				= "Commerce",
-	CHANNEL_LOCALDEFENSE		= "DÃ©fense Locale",
-	CHANNEL_WORLDDEFENSE		= "DÃ©fense du monde",
+	CHANNEL_LOCALDEFENSE		= "Défense Locale",
+	CHANNEL_WORLDDEFENSE		= "Défense du monde",
 	CHANNEL_LOOKINGFORGROUP		= "Recherche de groupe",
 	CHANNEL_GUILDRECRUITMENT		= "Recrutement de guilde",
 
-	WHO_QUERY_RESULT			= "^%|Hplayer:%w+|h%[(%w+)%]|h: Level %d+ %w+%s?[%w]* (%w+)%s?<?[^>]*>? %- .+$",
+-- Translating these strings is optional, but highly recommended. These
+-- strings are displayed if the user has "short channel names" enabled.
 
 	SHORT_GENERAL 				= "G",
 	SHORT_TRADE 				= "E",
@@ -33,61 +41,56 @@ if GetLocale() == "frFR" then PHANXCHAT_LOCALS = {
 	SHORT_BATTLEGROUND_LEADER 	= "BGL",
 	SHORT_WHISPER 				= "W",
 	SHORT_WHISPER_INFORM 		= "W",
+}
 
-	["enabled"] = "activÃ©",
-	["disabled"] = "dÃ©sactivÃ©",
+-- Translating these strings is optional, but recommended. These strings
+-- are shown in the configuration GUI.
 
-	["Use /pchat with the following commands:"] = "Utilisez /pchat avec les commandes suivantes:",
+L["Hide buttons"] = "Cacher le bouton"
+L["Hide the scroll-up, scroll-down, scroll-to-bottom, and menu buttons next to the chat frame."] = "Cacher les boutons de défilement"
 
-	["Hide the scroll buttons"] = "Cacher les boutons de dÃ©filement",
-	["Button hiding %s."] = "Cacher le bouton %s.",
+L["Shorten channels"] = "Raccourcir le nom des canaux"
+L["Shorten channel names in chat messages. For example, '[1. General]' might be shortened to '1|'."] = "Raccourcir le nom des canaux"
 
-	["Shorten channel names and chat strings"] = "Raccourcir le nom des canaux",
-	["Short channel names %s."] = "Nom des canaux raccourcis %s.",
+L["Enable arrow keys"] = "Flèches dans la fenêtre"
+L["Enable the use of arrow keys in the chat edit box."] = "Activer les flèches dans la fenêtre de saisie"
 
-	["Clear the window"] = "Vider la fenÃªtre de chat",
+L["Move chat edit box"] = "Déplacement de la fenêtre"
+L["Move the chat edit box to the top of the chat frame."] = "Déplacer la fenêtre de saisie au dessus du chat"
 
-	["Enable arrow keys in the edit box"] = "Activer les flÃ¨ches dans la fenÃªtre de saisie",
-	["Edit box arrow keys %s."] = "FlÃ¨ches dans la fenÃªtre de saisie %s.",
+L["Disable tab flashing"] = "Flash des onglets"
+L["Disable the flashing effect on chat tabs when new messages are received."] = "Désactiver le flash des onglets"
 
-	["Move the edit box above the window"] = "DÃ©placer la fenÃªtre de saisie au dessus du chat",
-	["Edit box relocation %s."] = "DÃ©placement de la fenÃªtre de saisie %s.",
+L["Auto-start logging"] = "Sauvegarde du chat"
+L["Automatically enable chat logging when you log in. Chat logging can be started or stopped manually at any time using the '/chatlog' command. Logs are saved when you log out or exit the game to the 'World of Warcraft/Logs/WoWChatLog.txt' file."] = "Démarrer la sauvegarde du chat automatiquement"
 
-	["Set the text fade time in minutes (0 = disabled)"] = "RÃ©gler le dÃ©lai du fondu du texte en minutes (0 = dÃ©sactivÃ©)",
-	["Chat fading %s."] = "Fondu du texte %s.",
-	["Chat fade time set to %d minutes."] = "DÃ©lai du fondu du texte rÃ©glÃ© sur %d minutes.",
-	["Fade time is currently set to %d minutes."] = "Le fondu est actuellement rÃ©glÃ© sur %d minutes.",
+L["Color player names"] = "Noms des joueurs colorés"
+L["Color player names in chat by their class if known. Classes are known if you have seen the player in your group, in your guild, online on your friends list, in a '/who' query, or have targetted or moused over them since you logged in."] = "Colorer le nom des joueurs selon leur classe, si connu"
 
-	["Stop tabs from flashing"] = "DÃ©sactiver le flash des onglets",
-	["Chat tab flash suppression %s."] = "Supression du flash de l'onglet %s",
+L["Mousewheel scrolling"] = "Défilement molette"
+L["Enable scrolling through chat frames with the mouse wheel. Hold the Shift key while scrolling to jump to the top or bottom of the chat frame."] = "Autoriser le défilement via la molette"
 
-	["Set the font size for all windows"] = "DÃ©finir la taille de la police pour toutes les fenÃªtres",
-	["Chat font size set to %d."] = "Taille de la police du chat dÃ©finie Ã  %d.",
+L["Sticky channels"] = "Canaux collants"
+L["Enable sticky channel behavior for all chat types except emotes."] = "Rendre plus de canaux \"collant\""
 
-	["Start chat logging automatically"] = "DÃ©marrer la sauvegarde du chat automatiquement",
-	["Automatic chat logging %s."] = "Sauvegarde du chat automatique %s.",
+L["Suppress notifications"] = "Notifications des canaux"
+L["Suppress the notification messages informing you when someone leaves or joins a channel, or when channel ownership changes."] = "Supprimer les messages de notification des canaux"
 
-	["Color player names by class if known"] = "Colorer le nom des joueurs selon leur classe, si connu",
-	["Player name class coloring %s."] = "Noms des joueurs colorÃ©s par classe %s.",
+L["Suppress repeats"] = "Messages redondants"
+L["Suppress repeated messages in public chat channels."] = "Supprimer les messages redondants dans les canaux publics"
 
-	["Enable mousewheel scrolling"] = "Autoriser le dÃ©filement via la molette",
-	["Mousewheel scrolling %s."] = "DÃ©filement molette %s.",
+L["Lock tabs"] = "Bloc du déplacement des onglets"
+L["Prevent docked chat tabs from being dragged unless the Alt key is down."] = "Bloquer le déplacement des onglets (maintenir Alt pour déplacer)"
 
-	["Make more chat types sticky"] = "Rendre plus de canaux \"collant\"",
-	["Sticky channels %s."] = "Canaux collants %s.",
+L["Link URLs"] = "URLs cliquables"
+L["Turn URLs in chat messages into clickable links for easy copying."] = "URLs cliquables (permettant le copier/coller)"
 
-	["Suppress channel notification messages"] = "Supprimer les messages de notification des canaux",
-	["Channel notice suppression %s."] = "Suppression des notifications des canaux %s.",
+L["Chat fade time"] = "Fondu du texte"
+L["Set the time in minutes to keep chat messages visible before fading them out. Setting this to 0 will disable fading completely."] = "Régler le délai du fondu du texte en minutes (0 = désactivé)"
 
-	["Suppress repeated messages in public channels"] = "Supprimer les messages redondants dans les canaux publics",
-	["Repeated message suppression %s."] = "Suppression des messages redondants %s.",
+L["Chat font size"] = "Taille de la police"
+L["Set the font size for all chat tabs at once. This is only a shortcut for doing the same thing for each tab using the default UI."] = "Définir la taille de la police pour toutes les fenêtres"
 
-	["Lock docked tabs in place (hold Alt to drag)"] = "Bloquer le dÃ©placement des onglets (maintenir Alt pour dÃ©placer)",
-	["Chat tab locking %s."] = "Bloc du dÃ©placement des onglets %s.",
+-- Don't touch this.
 
-	["Link URLs for easy copying"] = "URLs cliquables (permettant le copier/coller)",
-	["URL linking %s."] = "URLs cliquables %s.",
-
-	["Version %d loaded."] = "Version %d chargÃ©e.",
-
-} end
+PHANXCHAT_LOCALS = L
