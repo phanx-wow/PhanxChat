@@ -169,7 +169,7 @@ Options:SetScript("OnShow", function(self)
 	-------------------------------------------------------------------
 
 	local edit = self:CreateCheckbox(L["Move chat edit box"])
-	edit.hint = L["Move the chat edit box to the top of the chat frame"]
+	edit.hint = L["Move the chat edit box to the top of the chat frame."]
 	edit:SetPoint("TOPLEFT", arrows, "BOTTOMLEFT", 0, -8)
 	edit:SetChecked(db.edit.move)
 	edit:SetScript("OnClick", function(self)
