@@ -1,5 +1,5 @@
 ## Interface: 30100
-## Version: 3.1.0.wowi:revision-beta
+## Version: 3.1.1.wowi:revision-beta
 
 ## Title: PhanxChat
 ## Notes: Make your chat frames less cluttered and more user-friendly.
@@ -23,9 +23,9 @@ Locales\Locale-zhTW.lua
 
 Core.lua
 
-Libs\LibStub.lua
-Libs\PhanxConfig-Checkbox.lua
-Libs\PhanxConfig-Slider.lua
-Libs\tekKonfigAboutPanel.lua
+Libs\LibStub\LibStub.lua
+Libs\LibAboutPanel\LibAboutPanel.lua
+Libs\PhanxConfig-Checkbox\PhanxConfig-Checkbox.lua
+Libs\PhanxConfig-Slider\PhanxConfig-Slider.lua
 
 Options.lua

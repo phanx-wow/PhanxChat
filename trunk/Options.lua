@@ -48,7 +48,7 @@ Options:SetScript("OnShow", function(self)
 
 	local buttons = self:CreateCheckbox(L["Hide buttons"])
 	buttons.hint = L["Hide the scroll-up, scroll-down, scroll-to-bottom, and menu buttons next to the chat frame."]
-	buttons:SetPoint("TOPLEFT", notes, "BOTTOMLEFT", 0, -8)
+	buttons:SetPoint("TOPLEFT", notes, "BOTTOMLEFT", -2, -8)
 	buttons:SetChecked(db.buttons)
 	buttons:SetScript("OnClick", function(self)
 		local checked = self:GetChecked() and true or false
@@ -502,7 +502,11 @@ end)
 
 InterfaceOptions_AddCategory(Options)
 
-LibStub:GetLibrary("tekKonfig-AboutPanel").new(Options.name, "PhanxChat")
+------------------------------------------------------------------------
+
+LibStub:GetLibrary("LibAboutPanel").new(Options.name, "PhanxChat")
+
+------------------------------------------------------------------------
 
 SLASH_PHANXCHAT1 = "/pchat"
 SLASH_PHANXCHAT2 = "/phanxchat"
