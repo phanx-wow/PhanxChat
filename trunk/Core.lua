@@ -37,17 +37,16 @@ local blacklist = {				-- frames to exempt from formatting
 	["*"] = {
 		[ChatFrame2] = true, -- Combat Log
 	},
-	["Blackrock - Lirrel"] = {
-		[ChatFrame3] = true, -- Loot
-		[ChatFrame7] = true, -- Quiet
-	},
-	["Blackrock - Savra"] = {
-		[ChatFrame3] = true, -- Loot
-		[ChatFrame7] = true, -- Quiet
-	},
 }
+if GetAddOnInfo("PhanxMod") then
+	-- Quick hack to blacklist specific frames on all my characters
+	-- without having to include a big table listing them.
+	blacklist["*"][ChatFrame3] = true 	-- Loot
+	blacklist["*"][ChatFrame7] = true 	-- Debug
+end
 
 local customchannels = {			-- short names for custom channels
+	["bookclub"] = "BC",
 }
 
 local L = PHANXCHAT_LOCALS or {
@@ -61,15 +60,15 @@ local L = PHANXCHAT_LOCALS or {
 	SHORT_RAID_WARNING			= "R",
 	SHORT_BATTLEGROUND			= "b",
 	SHORT_BATTLEGROUND_LEADER	= "B",
-	SHORT_WHISPER				= "f",
-	SHORT_WHISPER_INFORM		= "t",
+	SHORT_WHISPER				= "W",
+	SHORT_WHISPER_INFORM		= "w",
 
-	SHORT_GENERAL				= "gn",	-- English short channel names
-	SHORT_TRADE				= "tr",	-- If you are playing in another locale you will need to change
-	SHORT_LOCALDEFENSE			= "de",	-- these in the relevant translation file instead of here.
-	SHORT_WORLDDEFENSE			= "de",
-	SHORT_LOOKINGFORGROUP		= "lf",
-	SHORT_GUILDRECRUITMENT		= "gr",
+	SHORT_GENERAL				= "G",	-- English short channel names
+	SHORT_TRADE				= "T",	-- If you are playing in another locale you will need to change
+	SHORT_LOCALDEFENSE			= "D",	-- these in the relevant translation file instead of here.
+	SHORT_WORLDDEFENSE			= "D",
+	SHORT_LOOKINGFORGROUP		= "L",
+	SHORT_GUILDRECRUITMENT		= "U",
 
 --[[--------------------------------------------------------------------
 
