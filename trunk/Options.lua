@@ -126,8 +126,8 @@ Options:SetScript("OnShow", function(self)
 
 		if checked then
 			for k, v in pairs(PhanxChat.newstrings) do
-				PhanxChat.oldstrings[k] = _G["CHAT_"..k.."_GET"]
-				_G["CHAT_"..k.."_GET"] = v
+				PhanxChat.oldstrings[k] = _G[k]
+				_G[k] = v
 			end
 
 			PhanxChat:BuildChannelList(GetChannelList())
@@ -135,7 +135,7 @@ Options:SetScript("OnShow", function(self)
 			db.channels = true
 		else
 			for k, v in pairs(PhanxChat.oldstrings) do
-				_G["CHAT_"..k.."_GET"] = v
+				_G[k] = v
 				PhanxChat.oldstrings[k] = nil
 			end
 

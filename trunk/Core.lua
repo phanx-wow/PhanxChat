@@ -7,19 +7,54 @@
 	See README for license terms and other information.
 ----------------------------------------------------------------------]]
 
-local NUM_SCROLL_LINES = 3		-- number of lines to scroll per mousewheel turn
+--	The following section allows you to change some options that are
+--	not exposed in the in-game configuration UI. Please note that I
+--	do not provide support for changing these options, and will not
+--	help you figure it out. Read the comments, and research what you
+--	don't understand on lua.org, wowwiki.com, and other websites!
 
-local COLOR_UNKNOWN = "aaaaaa"	-- color for unknown names (nil = don't use default color)
+--	How many lines to scroll per mouse wheel turn?
+--
+local NUM_SCROLL_LINES = 3
 
-local PLAYER_STYLE = "%s"		-- %s = name
+--	What color to use for player names whose class is unknown?
+--	Set to "nil" (without quotes) to not color these names.
+--
+local COLOR_UNKNOWN = "aaaaaa"
 
-local URL_STYLE = "|cff00ccff%s|r"	-- %s = URL
+--	How player names should look. May include brackets, etc.
+--	%s = player name
+--
+local PLAYER_STYLE = "%s"
 
-local STRING_STYLE = "%s| %%s: "	-- %s = short string, %%s = player name
+--	How channel names should look.
+--	%1 = channel number
+--	%2 = short channel name
+--
+local CHANNEL_STYLE = "%1||" -- pipe must be escaped because whatever follows it may form a real escape sequence
 
-local CHANNEL_STYLE = "%1| " 		-- %1 = channel number, %2 = channel name
+--	How chat strings should look.
+--	%s = chat string
+--	%%s = player name
+--
+local STRING_STYLE = "%s| %%s: " -- pipe doesn't need escape since it's followed by a space
 
-local STICKY_TYPES = {			-- 1 = sticky, 0 = not sticky
+--	How channel chat strings should look. This ends up being something
+--	like "CHANNEL_STYLE PLAYER STYLE" in-game.
+--	%s = player name
+--
+local STRING_STYLE_CHANNEL = "%s: "
+
+--	How URL links should look. May include brackets, a color code, etc.
+--	%s = URL
+--
+local URL_STYLE = "|cff00ccff%s|r"
+
+--	Which chat types should be sticky?
+--	1 = sticky
+--	0 = not sticky
+--
+local STICKY_TYPES = {
 	SAY = 1,
 	YELL = 1,
 	GUILD = 1,
@@ -33,26 +68,38 @@ local STICKY_TYPES = {			-- 1 = sticky, 0 = not sticky
 	EMOTE = 0,
 }
 
-local blacklist = {				-- frames to exempt from formatting
+--	Which frames should be ignored for formatting purposes? Using this
+--	feature will reduce the amount of CPU time PhanxChat consumes. Add
+--	frames to ignore for all characters to the "*" sub-table. Add
+--	frames to ignore for specific characters to "Server - Character"
+--	sub-tables.
+--
+local blacklist = {
 	["*"] = {
 		[ChatFrame2] = true, -- Combat Log
 	},
 }
+--	Quick hack to blacklist specific frames on all my characters without
+--	having to include a big table listing them. Disregard! :)
 if GetAddOnInfo("PhanxMod") then
-	-- Quick hack to blacklist specific frames on all my characters
-	-- without having to include a big table listing them.
 	blacklist["*"][ChatFrame3] = true 	-- Loot
 	blacklist["*"][ChatFrame7] = true 	-- Debug
 end
 
-local customchannels = {			-- short names for custom channels
+--	Short names for non-server channels.
+--
+local customchannels = {
 	["bookclub"] = "BC",
 }
 
+--	Custom chat strings and channel names for English clients only.
+--	If you play in another locale, you will need to change these in the
+--	appropriate locale file instead.
+--
 local L = PHANXCHAT_LOCALS or {
-	SHORT_SAY					= "s",	-- English custom chat strings
-	SHORT_YELL				= "y",	-- If you are playing in another locale you will need to change
-	SHORT_GUILD				= "g",	-- these in the relevant translation file instead of here.
+	SHORT_SAY					= "s",
+	SHORT_YELL				= "y",
+	SHORT_GUILD				= "g",
 	SHORT_OFFICER				= "o",
 	SHORT_PARTY				= "p",
 	SHORT_RAID				= "r",
@@ -63,9 +110,9 @@ local L = PHANXCHAT_LOCALS or {
 	SHORT_WHISPER				= "W",
 	SHORT_WHISPER_INFORM		= "w",
 
-	SHORT_GENERAL				= "G",	-- English short channel names
-	SHORT_TRADE				= "T",	-- If you are playing in another locale you will need to change
-	SHORT_LOCALDEFENSE			= "D",	-- these in the relevant translation file instead of here.
+	SHORT_GENERAL				= "G",
+	SHORT_TRADE				= "T",
+	SHORT_LOCALDEFENSE			= "D",
 	SHORT_WORLDDEFENSE			= "D",
 	SHORT_LOOKINGFORGROUP		= "L",
 	SHORT_GUILDRECRUITMENT		= "U",
@@ -84,16 +131,19 @@ local L = PHANXCHAT_LOCALS or {
 	CHANNEL_LOOKINGFORGROUP		= "LookingForGroup",
 	CHANNEL_GUILDRECRUITMENT		= "GuildRecruitment",
 }
-setmetatable(L, { __index = function(t, k) t[k] = k; return k end })
-if PHANXCHAT_LOCALS then PHANXCHAT_LOCALS = nil end
+setmetatable(L, { __index = function(t, k) t[k] = k return k end })
+PHANXCHAT_LOCALS = nil
 
-PhanxChat = CreateFrame("Frame")
+------------------------------------------------------------------------
 
-local _G = getfenv(0)
+local db
+local currentLink
 
-local PhanxChat, self = PhanxChat, PhanxChat
+local PhanxChat = CreateFrame("Frame", "PhanxChat")
+PhanxChat:SetScript("OnEvent", function(self, event, ...) return self[event] and self[event](self, ...) end)
+PhanxChat:RegisterEvent("ADDON_LOADED")
 
-PhanxChat.version = tonumber(GetAddOnMetadata("PhanxChat", "Version"):match("(%d+)"))
+------------------------------------------------------------------------
 
 PhanxChat.L = L
 
@@ -111,15 +161,19 @@ local names = PhanxChat.names
 local hooks = PhanxChat.hooks
 local oldstrings = PhanxChat.oldstrings
 
-local db, frame, button, icon, name, class, currentLink, _
+------------------------------------------------------------------------
 
 local playerName = UnitName("player")
 
 local noop = function() end
 
+------------------------------------------------------------------------
+
 local pairs = pairs
 local select = select
-local strformat = string.format
+local format = string.format
+local upper = string.upper
+
 local GetFriendInfo = GetFriendInfo
 local GetGuildRosterInfo = GetGuildRosterInfo
 local GetNumFriends = GetNumFriends
@@ -135,6 +189,8 @@ local UnitIsFriend = UnitIsFriend
 local UnitIsPlayer = UnitIsPlayer
 local UnitName = UnitName
 
+------------------------------------------------------------------------
+
 local function Print(str, ...)
 	if select(1, ...) then str = str:format(...) end
 	print("|cff00ddbaPhanxChat:|r " .. str)
@@ -144,6 +200,8 @@ local function Debug(str, ...)
 	if select(1, ...) then str = str:format(...) end
 	print("|cffff7f7f[DEBUG] PhanxChat:|r " .. str)
 end
+
+------------------------------------------------------------------------
 
 local CHANNEL_NAMES = {
 	[L.CHANNEL_GENERAL]			= L.SHORT_GENERAL,
@@ -157,30 +215,40 @@ for k, v in pairs(customchannels) do
 	CHANNEL_NAMES[k] = v
 end
 
+------------------------------------------------------------------------
+-- STRING_STYLE = ("%s| %%s: "):format("|Hchannel:%s|h%s|h"):format("Battleground", "b", "%s")
+local STRING_STYLE_LINK = STRING_STYLE:format("|Hchannel:%s|h%s|h")
+
 local CHAT_STRINGS = {
-	SAY					= L.SHORT_SAY,
-	YELL					= L.SHORT_YELL,
-	GUILD				= L.SHORT_GUILD,
-	OFFICER				= L.SHORT_OFFICER,
-	PARTY				= L.SHORT_PARTY,
-	RAID					= L.SHORT_RAID,
-	RAID_LEADER			= L.SHORT_RAID_LEADER,
-	RAID_WARNING			= L.SHORT_RAID_WARNING,
-	BATTLEGROUND			= L.SHORT_BATTLEGROUND,
-	BATTLEGROUND_LEADER		= L.SHORT_BATTLEGROUND_LEADER,
-	WHISPER				= L.SHORT_WHISPER,
-	WHISPER_INFORM			= L.SHORT_WHISPER_INFORM,
+	["CHAT_BATTLEGROUND_GET"]		= STRING_STYLE_LINK:format("Battleground", L.SHORT_BATTLEGROUND, "%s"),
+	["CHAT_BATTLEGROUND_LEADER_GET"]	= STRING_STYLE_LINK:format("Battleground", L.SHORT_BATTLEGROUND_LEADER, "%s"),
+	["CHAT_CHANNEL_GET"]			= STRING_STYLE_CHANNEL,
+	["CHAT_GUILD_GET"]				= STRING_STYLE_LINK:format("Guild", L.SHORT_GUILD, "%s"),
+	["CHAT_OFFICER_GET"]			= STRING_STYLE_LINK:format("o", L.SHORT_OFFICER, "%s"),
+	["CHAT_PARTY_GET"]				= STRING_STYLE_LINK:format("Party", L.SHORT_PARTY, "%s"),
+	["CHAT_RAID_GET"]				= STRING_STYLE_LINK:format("Raid", L.SHORT_RAID, "%s"),
+	["CHAT_RAID_LEADER_GET"]			= STRING_STYLE_LINK:format("Raid", L.SHORT_RAID_LEADER, "%s"),
+	["CHAT_RAID_WARNING_GET"]		= STRING_STYLE_LINK:format("Raid", L.SHORT_RAID_WARNING, "%s"),
+	["CHAT_SAY_GET"]				= STRING_STYLE_LINK:format("s", L.SHORT_SAY, "%s"),
+	["CHAT_WHISPER_GET"]			= STRING_STYLE:format(L.SHORT_WHISPER, "%s"),
+	["CHAT_WHISPER_INFORM_GET"]		= STRING_STYLE:format(L.SHORT_WHISPER_INFORM, "%s"),
+	["CHAT_YELL_GET"]				= STRING_STYLE_LINK:format("y", L.SHORT_YELL, "%s"),
 }
-for k, v in pairs(CHAT_STRINGS) do
-	CHAT_STRINGS[k] = STRING_STYLE:format(v):gsub("%%%%", "%")
-end
 PhanxChat.newstrings = CHAT_STRINGS
+
+------------------------------------------------------------------------
 
 local CLASS_COLORS = {}
 
+------------------------------------------------------------------------
+
 PLAYER_STYLE = "|Hplayer:%s|h"..PLAYER_STYLE.."|h"
 
+------------------------------------------------------------------------
+
 URL_STYLE = "|Hurl:%s|h"..URL_STYLE.."|h"
+
+------------------------------------------------------------------------
 
 local TLD = { AC = true, AD = true, AE = true, AERO = true, AF = true, AG = true, AI = true, AL = true, AM = true, AN = true, AO = true, AQ = true, AR = true, ARPA = true, AS = true, ASIA = true, AT = true, AU = true, AW = true, AX = true, AZ = true, BA = true, BB = true, BD = true, BE = true, BF = true, BG = true, BH = true, BI = true, BIZ = true, BJ = true, BM = true, BN = true, BO = true, BR = true, BS = true, BT = true, BV = true, BW = true, BY = true, BZ = true, CA = true, CAT = true, CC = true, CD = true, CF = true, CG = true, CH = true, CI = true, CK = true, CL = true, CM = true, CN = true, CO = true, COM = true, COOP = true, CR = true, CU = true, CV = true, CX = true, CY = true, CZ = true, DE = true, DJ = true, DK = true, DM = true, DO = true, DZ = true, EC = true, EDU = true, EE = true, EG = true, ER = true, ES = true, ET = true, EU = true, FI = true, FJ = true, FK = true, FM = true, FO = true, FR = true, GA = true, GB = true, GD = true, GE = true, GF = true, GG = true, GH = true, GI = true, GL = true, GM = true, GN = true, GOV = true, GP = true, GQ = true, GR = true, GS = true, GT = true, GU = true, GW = true, GY = true, HK = true, HM = true, HN = true, HR = true, HT = true, HU = true, ID = true, IE = true, IL = true, IM = true, IN = true, INFO = true, INT = true, IO = true, IQ = true, IR = true, IS = true, IT = true, JE = true, JM = true, JO = true, JOBS = true, JP = true, KE = true, KG = true, KH = true, KI = true, KM = true, KN = true, KP = true, KR = true, KW = true, KY = true, KZ = true, LA = true, LB = true, LC = true, LI = true, LK = true, LR = true, LS = true, LT = true, LU = true, LV = true, LY = true, MA = true, MC = true, MD = true, ME = true, MG = true, MH = true, MIL = true, MK = true, ML = true, MM = true, MN = true, MO = true, MOBI = true, MP = true, MQ = true, MR = true, MS = true, MT = true, MU = true, MUSEUM = true, MV = true, MW = true, MX = true, MY = true, MZ = true, NA = true, NAME = true, NC = true, NE = true, NET = true, NF = true, NG = true, NI = true, NL = true, NO = true, NP = true, NR = true, NU = true, NZ = true, OM = true, ORG = true, PA = true, PE = true, PF = true, PG = true, PH = true, PK = true, PL = true, PM = true, PN = true, PR = true, PRO = true, PS = true, PT = true, PW = true, PY = true, QA = true, RE = true, RO = true, RS = true, RU = true, RW = true, SA = true, SB = true, SC = true, SD = true, SE = true, SG = true, SH = true, SI = true, SJ = true, SK = true, SL = true, SM = true, SN = true, SO = true, SR = true, ST = true, SU = true, SV = true, SY = true, SZ = true, TC = true, TD = true, TEL = true, TF = true, TG = true, TH = true, TJ = true, TK = true, TL = true, TM = true, TN = true, TO = true, TP = true, TR = true, TRAVEL = true, TT = true, TV = true, TW = true, TZ = true, UA = true, UG = true, UK = true, UM = true, US = true, UY = true, UZ = true, VA = true, VC = true, VE = true, VG = true, VI = true, VN = true, VU = true, WF = true, WS = true, YE = true, YT = true, YU = true, ZA = true, ZM = true, ZW = true, }
 
@@ -189,7 +257,7 @@ local function LinkURL(url)
 end
 
 local function LinkURLwithTLD(url, tld)
-	if TLD[tld] then
+	if TLD[upper(tld)] then
 		return URL_STYLE:format(url, url)
 	else
 		return url
@@ -198,50 +266,37 @@ end
 
 local URL_PATTERNS = {
 		-- X://Y url
---	{ "^(%a[%w+.-]+://%S+)", LinkURL },
+	{ "^(%a[%w+.-]+://%S+)", LinkURL },
 	{ "%f[%S](%a[%w+.-]+://%S+)", LinkURL },
 		-- www.X.Y url
---	{ "^(www%.[%w_-%%]+%.%S+)", LinkURL },
+	{ "^(www%.[%w_-%%]+%.%S+)", LinkURL },
 	{ "%f[%S](www%.[%w_-%%]+%.%S+)", LinkURL },
 		-- X@Y.Z email
-	{ "(%S+@[%w_.-%%]+%.(%a%a+))", LinkURL },
+	{ "(%S+@[%w_.-%%]+%.(%a%a+))", LinkURLwithTLD },
 		-- XXX.YYY.ZZZ.WWW:VVVV/UUUUU IPv4 address with port and path
---	{ "^([0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d:[0-6]?%d?%d?%d?%d/%S+)", LinkURL },
+	{ "^([0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d:[0-6]?%d?%d?%d?%d/%S+)", LinkURL },
 	{ "%f[%S]([0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d:[0-6]?%d?%d?%d?%d/%S+)", LinkURL },
 		-- XXX.YYY.ZZZ.WWW:VVVV IPv4 address with port (IP of ts server for example)
---	{ "^([0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d:[0-6]?%d?%d?%d?%d)%f[%D]", LinkURL },
+	{ "^([0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d:[0-6]?%d?%d?%d?%d)%f[%D]", LinkURL },
 	{ "%f[%S]([0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d:[0-6]?%d?%d?%d?%d)%f[%D]", LinkURL },
 		-- XXX.YYY.ZZZ.WWW/VVVVV IPv4 address with path
---	{ "^([0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d%/%S+)", LinkURL },
+	{ "^([0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d%/%S+)", LinkURL },
 	{ "%f[%S]([0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d%/%S+)", LinkURL },
 		-- XXX.YYY.ZZZ.WWW IPv4 address
---	{ "^([0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d%)%f[%D]", LinkURL },
+	{ "^([0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d%)%f[%D]", LinkURL },
 	{ "%f[%S]([0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d%)%f[%D]", LinkURL },
 		-- X.Y.Z:WWWW/VVVVV url with port and path
---	{ "^([%w_.-%%]+[%w_-%%]%.(%a%a+):[0-6]?%d?%d?%d?%d/%S+)", LinkURL },
-	{ "%f[%S]([%w_.-%%]+[%w_-%%]%.(%a%a+):[0-6]?%d?%d?%d?%d/%S+)", LinkURL },
+	{ "^([%w_.-%%]+[%w_-%%]%.(%a%a+):[0-6]?%d?%d?%d?%d/%S+)", LinkURLwithTLD },
+	{ "%f[%S]([%w_.-%%]+[%w_-%%]%.(%a%a+):[0-6]?%d?%d?%d?%d/%S+)", LinkURLwithTLD },
 		-- X.Y.Z:WWWW url with port (ts server for example)
---	{ "^([%w_.-%%]+[%w_-%%]%.(%a%a+):[0-6]?%d?%d?%d?%d)%f[%D]", LinkURLwithTLD },
+	{ "^([%w_.-%%]+[%w_-%%]%.(%a%a+):[0-6]?%d?%d?%d?%d)%f[%D]", LinkURLwithTLD },
 	{ "%f[%S]([%w_.-%%]+[%w_-%%]%.(%a%a+):[0-6]?%d?%d?%d?%d)%f[%D]", LinkURLwithTLD },
 		-- X.Y.Z/WWWWW url with path
---	{ "^([%w_.-%%]+[%w_-%%]%.(%a%a+)/%S+)", LinkURLwithTLD },
+	{ "^([%w_.-%%]+[%w_-%%]%.(%a%a+)/%S+)", LinkURLwithTLD },
 	{ "%f[%S]([%w_.-%%]+[%w_-%%]%.(%a%a+)/%S+)", LinkURLwithTLD },
 		-- X.Y.Z url
---	{ "^([%w_.-%%]+[%w_-%%]%.(%a%a+))", LinkURLwithTLD },
+	{ "^([%w_.-%%]+[%w_-%%]%.(%a%a+))", LinkURLwithTLD },
 	{ "%f[%S]([%w_.-%%]+[%w_-%%]%.(%a%a+))", LinkURLwithTLD },
---[[
-	{ "%f[%S](%a+://%S+)%f[%s]", "%1" }, -- X://Y
-	{ "%f[%S]([%a%d]+%S+%.%a%a%a?%a?)%f[%s]", "%1" }, -- X.Y
-	{ "%f[%S]([%a%d]+%S+%.%a%a%a?%a?[:/]%S+)%f[%s]", "%1" }, -- X.Y:1 or X.Y/Z
-	{ "%f[%S](%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?%:?%d*)%f[%D]", "%1" }, -- 1.2.3.4
-	{ "%f[%S]([%a%d%-%._]+@%S+%.%a%a%a?%a?)%f[%s]", "%1" }, -- X@Y
-
-	{ "%f[%S](%a+://%S+)", "%1" }, -- X://Y
-	{ "%f[%S](www%.[%w_%.%-]+%.%S+)", "%1" }, -- www.X.Y
-	{ "%f[%S]([0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d%.[0-2]?%d?%d:?%d-/?%S*)", "%1" }, -- A.B.C.D:N/X
-	{ "%f[%S]([%w_%.%-]+[%w_%-]%.%a%a[GgMmOoTtUuVv]?[Oo]?:?[0-6]?%d-/?%S*)", "%1" }, -- X.Y
-	{ "(%S+@[%w_%.%-]+%.%a+)", "%1" }, -- X@Y.Z
---]]
 }
 
 --[[--------------------------------------------------------------------
@@ -270,51 +325,25 @@ PhanxChat.eventsRepeat = {
 local NUM_HISTORY_LINES = 10
 local history = {}
 
-if select(4, GetBuildInfo()) >= 30100 then
-	-- WoW 3.1
-	function PhanxChat.SuppressRepeats(frame, event, message, sender, ...)
-		if type(message) ~= "string" then return end
-		if sender and sender ~= playerName then
-			if not history[frame] then
-				history[frame] = {}
-			end
-			local t = history[frame]
-			local v = string.lower(sender.." "..message)
-
-			if t[v] then return end
-
-			if #t == NUM_HISTORY_LINES then
-				local rem = table.remove(t, 1)
-				t[rem] = nil
-			end
-			table.insert(t, v)
-			t[v] = true
+function PhanxChat.SuppressRepeats(frame, event, message, sender, ...)
+	if type(message) ~= "string" then return end
+	if sender and sender ~= playerName then
+		if not history[frame] then
+			history[frame] = {}
 		end
-		return false, message, sender, ...
-	end
-else
-	-- WoW 3.0
-	function PhanxChat.SuppressRepeats(message)
-		if type(message) ~= "string" then return end
-		local sender = arg2
-		if sender and sender ~= playerName then
-			local frame = this
-			if not history[frame] then
-				history[frame] = {}
-			end
-			local t = history[frame]
-			local v = string.lower(sender.." "..message)
+		local t = history[frame]
+		local v = string.lower(sender.." "..message)
 
-			if t[v] then return end
+		if t[v] then return end
 
-			if #t == NUM_HISTORY_LINES then
-				local rem = table.remove(t, 1)
-				t[rem] = nil
-			end
-			table.insert(t, v)
-			t[v] = true
+		if #t == NUM_HISTORY_LINES then
+			local rem = table.remove(t, 1)
+			t[rem] = nil
 		end
+		table.insert(t, v)
+		t[v] = true
 	end
+	return false, message, sender, ...
 end
 
 --[[--------------------------------------------------------------------
@@ -352,26 +381,32 @@ local noURL = {
 
 function PhanxChat.AddMessage(frame, text, r, g, b, id)
 	if formatEvents[event] then
+
 		if db.names then
-			name = event ~= "CHAT_MSG_SYSTEM" and arg2 or text:match(".*|h%[(.-)%]|h.*")
+			local name = event ~= "CHAT_MSG_SYSTEM" and arg2 or text:match("|Hplayer:(.-)[:|]")
 			if name then
-				text = text:gsub( "|Hplayer:(.-)|h%[.-%]|h", PLAYER_STYLE:format( "%1", names[name] or COLOR_UNKNOWN and "|cff"..COLOR_UNKNOWN..name.."|r" or name ) )
+				if event == "CHAT_MSG_GUILD_ACHIEVEMENT" then
+					text = text:gsub("|Hplayer:(.-)|h%[.-%](.-)|h", format("|Hplayer:%s|h%s%s|h", "%1", names[name] or format("|cff%s%s|r", COLOR_UNKNOWN, name), "%2"), 1)
+				else
+					text = text:gsub("|Hplayer:(.-)|h%[.-%]|h", format("|Hplayer:%s|h%s|h", "%1", names[name] or format("|cff%s%s|r", COLOR_UNKNOWN, name)), 1)
+				end
 			end
 		end
-		if event == "CHAT_MSG_CHANNEL" and db.channels then
+
+		if db.channels and event == "CHAT_MSG_CHANNEL" then
 			text = text:gsub( "%[%d+%.%s?[^%]%-]+%]%s?", CHANNEL_STYLE:gsub("%%1", arg8, 1):gsub("%%2", channels[arg8], 1), 1 )
 		end
+
 		if db.urls and not noURL[event] then
-			text = text.." "
 			for i, v in ipairs(URL_PATTERNS) do
-				local newtext = text:gsub(v[1], URL_STYLE:format("%1", "%1"))
+				local newtext = text:gsub(v[1], v[2])
 				if newtext ~= text then
 					text = newtext
 					break
 				end
 			end
-			text = text:gsub("^ ", "", 1)
 		end
+
 	end
 	hooks[frame].AddMessage(frame, text, r, g, b, id)
 end
@@ -380,11 +415,11 @@ end
 	Buttons
 ----------------------------------------------------------------------]]
 
-local function hide()
+local function hide(this)
 	this:Hide()
 end
 
-local function scroll()
+local function scroll(this, arg1)
 	if arg1 > 0 then
 		if IsShiftKeyDown() then
 			this:ScrollToTop()
@@ -613,11 +648,9 @@ function PhanxChat:GUILD_ROSTER_UPDATE()
 end
 
 function PhanxChat:LFG_UPDATE()
-	local type = UIDropDownMenu_GetSelectedID(LFMFrameTypeDropDown)
-	local name = UIDropDownMenu_GetSelectedID(LFMFrameNameDropDown)
-	for i = 1, select(1, GetNumLFGResults(selectedLFMType, selectedLFMName)) do
-		local name, _, _, _, _, _, _, _, _, _, class = GetLFGResults(selectedLFMType, selectedLFMName, resultIndex)
-		if name then
+	for i = 1, GetNumLFGResultsProxy() do
+		local name, _, _, _, _, _, _, _, _, _, class = GetLFGResultsProxy(i)
+		if name and class then
 			self:RegisterName(name, class)
 		end
 	end
@@ -690,51 +723,42 @@ end
 	URL Copy
 ----------------------------------------------------------------------]]
 
-local function URLCopyDialog_Show(link)
-	currentLink = link
-	StaticPopup_Show("URL_COPY_DIALOG")
-end
-
-local function URLCopyDialog_OnShow()
-	local frame = _G[this:GetName().."WideEditBox"]
-	if frame then
-		frame:SetText(currentLink)
-		frame:SetFocus()
-		frame:HighlightText(0)
-	end
-	local button = _G[this:GetName().."Button2"]
-	if button then
-		button:ClearAllPoints()
-		button:SetWidth(200)
-		button:SetPoint("CENTER", frame, "CENTER", 0, -30)
-	end
-	local icon = _G[this:GetName().."AlertIcon"]
-	if icon then
-		icon:Hide()
-	end
-end
-
-local function URLCopyDialog_OnHide()
-	this:GetParent():Hide()
-end
-
 StaticPopupDialogs.URL_COPY_DIALOG = {
 	text = "URL",
 	button2 = TEXT(CLOSE),
 	hasEditBox = 1,
 	hasWideEditBox = 1,
+	hideOnEscape = 1,
 	showAlert = 1,
-	OnShow = URLCopyDialog_OnShow,
-	EditBoxOnEscapePressed = URLCopyDialog_OnHide,
 	timeout = 0,
 	whileDead = 1,
-	hideOnEscape = 1,
+	OnShow = function(self)
+		local frame = _G[self:GetName().."WideEditBox"]
+		if frame then
+			frame:SetText(currentLink)
+			frame:SetFocus()
+			frame:HighlightText(0)
+		end
+		local button = _G[self:GetName().."Button2"]
+		if button then
+			button:ClearAllPoints()
+			button:SetWidth(200)
+			button:SetPoint("CENTER", frame, "CENTER", 0, -30)
+		end
+		local icon = _G[self:GetName().."AlertIcon"]
+		if icon then
+			icon:Hide()
+		end
+	end,
+	EditBoxOnEscapePressed = function(self)
+		self:GetParent():Hide()
+	end,
 }
 
 function PhanxChat.SetItemRef(link, ...)
 	if link:sub(1, 3) == "url" then
-		URLCopyDialog_Show(link:sub(5))
-		return
+		currentLink = link:sub(5)
+		return StaticPopup_Show("URL_COPY_DIALOG")
 	end
 	hooks.SetItemRef(link, ...)
 end
@@ -743,66 +767,56 @@ end
 	Initialize
 ----------------------------------------------------------------------]]
 
-local defaults = {
-	buttons = true,
-	channels = true,
-	edit = {
-		arrows = true,
-		move = true,
-	},
-	fade = 5,
-	flash = true,
-	names = true,
-	log = false,
-	scroll = true,
-	sticky = true,
-	suppress = {
-		channels = true,
-		repeats = true,
-	},
-	tabs = true,
-	urls = true,
-	version = PhanxChat.version,
-}
+function PhanxChat:ADDON_LOADED(addon)
+	if addon ~= "PhanxChat" then return end
 
-function PhanxChat:VARIABLES_LOADED()
-	if not PhanxChatDB then
-		-- Debug("Initializing new settings")
-		PhanxChatDB = defaults
-		db = PhanxChatDB
-	else
-		db = PhanxChatDB
-		if not db.version or type(db.version) ~= "number" then
-			-- really ancient!
-			db.version = 0
-		end
-		if db.version ~= self.version then
-			-- Debug("Upgrading old settings")
-			for k, v in pairs(defaults) do
-				if db[k] == nil or type(db[k]) ~= type(defaults[k]) then
-					db[k] = v
-				end
-			end
-			db.version = self.version
+	self.defaults = {
+		buttons = true,
+		channels = true,
+		edit = {
+			arrows = true,
+			move = true,
+		},
+		fade = 5,
+		flash = true,
+		names = true,
+		log = false,
+		scroll = true,
+		sticky = true,
+		suppress = {
+			channels = true,
+			repeats = true,
+		},
+		tabs = true,
+		urls = true,
+	}
+
+
+	if not PhanxChatDB then PhanxChatDB = { } end
+	db = PhanxChatDB
+
+	for k, v in pairs(self.defaults) do
+		if type(db[k]) ~= type(v) then
+			db[k] = v
 		end
 	end
 
 	if CUSTOM_CLASS_COLORS then
 		for k, v in pairs(CUSTOM_CLASS_COLORS) do
-			CLASS_COLORS[k] = string.format("%02x%02x%02x", v.r * 255, v.g * 255, v.b * 255)
+			CLASS_COLORS[k] = format("%02x%02x%02x", v.r * 255, v.g * 255, v.b * 255)
 		end
 		CUSTOM_CLASS_COLORS:RegisterCallback(function()
 			for k, v in pairs(CUSTOM_CLASS_COLORS) do
-				CLASS_COLORS[k] = string.format("%02x%02x%02x", v.r * 255, v.g * 255, v.b * 255)
+				CLASS_COLORS[k] = format("%02x%02x%02x", v.r * 255, v.g * 255, v.b * 255)
 			end
 			for name, class in pairs(classes) do
 				names[name] = nil
-				PhanxChat:RegisterName(name, class)
+				self:RegisterName(name, class)
 			end
 		end)
 	else
 		for k, v in pairs(RAID_CLASS_COLORS) do
-			CLASS_COLORS[k] = string.format("%02x%02x%02x", v.r * 255, v.g * 255, v.b * 255)
+			CLASS_COLORS[k] = format("%02x%02x%02x", v.r * 255, v.g * 255, v.b * 255)
 		end
 	end
 
@@ -863,8 +877,8 @@ function PhanxChat:VARIABLES_LOADED()
 
 	if db.channels then
 		for k, v in pairs(CHAT_STRINGS) do
-			oldstrings[k] = _G["CHAT_"..k.."_GET"]
-			_G["CHAT_"..k.."_GET"] = v
+			oldstrings[k] = _G[k]
+			_G[k] = v
 		end
 		hooksecurefunc("ChatEdit_UpdateHeader", self.ChatEdit_UpdateHeader)
 
@@ -983,6 +997,6 @@ PhanxChat:SetScript("OnEvent", function(self, event, ...)
 	end
 end)
 
-PhanxChat:RegisterEvent("VARIABLES_LOADED")
+PhanxChat:RegisterEvent("ADDON_LOADED")
 
 ------------------------------------------------------------------------
