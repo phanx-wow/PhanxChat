@@ -415,10 +415,16 @@ Options:SetScript("OnShow", function(self)
 		PlaySound(checked and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
 
 		if checked then
+			for event in pairs(PhanxChat.urlEvents) do
+				ChatFrame_AddMessageEventFilter(event, PhanxChat.LinkURLs)
+			end
 			PhanxChat.hooks.SetItemRef = SetItemRef
 			SetItemRef = PhanxChat.SetItemRef
 			db.urls = true
 		else
+			for event in pairs(PhanxChat.urlEvents) do
+				ChatFrame_RemoveMessageEventFilter(event, PhanxChat.LinkURLs)
+			end
 			SetItemRef = PhanxChat.hooks.SetItemRef
 			PhanxChat.hooks.SetItemRef = nil
 			db.urls = false
