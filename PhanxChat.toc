@@ -9,6 +9,9 @@
 ## X-License: Do not redistribute. See README for complete license terms.
 ## X-Website: http://www.wowinterface.com/downloads/info8243-PhanxChat.html
 
+## X-CompatibleLocales: enUS, deDE, esES, esMX, frFR, koKR, ruRU, zhCN, zhTW
+## X-Localizations: enUS, deDE, frFR, koKR, ruRU, zhCN, zhTW
+
 ## Author: Phanx
 ## X-Email: addons@phanx.net
 
