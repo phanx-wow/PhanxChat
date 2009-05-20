@@ -45,6 +45,7 @@ local L = {
 
 -- Translating these strings is optional, but recommended. These strings
 -- are shown in the configuration GUI.
+
 L["Hide buttons"] = "버튼 숨기기"
 L["Hide the scroll-up, scroll-down, scroll-to-bottom, and menu buttons next to the chat frame."] = "스크롤 버튼을 숨깁니다."
  
