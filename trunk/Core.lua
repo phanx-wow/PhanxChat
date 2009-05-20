@@ -244,11 +244,9 @@ local CLASS_COLORS = {}
 
 ------------------------------------------------------------------------
 
-PLAYER_STYLE = "|Hplayer:%s|h"..PLAYER_STYLE.."|h"
+PLAYER_STYLE	= "|Hplayer:%s|h" .. PLAYER_STYLE .. "%s|h"
 
-------------------------------------------------------------------------
-
-URL_STYLE = "|Hurl:%s|h"..URL_STYLE.."|h"
+URL_STYLE		= "|Hurl:%s|h" .. URL_STYLE .. "|h"
 
 --[[--------------------------------------------------------------------
 	Suppress channel notices
@@ -328,11 +326,11 @@ function PhanxChat.AddMessage(frame, text, r, g, b, id)
 		if db.names then
 			local name = event ~= "CHAT_MSG_SYSTEM" and arg2 or text:match("|Hplayer:(.-)[:|]")
 			if name then
-				if event == "CHAT_MSG_GUILD_ACHIEVEMENT" then
-					text = text:gsub("|Hplayer:(.-)|h%[.-%](.-)|h", format("|Hplayer:%s|h%s%s|h", "%1", names[name] or format("|cff%s%s|r", COLOR_UNKNOWN, name), "%2"), 1)
-				else
-					text = text:gsub("|Hplayer:(.-)|h%[.-%]|h", format("|Hplayer:%s|h%s|h", "%1", names[name] or format("|cff%s%s|r", COLOR_UNKNOWN, name)), 1)
-				end
+			--	if event == "CHAT_MSG_GUILD_ACHIEVEMENT" then
+					text = text:gsub("|Hplayer:(.-)|h%[.-%](.-)|h", format(PLAYER_STYLE, "%1", names[name] or format("|cff%s%s|r", COLOR_UNKNOWN, name), "%2"), 1)
+			--	else
+			--		text = text:gsub("|Hplayer:(.-)|h%[.-%]|h", format("|Hplayer:%s|h%s|h", "%1", names[name] or format("|cff%s%s|r", COLOR_UNKNOWN, name)), 1)
+			--	end
 			end
 		end
 		if db.channels and event == "CHAT_MSG_CHANNEL" then
