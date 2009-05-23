@@ -81,7 +81,7 @@ local blacklist = {
 }
 --	Quick hack to blacklist specific frames on all my characters without
 --	having to include a big table listing them. Disregard! :)
-if GetAddOnInfo("PhanxMod") then
+if not select(6, GetAddOnInfo("PhanxMod")) then
 	blacklist["*"][ChatFrame3] = true 	-- Loot
 	blacklist["*"][ChatFrame7] = true 	-- Debug
 end
