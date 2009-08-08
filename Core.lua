@@ -121,6 +121,7 @@ local L = PHANXCHAT_LOCALS or {
 
 	That's all, folks!
 	Nothing past this line is intended to be user-configurable.
+	Proceed at your own risk.
 
 ----------------------------------------------------------------------]]
 
@@ -319,22 +320,33 @@ local formatEvents = {
 	CHAT_MSG_DND = true,
 	CHAT_MSG_GUILD_ACHIEVEMENT = true,
 	CHAT_MSG_SYSTEM = true,
+	CHAT_MSG_CHANNEL_JOIN = true,
+	CHAT_MSG_CHANNEL_LEAVE = true,
+	CHAT_MSG_CHANNEL_NOTICE = true,
+	CHAT_MSG_CHANNEL_NOTICE_USER = true,
+}
+
+local colorEvents = {
+	CHAT_MSG_SYSTEM = true,
+	CHAT_MSG_CHANNEL_JOIN = true,
+	CHAT_MSG_CHANNEL_LEAVE = true,
+	CHAT_MSG_CHANNEL_NOTICE = true,
+	CHAT_MSG_CHANNEL_NOTICE_USER = true,
+	CHAT_MSG_GUILD_ACHIEVEMENT = true,
 }
 
 function PhanxChat.AddMessage(frame, text, r, g, b, id)
 	if formatEvents[event] then
-		if db.names then
-			local name = event ~= "CHAT_MSG_SYSTEM" and arg2 or text:match("|Hplayer:(.-)[:|]")
-			if name then
-			--	if event == "CHAT_MSG_GUILD_ACHIEVEMENT" then
-					text = text:gsub("|Hplayer:(.-)|h%[.-%](.-)|h", format(PLAYER_STYLE, "%1", names[name] or format("|cff%s%s|r", COLOR_UNKNOWN, name), "%2"), 1)
-			--	else
-			--		text = text:gsub("|Hplayer:(.-)|h%[.-%]|h", format("|Hplayer:%s|h%s|h", "%1", names[name] or format("|cff%s%s|r", COLOR_UNKNOWN, name)), 1)
-			--	end
+		local name = event ~= "CHAT_MSG_SYSTEM" and arg2 or text:match("|Hplayer:(.-)[:|]")
+		if name then
+			if db.names and colorEvents[event] then
+				text = text:gsub("|Hplayer:(.-)|h%[.-%](.-)|h", format(PLAYER_STYLE, "%1", names[name] or format("|cff%s%s|r", COLOR_UNKNOWN, name), "%2"), 1)
+			else
+				text = text:gsub("|Hplayer:(.-)|h%[(.-)%](.-)|h", format(PLAYER_STYLE, "%1", "%2", "%3"), 1)
 			end
 		end
 		if db.channels and event == "CHAT_MSG_CHANNEL" then
-			text = text:gsub( "%[%d+%.%s?[^%]%-]+%]%s?", CHANNEL_STYLE:gsub("%%1", arg8, 1):gsub("%%2", channels[arg8], 1), 1 )
+			text = text:gsub("%[%d+%.%s?[^%]%-]+%]%s?", CHANNEL_STYLE:gsub("%%1", arg8, 1):gsub("%%2", channels[arg8], 1), 1)
 		end
 	end
 	hooks[frame].AddMessage(frame, text, r, g, b, id)
@@ -549,6 +561,17 @@ function PhanxChat:RegisterName(name, class)
 	end
 end
 
+function PhanxChat.GetColoredName(_, _, name, _, _, _, _, _, _, _, _, _, guid)
+	if not name or guid == "" then return end
+	if not db.names then return end
+	if names[name] then return end
+
+	local _, englishClass = GetPlayerInfoByGUID(guid)
+	if englishClass then
+		PhanxChat:RegisterName(name, englishClass)
+	end
+end
+
 function PhanxChat:FRIENDLIST_UPDATE()
 	local name, class
 	for i = 1, GetNumFriends() do
@@ -584,7 +607,8 @@ function PhanxChat:LFG_UPDATE()
 		end
 	end
 end
-
+PhanxChat.UPDATE_LFG_LIST = PhanxChat.LFG_UPDATE
+PhanxChat.UPDATE_LFG_TYPES = PhanxChat.LFG_UPDATE
 PhanxChat.MEETINGSTONE_UPDATE = PhanxChat.LFG_UPDATE
 
 function PhanxChat:PARTY_MEMBERS_CHANGED()
@@ -926,6 +950,8 @@ function PhanxChat:ADDON_LOADED(addon)
 	end
 
 	if db.names then
+		hooksecurefunc("GetColoredName", self.GetColoredName)
+
 		self:RegisterEvent("FRIENDLIST_UPDATE")
 		self:RegisterEvent("PLAYER_GUILD_UPDATE") -- workaround for people who don't get guild info immediately
 		self:RegisterEvent("GUILD_ROSTER_UPDATE")
@@ -935,6 +961,11 @@ function PhanxChat:ADDON_LOADED(addon)
 		self:RegisterEvent("PLAYER_TARGET_CHANGED")
 		self:RegisterEvent("WHO_LIST_UPDATE")
 		self:RegisterEvent("CHAT_MSG_SYSTEM")
+
+		self:RegisterEvent("LFG_UPDATE")
+		self:RegisterEvent("MEETINGSTONE_CHANGED")
+		self:RegisterEvent("UPDATE_LFG_LIST")
+		self:RegisterEvent("UPDATE_LFG_TYPES")
 
 		self:RegisterName(UnitName("player"), select(2, UnitClass("player")))
 

@@ -1,5 +1,5 @@
-## Interface: 30100
-## Version: 3.1.1.wowi:revision-beta
+## Interface: 30200
+## Version: 3.2.0.wowi:revision-beta
 
 ## Title: PhanxChat
 ## Notes: Make your chat frames less cluttered and more user-friendly.
