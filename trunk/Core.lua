@@ -302,37 +302,39 @@ end
 ----------------------------------------------------------------------]]
 
 local formatEvents = {
+	CHAT_MSG_ACHIEVEMENT = true,
+	CHAT_MSG_AFK = true,
 	CHAT_MSG_BATTLEGROUND = true,
 	CHAT_MSG_BATTLEGROUND_LEADER = true,
 	CHAT_MSG_CHANNEL = true,
+	CHAT_MSG_CHANNEL_JOIN = true,
+	CHAT_MSG_CHANNEL_LEAVE = true,
+	CHAT_MSG_CHANNEL_NOTICE = true,
+	CHAT_MSG_CHANNEL_NOTICE_USER = true,
+	CHAT_MSG_DND = true,
 	CHAT_MSG_GUILD = true,
+	CHAT_MSG_GUILD_ACHIEVEMENT = true,
 	CHAT_MSG_OFFICER = true,
 	CHAT_MSG_PARTY = true,
 	CHAT_MSG_RAID = true,
 	CHAT_MSG_RAID_LEADER = true,
 	CHAT_MSG_RAID_WARNING = true,
 	CHAT_MSG_SAY = true,
+	CHAT_MSG_SYSTEM = true,
 	CHAT_MSG_WHISPER = true,
 	CHAT_MSG_WHISPER_INFORM = true,
 	CHAT_MSG_YELL = true,
-	CHAT_MSG_ACHIEVEMENT = true,
-	CHAT_MSG_AFK = true,
-	CHAT_MSG_DND = true,
-	CHAT_MSG_GUILD_ACHIEVEMENT = true,
-	CHAT_MSG_SYSTEM = true,
-	CHAT_MSG_CHANNEL_JOIN = true,
-	CHAT_MSG_CHANNEL_LEAVE = true,
-	CHAT_MSG_CHANNEL_NOTICE = true,
-	CHAT_MSG_CHANNEL_NOTICE_USER = true,
 }
 
 local colorEvents = {
-	CHAT_MSG_SYSTEM = true,
+	CHAT_MSG_AFK = true,
+	CHAT_MSG_DND = true,
 	CHAT_MSG_CHANNEL_JOIN = true,
 	CHAT_MSG_CHANNEL_LEAVE = true,
 	CHAT_MSG_CHANNEL_NOTICE = true,
 	CHAT_MSG_CHANNEL_NOTICE_USER = true,
 	CHAT_MSG_GUILD_ACHIEVEMENT = true,
+	CHAT_MSG_SYSTEM = true,
 }
 
 function PhanxChat.AddMessage(frame, text, r, g, b, id)
@@ -437,128 +439,21 @@ end
 	Non-English class names copied from LibBabble-Class-3.0
 ----------------------------------------------------------------------]]
 
-local englishClass
-if GetLocale() == "deDE" then englishClass = {
-	["Todesritter"] = "DEATHKNIGHT",
-	["Druide"] = "DRUID",
-	["Druidin"] = "DRUID",
-	["Jäger"] = "HUNTER",
-	["Jägerin"] = "HUNTER",
-	["Magier"] = "MAGE",
-	["Magierin"] = "MAGE",
-	["Paladin"] = "PALADIN",
-	["Priester"] = "PRIEST",
-	["Priesterin"] = "PRIEST",
-	["Schurke"] = "ROGUE",
-	["Schurkin"] = "ROGUE",
-	["Schamane"] = "SHAMAN",
-	["Schamanin"] = "SHAMAN",
-	["Hexenmeister"] = "WARLOCK",
-	["Hexenmeisterin"] = "WARLOCK",
-	["Krieger"] = "WARRIOR",
-	["Kriegerin"] = "WARRIOR",
-} elseif GetLocale() == "esES" then englishClass = {
-	["Caballero de la muerte"] = "DEATHKNIGHT",
-	["Druida"] = "DRUID",
-	["Cazador"] = "HUNTER",
-	["Cazadora"] = "HUNTER",
-	["Mago"] = "MAGE",
-	["Maga"] = "MAGE",
-	["Paladín"] = "PALADIN",
-	["Sacerdote"] = "PRIEST",
-	["Sacerdotisa"] = "PRIEST",
-	["Pícaro"] = "ROGUE",
-	["Pícara"] = "ROGUE",
-	["Chamán"] = "SHAMAN",
-	["Brujo"] = "WARLOCK",
-	["Bruja"] = "WARLOCK",
-	["Guerrero"] = "WARRIOR",
-	["Guerrera"] = "WARRIOR",
-} elseif GetLocale() == "frFR" then englishClass = {
-	["Chevalier de la mort"] = "DEATHKNIGHT",
-	["Druide"] = "DRUID",
-	["Druidesse"] = "DRUID",
-	["Chasseur"] = "HUNTER",
-	["Chasseresse"] = "HUNTER",
-	["Mage"] = "MAGE", 
-	["Paladin"] = "PALADIN", 
-	["Prêtre"] = "PRIEST",
-	["Prêtresse"] = "PRIEST",
-	["Voleur"] = "ROGUE",
-	["Voleuse"] = "ROGUE",
-	["Chaman"] = "SHAMAN",
-	["Chamane"] = "SHAMAN",
-	["Démoniste"] = "WARLOCK",
-	["Guerrier"] = "WARRIOR",
-	["Guerrière"] = "WARRIOR",
-} elseif GetLocale() == "koKR" then englishClass = {
-	["죽음의 기사"] = "DEATHKNIGHT",
-	["드루이드"] = "DRUID", 
-	["사냥꾼"] = "HUNTER", 
-	["마법사"] = "MAGE", 
-	["성기사"] = "PALADIN", 
-	["사제"] = "PRIEST", 
-	["도적"] = "ROGUE", 
-	["주술사"] = "SHAMAN", 
-	["흑마법사"] = "WARLOCK",
-	["전사"] = "WARRIOR",
-} elseif GetLocale() == "ruRU" then englishClass = {
-	["Рыцарь Смерти"] = "DEATHKNIGHT",
-	["Друид"] = "DRUID",
-	["Охотник"] = "HUNTER",
-	["Охотница"] = "HUNTER",
-	["Маг"] = "MAGE",
-	["Паладин"] = "PALADIN",
-	["Жрец"] = "PRIEST",
-	["Жрица"] = "PRIEST",
-	["Разбойник"] = "ROGUE",
-	["Разбойница"] = "ROGUE",
-	["Шаман"] = "SHAMAN",
-	["Шаманка"] = "SHAMAN",
-	["Чернокнижник"] = "WARLOCK",
-	["Чернокнижница"] = "WARLOCK",
-	["Воин"] = "WARRIOR",
-} elseif GetLocale() == "zhCN" then englishClass = {
-	["死亡骑士"] = "DEATHKNIGHT",
-	["德鲁伊"] = "DRUID",
-	["猎人"] = "HUNTER",
-	["法师"] = "MAGE",
-	["圣骑士"] = "PALADIN",
-	["牧师"] = "PRIEST",
-	["萨满祭司"] = "SHAMAN",
-	["潜行者"] = "ROGUE",
-	["术士"] = "WARLOCK",
-	["战士"] = "WARRIOR",
-} elseif GetLocale() == "zhTW" then englishClass = {
-	["死亡騎士"] = "DEATHKNIGHT",
-	["德魯伊"] = "DRUID",
-	["獵人"] = "HUNTER",
-	["法師"] = "MAGE",
-	["聖騎士"] = "PALADIN",
-	["牧師"] = "PRIEST",
-	["盜賊"] = "ROGUE",
-	["薩滿"] = "SHAMAN",
-	["術士"] = "WARLOCK",
-	["戰士"] = "WARRIOR",
-} end
+local classToken = { }
+do
+	local t = { }
+	FillLocalizedClassList(t, false)
+	FillLocalizedClassList(t, true)
+	for k, v in pairs(t) do
+		classToken[v] = k
+	end
+end
 
 function PhanxChat:RegisterName(name, class)
-	if not name or not class or names[name] then return end
-	if englishClass and englishClass[class] then
-		class = englishClass[class]
-		if class then
-			classes[name] = class
-			names[name] = "|cff" .. CLASS_COLORS[class] .. name .. "|r"
-		--	Print("PhanxChat > RegisterName " .. name .. " " .. class)
-		end
-	else
-		class = class:upper():gsub(" ", "", 1)
-		if CLASS_COLORS[class] then
-			classes[name] = class
-			names[name] = "|cff" .. CLASS_COLORS[class] .. name .. "|r"
-		--	Print("PhanxChat > RegisterName " .. name .. " " .. class)
-		end
-	end
+	if not name or not class or not classToken[class] or names[name] then return end
+	local token = classToken[class]
+	classes[class] = token
+	names[name] = format("|cff%s%s|r", CLASS_COLORS[token], name)
 end
 
 function PhanxChat.GetColoredName(_, _, name, _, _, _, _, _, _, _, _, _, guid)
