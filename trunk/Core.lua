@@ -457,7 +457,7 @@ function PhanxChat:RegisterName(name, class)
 end
 
 function PhanxChat.GetColoredName(_, _, name, _, _, _, _, _, _, _, _, _, guid)
-	if not name or guid == "" then return end
+	if not name or not guid or guid == "" then return end
 	if not db.names then return end
 	if names[name] then return end
 
