@@ -333,7 +333,6 @@ local colorEvents = {
 	CHAT_MSG_CHANNEL_LEAVE = true,
 	CHAT_MSG_CHANNEL_NOTICE = true,
 	CHAT_MSG_CHANNEL_NOTICE_USER = true,
-	CHAT_MSG_GUILD_ACHIEVEMENT = true,
 	CHAT_MSG_SYSTEM = true,
 }
 
@@ -342,7 +341,7 @@ function PhanxChat.AddMessage(frame, text, r, g, b, id)
 		local name = event ~= "CHAT_MSG_SYSTEM" and arg2 or text:match("|Hplayer:(.-)[:|]")
 		if name then
 			if db.names and colorEvents[event] then
-				text = text:gsub("|Hplayer:(.-)|h%[.-%](.-)|h", format(PLAYER_STYLE, "%1", names[name] or format("|cff%s%s|r", COLOR_UNKNOWN, name), "%2"), 1)
+				text = text:gsub("|Hplayer:(.-)|h%[.-%](.-)|h", format(PLAYER_STYLE, "%1", names[name] or COLOR_UNKNOWN and format("|cff%s%s|r", COLOR_UNKNOWN, name) or name, "%2"), 1)
 			else
 				text = text:gsub("|Hplayer:(.-)|h%[(.-)%](.-)|h", format(PLAYER_STYLE, "%1", "%2", "%3"), 1)
 			end
