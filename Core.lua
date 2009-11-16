@@ -494,6 +494,8 @@ function PhanxChat:GUILD_ROSTER_UPDATE()
 end
 
 function PhanxChat:LFG_UPDATE()
+	if not GetNumLFGResultsProxy then return end
+
 	for i = 1, GetNumLFGResultsProxy() do
 		local name, _, _, _, _, _, _, _, _, _, class = GetLFGResultsProxy(i)
 		if name and class then
