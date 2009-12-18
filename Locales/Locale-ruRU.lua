@@ -1,46 +1,46 @@
 --[[--------------------------------------------------------------------
 	Russian translations for PhanxChat
-	Last updated yyyy-mm-dd by Valle of Warsong
+	Last updated YYYY-MM-DD by Valle of Warsong
 	Contributors:
 		Valle of Warsong
 ----------------------------------------------------------------------]]
 
 if GetLocale() ~= "ruRU" then return end
+local L = { }
 
-local L = {
 -- Translating these strings is required for the addon to function in
 -- this locale. These strings are used to detect server channel names.
 
-	CHANNEL_GENERAL			= "Общий",
-	CHANNEL_TRADE				= "Торговля",
-	CHANNEL_LOCALDEFENSE		= "Оборона: локальный",
-	CHANNEL_WORLDDEFENSE		= "Оборона: глобальный",
-	CHANNEL_LOOKINGFORGROUP		= "Поис спутников",
-	CHANNEL_GUILDRECRUITMENT		= "Набор в гильдии",
+L.CHANNEL_GENERAL           = "Общий"
+L.CHANNEL_TRADE             = "Торговля"
+L.CHANNEL_LOCALDEFENSE      = "Оборона: локальный"
+L.CHANNEL_WORLDDEFENSE      = "Оборона: глобальный"
+L.CHANNEL_LOOKINGFORGROUP   = "Поис спутников"
+L.CHANNEL_GUILDRECRUITMENT  = "Набор в гильдии"
 
 -- Translating these strings is optional, but highly recommended. These
 -- strings are displayed if the user has "short channel names" enabled.
 
-	SHORT_GENERAL 				= "О",
-	SHORT_TRADE 				= "Т",
-	SHORT_LOCALDEFENSE 			= "ЛО",
-	SHORT_WORLDDEFENSE 			= "МО",
-	SHORT_LOOKINGFORGROUP		= "ЛФГ",
-	SHORT_GUILDRECRUITMENT		= "НвГ",
+L.SHORT_GENERAL             = "О"
+L.SHORT_TRADE               = "Т"
+L.SHORT_LOCALDEFENSE        = "ЛО"
+L.SHORT_WORLDDEFENSE        = "МО"
+L.SHORT_LOOKINGFORGROUP     = "ЛФГ"
+L.SHORT_GUILDRECRUITMENT    = "НвГ"
 
-	SHORT_SAY 				= "С",
-	SHORT_YELL 				= "К",
-	SHORT_GUILD 				= "Г",
-	SHORT_OFFICER 				= "Оф",
-	SHORT_PARTY 				= "Гр",
-	SHORT_RAID 				= "Р",
-	SHORT_RAID_LEADER 			= "РЛ",
-	SHORT_RAID_WARNING 			= "РВ",
-	SHORT_BATTLEGROUND 			= "ПБ",
-	SHORT_BATTLEGROUND_LEADER 	= "ЛПБ",
-	SHORT_WHISPER 				= "Ш",
-	SHORT_WHISPER_INFORM 		= "Ш",
-}
+L.SHORT_SAY                 = "С"
+L.SHORT_YELL                = "К"
+L.SHORT_GUILD               = "Г"
+L.SHORT_OFFICER             = "Оф"
+L.SHORT_PARTY               = "Гр"
+L.SHORT_PARTY_LEADER        = "ГрЛ"
+L.SHORT_RAID                = "Р"
+L.SHORT_RAID_LEADER         = "РЛ"
+L.SHORT_RAID_WARNING        = "РВ"
+L.SHORT_BATTLEGROUND        = "ПБ"
+L.SHORT_BATTLEGROUND_LEADER = "ЛПБ"
+L.SHORT_WHISPER             = "Ш"
+L.SHORT_WHISPER_INFORM      = "Ш"
 
 -- Translating these strings is optional, but recommended. These strings
 -- are shown in the configuration GUI.
@@ -92,4 +92,5 @@ L["Turn URLs in chat messages into clickable links for easy copying."] = "Кли
 
 -- Don't touch this.
 
-PHANXCHAT_LOCALS = L
+local _, namespace = ...
+namespace.L = L

@@ -96,13 +96,16 @@ local customchannels = {
 --	If you play in another locale, you will need to change these in the
 --	appropriate locale file instead.
 --
-local L = PHANXCHAT_LOCALS or {
+local _, namepsace = ...
+
+if not namespace.L then namespace.L = {
 	SHORT_SAY					= "s",
-	SHORT_YELL				= "y",
-	SHORT_GUILD				= "g",
+	SHORT_YELL					= "y",
+	SHORT_GUILD					= "g",
 	SHORT_OFFICER				= "o",
-	SHORT_PARTY				= "p",
-	SHORT_RAID				= "r",
+	SHORT_PARTY					= "p",
+	SHORT_PARTY_LEADER			= "P",
+	SHORT_RAID					= "r",
 	SHORT_RAID_LEADER			= "R",
 	SHORT_RAID_WARNING			= "R",
 	SHORT_BATTLEGROUND			= "b",
@@ -111,7 +114,7 @@ local L = PHANXCHAT_LOCALS or {
 	SHORT_WHISPER_INFORM		= "T",
 
 	SHORT_GENERAL				= "G",
-	SHORT_TRADE				= "T",
+	SHORT_TRADE					= "T",
 	SHORT_LOCALDEFENSE			= "D",
 	SHORT_WORLDDEFENSE			= "D",
 	SHORT_LOOKINGFORGROUP		= "L",
@@ -125,15 +128,18 @@ local L = PHANXCHAT_LOCALS or {
 
 ----------------------------------------------------------------------]]
 
-	CHANNEL_GENERAL			= "General",
+	CHANNEL_GENERAL				= "General",
 	CHANNEL_TRADE				= "Trade",
 	CHANNEL_LOCALDEFENSE		= "LocalDefense",
 	CHANNEL_WORLDDEFENSE		= "WorldDefense",
 	CHANNEL_LOOKINGFORGROUP		= "LookingForGroup",
-	CHANNEL_GUILDRECRUITMENT		= "GuildRecruitment",
-}
-setmetatable(L, { __index = function(t, k) t[k] = k return k end })
-PHANXCHAT_LOCALS = nil
+	CHANNEL_GUILDRECRUITMENT	= "GuildRecruitment",
+} end
+
+setmetatable(namespace.L, { __index = function(t, k)
+	t[k] = k
+	return k
+end })
 
 ------------------------------------------------------------------------
 
@@ -207,11 +213,11 @@ end
 ------------------------------------------------------------------------
 
 local CHANNEL_NAMES = {
-	[L.CHANNEL_GENERAL]			= L.SHORT_GENERAL,
-	[L.CHANNEL_TRADE]			= L.SHORT_TRADE,
+	[L.CHANNEL_GENERAL]				= L.SHORT_GENERAL,
+	[L.CHANNEL_TRADE]				= L.SHORT_TRADE,
 	[L.CHANNEL_LOCALDEFENSE]		= L.SHORT_LOCALDEFENSE,
 	[L.CHANNEL_WORLDDEFENSE]		= L.SHORT_WORLDDEFENSE,
-	[L.CHANNEL_LOOKINGFORGROUP]	= L.SHORT_LOOKINGFORGROUP,
+	[L.CHANNEL_LOOKINGFORGROUP]		= L.SHORT_LOOKINGFORGROUP,
 	[L.CHANNEL_GUILDRECRUITMENT]	= L.SHORT_GUILDRECRUITMENT,
 }
 for k, v in pairs(customchannels) do
@@ -229,8 +235,9 @@ local CHAT_STRINGS = {
 	["CHAT_GUILD_GET"]				= STRING_STYLE_LINK:format("Guild", L.SHORT_GUILD, "%s"),
 	["CHAT_OFFICER_GET"]			= STRING_STYLE_LINK:format("o", L.SHORT_OFFICER, "%s"),
 	["CHAT_PARTY_GET"]				= STRING_STYLE_LINK:format("Party", L.SHORT_PARTY, "%s"),
+	["CHAT_PARTY_LEADER_GET"]		= STRING_STYLE_LINK:format("Party", L.SHORT_PARTY_LEADER, "%s"),
 	["CHAT_RAID_GET"]				= STRING_STYLE_LINK:format("Raid", L.SHORT_RAID, "%s"),
-	["CHAT_RAID_LEADER_GET"]			= STRING_STYLE_LINK:format("Raid", L.SHORT_RAID_LEADER, "%s"),
+	["CHAT_RAID_LEADER_GET"]		= STRING_STYLE_LINK:format("Raid", L.SHORT_RAID_LEADER, "%s"),
 	["CHAT_RAID_WARNING_GET"]		= STRING_STYLE_LINK:format("Raid", L.SHORT_RAID_WARNING, "%s"),
 	["CHAT_SAY_GET"]				= STRING_STYLE_LINK:format("s", L.SHORT_SAY, "%s"),
 	["CHAT_WHISPER_GET"]			= STRING_STYLE:format(L.SHORT_WHISPER, "%s"),
@@ -316,6 +323,7 @@ local formatEvents = {
 	CHAT_MSG_GUILD_ACHIEVEMENT = true,
 	CHAT_MSG_OFFICER = true,
 	CHAT_MSG_PARTY = true,
+	CHAT_MSG_PARTY_LEADER = true,
 	CHAT_MSG_RAID = true,
 	CHAT_MSG_RAID_LEADER = true,
 	CHAT_MSG_RAID_WARNING = true,
@@ -481,9 +489,9 @@ function PhanxChat:PLAYER_GUILD_UPDATE()
 end
 
 function PhanxChat:GUILD_ROSTER_UPDATE()
-	local name, class, unregister
+	local unregister
 	for i = 1, GetNumGuildMembers(true) do
-		name, _, _, _, class = GetGuildRosterInfo(i)
+		local name, _, _, _, class = GetGuildRosterInfo(i)
 		self:RegisterName(name, class)
 		unregister = true
 	end
@@ -493,19 +501,13 @@ function PhanxChat:GUILD_ROSTER_UPDATE()
 	end
 end
 
-function PhanxChat:LFG_UPDATE()
-	if not GetNumLFGResultsProxy then return end
-
-	for i = 1, GetNumLFGResultsProxy() do
-		local name, _, _, _, _, _, _, _, _, _, class = GetLFGResultsProxy(i)
-		if name and class then
-			self:RegisterName(name, class)
-		end
+function PhanxChat:UPDATE_LFG_LIST()
+	local num, total = SearchLFGGetNumResults()
+	for i = 1, num do
+		local name, _, _, _, _, _, _, class = SearchLFGGetResults(i)
+		self:RegisterName(name, class)
 	end
 end
-PhanxChat.UPDATE_LFG_LIST = PhanxChat.LFG_UPDATE
-PhanxChat.UPDATE_LFG_TYPES = PhanxChat.LFG_UPDATE
-PhanxChat.MEETINGSTONE_UPDATE = PhanxChat.LFG_UPDATE
 
 function PhanxChat:PARTY_MEMBERS_CHANGED()
 	local name, class
@@ -628,6 +630,7 @@ local urlEvents = {
 	CHAT_MSG_GUILD = true,
 	CHAT_MSG_OFFICER = true,
 	CHAT_MSG_PARTY = true,
+	CHAT_MSG_PARTY_LEADER = true,
 	CHAT_MSG_RAID = true,
 	CHAT_MSG_RAID_LEADER = true,
 	CHAT_MSG_RAID_WARNING = true,
@@ -848,20 +851,16 @@ function PhanxChat:ADDON_LOADED(addon)
 	if db.names then
 		hooksecurefunc("GetColoredName", self.GetColoredName)
 
+		self:RegisterEvent("CHAT_MSG_SYSTEM")
 		self:RegisterEvent("FRIENDLIST_UPDATE")
-		self:RegisterEvent("PLAYER_GUILD_UPDATE") -- workaround for people who don't get guild info immediately
 		self:RegisterEvent("GUILD_ROSTER_UPDATE")
 		self:RegisterEvent("PARTY_MEMBERS_CHANGED")
-		self:RegisterEvent("RAID_ROSTER_UPDATE")
-		self:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
+		self:RegisterEvent("PLAYER_GUILD_UPDATE") -- workaround for people who don't get guild info immediately
 		self:RegisterEvent("PLAYER_TARGET_CHANGED")
-		self:RegisterEvent("WHO_LIST_UPDATE")
-		self:RegisterEvent("CHAT_MSG_SYSTEM")
-
-		self:RegisterEvent("LFG_UPDATE")
-		self:RegisterEvent("MEETINGSTONE_CHANGED")
+		self:RegisterEvent("RAID_ROSTER_UPDATE")
 		self:RegisterEvent("UPDATE_LFG_LIST")
-		self:RegisterEvent("UPDATE_LFG_TYPES")
+		self:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
+		self:RegisterEvent("WHO_LIST_UPDATE")
 
 		self:RegisterName(UnitName("player"), select(2, UnitClass("player")))
 

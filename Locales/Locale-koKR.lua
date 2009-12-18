@@ -7,41 +7,41 @@
 ----------------------------------------------------------------------]]
 
 if GetLocale() ~= "koKR" then return end
+local L = { }
 
-local L = {
 -- Translating these strings is required for the addon to function in
 -- this locale. These strings are used to detect server channel names.
 
-	CHANNEL_GENERAL			= "공개",
-	CHANNEL_TRADE				= "거래",
-	CHANNEL_LOCALDEFENSE		= "수비",
-	CHANNEL_WORLDDEFENSE		= "전쟁",
-	CHANNEL_LOOKINGFORGROUP		= "파티찾기",
-	CHANNEL_GUILDRECRUITMENT		= "길드모집",
+L.CHANNEL_GENERAL           = "공개"
+L.CHANNEL_TRADE             = "거래"
+L.CHANNEL_LOCALDEFENSE      = "수비"
+L.CHANNEL_WORLDDEFENSE      = "전쟁"
+L.CHANNEL_LOOKINGFORGROUP   = "파티찾기"
+L.CHANNEL_GUILDRECRUITMENT  = "길드모집"
 
 -- Translating these strings is optional, but highly recommended. These
 -- strings are displayed if the user has "short channel names" enabled.
 
-	SHORT_GENERAL 				= "공",
-	SHORT_TRADE 				= "거",
-	SHORT_LOCALDEFENSE 			= "수",
-	SHORT_WORLDDEFENSE 			= "쟁",
-	SHORT_LOOKINGFORGROUP		= "파찾",
-	SHORT_GUILDRECRUITMENT		= "모집",
+L.SHORT_GENERAL             = "공"
+L.SHORT_TRADE               = "거"
+L.SHORT_LOCALDEFENSE        = "수"
+L.SHORT_WORLDDEFENSE        = "쟁"
+L.SHORT_LOOKINGFORGROUP     = "파찾"
+L.SHORT_GUILDRECRUITMENT    = "모집"
 
-	SHORT_SAY 				= "S",
-	SHORT_YELL 				= "Y",
-	SHORT_GUILD 				= "G",
-	SHORT_OFFICER 				= "O",
-	SHORT_PARTY 				= "P",
-	SHORT_RAID 				= "R",
-	SHORT_RAID_LEADER 			= "RL",
-	SHORT_RAID_WARNING 			= "RW",
-	SHORT_BATTLEGROUND 			= "BG",
-	SHORT_BATTLEGROUND_LEADER 	= "BGL",
-	SHORT_WHISPER 				= "FROM",
-	SHORT_WHISPER_INFORM 		= "TO",
-}
+L.SHORT_SAY                 = "S"
+L.SHORT_YELL                = "Y"
+L.SHORT_GUILD               = "G"
+L.SHORT_OFFICER             = "O"
+L.SHORT_PARTY               = "P"
+L.SHORT_PARTY_LEADER        = "PL"
+L.SHORT_RAID                = "R"
+L.SHORT_RAID_LEADER         = "RL"
+L.SHORT_RAID_WARNING        = "RW"
+L.SHORT_BATTLEGROUND        = "BG"
+L.SHORT_BATTLEGROUND_LEADER = "BGL"
+L.SHORT_WHISPER             = "FROM"
+L.SHORT_WHISPER_INFORM      = "TO"
 
 -- Translating these strings is optional, but recommended. These strings
 -- are shown in the configuration GUI.
@@ -93,4 +93,5 @@ L["Turn URLs in chat messages into clickable links for easy copying."] = "쉬운
 
 -- Don't touch this.
 
-PHANXCHAT_LOCALS = L
+local _, namespace = ...
+namespace.L = L
