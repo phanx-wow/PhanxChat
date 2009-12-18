@@ -1,46 +1,46 @@
 --[[--------------------------------------------------------------------
 	Traditional Chinese translations for PhanxChat
-	Last updated yyyy-mm-dd by digmouse
+	Last updated YYYY-MM-DD by digmouse
 	Contributors:
 		digmouse <CWDG> Magtheridon CN1 < whhao1988@gmail.com >
 ----------------------------------------------------------------------]]
 
 if GetLocale() ~= "zhTW" then return end
+local L = { }
 
-local L = {
 -- Translating these strings is required for the addon to function in
 -- this locale. These strings are used to detect server channel names.
 
-	CHANNEL_GENERAL			= "綜合",
-	CHANNEL_TRADE				= "交易",
-	CHANNEL_LOCALDEFENSE		= "本地防務",
-	CHANNEL_WORLDDEFENSE		= "世界防務",
-	CHANNEL_LOOKINGFORGROUP		= "尋求組隊",
-	CHANNEL_GUILDRECRUITMENT		= "公會招募",
+L.CHANNEL_GENERAL           = "綜合"
+L.CHANNEL_TRADE             = "交易"
+L.CHANNEL_LOCALDEFENSE      = "本地防務"
+L.CHANNEL_WORLDDEFENSE      = "世界防務"
+L.CHANNEL_LOOKINGFORGROUP   = "尋求組隊"
+L.CHANNEL_GUILDRECRUITMENT  = "公會招募"
 
 -- Translating these strings is optional, but highly recommended. These
 -- strings are displayed if the user has "short channel names" enabled.
 
-	SHORT_GENERAL				= "綜",
-	SHORT_TRADE				= "交",
-	SHORT_LOCALDEFENSE			= "本",
-	SHORT_WORLDDEFENSE			= "世",
-	SHORT_LOOKINGFORGROUP		= "尋",
-	SHORT_GUILDRECRUITMENT		= "招",
+L.SHORT_GENERAL             = "綜"
+L.SHORT_TRADE               = "交"
+L.SHORT_LOCALDEFENSE        = "本"
+L.SHORT_WORLDDEFENSE        = "世"
+L.SHORT_LOOKINGFORGROUP     = "尋"
+L.SHORT_GUILDRECRUITMENT    = "招"
 
-	SHORT_SAY					= "說",
-	SHORT_YELL				= "喊",
-	SHORT_GUILD				= "公",
-	SHORT_OFFICER				= "官",
-	SHORT_PARTY				= "隊",
-	SHORT_RAID				= "團",
-	SHORT_RAID_LEADER			= "領",
-	SHORT_RAID_WARNING			= "警",
-	SHORT_BATTLEGROUND			= "戰",
-	SHORT_BATTLEGROUND_LEADER	= "戰領",
-	SHORT_WHISPER				= "密自",
-	SHORT_WHISPER_INFORM		= "密往",
-}
+L.SHORT_SAY                 = "說"
+L.SHORT_YELL                = "喊"
+L.SHORT_GUILD               = "公"
+L.SHORT_OFFICER             = "官"
+L.SHORT_PARTY               = "隊"
+L.SHORT_PARTY_LEADER        = "隊" -- needs review
+L.SHORT_RAID                = "團"
+L.SHORT_RAID_LEADER         = "領"
+L.SHORT_RAID_WARNING        = "警"
+L.SHORT_BATTLEGROUND        = "戰"
+L.SHORT_BATTLEGROUND_LEADER = "戰領"
+L.SHORT_WHISPER             = "密自"
+L.SHORT_WHISPER_INFORM      = "密往"
 
 -- Translating these strings is optional, but recommended. These strings
 -- are shown in the configuration GUI.
@@ -92,4 +92,5 @@ L["Turn URLs in chat messages into clickable links for easy copying."] = "URL連
 
 -- Don't touch this.
 
-PHANXCHAT_LOCALS = L
+local _, namespace = ...
+namespace.L = L

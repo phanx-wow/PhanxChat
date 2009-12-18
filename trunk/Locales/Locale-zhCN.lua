@@ -1,46 +1,46 @@
 --[[--------------------------------------------------------------------
 	Simplified Chinese translations for PhanxChat
-	Last updated yyyy-mm-dd by digmouse
+	Last updated YYYY-MM-DD by digmouse
 	Contributors:
 		digmouse <CWDG> Magtheridon CN1 < whhao1988@gmail.com >
 ----------------------------------------------------------------------]]
 
 if GetLocale() ~= "zhCN" then return end
+local L = { }
 
-local L = {
 -- Translating these strings is required for the addon to function in
 -- this locale. These strings are used to detect server channel names.
 
-	CHANNEL_GENERAL			= "综合",
-	CHANNEL_TRADE				= "交易",
-	CHANNEL_LOCALDEFENSE		= "本地防务",
-	CHANNEL_WORLDDEFENSE		= "世界防务",
-	CHANNEL_LOOKINGFORGROUP		= "寻求组队",
-	CHANNEL_GUILDRECRUITMENT		= "公会招募",
+L.CHANNEL_GENERAL           = "综合"
+L.CHANNEL_TRADE             = "交易"
+L.CHANNEL_LOCALDEFENSE      = "本地防务"
+L.CHANNEL_WORLDDEFENSE      = "世界防务"
+L.CHANNEL_LOOKINGFORGROUP   = "寻求组队"
+L.CHANNEL_GUILDRECRUITMENT  = "公会招募"
 
 -- Translating these strings is optional, but highly recommended. These
 -- strings are displayed if the user has "short channel names" enabled.
 
-	SHORT_GENERAL 				= "综",
-	SHORT_TRADE 				= "交",
-	SHORT_LOCALDEFENSE 			= "本",
-	SHORT_WORLDDEFENSE 			= "世",
-	SHORT_LOOKINGFORGROUP		= "寻",
-	SHORT_GUILDRECRUITMENT		= "招",
+L.SHORT_GENERAL             = "综"
+L.SHORT_TRADE               = "交"
+L.SHORT_LOCALDEFENSE        = "本"
+L.SHORT_WORLDDEFENSE        = "世"
+L.SHORT_LOOKINGFORGROUP     = "寻"
+L.SHORT_GUILDRECRUITMENT    = "招"
 
-	SHORT_SAY 				= "说",
-	SHORT_YELL 				= "喊",
-	SHORT_GUILD 				= "公",
-	SHORT_OFFICER 				= "官",
-	SHORT_PARTY 				= "队",
-	SHORT_RAID 				= "团",
-	SHORT_RAID_LEADER 			= "领",
-	SHORT_RAID_WARNING 			= "警",
-	SHORT_BATTLEGROUND 			= "战",
-	SHORT_BATTLEGROUND_LEADER 	= "战领",
-	SHORT_WHISPER 				= "密自",
-	SHORT_WHISPER_INFORM 		= "密往",
-}
+L.SHORT_SAY                 = "说"
+L.SHORT_YELL                = "喊"
+L.SHORT_GUILD               = "公"
+L.SHORT_OFFICER             = "官"
+L.SHORT_PARTY               = "队"
+L.SHORT_PARTY_LEADER        = "队" -- needs review
+L.SHORT_RAID                = "团"
+L.SHORT_RAID_LEADER         = "领"
+L.SHORT_RAID_WARNING        = "警"
+L.SHORT_BATTLEGROUND        = "战"
+L.SHORT_BATTLEGROUND_LEADER = "战领"
+L.SHORT_WHISPER             = "密自"
+L.SHORT_WHISPER_INFORM      = "密往"
 
 -- Translating these strings is optional, but recommended. These strings
 -- are shown in the configuration GUI.
@@ -48,8 +48,8 @@ local L = {
 L["Hide buttons"] = "隐藏滚动按钮"
 L["Hide the scroll-up, scroll-down, scroll-to-bottom, and menu buttons next to the chat frame."] = "隐藏滚动按钮"
 
-L["Shorten channels"] = "缩写频道名和聊天类型名"
-L["Shorten channel names in chat messages. For example, '[1. General]' might be shortened to '1|'."] = "缩写频道名和聊天类型名"
+L["Shorten L.CHANnels"] = "缩写频道名和聊天类型名"
+L["Shorten L.CHANnel names in chat messages. For example, '[1. General]' might be shortened to '1|'."] = "缩写频道名和聊天类型名"
 
 L["Enable arrow keys"] = "允许在输入框中使用方向键"
 L["Enable the use of arrow keys in the chat edit box."] = "允许在输入框中使用方向键"
@@ -75,14 +75,14 @@ L["Color player names in chat by their class if known. Classes are known if you 
 L["Mousewheel scrolling"] = "启用鼠标卷动"
 L["Enable scrolling through chat frames with the mouse wheel. Hold the Shift key while scrolling to jump to the top or bottom of the chat frame."] = "启用鼠标卷动"
 
-L["Sticky channels"] = "保持当前聊天频道"
-L["Enable sticky channel behavior for all chat types except emotes."] = "保持当前聊天频道"
+L["Sticky L.CHANnels"] = "保持当前聊天频道"
+L["Enable sticky L.CHANnel behavior for all chat types except emotes."] = "保持当前聊天频道"
 
 L["Suppress notifications"] = "屏蔽频道更改提示"
-L["Suppress the notification messages informing you when someone leaves or joins a channel, or when channel ownership changes."] = "屏蔽频道更改提示"
+L["Suppress the notification messages informing you when someone leaves or joins a L.CHANnel, or when L.CHANnel ownership L.CHANges."] = "屏蔽频道更改提示"
 
 L["Suppress repeats"] = "屏蔽公共频道中的重复刷屏信息"
-L["Suppress repeated messages in public chat channels."] = "屏蔽公共频道中的重复刷屏信息"
+L["Suppress repeated messages in public chat L.CHANnels."] = "屏蔽公共频道中的重复刷屏信息"
 
 L["Lock tabs"] = "锁定已附着的聊天标签"
 L["Prevent docked chat tabs from being dragged unless the Alt key is down."] = "锁定已附着的聊天标签（按住Alt拖动）"
@@ -92,4 +92,5 @@ L["Turn URLs in chat messages into clickable links for easy copying."] = "URL链
 
 -- Don't touch this.
 
-PHANXCHAT_LOCALS = L
+local _, namespace = ...
+namespace.L = L

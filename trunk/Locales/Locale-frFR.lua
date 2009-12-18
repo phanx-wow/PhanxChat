@@ -1,48 +1,48 @@
 --[[--------------------------------------------------------------------
 	French translations for PhanxChat
-	Last updated 2008-04-22 by Beartotem of Ravenholdt(US)
+	Last updated 2008-04-22 by Beartotem of Ravenholdt (US)
 	Contributors:
-		Beartotem of Ravenholdt(US)
+		Beartotem of Ravenholdt (US)
 		Kyron - Halcyon (Auchindoun)
 		Nicolas (miaouxp)
 ----------------------------------------------------------------------]]
 
 if GetLocale() ~= "frFR" then return end
+local L = { }
 
-local L = {
 -- Translating these strings is required for the addon to function in
 -- this locale. These strings are used to detect server channel names.
 
-	CHANNEL_GENERAL			= "Général",
-	CHANNEL_TRADE				= "Commerce",
-	CHANNEL_LOCALDEFENSE		= "Défense Locale",
-	CHANNEL_WORLDDEFENSE		= "Défense du monde",
-	CHANNEL_LOOKINGFORGROUP		= "Recherche de groupe",
-	CHANNEL_GUILDRECRUITMENT		= "Recrutement de guilde",
+L.CHANNEL_GENERAL           = "Général"
+L.CHANNEL_TRADE             = "Commerce"
+L.CHANNEL_LOCALDEFENSE      = "Défense Locale"
+L.CHANNEL_WORLDDEFENSE      = "Défense du monde"
+L.CHANNEL_LOOKINGFORGROUP   = "Recherche de groupe"
+L.CHANNEL_GUILDRECRUITMENT  = "Recrutement de guilde"
 
 -- Translating these strings is optional, but highly recommended. These
 -- strings are displayed if the user has "short channel names" enabled.
 
-	SHORT_GENERAL 				= "G",
-	SHORT_TRADE 				= "E",
-	SHORT_LOCALDEFENSE 			= "DL",
-	SHORT_WORLDDEFENSE 			= "DM",
-	SHORT_LOOKINGFORGROUP		= "RDG",
-	SHORT_GUILDRECRUITMENT		= "R",
+L.SHORT_GENERAL             = "G"
+L.SHORT_TRADE               = "E"
+L.SHORT_LOCALDEFENSE        = "DL"
+L.SHORT_WORLDDEFENSE        = "DM"
+L.SHORT_LOOKINGFORGROUP     = "RDG"
+L.SHORT_GUILDRECRUITMENT    = "R"
 
-	SHORT_SAY 				= "D",
-	SHORT_YELL 				= "C",
-	SHORT_GUILD 				= "G",
-	SHORT_OFFICER 				= "O",
-	SHORT_PARTY 				= "G",
-	SHORT_RAID 				= "R",
-	SHORT_RAID_LEADER 			= "RL",
-	SHORT_RAID_WARNING 			= "AR",
-	SHORT_BATTLEGROUND 			= "BG",
-	SHORT_BATTLEGROUND_LEADER 	= "BGL",
-	SHORT_WHISPER 				= "W",
-	SHORT_WHISPER_INFORM 		= "W",
-}
+L.SHORT_SAY 				= "D"
+L.SHORT_YELL 				= "C"
+L.SHORT_GUILD 				= "G"
+L.SHORT_OFFICER             = "O"
+L.SHORT_PARTY               = "G"
+L.SHORT_PARTY_LEADER        = "GL"
+L.SHORT_RAID                = "R"
+L.SHORT_RAID_LEADER         = "RL"
+L.SHORT_RAID_WARNING        = "AR"
+L.SHORT_BATTLEGROUND        = "BG"
+L.SHORT_BATTLEGROUND_LEADER = "BGL"
+L.SHORT_WHISPER             = "W"
+L.SHORT_WHISPER_INFORM      = "W"
 
 -- Translating these strings is optional, but recommended. These strings
 -- are shown in the configuration GUI.
@@ -94,4 +94,5 @@ L["Set the font size for all chat tabs at once. This is only a shortcut for doin
 
 -- Don't touch this.
 
-PHANXCHAT_LOCALS = L
+local _, namespace = ...
+namespace.L = L

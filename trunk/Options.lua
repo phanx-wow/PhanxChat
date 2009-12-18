@@ -240,14 +240,16 @@ Options:SetScript("OnShow", function(self)
 		PlaySound(checked and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
 
 		if checked then
+			PhanxChat:RegisterEvent("CHAT_MSG_SYSTEM")
 			PhanxChat:RegisterEvent("FRIENDLIST_UPDATE")
 			PhanxChat:RegisterEvent("GUILD_ROSTER_UPDATE")
 			PhanxChat:RegisterEvent("PARTY_MEMBERS_CHANGED")
-			PhanxChat:RegisterEvent("RAID_ROSTER_UPDATE")
-			PhanxChat:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
+			PhanxChat:RegisterEvent("PLAYER_GUILD_UPDATE")
 			PhanxChat:RegisterEvent("PLAYER_TARGET_CHANGED")
+			PhanxChat:RegisterEvent("RAID_ROSTER_UPDATE")
+			PhanxChat:RegisterEvent("UPDATE_LFG_LIST")
+			PhanxChat:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
 			PhanxChat:RegisterEvent("WHO_LIST_UPDATE")
-			PhanxChat:RegisterEvent("CHAT_MSG_SYSTEM")
 
 			PhanxChat:RegisterName(UnitName("player"), select(2, UnitClass("player")))
 
@@ -261,14 +263,16 @@ Options:SetScript("OnShow", function(self)
 
 			db.names = true
 		else
+			PhanxChat:UnregisterEvent("CHAT_MSG_SYSTEM")
 			PhanxChat:UnregisterEvent("FRIENDLIST_UPDATE")
 			PhanxChat:UnregisterEvent("GUILD_ROSTER_UPDATE")
 			PhanxChat:UnregisterEvent("PARTY_MEMBERS_CHANGED")
-			PhanxChat:UnregisterEvent("RAID_ROSTER_UPDATE")
-			PhanxChat:UnregisterEvent("UPDATE_MOUSEOVER_UNIT")
+			PhanxChat:UnregisterEvent("PLAYER_GUILD_UPDATE")
 			PhanxChat:UnregisterEvent("PLAYER_TARGET_CHANGED")
+			PhanxChat:UnregisterEvent("RAID_ROSTER_UPDATE")
+			PhanxChat:UnregisterEvent("UPDATE_LFG_LIST")
+			PhanxChat:UnregisterEvent("UPDATE_MOUSEOVER_UNIT")
 			PhanxChat:UnregisterEvent("WHO_LIST_UPDATE")
-			PhanxChat:UnregisterEvent("CHAT_MSG_SYSTEM")
 
 			wipe(PhanxChat.names)
 
