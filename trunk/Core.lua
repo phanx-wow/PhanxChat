@@ -96,7 +96,7 @@ local customchannels = {
 --	If you play in another locale, you will need to change these in the
 --	appropriate locale file instead.
 --
-local _, namepsace = ...
+local _, namespace = ...
 
 if not namespace.L then namespace.L = {
 	SHORT_SAY					= "s",
@@ -136,7 +136,7 @@ if not namespace.L then namespace.L = {
 	CHANNEL_GUILDRECRUITMENT	= "GuildRecruitment",
 } end
 
-setmetatable(namespace.L, { __index = function(t, k)
+local L = setmetatable(namespace.L, { __index = function(t, k)
 	t[k] = k
 	return k
 end })
