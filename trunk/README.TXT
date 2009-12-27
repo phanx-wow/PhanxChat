@@ -1,74 +1,61 @@
-------------------------------------------------------------------------
-Description:
 
-PhanxChat is a World of Warcraft user interface addon written to reduce
-chat frame clutter and improve chat frame usability.
+PhanxChat - a World of Warcraft user interface addon
 
-------------------------------------------------------------------------
-Download:
+	by Phanx < addons@phanx.net >
+	http://www.wowinterface.com/downloads/info6323-PhanxChat.html
+	http://wow.curse.com/downloads/wow-addons/details/phanxchat.aspx
 
-http://www.wowinterface.com/downloads/info6323-PhanxChat.html
-http://wow.curse.com/downloads/wow-addons/details/phanxchat.aspx
+Description
 
-------------------------------------------------------------------------
-Usage:
+	PhanxChat unclutters your chat frames and makes them a little more
+	user-friendly. Features include mousewheel scrolling, channel name
+	shortening, editbox relocation, URL linking, docked tab locking, and
+	tab flash suppression.
 
-Type "/pchat" in-game for a listing of available commands.
+Usage
 
-------------------------------------------------------------------------
-Localization:
+	Options are available in the Interface Options window. Type "/pchat"
+	to open the window directly to the PhanxChat panel.
 
-Compatible with: enUS, deDE, esES*, esMX*, frFR, koKR, ruRU, zhCN, zhTW
-Translated into: enUS, deDE, frFR, koKR, ruRU, zhCN, zhTW
+Localization
 
-An asterisk (*) indicates partial and/or unverified compatibility.
+	Compatible with: en*, deDE, esES, esMX, frFR, koKR, ruRU, zhCN, zhTW
+	Translated into: en*, deDE, frFR, koKR, ruRU, zhCN, zhTW
 
-If you would like to assist with translation for another locale, please
-contact me using the contact information below.
+	If you can help translate for any locale, please contact me.
 
-------------------------------------------------------------------------
-Feedback:
+Feedback
 
-Please use the bug report and feature request ticket systems on either
-download page to report specific problems and request specific features.
+	Please use the ticket system on either download site report bugs or
+	request features. Use the comment system only for general questions
+	or comments.
 
-Use the comments section on WoWInterface for general feedback; note that
-I do not read comments on Curse at all.
+	If you need to contact me privately, you may do by private message
+	on either download site, or by email at addons@phanx.net.
 
-If private communication is necessary, I can be contacted...
-* by email: addons AT phanx net
-* by in-game mail: Phanx on US Blackrock Horde
-* by private message: Phanx on wowinterface.com or wowace.com
+	Note that email and private messaging are not appropriate ways to
+	report bugs, request features, or ask for help with using an addon.
 
-------------------------------------------------------------------------
-License:
+License
 
-Copyright ©2008–2009 Alyssa "Phanx" Kinley
+	Copyright ©2006–2009 Alyssa "Phanx" Kinley.
 
-The contents of this addon, excluding third-party resources, are copyrighted
-to its author with all rights reserved under United States copyright law and
-international treaty. Copyright specifies certain rights and restrictions
-persuant to your use of this addon, and this license grants you certain
-additional rights. Installing, using, or distributing this addon shall
-constitute acceptance of the terms of this license.
+	The contents of this addon, excluding third-party resources, are
+	copyrighted to its author with all rights reserved, under United
+	States copyright law and various international treaties.
 
-1. You MAY download, install, and use this addon for private use.
+	In particular, please note that you may not distribute this addon in
+	any form, with or without modifications, including as part of a
+	compilation, without prior written permission from its author.
 
-2. You MAY make modifications to this addon for private use.
+	The author of this addon hereby grants you the following rights:
 
-3. You MAY NOT distribute this addon, modified or unmodified, including as 
-part of a compilation or premade user interface, without the prior written 
-consent of the copyright holder. The copyright owner, through the act of 
-uploading this addon to a distributor, grants that distributor a 
-non-exclusive and terminable right to distribute this addon to end users.
+	1. You may make modifications to this addon for private use only.
 
-4. You MAY use source code from this addon in your own addon or for any 
-other purpose, provided that the name of this addon or its author do not 
-appear in the title, source code, file names, documentation, or any other 
-materials associated with your project, and that the name of this addon 
-and its author are not used to promote your project.
+	2. You may use source code from this addon for any purpose, provided
+	that the names of this addon and its author do not appear in the
+	title, source code, or file names of your project, and are not used
+	to promote your project.
 
-All rights that are not explicitly addressed in this licence are reserved by
-the copyright holder.
-
-------------------------------------------------------------------------
+	All rights not explicitly addressed in this license are reserved by
+	the copyright holder.
