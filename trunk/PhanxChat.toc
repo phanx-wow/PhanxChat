@@ -17,6 +17,11 @@
 
 ## SavedVariables: PhanxChatDB
 
+Libs\LibStub\LibStub.lua
+Libs\LibAboutPanel\LibAboutPanel.lua
+Libs\PhanxConfig-Checkbox\PhanxConfig-Checkbox.lua
+Libs\PhanxConfig-Slider\PhanxConfig-Slider.lua
+
 Locales\Locale-deDE.lua
 Locales\Locale-frFR.lua
 Locales\Locale-koKR.lua
@@ -25,10 +30,4 @@ Locales\Locale-zhCN.lua
 Locales\Locale-zhTW.lua
 
 Core.lua
-
-Libs\LibStub\LibStub.lua
-Libs\LibAboutPanel\LibAboutPanel.lua
-Libs\PhanxConfig-Checkbox\PhanxConfig-Checkbox.lua
-Libs\PhanxConfig-Slider\PhanxConfig-Slider.lua
-
 Options.lua

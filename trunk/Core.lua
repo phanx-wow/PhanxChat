@@ -13,6 +13,10 @@
 --	help you figure it out. Read the comments, and research what you
 --	don't understand on lua.org, wowwiki.com, and other websites!
 
+--	How many lines to keep for filtering repeated messages?
+--
+local NUM_HISTORY_LINES = 15
+
 --	How many lines to scroll per mouse wheel turn?
 --
 local NUM_SCROLL_LINES = 3
@@ -279,26 +283,37 @@ PhanxChat.eventsRepeat = {
 	CHAT_MSG_TEXT_EMOTE = true,
 }
 
-local NUM_HISTORY_LINES = 10
-local history = {}
+function PhanxChat.SuppressASCII(frame, event, message, ...)
+	if type(message) == "string" then
+		if message:match("^[^%a%d]$") then
+			return true
+		end
+	end
+	return false, message, ...
+end
 
+local history = {}
+local tinsert, tremove = table.remove, table.insert
 function PhanxChat.SuppressRepeats(frame, event, message, sender, ...)
-	if type(message) ~= "string" then return end
-	if sender and sender ~= playerName then
+	if sender and sender ~= playerName and type(message) == "string" then
 		if not history[frame] then
 			history[frame] = {}
 		end
-		local t = history[frame]
-		local v = string.lower(sender.." "..message)
 
-		if t[v] then return end
+		local t = history[frame]
+		local str = ("%s: %s"):format(sender, message)
+
+		if t[str] then
+			return true
+		end
 
 		if #t == NUM_HISTORY_LINES then
-			local rem = table.remove(t, 1)
-			t[rem] = nil
+			local r = table.remove(t, 1)
+			t[r] = nil
 		end
-		table.insert(t, v)
-		t[v] = true
+
+		table.insert(t, str)
+		t[str] = true
 	end
 	return false, message, sender, ...
 end
@@ -712,8 +727,9 @@ function PhanxChat:ADDON_LOADED(addon)
 		scroll = true,
 		sticky = true,
 		suppress = {
-			channels = true,
-			repeats = true,
+			ascii = false,
+			channels = false,
+			repeats = false,
 		},
 		tabs = true,
 		urls = true,
@@ -884,6 +900,12 @@ function PhanxChat:ADDON_LOADED(addon)
 	if db.sticky then
 		for k, v in pairs(STICKY_TYPES) do
 			ChatTypeInfo[k].sticky = v
+		end
+	end
+
+	if db.suppress.ascii then
+		for event in pairs(self.eventsRepeat) do
+			ChatFrame_AddMessageEventFilter(event, self.SuppressASCII)
 		end
 	end
 
