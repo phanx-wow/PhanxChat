@@ -301,7 +301,7 @@ function PhanxChat.SuppressRepeats(frame, event, message, sender, ...)
 		end
 
 		local t = history[frame]
-		local str = ("%s: %s"):format(sender, message)
+		local str = ("%s: %s"):format(sender, message):lower()
 
 		if t[str] then
 			return true
