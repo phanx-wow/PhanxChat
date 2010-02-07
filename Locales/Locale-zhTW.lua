@@ -1,96 +1,116 @@
 --[[--------------------------------------------------------------------
 	Traditional Chinese translations for PhanxChat
-	Last updated YYYY-MM-DD by digmouse
+	Last updated: 2008 by digmouse
 	Contributors:
 		digmouse <CWDG> Magtheridon CN1 < whhao1988@gmail.com >
 ----------------------------------------------------------------------]]
 
 if GetLocale() ~= "zhTW" then return end
-local L = { }
 
--- Translating these strings is required for the addon to function in
--- this locale. These strings are used to detect server channel names.
+local L, _, PhanxChat = { }, ...
+PhanxChat.L = L
 
-L.CHANNEL_GENERAL           = "綜合"
-L.CHANNEL_TRADE             = "交易"
-L.CHANNEL_LOCALDEFENSE      = "本地防務"
-L.CHANNEL_WORLDDEFENSE      = "世界防務"
-L.CHANNEL_LOOKINGFORGROUP   = "尋求組隊"
-L.CHANNEL_GUILDRECRUITMENT  = "公會招募"
+------------------------------------------------------------------------
+-- Channel Names
+-- These must match the channel names sent from the server.
+------------------------------------------------------------------------
 
--- Translating these strings is optional, but highly recommended. These
--- strings are displayed if the user has "short channel names" enabled.
+L["General"]          = "綜合"
+L["Trade"]            = "交易"
+L["LocalDefense"]     = "本地防務"
+L["WorldDefense"]     = "世界防務"
+L["LookingForGroup"]  = "尋求組隊"
+L["GuildRecruitment"] = "公會招募"
 
-L.SHORT_GENERAL             = "綜"
-L.SHORT_TRADE               = "交"
-L.SHORT_LOCALDEFENSE        = "本"
-L.SHORT_WORLDDEFENSE        = "世"
-L.SHORT_LOOKINGFORGROUP     = "尋"
-L.SHORT_GUILDRECRUITMENT    = "招"
+------------------------------------------------------------------------
+-- Short Channel Names
+-- These should be one- or two-character abbreviations.
+------------------------------------------------------------------------
 
-L.SHORT_SAY                 = "說"
-L.SHORT_YELL                = "喊"
-L.SHORT_GUILD               = "公"
-L.SHORT_OFFICER             = "官"
-L.SHORT_PARTY               = "隊"
-L.SHORT_PARTY_LEADER        = "隊" -- needs review
-L.SHORT_RAID                = "團"
-L.SHORT_RAID_LEADER         = "領"
-L.SHORT_RAID_WARNING        = "警"
-L.SHORT_BATTLEGROUND        = "戰"
-L.SHORT_BATTLEGROUND_LEADER = "戰領"
-L.SHORT_WHISPER             = "密自"
-L.SHORT_WHISPER_INFORM      = "密往"
+L["SHORT_GENERAL"]          = "綜"
+L["SHORT_TRADE"]            = "交"
+L["SHORT_LOCALDEFENSE"]     = "本"
+L["SHORT_WORLDDEFENSE"]     = "世"
+L["SHORT_LOOKINGFORGROUP"]  = "尋"
+L["SHORT_GUILDRECRUITMENT"] = "招"
 
--- Translating these strings is optional, but recommended. These strings
--- are shown in the configuration GUI.
+------------------------------------------------------------------------
+-- Short Chat Strings
+-- These should be one- or two-character abbreviations.
+------------------------------------------------------------------------
 
-L["Hide buttons"] = "隱藏滾動按鈕"
-L["Hide the scroll-up, scroll-down, scroll-to-bottom, and menu buttons next to the chat frame."] = "隱藏滾動按鈕"
+L["SHORT_BATTLEGROUND"]        = "戰"
+L["SHORT_BATTLEGROUND_LEADER"] = "戰領"
+L["SHORT_GUILD"]               = "公"
+L["SHORT_OFFICER"]             = "官"
+L["SHORT_PARTY"]               = "隊"
+L["SHORT_PARTY_GUIDE"]         = "隊" -- needs review
+L["SHORT_PARTY_LEADER"]        = "隊" -- needs review
+L["SHORT_RAID"]                = "團"
+L["SHORT_RAID_LEADER"]         = "領"
+L["SHORT_RAID_WARNING"]        = "警"
+L["SHORT_SAY"]                 = "說"
+L["SHORT_WHISPER"]             = "密自" -- whispers sent to you
+L["SHORT_WHISPER_INFORM"]      = "密往" -- whispers sent by you
+L["SHORT_YELL"]                = "喊"
 
-L["Shorten channels"] = "縮寫頻道名和聊天類型名"
-L["Shorten channel names in chat messages. For example, '[1. General]' might be shortened to '1|'."] = "縮寫頻道名和聊天類型名"
+------------------------------------------------------------------------
+--	Configuration Panel Text
+--	Please verify that your translations fit in the available UI space!
+------------------------------------------------------------------------
 
-L["Enable arrow keys"] = "允許在輸入框中使用方向鍵"
-L["Enable the use of arrow keys in the chat edit box."] = "允許在輸入框中使用方向鍵"
+-- L["Configure options for making your chat frames more user-friendly and less cluttered."] = ""
 
-L["Move chat edit box"] = "將輸入框置於聊天視窗頂部"
-L["Move the chat edit box to the top of the chat frame."] = "將輸入框置於聊天視窗頂部"
-
-L["Chat fade time"] = "設置文字消隱時間"
-L["Set the time in minutes to keep chat messages visible before fading them out. Setting this to 0 will disable fading completely."] = "設置文字消隱時間（0 = 關閉）"
+-- L["Color player names"] = ""
+L["Enable player name class coloring for all chat message types."] = "將已知玩家名字按職業顏色標識."
+-- L["Note that this is just a shortcut to enabling class coloring for each message type individually through the Blizzard chat options."] = ""
 
 L["Disable tab flashing"] = "關閉聊天標籤頁閃爍"
-L["Disable the flashing effect on chat tabs when new messages are received."] = "關閉聊天標籤頁閃爍"
+L["Disable the flashing effect on chat tabs that receive new messages."] = "關閉聊天標籤頁閃爍."
 
-L["Chat font size"] = "設置所有視窗的字體大小"
-L["Set the font size for all chat tabs at once. This is only a shortcut for doing the same thing for each tab using the default UI."] = "設置所有視窗的字體大小"
+-- L["Enable arrow keys"] = ""
+L["Enable arrow keys in the chat edit box."] = "允許在輸入框中使用方向鍵."
 
-L["Auto-start logging"] = "自動保存聊天記錄"
-L["Automatically enable chat logging when you log in. Chat logging can be started or stopped manually at any time using the '/chatlog' command. Logs are saved when you log out or exit the game to the 'World of Warcraft/Logs/WoWChatLog.txt' file."] = "自動保存聊天記錄"
+L["Enable mousewheel"] = "啟用滑鼠捲動"
+L["Enable mousewheel scrolling in chat frames."] = "啟用滑鼠捲動."
 
-L["Color player names"] = "將已知玩家名字按職業顏色標識"
-L["Color player names in chat by their class if known. Classes are known if you have seen the player in your group, in your guild, online on your friends list, in a '/who' query, or have targetted or moused over them since you logged in."] = "將已知玩家名字按職業顏色標識"
-
-L["Mousewheel scrolling"] = "啟用滑鼠捲動"
-L["Enable scrolling through chat frames with the mouse wheel. Hold the Shift key while scrolling to jump to the top or bottom of the chat frame."] = "啟用滑鼠捲動"
-
-L["Sticky channels"] = "保持當前聊天頻道"
-L["Enable sticky channel behavior for all chat types except emotes."] = "保持當前聊天頻道"
-
-L["Suppress notifications"] = "屏蔽頻道更改提示信息"
-L["Suppress the notification messages informing you when someone leaves or joins a channel, or when channel ownership changes."] = "屏蔽頻道更改提示信息"
-
-L["Suppress repeats"] = "屏蔽公共頻道內的重復信息"
-L["Suppress repeated messages in public chat channels."] = "屏蔽公共頻道內的重復信息"
-
-L["Lock tabs"] = "鎖定已附著的聊天標籤"
-L["Prevent docked chat tabs from being dragged unless the Alt key is down."] = "鎖定已附著的聊天標籤（按住Alt拖動）"
+L["Hide buttons"] = "隱藏滾動按鈕"
+L["Hide the chat frame menu and scroll buttons."] = "隱藏滾動按鈕."
 
 L["Link URLs"] = "URL連結快速複製"
-L["Turn URLs in chat messages into clickable links for easy copying."] = "URL連結快速複製"
+L["Transform URLs in chat into clickable links for easy copying."] = "URL連結快速複製"
 
--- Don't touch this.
+L["Lock docked tabs"] = "鎖定已附著的聊天標籤"
+L["Prevent locked chat tabs from being dragged unless the Alt key is down."] = "鎖定已附著的聊天標籤（按住Alt拖動）."
 
-local _, namespace = ...
-namespace.L = L
+-- L["Move edit box"] = ""
+L["Move the chat edit box above the chat frame."] = "將輸入框置於聊天視窗頂部."
+
+-- L["Shorten channel names"] = ""
+L["Shorten channel names and chat strings."] = "縮寫頻道名和聊天類型名."
+
+L["Sticky chat"] = "保持當前聊天頻道"
+L["Set which chat types should be sticky."] = "保持當前聊天頻道."
+-- L["All"] = ""
+-- L["Default"] = ""
+-- L["None"] = ""
+
+-- L["Fade time"] = ""
+L["Set the time in minutes to wait before fading chat text. A setting of 0 will disable fading."] = "設置文字消隱時間（0 = 關閉）."
+
+-- L["Font size"] = ""
+L["Set the font size for all chat frames."] = "設置所有視窗的字體大小."
+-- L["Note that this is just a shortcut to setting the font size for each chat frame individually through the Blizzard chat options."] = ""
+
+L["Filter notifications"] = "屏蔽頻道更改提示信息"
+L["Hide channel notification messages."] = "屏蔽頻道更改提示信息."
+
+L["Filter repeats"] = ""
+L["Hide repeated messages in public channels."] = "屏蔽公共頻道內的重復信息."
+
+L["Auto-start chat log"] = "自動保存聊天記錄"
+L["Automatically start chat logging when you log into the game."] = "自動保存聊天記錄."
+-- L["Chat logs are written to [ World of Warcraft > Logs > WoWChatLog.txt ] only when you log out of your character."] = ""
+-- L["You can manually start or stop chat logging at any time by typing /chatlog."] = ""
+
+------------------------------------------------------------------------
