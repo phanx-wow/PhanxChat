@@ -343,7 +343,7 @@ function PhanxChat.ChatFrame_AddMessage(frame, text, ...)
 			end
 		end
 		if event == "CHAT_MSG_CHANNEL" and PhanxChat.db.shortChannels then
-			text = text:gsub("%[%d+%.%s?[^%]%-]+%]%s?", CHANNEL_STYLE:gsub("%%1", arg8, 1):gsub("%%2", channels[arg8], 1), 1)
+			text = text:gsub("%[%d+%.%s?[^%]%-]+%]%s?", CHANNEL_STYLE:gsub("%%1", arg8, 1):gsub("%%2", ChannelNames[arg8], 1), 1)
 		end
 	end
 	hooks[frame].AddMessage(frame, text, ...)
