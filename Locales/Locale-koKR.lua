@@ -16,44 +16,44 @@ PhanxChat.L = L
 -- These must match the channel names sent from the server.
 ------------------------------------------------------------------------
 
-L.General           = "공개"
-L.Trade             = "거래"
-L.LocalDefense      = "수비"
-L.WorldDefense      = "전쟁"
-L.LookingForGroup   = "파티찾기"
-L.GuildRecruitment  = "길드모집"
+L["General"]          = "공개"
+L["Trade"]            = "거래"
+L["LocalDefense"]     = "수비"
+L["WorldDefense"]     = "전쟁"
+L["LookingForGroup"]  = "파티찾기"
+L["GuildRecruitment"] = "길드모집"
 
 ------------------------------------------------------------------------
 -- Short Channel Names
 -- These should be one- or two-character abbreviations.
 ------------------------------------------------------------------------
 
-L.SHORT_GENERAL             = "공"
-L.SHORT_TRADE               = "거"
-L.SHORT_LOCALDEFENSE        = "수"
-L.SHORT_WORLDDEFENSE        = "쟁"
-L.SHORT_LOOKINGFORGROUP     = "파찾"
-L.SHORT_GUILDRECRUITMENT    = "모집"
+L["SHORT_GENERAL"]          = "공"
+L["SHORT_TRADE"]            = "거"
+L["SHORT_LOCALDEFENSE"]     = "수"
+L["SHORT_WORLDDEFENSE"]     = "쟁"
+L["SHORT_LOOKINGFORGROUP"]  = "파찾"
+L["SHORT_GUILDRECRUITMENT"] = "모집"
 
 ------------------------------------------------------------------------
 -- Short Chat Strings
 -- These should be one- or two-character abbreviations.
 ------------------------------------------------------------------------
 
-L.SHORT_SAY                 = "S"
-L.SHORT_YELL                = "Y"
-L.SHORT_GUILD               = "G"
-L.SHORT_OFFICER             = "O"
-L.SHORT_PARTY               = "P"
-L.SHORT_PARTY_GUIDE         = "PL"
-L.SHORT_PARTY_LEADER        = "PL"
-L.SHORT_RAID                = "R"
-L.SHORT_RAID_LEADER         = "RL"
-L.SHORT_RAID_WARNING        = "RW"
-L.SHORT_BATTLEGROUND        = "BG"
-L.SHORT_BATTLEGROUND_LEADER = "BGL"
-L.SHORT_WHISPER             = "FROM"
-L.SHORT_WHISPER_INFORM      = "TO"
+L["SHORT_BATTLEGROUND"]        = "BG"
+L["SHORT_BATTLEGROUND_LEADER"] = "BGL"
+L["SHORT_GUILD"]               = "G"
+L["SHORT_OFFICER"]             = "O"
+L["SHORT_PARTY"]               = "P"
+L["SHORT_PARTY_GUIDE"]         = "PL"
+L["SHORT_PARTY_LEADER"]        = "PL"
+L["SHORT_RAID"]                = "R"
+L["SHORT_RAID_LEADER"]         = "RL"
+L["SHORT_RAID_WARNING"]        = "RW"
+L["SHORT_SAY"]                 = "S"
+L["SHORT_WHISPER"]             = "FROM"
+L["SHORT_WHISPER_INFORM"]      = "TO"
+L["SHORT_YELL"]                = "Y"
 
 ------------------------------------------------------------------------
 --	Configuration Panel Text
