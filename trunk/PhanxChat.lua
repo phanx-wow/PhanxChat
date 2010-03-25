@@ -1,3 +1,12 @@
+--[[--------------------------------------------------------------------
+	PhanxChat
+	Reduces chat frame clutter and improves chat frame usability.
+	By Phanx < addons@phanx.net >
+	http://www.wowinterface.com/downloads/info6323-PhanxChat.html
+	http://wow.curse.com/downloads/wow-addons/details/phanxchat.aspx
+	Copyright ©2006–2010 Alyssa "Phanx" Kinley
+	See README for license terms and other information.
+----------------------------------------------------------------------]]
 
 local ADDON_NAME, PhanxChat = ...
 
@@ -39,7 +48,7 @@ local framesToIgnore = {
 --	Locals
 ------------------------------------------------------------------------
 
-if not PhanxChat.L then PhanxChat.L = {
+local default_L = {
 	-- Chat Strings
 	SHORT_BATTLEGROUND = "b",
 	SHORT_BATTLEGROUND_LEADER = "B",
@@ -55,6 +64,7 @@ if not PhanxChat.L then PhanxChat.L = {
 	SHORT_WHISPER = "F",
 	SHORT_WHISPER_INFORM = "T",
 	SHORT_YELL = "y",
+
 	-- Channel Names
 	SHORT_GENERAL = "G",
 	SHORT_TRADE = "T",
@@ -62,11 +72,15 @@ if not PhanxChat.L then PhanxChat.L = {
 	SHORT_WORLDDEFENSE = "WD",
 	SHORT_LOOKINGFORGROUP = "LF",
 	SHORT_GUILDRECRUITMENT = "GR",
-} end
+}
+
+if not PhanxChat.L then
+	PhanxChat.L = { }
+end
 
 local L = setmetatable(PhanxChat.L, { __index = function(t, k)
-	t[k] = k
-	return k
+	t[k] = default_L[k] or k
+	return t[k]
 end })
 
 local eventsToColor = {
@@ -110,6 +124,7 @@ local eventsToLinkURLs = {
 	CHAT_MSG_BATTLEGROUND = true,
 	CHAT_MSG_BATTLEGROUND_LEADER = true,
 	CHAT_MSG_CHANNEL = true,
+	CHAT_MSG_DUNEON_GUIDE = true,
 	CHAT_MSG_GUILD = true,
 	CHAT_MSG_OFFICER = true,
 	CHAT_MSG_PARTY = true,

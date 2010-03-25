@@ -27,12 +27,12 @@ L["GuildRecruitment"] = "公会招募"
 -- These should be one- or two-character abbreviations.
 ------------------------------------------------------------------------
 
-L["SHORT_GENERAL"]             = "综"
-L["SHORT_TRADE"]               = "交"
-L["SHORT_LOCALDEFENSE"]        = "本"
-L["SHORT_WORLDDEFENSE"]        = "世"
-L["SHORT_LOOKINGFORGROUP"]     = "寻"
-L["SHORT_GUILDRECRUITMENT"]    = "招"
+L["SHORT_GENERAL"]          = "综"
+L["SHORT_TRADE"]            = "交"
+L["SHORT_LOCALDEFENSE"]     = "本"
+L["SHORT_WORLDDEFENSE"]     = "世"
+L["SHORT_LOOKINGFORGROUP"]  = "寻"
+L["SHORT_GUILDRECRUITMENT"] = "招"
 
 ------------------------------------------------------------------------
 -- Short Chat Strings
