@@ -764,7 +764,7 @@ function PhanxChat:SetDisableTabFlash(v)
 		self.db.disableTabFlash = v
 	end
 
-	if self.db.disableTabflash then
+	if self.db.disableTabFlash then
 		if not hooks.FCF_FlashTab then
 			hooks.FCF_FlashTab = FCF_FlashTab
 			FCF_FlashTab = noop
@@ -1297,3 +1297,10 @@ function PhanxChat:UnregisterEvent(event)
 	return eventFrame:UnregisterEvent(event)
 end
 eventFrame:RegisterEvent("ADDON_LOADED")
+
+------------------------------------------------------------------------
+--	Random utility
+------------------------------------------------------------------------
+
+SLASH_RELOADUI1 = "/rl"
+SlashCmdList.RELOADUI = ReloadUI
