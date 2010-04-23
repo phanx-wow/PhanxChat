@@ -487,6 +487,7 @@ end
 ------------------------------------------------------------------------
 
 local history = { }
+local playerName = UnitName("player")
 
 function PhanxChat.FilterRepeats(frame, event, message, sender, ...)
 	if sender and sender ~= playerName and type(message) == "string" then
