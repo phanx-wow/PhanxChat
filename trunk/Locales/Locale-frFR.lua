@@ -73,11 +73,14 @@ L["Disable the flashing effect on chat tabs that receive new messages."] = "Désa
 L["Enable arrow keys"] = "Activer les flèches"
 L["Enable arrow keys in the chat edit box."] = "Permet l’usage des flèches du clavier dans l’espace de saisie."
 
-L["Enable mousewheel"] = "Activer la roue de sourie"
-L["Enable mousewheel scrolling in chat frames."] = "Permet le défilement avec la molette de la sourie. Appuyer sur ‘Maj’ pour que la molette défile le chat jusqu’à la première ou la dernière ligne."
+-- L["Enable resize edges"] = ""
+-- L["Enable resize controls at all edges of chat frames, instead of just in the bottom right corner."] = ""
 
 L["Hide buttons"] = "Cacher les boutons"
 L["Hide the chat frame menu and scroll buttons."] = "Cache les boutons de défilement."
+
+-- L["Hide extra textures"] = ""
+-- L["Hide the extra textures on chat tabs and chat edit boxes added in patch 3.3.5."] = ""
 
 L["Link URLs"] = "URLs copiable"
 L["Transform URLs in chat into clickable links for easy copying."] = "Transforme les URLs en liens cliquables qui permet de les copier/coller."

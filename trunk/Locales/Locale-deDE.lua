@@ -71,11 +71,14 @@ L["Disable the flashing effect on chat tabs that receive new messages."] = "Blin
 L["Enable arrow keys"] = "Pfeiltasten aktivieren"
 L["Enable arrow keys in the chat edit box."] = "Pfeiltasten für das Eingabefeld aktivieren"
 
-L["Enable mousewheel"] = "Mausrad scrollen"
-L["Enable mousewheel scrolling in chat frames."] = "Mit dem Mausrad scrollen aktivieren"
+-- L["Enable resize edges"] = ""
+-- L["Enable resize controls at all edges of chat frames, instead of just in the bottom right corner."] = ""
 
 L["Hide buttons"] = "Buttons verstecken"
 L["Hide the chat frame menu and scroll buttons."] = "Scroll Buttons verstecken"
+
+-- L["Hide extra textures"] = ""
+-- L["Hide the extra textures on chat tabs and chat edit boxes added in patch 3.3.5."] = ""
 
 L["Link URLs"] = "URLs anklickbar"
 L["Transform URLs in chat into clickable links for easy copying."] = "URLs für einfaches kopieren anklickbar machen"
