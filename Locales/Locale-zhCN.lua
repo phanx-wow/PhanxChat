@@ -71,11 +71,14 @@ L["Disable the flashing effect on chat tabs that receive new messages."] = "关�
 -- L["Enable arrow keys"] = ""
 L["Enable arrow keys in the chat edit box."] = "允许在输入框中使用方向键."
 
-L["Enable mousewheel"] = "启用鼠标卷动"
-L["Enable mousewheel scrolling in chat frames."] = "启用鼠标卷动."
+-- L["Enable resize edges"] = ""
+-- L["Enable resize controls at all edges of chat frames, instead of just in the bottom right corner."] = ""
 
 L["Hide buttons"] = "隐藏滚动按钮"
 L["Hide the chat frame menu and scroll buttons."] = "隐藏滚动按钮."
+
+-- L["Hide extra textures"] = ""
+-- L["Hide the extra textures on chat tabs and chat edit boxes added in patch 3.3.5."] = ""
 
 L["Link URLs"] = "URL链接快速复制"
 L["Transform URLs in chat into clickable links for easy copying."] = "URL链接快速复制."

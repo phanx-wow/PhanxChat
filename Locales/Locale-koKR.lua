@@ -72,11 +72,14 @@ L["Disable the flashing effect on chat tabs that receive new messages."] = "새 
 L["Enable arrow keys"] = "화살표 키 사용"
 L["Enable arrow keys in the chat edit box."] = "메시지 입력창에서 화살표 키를 사용합니다."
 
-L["Enable mousewheel"] = "마우스휠 버튼 사용"
-L["Enable mousewheel scrolling in chat frames."] = "마우스휠 버튼으로 채팅창을 스크롤 할 수 있도록 설정합니다."
+-- L["Enable resize edges"] = ""
+-- L["Enable resize controls at all edges of chat frames, instead of just in the bottom right corner."] = ""
 
 L["Hide buttons"] = "버튼 숨기기"
 L["Hide the chat frame menu and scroll buttons."] = "스크롤 버튼을 숨깁니다."
+
+-- L["Hide extra textures"] = ""
+-- L["Hide the extra textures on chat tabs and chat edit boxes added in patch 3.3.5."] = ""
 
 L["Link URLs"] = "URL 링크"
 L["Transform URLs in chat into clickable links for easy copying."] = "쉬운 URL 복사를 위해 채팅창의 URL 을 클릭가능한 링크로 표시합니다."

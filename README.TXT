@@ -8,9 +8,21 @@ PhanxChat - a World of Warcraft user interface addon
 Description
 
 	PhanxChat unclutters your chat frames and makes them a little more
-	user-friendly. Features include mousewheel scrolling, channel name
-	shortening, editbox relocation, URL linking, docked tab locking, and
-	tab flash suppression.
+	user-friendly.
+
+	* Enables clickable links for URLs in chat
+	* Enables class coloring in more message types
+	* Enables sticky behavior in more message types
+	* Enables arrow keys in the chat input box
+	* Enables resize controls all around chat frames
+	* Hides chat frame scroll and menu buttons
+	* Hides repeated messages in public channels
+	* Hides channel notification messages
+	* Hides extra textures on chat tabs and edit box
+	* Moves the edit box to the top of the chat frame
+	* Shortens channel names and chat type strings
+	* Stops chat tabs from flashing when new messages arrive
+	* Stops docked chat tabs from being dragged by accident
 
 Usage
 

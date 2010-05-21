@@ -71,11 +71,14 @@ L["Disable the flashing effect on chat tabs that receive new messages."] = "От
 L["Enable arrow keys"] = "Использовать кнопки передвижения"
 L["Enable arrow keys in the chat edit box."] = "Использовать кнопки передвижения в строке ввода."
 
-L["Enable mousewheel"] = "Прокрутка колесиком мыши"
-L["Enable mousewheel scrolling in chat frames."] = "Включить прокрутку колесиком мыши."
+-- L["Enable resize edges"] = ""
+-- L["Enable resize controls at all edges of chat frames, instead of just in the bottom right corner."] = ""
 
 L["Hide buttons"] = "Скрыть кнопки чата"
 L["Hide the chat frame menu and scroll buttons."] = "Скрыть кнопки чата."
+
+-- L["Hide extra textures"] = ""
+-- L["Hide the extra textures on chat tabs and chat edit boxes added in patch 3.3.5."] = ""
 
 L["Link URLs"] = "Кликабельные URL"
 L["Transform URLs in chat into clickable links for easy copying."] = "Кликабельные URL для облегчения копирования."
