@@ -289,21 +289,32 @@ function PhanxChat:ADDON_LOADED(addon)
 		end
 	end
 
-	local t = { }
-	for k, v in pairs(framesToIgnore["*"] or t) do
-		framesToIgnore[k] = v
+	if framesToIgnore["*"] then
+		for k, v in pairs(framesToIgnore["*"]) do
+			framesToIgnore[k] = v
+		end
 	end
-	for k, v in pairs(framesToIgnore[("%s-%s"):format(GetRealmName(), UnitName("player"))] or t) do
-		framesToIgnore[k] = v
+	local t = framesToIgnore[("%s-%s"):format(GetRealmName(), UnitName("player"))]
+	if t then
+		for k, v in pairs(t) do
+			framesToIgnore[k] = v
+		end
 	end
 
-	local frame
 	for i = 1, 10 do
-		frame = _G[("ChatFrame%d"):format(i)]
+		local frame = _G[("ChatFrame%d"):format(i)]
 
+		frame:SetClampRectInsets(0, 0, 0, 0)
 		frame:SetMaxLines(250)
 		frame:SetMaxResize(UIParent:GetWidth(), UIParent:GetHeight())
-		frame:SetMinResize(40, 20)
+		frame:SetMinResize(150, 20)
+
+		local tab = _G[("ChatFrame%dTab"):format(i)]
+		local text = _G[("ChatFrame%dTabText"):format(i)]
+		text:ClearAllPoints()
+		text:SetPoint("BOTTOMLEFT", tab, 10, 5)
+		text:SetPoint("BOTTOMRIGHT", tab, -10, 5)
+		text:SetJustifyH("LEFT")
 
 		if not framesToIgnore[frame] then
 			if not hooks[frame] then
@@ -387,8 +398,74 @@ function PhanxChat.ChatFrame_AddMessage(frame, text, ...)
 end
 
 ------------------------------------------------------------------------
+--	Automatically start logging chat
+------------------------------------------------------------------------
+
+function PhanxChat:SetAutoStartChatLog(v)
+	if type(v) == "boolean" then
+		self.db.autoStartChatLog = v
+	end
+
+	if self.db.autoStartChatLog then
+		LoggingChat(1)
+	end
+end
+
+------------------------------------------------------------------------
 --	Color player names
 ------------------------------------------------------------------------
+
+function PhanxChat:SetColorPlayerNames(v)
+	if type(v) == "boolean" then
+		self.db.colorPlayerNames = v
+	end
+
+	if self.db.colorPlayerNames then
+		for k, v in pairs(ChatTypeInfo) do
+			SetChatColorNameByClass(k, true)
+			--v.colorNameByClass = true
+		end
+
+		self:RegisterEvent("CHAT_MSG_SYSTEM")
+		self:RegisterEvent("FRIENDLIST_UPDATE")
+		self:RegisterEvent("GUILD_ROSTER_UPDATE")
+		self:RegisterEvent("PARTY_MEMBERS_CHANGED")
+		self:RegisterEvent("PLAYER_GUILD_UPDATE")
+		self:RegisterEvent("PLAYER_TARGET_CHANGED")
+		self:RegisterEvent("RAID_ROSTER_UPDATE")
+		self:RegisterEvent("UPDATE_LFG_LIST")
+		self:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
+		self:RegisterEvent("WHO_LIST_UPDATE")
+
+		self:RegisterName(UnitName("player"), select(2, UnitClass("player")))
+
+		if GetNumFriends() > 0 then
+			ShowFriends()
+		end
+
+		if IsInGuild() then
+			GuildRoster()
+		end
+	elseif not self.isLoading then
+		for k, v in pairs(ChatTypeInfo) do
+			SetChatColorNameByClass(k, false)
+			-- v.colorNameByClass = nil
+		end
+
+		self:UnregisterEvent("CHAT_MSG_SYSTEM")
+		self:UnregisterEvent("FRIENDLIST_UPDATE")
+		self:UnregisterEvent("GUILD_ROSTER_UPDATE")
+		self:UnregisterEvent("PARTY_MEMBERS_CHANGED")
+		self:UnregisterEvent("PLAYER_GUILD_UPDATE")
+		self:UnregisterEvent("PLAYER_TARGET_CHANGED")
+		self:UnregisterEvent("RAID_ROSTER_UPDATE")
+		self:UnregisterEvent("UPDATE_LFG_LIST")
+		self:UnregisterEvent("UPDATE_MOUSEOVER_UNIT")
+		self:UnregisterEvent("WHO_LIST_UPDATE")
+
+		wipe(PlayerNames)
+	end
+end
 
 function PhanxChat:RegisterName(name, class)
 	if not name or not class or not ClassTokens[class] or PlayerNames[name] then return end
@@ -482,7 +559,260 @@ function PhanxChat:CHAT_MSG_SYSTEM(message)
 end
 
 ------------------------------------------------------------------------
---	Enable mousewheel
+--	Disable tab flashing when new messages are received
+------------------------------------------------------------------------
+
+function PhanxChat:SetDisableTabFlash(v) -- #TODO: update for 3.3.5
+	if type(v) == "boolean" then
+		self.db.disableTabFlash = v
+	end
+
+	if self.db.disableTabFlash then
+		for i = 1, 10 do
+			local f = _G[("ChatFrame%dTabFlash"):format(i)]
+			f:SetScript("OnShow", f.Hide)
+			f:Hide()
+		end
+		if not hooks.FCF_FlashTab then
+			hooks.FCF_FlashTab = FCF_FlashTab
+			FCF_FlashTab = noop
+		end
+		if not hooks.FCF_StartAlertFlash then
+			hooks.FCF_StartAlertFlash = FCF_StartAlertFlash
+			FCF_StartAlertFlash = noop
+		end
+		if not hooks.FCF_StopAlertFlash then
+			hooks.FCF_StopAlertFlash = FCF_StopAlertFlash
+			FCF_StopAlertFlash = noop
+		end
+	elseif not self.isLoading then
+		for i = 1, 10 do
+			local f = _G[("ChatFrame%dTabFlash"):format(i)]
+			f:SetScript("OnShow", nil)
+		end
+		if hooks.FCF_FlashTab then
+			FCF_FlashTab = hooks.FCF_FlashTab
+			hooks.FCF_FlashTab = nil
+		end
+		if hooks.FCF_StartAlertFlash then
+			FCF_StartAlertFlash = hooks.FCF_StartAlertFlash
+			hooks.FCF_StartAlertFlash = nil
+		end
+		if hooks.FCF_StopAlertFlash then
+			FCF_StopAlertFlash = hooks.FCF_StopAlertFlash
+			hooks.FCF_StopAlertFlash = nil
+		end
+	end
+end
+
+------------------------------------------------------------------------
+--	Enable arrow keys in chat frame edit boxes
+------------------------------------------------------------------------
+
+function PhanxChat:SetEnableArrowKeys(v)
+	if type(v) == "boolean" then
+		self.db.enableArrowKeys = v
+	end
+
+	for i = 1, 10 do
+		_G[("ChatFrame%dEditBox"):format(i)]:SetAltArrowKeyMode(not self.db.enableArrowKeys)
+	end
+end
+
+------------------------------------------------------------------------
+--	Enable edge resizing
+------------------------------------------------------------------------
+
+local anchorPoints = { "TopLeft", "TopRight", "BottomLeft", "BottomRight", "Top", "Bottom", "Left", "Right" }
+
+function PhanxChat:SetEnableResizeEdges(v)
+	if type(v) == "boolean" then
+		self.db.enableResizeEdges = v
+	end
+
+	if self.db.enableResizeEdges then
+		for i = 1, 10 do
+			local f = _G[("ChatFrame%d"):format(i)]
+			if not f.resizeTopLeft then
+				f.background = _G[("ChatFrame%dBackground"):format(i)]
+
+				for _, v in ipairs(anchorPoints) do
+					local k = "resize" .. v
+					f[k] = CreateFrame("Button", "ChatFrame" .. i .. "Resize" .. v, f)
+					local b = f[k]
+					b.anchorPoint = v:upper()
+					b:SetWidth(20)
+					b:SetHeight(20)
+					b:SetScript("OnMouseDown", self.ChatFrame_StartResizing)
+					b:SetScript("OnMouseUp", self.ChatFrame_StopResizing)
+					LowerFrameLevel(b)
+
+					b.tex = b:CreateTexture(nil, "BACKGROUND")
+					b.tex:SetTexture([[Interface\ChatFrame\ChatFrameBorder]])
+					b.tex:SetWidth(20)
+					b.tex:SetHeight(20)
+					b.tex:SetAllPoints(b)
+					b.tex:SetVertexColor(0, 0, 0, 0.25)
+				end
+
+				f.resizeTopLeft:SetPoint("TOPLEFT", f.background, -2, 2)
+				f.resizeTopLeft.tex:SetTexCoord(0, 0.25, 0, 0.125)
+
+				f.resizeTopRight:SetPoint("TOPRIGHT", f.background, 2, 2)
+				f.resizeTopRight.tex:SetTexCoord(0.75, 1, 0, 0.125)
+
+				f.resizeBottomLeft:SetPoint("BOTTOMLEFT", f.background, -2, -3)
+				f.resizeBottomLeft.tex:SetTexCoord(0, 0.25, 0.7265625, 0.8515625)
+
+				f.resizeBottomRight:SetPoint("BOTTOMRIGHT", f.background, 2, -3)
+				f.resizeBottomRight.tex:SetTexCoord(0.75, 1, 0.7265625, 0.8515625)
+
+				f.resizeTop:SetPoint("LEFT", f.resizeTopLeft, "RIGHT", 0, 0)
+				f.resizeTop:SetPoint("RIGHT", f.resizeTopRight, "LEFT", 0, 0)
+				f.resizeTop.tex:SetTexCoord(0.25, 0.75, 0, 0.125)
+
+				f.resizeBottom:SetPoint("LEFT", f.resizeBottomLeft, "RIGHT", 0, 0)
+				f.resizeBottom:SetPoint("RIGHT", f.resizeBottomRight, "LEFT", 0, 0)
+				f.resizeBottom.tex:SetTexCoord(0.25, 0.75, 0.7265625, 0.8515625)
+
+				f.resizeLeft:SetPoint("TOP", f.resizeTopLeft, "BOTTOM", 0, 0)
+				f.resizeLeft:SetPoint("BOTTOM", f.resizeBottomLeft, "TOP", 0, 0)
+				f.resizeLeft.tex:SetTexCoord(0, 0.25, 0.125, 0.7265625)
+
+				f.resizeRight:SetPoint("TOP", f.resizeTopRight, "BOTTOM", 0, 0)
+				f.resizeRight:SetPoint("BOTTOM", f.resizeBottomRight, "TOP", 0, 0)
+				f.resizeRight.tex:SetTexCoord(0.75, 1, 0.125, 0.7265625)
+			end
+
+			if not hooks.FCF_FadeInChatFrame then
+				hooks.FCF_FadeInChatFrame = FCF_FadeInChatFrame
+				FCF_FadeInChatFrame = self.FCF_FadeInChatFrame
+			end
+			if not hooks.FCF_FadeOutChatFrame then
+				hooks.FCF_FadeOutChatFrame = FCF_FadeOutChatFrame
+				FCF_FadeOutChatFrame = self.FCF_FadeOutChatFrame
+			end
+			if not hooks.SetChatWindowLocked then
+				hooks.SetChatWindowLocked = SetChatWindowLocked
+				SetChatWindowLocked = self.SetChatWindowLocked
+			end
+			if not hooks.FCF_SetWindowAlpha then
+				hooks.FCF_SetWindowAlpha = FCF_SetWindowAlpha
+				FCF_SetWindowAlpha = self.FCF_SetWindowAlpha
+			end
+			if not hooks.FCF_SetWindowColor then
+				hooks.FCF_SetWindowColor = FCF_SetWindowColor
+				FCF_SetWindowColor = self.FCF_SetWindowColor
+			end
+
+			local b = _G[("ChatFrame%dResizeButton"):format(i)]
+			b:SetScript("OnShow", b.Hide)
+			b:Hide()
+		end
+	elseif not self.isLoading then
+		for i = 1, 10 do
+			local f = _G[("ChatFrame%d"):format(i)]
+			if f.resizeTopLeft then
+				for _, v in ipairs(anchorPoints) do
+					f["resize" .. v]:Hide()
+				end
+			end
+
+			if hooks.FCF_FadeInChatFrame then
+				FCF_FadeInChatFrame = hooks.FCF_FadeInChatFrame
+				hooks.FCF_FadeInChatFrame = nil
+			end
+			if hooks.FCF_FadeOutChatFrame then
+				FCF_FadeOutChatFrame = hooks.FCF_FadeOutChatFrame
+				hooks.FCF_FadeOutChatFrame = nil
+			end
+			if hooks.SetChatWindowLocked then
+				SetChatWindowLocked = hooks.SetChatWindowLocked
+				hooks.SetChatWindowLocked = nil
+			end
+			if hooks.FCF_SetWindowAlpha then
+				FCF_SetWindowAlpha = hooks.FCF_SetWindowAlpha
+				hooks.FCF_SetWindowAlpha = nil
+			end
+			if hooks.FCF_SetWindowColor then
+				FCF_SetWindowColor = hooks.FCF_SetWindowColor
+				hooks.FCF_SetWindowColor = nil
+			end
+
+			local b = _G[("ChatFrame%dResizeButton"):format(i)]
+			b:SetScript("OnShow", nil)
+			if not (f.isUninteractable or f.isLocked) then
+				b:Show()
+			end
+		end
+	end
+end
+
+function PhanxChat.ChatFrame_StartResizing(self)
+	local chatFrame = self:GetParent()
+	if chatFrame.isLocked then return end
+	if chatFrame.isDocked and chatFrame ~= DEFAULT_CHAT_FRAME then return end
+
+	chatFrame.resizing = 1
+	chatFrame:StartSizing(self.anchorPoint)
+end
+
+function PhanxChat.ChatFrame_StopResizing(self)
+	local chatFrame = self:GetParent()
+	chatFrame:StopMovingOrSizing()
+	if chatFrame == DEFAULT_CHAT_FRAME then
+		FCF_DockUpdate()
+	end
+	chatFrame.resizing = nil
+end
+
+function PhanxChat.FCF_FadeInChatFrame(frame)
+	hooks.FCF_FadeInChatFrame(frame)
+	for _, v in ipairs(anchorPoints) do
+		local object = frame["resize" .. v]
+		if object:IsShown() then
+			UIFrameFadeIn(object, CHAT_FRAME_FADE_TIME, object:GetAlpha(), max(frame.oldAlpha, DEFAULT_CHATFRAME_ALPHA))
+		end
+	end
+end
+
+function PhanxChat.FCF_FadeOutChatFrame(frame)
+	hooks.FCF_FadeOutChatFrame(frame)
+	for _, v in ipairs(anchorPoints) do
+		local object = frame["resize" .. v]
+		if object:IsShown() then
+			UIFrameFadeOut(object, CHAT_FRAME_FADE_OUT_TIME, max(object:GetAlpha(), frame.oldAlpha), frame.oldAlpha)
+		end
+	end
+end
+
+function PhanxChat.FCF_SetWindowAlpha(frame, a, doNotSave)
+	hooks.FCF_SetWindowAlpha(frame, a, doNotSave)
+	for _, v in ipairs(anchorPoints) do
+		frame["resize" .. v]:SetAlpha(a)
+	end
+end
+
+function PhanxChat.FCF_SetWindowColor(frame, r, g, b, doNotSave)
+	hooks.FCF_SetWindowColor(frame, r, g, b, doNotSave)
+	for _, v in ipairs(anchorPoints) do
+		frame["resize" .. v].tex:SetVertexColor(r, g, b)
+	end
+end
+
+function PhanxChat.SetChatWindowLocked(index, locked, ...)
+	local f = _G["ChatFrame" .. index]
+	for _, v in ipairs(anchorPoints) do
+		local k = "resize" .. v
+		if f[k] then
+			f[k]:EnableMouse(not locked)
+		end
+	end
+	return hooks.SetChatWindowLocked(index, locked, ...)
+end
+
+------------------------------------------------------------------------
+--	Enable mouse wheel scrolling
 ------------------------------------------------------------------------
 
 hooks.FloatingChatFrame_OnMouseScroll = FloatingChatFrame_OnMouseScroll
@@ -511,43 +841,48 @@ function FloatingChatFrame_OnMouseScroll(self, delta)
 end
 
 ------------------------------------------------------------------------
---	Enable edge resizing
+--	Fade time
 ------------------------------------------------------------------------
 
-local anchorPoints = { "TopLeft", "TopRight", "BottomLeft", "BottomRight", "Top", "Right", "Left", "Bottom" }
-
-function PhanxChat.ChatFrame_StartResizing(self)
-	local chatFrame = self:GetParent()
-	if chatFrame.isLocked then return end
-	if chatFrame.isDocked and chatFrame ~= DEFAULT_CHAT_FRAME then return end
-
-	chatFrame.resizing = 1
-	chatFrame:StartSizing(self.anchorPoint)
-end
-
-function PhanxChat.ChatFrame_StopResizing(self)
-	local chatFrame = self:GetParent()
-	chatFrame:StopMovingOrSizing()
-	if chatFrame == DEFAULT_CHAT_FRAME then
-		FCF_DockUpdate()
+function PhanxChat:SetFadeTime(v)
+	if type(v) == "number" then
+		self.db.fadeTime = v
 	end
-	chatFrame.resizing = nil
-end
 
-function PhanxChat.SetChatWindowLocked(index, locked, ...)
-	local f = _G["ChatFrame" .. index]
-	for _, v in ipairs(anchorPoints) do
-		local k = "resize" .. v
-		if f[k] then
-			f[k]:EnableMouse(not locked)
+	local frame
+	if self.db.fadeTime > 0 then
+		for i = 1, 10 do
+			frame = _G[("ChatFrame%d"):format(i)]
+			frame:SetFading(1)
+			frame:SetTimeVisible(self.db.fadeTime * 60)
+		end
+	else
+		for i = 1, 10 do
+			frame = _G[("ChatFrame%d"):format(i)]
+			frame:SetFading(0)
 		end
 	end
-	return hooks.SetChatWindowLocked(index, locked, ...)
 end
 
 ------------------------------------------------------------------------
 --	Filter notices
 ------------------------------------------------------------------------
+
+function PhanxChat:SetFilterNotices(v)
+	if type(v) == "boolean" then
+		self.db.filterNotices = v
+	end
+
+	if self.db.filterNotices then
+		for event in pairs(eventsToFilterForNotices) do
+			ChatFrame_AddMessageEventFilter(event, self.FilterNotices)
+		end
+	elseif not self.isLoading then
+		for event in pairs(eventsToFilterForNotices) do
+			ChatFrame_RemoveMessageEventFilter(event, self.FilterNotices)
+		end
+	end
+end
 
 function PhanxChat.FilterNotices()
 	return true
@@ -556,6 +891,22 @@ end
 ------------------------------------------------------------------------
 --	Filter repeats
 ------------------------------------------------------------------------
+
+function PhanxChat:SetFilterRepeats(v)
+	if type(v) == "boolean" then
+		self.db.filterRepeats = v
+	end
+
+	if self.db.filterRepeats then
+		for event in pairs(eventsToFilterForRepeats) do
+			ChatFrame_AddMessageEventFilter(event, self.FilterRepeats)
+		end
+	elseif not self.isLoading then
+		for event in pairs(eventsToFilterForRepeats) do
+			ChatFrame_RemoveMessageEventFilter(event, self.FilterRepeats)
+		end
+	end
+end
 
 local history = { }
 local playerName = UnitName("player")
@@ -585,8 +936,125 @@ function PhanxChat.FilterRepeats(frame, event, message, sender, ...)
 end
 
 ------------------------------------------------------------------------
+--	Font size
+------------------------------------------------------------------------
+
+function PhanxChat:SetFontSize(v)
+	if type(v) == "number" and v >= 6 and v <= 32 then
+		for i = 1, 10 do
+			FCF_SetChatWindowFontSize(nil, _G[("ChatFrame%d"):format(i)], v)
+		end
+	end
+end
+
+------------------------------------------------------------------------
 --	Hide buttons
 ------------------------------------------------------------------------
+
+function PhanxChat:SetHideButtons(v)
+	if type(v) == "boolean" then
+		self.db.hideButtons = v
+	end
+
+	if self.db.hideButtons then
+		for i = 1, 10 do
+			local cf = _G[("ChatFrame%d"):format(i)]
+
+			local bf = _G[("ChatFrame%dButtonFrame"):format(i)]
+			bf:SetScript("OnSHow", bf.Hide)
+			bf:Hide()
+
+			local ub = _G[("ChatFrame%dButtonFrameUpButton"):format(i)]
+			ub:SetScript("OnShow", ub.Hide)
+			ub:Hide()
+
+			local db = _G[("ChatFrame%dButtonFrameDownButton"):format(i)]
+			db:SetScript("OnShow", db.Hide)
+			db:Hide()
+
+			local bb = _G[("ChatFrame%dButtonFrameBottomButton"):format(i)]
+			bb:ClearAllPoints()
+			bb:SetParent(cf)
+			bb:SetPoint("BOTTOMRIGHT", cf, "BOTTOMRIGHT", 0, -4)
+			bb:Hide()
+
+			if not hooks[bb] then
+				hooks[bb] = { }
+			end
+			if not hooks[bb].OnClick then
+				hooks[bb].OnClick = bb:GetScript("OnClick")
+				bb:SetScript("OnClick", self.ChatFrameBottomButton_OnClick)
+			end
+		end
+
+		ChatFrameMenuButton:SetScript("OnShow", ChatFrameMenuButton.Hide)
+		ChatFrameMenuButton:Hide()
+
+		FriendsMicroButton:SetScript("OnShow", FriendsMicroButton.Hide)
+		FriendsMicroButton:Hide()
+
+		GeneralDockManagerOverflowButton:SetScript("OnShow", GeneralDockManagerOverflowButton.Hide)
+		GeneralDockManagerOverflowButton:Hide()
+
+		if not hooks.ChatFrame_OnUpdate then
+			hooks.ChatFrame_OnUpdate = ChatFrame_OnUpdate
+			ChatFrame_OnUpdate = self.ChatFrame_OnUpdate
+		end
+
+		if not hooks.FCF_SetButtonSide then
+			hooks.FCF_SetButtonSide = FCF_SetButtonSide
+			FCF_SetButtonSide = noop
+		end
+	elseif not self.isLoading then
+		ChatFrameMenuButton:SetScript("OnShow", nil)
+		ChatFrameMenuButton:Show()
+
+		FriendsMicroButton:SetScript("OnShow", nil)
+		FriendsMicroButton:Show()
+
+		GeneralDockManagerOverflowButton:SetScript("OnShow", nil)
+		GeneralDockManagerOverflowButton:Show()
+
+		if hooks.ChatFrame_OnUpdate then
+			ChatFrame_OnUpdate = hooks.ChatFrame_OnUpdate
+			hooks.ChatFrame_OnUpdate = nil
+		end
+
+		if hooks.ChatFrame_OnUpdate then
+			FCF_SetButtonSide = hooks.FCF_SetButtonSide
+			hooks.FCF_SetButtonSide = nil
+		end
+
+		for i = 1, 10 do
+			local cf = _G[("ChatFrame%d"):format(i)]
+
+			local bf = _G[("ChatFrame%dButtonFrame"):format(i)]
+			bf:SetScript("OnShow", nil)
+			bf:Show()
+
+			local ub = _G[("ChatFrame%dButtonFrameUpButton"):format(i)]
+			ub:SetScript("OnShow", nil)
+			ub:Show()
+
+			local db = _G[("ChatFrame%dButtonFrameDownButton"):format(i)]
+			db:SetScript("OnShow", nil)
+			db:Show()
+
+			local bb = _G[("ChatFrame%dButtonFrameBottomButton"):format(i)]
+			bb:ClearAllPoints()
+			bb:SetParent(bf)
+			button:SetPoint("BOTTOMRIGHT", cf, "BOTTOMLEFT", 0, -4)
+			bb:Show()
+
+			if hooks[bb] and hooks[bb].OnClick then
+				bb:SetScript("OnClick", hooks[bb].OnClick)
+				hooks[bb].OnClick = nil
+			end
+
+			FCF_UpdateButtonSide(frame)
+		end
+	end
+end
 
 function PhanxChat.ChatFrame_OnUpdate(frame, elapsed)
 	if frame:AtBottom() then
@@ -597,9 +1065,169 @@ function PhanxChat.ChatFrame_OnUpdate(frame, elapsed)
 	end
 end
 
+function PhanxChat.ChatFrameBottomButton_OnClick(self, button)
+	PlaySound("igChatBottom")
+	local parent = self:GetParent()
+	if parent.ScrollToBottom then
+		parent:ScrollToBottom()
+	else
+		parent:GetParent():ScrollToBottom()
+	end
+end
+
+------------------------------------------------------------------------
+--	Hide crap
+------------------------------------------------------------------------
+
+function PhanxChat:SetHideCrap(v) -- #TODO: update for 3.3.5
+	if type(v) == "boolean" then
+		self.db.hideCrap = v
+	end
+
+	if self.db.hideCrap then
+		for i = 1, 10 do
+			local frame = _G[("ChatFrame%d"):format(i)]
+
+			frame.clickAnywhereButton:SetScript("OnShow", frame.clickAnywhereButton.Hide)
+			frame.clickAnywhereButton:Hide()
+
+			local editBox = _G[("ChatFrame%dEditBox"):format(i)]
+
+			if not editBox.left then
+				editBox.left = _G[("ChatFrame%sEditBoxLeft"):format(i)]
+				editBox.right = _G[("ChatFrame%sEditBoxRight"):format(i)]
+				editBox.mid = _G[("ChatFrame%sEditBoxMid"):format(i)]
+			end
+
+			editBox.left:SetAlpha(0)
+			editBox.right:SetAlpha(0)
+			editBox.mid:SetAlpha(0)
+
+			editBox.focusLeft:SetTexture([[Interface\ChatFrame\UI-ChatInputBorder-Left2]])
+			editBox.focusRight:SetTexture([[Interface\ChatFrame\UI-ChatInputBorder-Right2]])
+			editBox.focusMid:SetTexture([[Interface\ChatFrame\UI-ChatInputBorder-Mid2]])
+
+			local tab = _G[("ChatFrame%dTab"):format(i)]
+
+			tab.noMouseAlpha = 0
+			FCFTab_UpdateAlpha(frame)
+
+			tab.leftSelectedTexture:SetAlpha(0)
+			tab.rightSelectedTexture:SetAlpha(0)
+			tab.middleSelectedTexture:SetAlpha(0)
+
+			tab.leftHighlightTexture:SetTexture(nil)
+			tab.rightHighlightTexture:SetTexture(nil)
+
+			tab.middleHighlightTexture:SetTexture([[Interface\PaperDollInfoFrame\UI-Character-Tab-Highlight]])
+			tab.middleHighlightTexture:SetHorizTile(false)
+			tab.middleHighlightTexture:ClearAllPoints()
+			tab.middleHighlightTexture:SetHeight(32)
+			tab.middleHighlightTexture:SetPoint("LEFT", _G[("ChatFrame%dTabLeft"):format(i)], 0, -7)
+			tab.middleHighlightTexture:SetPoint("RIGHT", _G[("ChatFrame%dTabRight"):format(i)], 0, -7)
+
+			if not hooks[tab.middleHighlightTexture] then
+				hooks[tab.middleHighlightTexture] = { }
+			end
+			if not hooks[tab.middleHighlightTexture].SetVertexColor then
+				hooks[tab.middleHighlightTexture].SetVertexColor = tab.middleHighlightTexture.SetVertexColor
+				tab.middleHighlightTexture.SetVertexColor = noop
+			end
+		end
+
+		if not hooks.PanelTemplates_TabResize then
+			hooks.PanelTemplates_TabResize = PanelTemplates_TabResize
+			PanelTemplates_TabResize = self.PanelTemplates_TabResize
+		end
+	elseif not self.isLoading then
+		for i = 1, 10 do
+			local frame = _G[("ChatFrame%d"):format(i)]
+
+			frame.clickAnywhereButton:SetScript("OnShow", frame.clickAnywhereButton.Hide)
+			frame.clickAnywhereButton:Hide()
+
+			local editBox = _G[("ChatFrame%dEditBox"):format(i)]
+
+			if not editBox.left then
+				editBox.left = _G[("ChatFrame%sEditBoxLeft"):format(i)]
+				editBox.right = _G[("ChatFrame%sEditBoxRight"):format(i)]
+				editBox.mid = _G[("ChatFrame%sEditBoxMid"):format(i)]
+			end
+
+			editBox.left:SetAlpha(1)
+			editBox.right:SetAlpha(1)
+			editBox.mid:SetAlpha(1)
+
+			editBox.focusLeft:SetTexture([[Interface\ChatFrame\UI-ChatInputBorderFocus-Left]])
+			editBox.focusRight:SetTexture([[Interface\ChatFrame\UI-ChatInputBorderFocus-Right]])
+			editBox.focusMid:SetTexture([[Interface\ChatFrame\UI-ChatInputBorderFocus-Mid]])
+
+			local tab = _G[("ChatFrame%dTab"):format(i)]
+			tab.noMouseAlpha = 0.4
+
+			tab.leftSelectedTexture:SetAlpha(1)
+			tab.rightSelectedTexture:SetAlpha(1)
+			tab.middleSelectedTexture:SetAlpha(1)
+
+			tab.leftHighlightTexture:SetTexture([[Interface\ChatFrame\ChatFrameTab-HighlightLeft]])
+			tab.rightHighlightTexture:SetTexture([[Interface\ChatFrame\ChatFrameTab-HighlightRight]])
+
+			tab.middleHighlightTexture:SetTexture([[Interface\ChatFrame\ChatFrameTab-HighlightMid]])
+			tab.middleHighlightTexture:SetHorizTile(true)
+			tab.middleHighlightTexture:ClearAllPoints()
+			tab.middleHighlightTexture:SetWidth(44)
+			tab.middleHighlightTexture:SetHeight(32)
+			tab.middleHighlightTexture:SetPoint("TOPLEFT", _G[("ChatFrame%dTabMiddle"):format(i)], 0, 0)
+			tab.middleHighlightTexture:SetPoint("TOPRIGHT", _G[("ChatFrame%dTabMiddle"):format(i)], 0, 0)
+
+			if hooks[tab.middleHighlightTexture] and hooks[tab.middleHighlightTexture].SetVertexColor then
+				tab.middleHighlightTexture.SetVertexColor = hooks[tab.middleHighlightTexture].SetVertexColor
+				hooks[tab.middleHighlightTexture].SetVertexColor = nil
+			end
+		end
+
+		if hooks.PanelTemplates_TabResize then
+			PanelTemplates_TabResize = hooks.PanelTemplates_TabResize
+			hooks.PanelTemplates_TabResize = nil
+		end
+	end
+end
+
+function PhanxChat.PanelTemplates_TabResize(tab, padding, absoluteSize, maxWidth, absoluteTextSize)
+	local tabName = tab:GetName()
+	if tabName:match("^ChatFrame%d") then
+		absoluteSize = _G[("%sText"):format(tabName)]:GetStringWidth() + 35
+	end
+	return hooks.PanelTemplates_TabResize(tab, padding, absoluteSize, maxWidth, absoluteTextSize)
+end
+
 ------------------------------------------------------------------------
 --	Link URLs
 ------------------------------------------------------------------------
+
+function PhanxChat:SetLinkURLs(v)
+	if type(v) == "boolean" then
+		self.db.linkURLs = v
+	end
+
+	if self.db.linkURLs then
+		for event in pairs(eventsToLinkURLs) do
+			ChatFrame_AddMessageEventFilter(event, self.LinkURLs)
+		end
+		if not hooks.SetItemRef then
+			hooks.SetItemRef = SetItemRef
+			SetItemRef = self.SetItemRef
+		end
+	elseif not self.isLoading then
+		for event in pairs(eventsToLinkURLs) do
+			ChatFrame_RemoveMessageEventFilter(event, self.LinkURLs)
+		end
+		if hooks.SetItemRef then
+			SetItemRef = hooks.SetItemRef
+			hooks.SetItemRef = nil
+		end
+	end
+end
 
 local TLDs = { AC = true, AD = true, AE = true, AERO = true, AF = true, AG = true, AI = true, AL = true, AM = true, AN = true, AO = true, AQ = true, AR = true, ARPA = true, AS = true, ASIA = true, AT = true, AU = true, AW = true, AX = true, AZ = true, BA = true, BB = true, BD = true, BE = true, BF = true, BG = true, BH = true, BI = true, BIZ = true, BJ = true, BM = true, BN = true, BO = true, BR = true, BS = true, BT = true, BV = true, BW = true, BY = true, BZ = true, CA = true, CAT = true, CC = true, CD = true, CF = true, CG = true, CH = true, CI = true, CK = true, CL = true, CM = true, CN = true, CO = true, COM = true, COOP = true, CR = true, CU = true, CV = true, CX = true, CY = true, CZ = true, DE = true, DJ = true, DK = true, DM = true, DO = true, DZ = true, EC = true, EDU = true, EE = true, EG = true, ER = true, ES = true, ET = true, EU = true, FI = true, FJ = true, FK = true, FM = true, FO = true, FR = true, GA = true, GB = true, GD = true, GE = true, GF = true, GG = true, GH = true, GI = true, GL = true, GM = true, GN = true, GOV = true, GP = true, GQ = true, GR = true, GS = true, GT = true, GU = true, GW = true, GY = true, HK = true, HM = true, HN = true, HR = true, HT = true, HU = true, ID = true, IE = true, IL = true, IM = true, IN = true, INFO = true, INT = true, IO = true, IQ = true, IR = true, IS = true, IT = true, JE = true, JM = true, JO = true, JOBS = true, JP = true, KE = true, KG = true, KH = true, KI = true, KM = true, KN = true, KP = true, KR = true, KW = true, KY = true, KZ = true, LA = true, LB = true, LC = true, LI = true, LK = true, LR = true, LS = true, LT = true, LU = true, LV = true, LY = true, MA = true, MC = true, MD = true, ME = true, MG = true, MH = true, MIL = true, MK = true, ML = true, MM = true, MN = true, MO = true, MOBI = true, MP = true, MQ = true, MR = true, MS = true, MT = true, MU = true, MUSEUM = true, MV = true, MW = true, MX = true, MY = true, MZ = true, NA = true, NAME = true, NC = true, NE = true, NET = true, NF = true, NG = true, NI = true, NL = true, NO = true, NP = true, NR = true, NU = true, NZ = true, OM = true, ORG = true, PA = true, PE = true, PF = true, PG = true, PH = true, PK = true, PL = true, PM = true, PN = true, PR = true, PRO = true, PS = true, PT = true, PW = true, PY = true, QA = true, RE = true, RO = true, RS = true, RU = true, RW = true, SA = true, SB = true, SC = true, SD = true, SE = true, SG = true, SH = true, SI = true, SJ = true, SK = true, SL = true, SM = true, SN = true, SO = true, SR = true, ST = true, SU = true, SV = true, SY = true, SZ = true, TC = true, TD = true, TEL = true, TF = true, TG = true, TH = true, TJ = true, TK = true, TL = true, TM = true, TN = true, TO = true, TP = true, TR = true, TRAVEL = true, TT = true, TV = true, TW = true, TZ = true, UA = true, UG = true, UK = true, UM = true, US = true, UY = true, UZ = true, VA = true, VC = true, VE = true, VG = true, VI = true, VN = true, VU = true, WF = true, WS = true, YE = true, YT = true, YU = true, ZA = true, ZM = true, ZW = true, }
 
@@ -713,6 +1341,35 @@ end
 --	Lock docked tabs
 ------------------------------------------------------------------------
 
+function PhanxChat:SetLockDockedTabs(v)
+	if type(v) == "boolean" then
+		self.db.lockDockedTabs = v
+	end
+
+	if self.db.lockDockedTabs then
+		local tab
+		for i = 2, 7 do
+			tab = _G[("ChatFrame%dTab"):format(i)]
+			if not hooks[tab] then
+				hooks[tab] = { }
+			end
+			if not hooks[tab].OnDragStart then
+				hooks[tab].OnDragStart = tab:GetScript("OnDragStart")
+				tab:SetScript("OnDragStart", self.ChatTab_OnDragStart)
+			end
+		end
+	elseif not self.isLoading then
+		local tab
+		for i = 2, 7 do
+			tab = _G[("ChatFrame%dTab"):format(i)]
+			if hooks[tab] and hooks[tab].OnDragStart then
+				tab:SetScript("OnDragStart", hooks[tab].OnDragStart)
+				hooks[tab].OnDragStart = nil
+			end
+		end
+	end
+end
+
 function PhanxChat:ChatTab_OnDragStart()
 	-- 'self' is the chat tab
 	if IsAltKeyDown() or not _G[self:GetName():sub(1, -4)].isDocked then
@@ -721,8 +1378,56 @@ function PhanxChat:ChatTab_OnDragStart()
 end
 
 ------------------------------------------------------------------------
+--	Move edit box
+------------------------------------------------------------------------
+
+function PhanxChat:SetMoveEditBox(v)
+	if type(v) == "boolean" then
+		self.db.moveEditBox = v
+	end
+
+	if self.db.moveEditBox then
+		for i = 1, 10 do
+			local f = _G[("ChatFrame%d"):format(i)]
+			f.editBox:ClearAllPoints()
+			f.editBox:SetPoint("BOTTOMLEFT", f, "TOPLEFT", -5, 2)
+			f.editBox:SetPoint("BOTTOMRIGHT", f, "TOPRIGHT", 5, 2)
+		end
+	elseif not self.isLoading then
+		for i = 1, 10 do
+			local f = _G[("ChatFrame%d"):format(i)]
+			f.editBox:ClearAllPoints()
+			f.editBox:SetPoint("TOPLEFT", f, "BOTTOMLEFT", -5, -2)
+			f.editBox:SetPoint("TOPRIGHT", f, "BOTTOMRIGHT", 5, -2)
+		end
+	end
+end
+
+------------------------------------------------------------------------
 --	Short channels
 ------------------------------------------------------------------------
+
+function PhanxChat:SetShortChannels(v)
+	if type(v) == "boolean" then
+		self.db.shortChannels = v
+	end
+
+	if self.db.shortChannels then
+		for k, v in pairs(ShortStrings) do
+			ShortStrings[k] = _G[k]
+			_G[k] = v
+		end
+		self:BuildChannelList(GetChannelList())
+	elseif not self.isLoading then
+		for k, v in pairs(self.strings) do
+			_G[k] = v
+			self.strings[k] = nil
+		end
+		for k, v in pairs(ChannelList) do
+			ChannelList[k] = nil
+		end
+	end
+end
 
 function PhanxChat.ChatEdit_UpdateHeader(frame)
 	if not frame then
@@ -766,529 +1471,8 @@ function PhanxChat.TellTarget(v)
 end
 
 ------------------------------------------------------------------------
---	Configuration functions
+--	Sticky channels
 ------------------------------------------------------------------------
-
-function PhanxChat:SetAutoStartChatLog(v)
-	if type(v) == "boolean" then
-		self.db.autoStartChatLog = v
-	end
-
-	if self.db.autoStartChatLog then
-		LoggingChat(1)
-	end
-end
-
-function PhanxChat:SetColorPlayerNames(v)
-	if type(v) == "boolean" then
-		self.db.colorPlayerNames = v
-	end
-
-	if self.db.colorPlayerNames then
-		for k, v in pairs(ChatTypeInfo) do
-			SetChatColorNameByClass(k, true)
-			--v.colorNameByClass = true
-		end
-
-		self:RegisterEvent("CHAT_MSG_SYSTEM")
-		self:RegisterEvent("FRIENDLIST_UPDATE")
-		self:RegisterEvent("GUILD_ROSTER_UPDATE")
-		self:RegisterEvent("PARTY_MEMBERS_CHANGED")
-		self:RegisterEvent("PLAYER_GUILD_UPDATE")
-		self:RegisterEvent("PLAYER_TARGET_CHANGED")
-		self:RegisterEvent("RAID_ROSTER_UPDATE")
-		self:RegisterEvent("UPDATE_LFG_LIST")
-		self:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
-		self:RegisterEvent("WHO_LIST_UPDATE")
-
-		self:RegisterName(UnitName("player"), select(2, UnitClass("player")))
-
-		if GetNumFriends() > 0 then
-			ShowFriends()
-		end
-
-		if IsInGuild() then
-			GuildRoster()
-		end
-	elseif not self.isLoading then
-		for k, v in pairs(ChatTypeInfo) do
-			SetChatColorNameByClass(k, false)
-			-- v.colorNameByClass = nil
-		end
-
-		self:UnregisterEvent("CHAT_MSG_SYSTEM")
-		self:UnregisterEvent("FRIENDLIST_UPDATE")
-		self:UnregisterEvent("GUILD_ROSTER_UPDATE")
-		self:UnregisterEvent("PARTY_MEMBERS_CHANGED")
-		self:UnregisterEvent("PLAYER_GUILD_UPDATE")
-		self:UnregisterEvent("PLAYER_TARGET_CHANGED")
-		self:UnregisterEvent("RAID_ROSTER_UPDATE")
-		self:UnregisterEvent("UPDATE_LFG_LIST")
-		self:UnregisterEvent("UPDATE_MOUSEOVER_UNIT")
-		self:UnregisterEvent("WHO_LIST_UPDATE")
-
-		wipe(PlayerNames)
-	end
-end
-
-function PhanxChat:SetDisableTabFlash(v) -- #TODO: update for 3.3.5
-	if type(v) == "boolean" then
-		self.db.disableTabFlash = v
-	end
-
-	if self.db.disableTabFlash then
-		for i = 1, 10 do
-			local f = _G[("ChatFrame%dTabFlash"):format(i)]
-			f:SetScript("OnShow", f.Hide)
-			f:Hide()
-		end
-		if not hooks.FCF_FlashTab then
-			hooks.FCF_FlashTab = FCF_FlashTab
-			FCF_FlashTab = noop
-		end
-		if not hooks.FCF_StartAlertFlash then
-			hooks.FCF_StartAlertFlash = FCF_StartAlertFlash
-			FCF_StartAlertFlash = noop
-		end
-		if not hooks.FCF_StopAlertFlash then
-			hooks.FCF_StopAlertFlash = FCF_StopAlertFlash
-			FCF_StopAlertFlash = noop
-		end
-	elseif not self.isLoading then
-		for i = 1, 10 do
-			local f = _G[("ChatFrame%dTabFlash"):format(i)]
-			f:SetScript("OnShow", nil)
-		end
-		if hooks.FCF_FlashTab then
-			FCF_FlashTab = hooks.FCF_FlashTab
-			hooks.FCF_FlashTab = nil
-		end
-		if hooks.FCF_StartAlertFlash then
-			FCF_StartAlertFlash = hooks.FCF_StartAlertFlash
-			hooks.FCF_StartAlertFlash = nil
-		end
-		if hooks.FCF_StopAlertFlash then
-			FCF_StopAlertFlash = hooks.FCF_StopAlertFlash
-			hooks.FCF_StopAlertFlash = nil
-		end
-	end
-end
-
-function PhanxChat:SetEnableArrowKeys(v)
-	if type(v) == "boolean" then
-		self.db.enableArrowKeys = v
-	end
-
-	for i = 1, 10 do
-		_G[("ChatFrame%dEditBox"):format(i)]:SetAltArrowKeyMode(not self.db.enableArrowKeys)
-	end
-end
-
-function PhanxChat:SetEnableResizeEdges(v)
-	if type(v) == "boolean" then
-		self.db.enableResizeEdges = v
-	end
-
-	if self.db.enableResizeEdges then
-		for i = 1, 10 do
-			local f = _G[("ChatFrame%d"):format(i)]
-			if not f.resizeTopLeft then
-				f.background = _G[("ChatFrame%dBackground"):format(i)]
-
-				for _, v in ipairs(anchorPoints) do
-					local k = "resize" .. v
-					f[k] = CreateFrame("Button", "ChatFrame" .. i .. "Resize" .. v, f)
-					f[k].anchorPoint = v:upper()
-					f[k]:SetWidth(16)
-					f[k]:SetHeight(16)
-					f[k]:SetScript("OnMouseDown", self.ChatFrame_StartResizing)
-					f[k]:SetScript("OnMouseUp", self.ChatFrame_StopResizing)
-					LowerFrameLevel(f[k])
-				end
-
-				f.resizeTopLeft:SetPoint("TOPLEFT", f.background, -2, 2)
-
-				f.resizeTopRight:SetPoint("TOPRIGHT", f.background, 2, 2)
-
-				f.resizeBottomLeft:SetPoint("BOTTOMLEFT", f.background, -2, -3)
-
-				f.resizeBottomRight:SetPoint("BOTTOMRIGHT", f.background, 2, -3)
-
-				f.resizeTop:SetPoint("LEFT", f.resizeTopLeft, "RIGHT", 0, 0)
-				f.resizeTop:SetPoint("RIGHT", f.resizeTopRight, "LEFT", 0, 0)
-
-				f.resizeRight:SetPoint("TOP", f.resizeTopRight, "BOTTOM", 0, 0)
-				f.resizeRight:SetPoint("BOTTOM", f.resizeBottomRight, "TOP", 0, 0)
-
-				f.resizeBottom:SetPoint("LEFT", f.resizeBottomLeft, "RIGHT", 0, 0)
-				f.resizeBottom:SetPoint("RIGHT", f.resizeBottomRight, "LEFT", 0, 0)
-
-				f.resizeLeft:SetPoint("TOP", f.resizeTopLeft, "BOTTOM", 0, 0)
-				f.resizeLeft:SetPoint("BOTTOM", f.resizeBottomLeft, "TOP", 0, 0)
-			end
-
-			if not hooks.SetChatWindowLocked then
-				hooks.SetChatWindowLocked = SetChatWindowLocked
-				SetChatWindowLocked = self.SetChatWindowLocked
-			end
-
-			local b = _G[("ChatFrame%dResizeButton"):format(i)]
-			b:SetScript("OnShow", b.Hide)
-			b:Hide()
-		end
-	elseif not self.isLoading then
-		for i = 1, 10 do
-			local f = _G[("ChatFrame%d"):format(i)]
-			if f.resizeTopLeft then
-				for _, v in ipairs(anchorPoints) do
-					f["resize" .. v]:Hide()
-				end
-			end
-
-			if hooks.SetChatWindowLocked then
-				SetChatWindowLocked = hooks.SetChatWindowLocked
-				hooks.SetChatWindowLocked = nil
-			end
-
-			local b = _G[("ChatFrame%dResizeButton"):format(i)]
-			b:SetScript("OnShow", nil)
-			if not (f.isUninteractable or f.isLocked) then
-				b:Show()
-			end
-		end
-	end
-end
-
-function PhanxChat:SetFadeTime(v)
-	if type(v) == "number" then
-		self.db.fadeTime = v
-	end
-
-	local frame
-	if self.db.fadeTime > 0 then
-		for i = 1, 10 do
-			frame = _G[("ChatFrame%d"):format(i)]
-			frame:SetFading(1)
-			frame:SetTimeVisible(self.db.fadeTime * 60)
-		end
-	else
-		for i = 1, 10 do
-			frame = _G[("ChatFrame%d"):format(i)]
-			frame:SetFading(0)
-		end
-	end
-end
-
-function PhanxChat:SetFilterNotices(v)
-	if type(v) == "boolean" then
-		self.db.filterNotices = v
-	end
-
-	if self.db.filterNotices then
-		for event in pairs(eventsToFilterForNotices) do
-			ChatFrame_AddMessageEventFilter(event, self.FilterNotices)
-		end
-	elseif not self.isLoading then
-		for event in pairs(eventsToFilterForNotices) do
-			ChatFrame_RemoveMessageEventFilter(event, self.FilterNotices)
-		end
-	end
-end
-
-function PhanxChat:SetFilterRepeats(v)
-	if type(v) == "boolean" then
-		self.db.filterRepeats = v
-	end
-
-	if self.db.filterRepeats then
-		for event in pairs(eventsToFilterForRepeats) do
-			ChatFrame_AddMessageEventFilter(event, self.FilterRepeats)
-		end
-	elseif not self.isLoading then
-		for event in pairs(eventsToFilterForRepeats) do
-			ChatFrame_RemoveMessageEventFilter(event, self.FilterRepeats)
-		end
-	end
-end
-
-function PhanxChat:SetFontSize(v)
-	if type(v) == "number" and v >= 6 and v <= 32 then
-		for i = 1, 10 do
-			FCF_SetChatWindowFontSize(nil, _G[("ChatFrame%d"):format(i)], v)
-		end
-	end
-end
-
-function PhanxChat:SetHideButtons(v)
-	if type(v) == "boolean" then
-		self.db.hideButtons = v
-	end
-
-	if self.db.hideButtons then
-		local button
-		for i = 1, 10 do
-			local frame = _G[("ChatFrame%d"):format(i)]
-
-			frame.buttonFrame:SetAlpha(0)
-			if not hooks[frame.buttonFrame.SetAlpha] then
-				hooks[frame.buttonFrame.SetAlpha] = frame.buttonFrame.SetAlpha
-				frame.buttonFrame.SetAlpha = noop
-			end
-
-			button = _G[("ChatFrame%dButtonFrameUpButton"):format(i)]
-			button:SetScript("OnShow", button.Hide)
-			button:Hide()
-
-			button = _G[("ChatFrame%dButtonFrameDownButton"):format(i)]
-			button:SetScript("OnShow", button.Hide)
-			button:Hide()
-
-			button = _G[("ChatFrame%dButtonFrameBottomButton"):format(i)]
-			button:ClearAllPoints()
-			button:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 0, -4)
-			button:Hide()
-		end
-
-		ChatFrameMenuButton:SetScript("OnShow", ChatFrameMenuButton.Hide)
-		ChatFrameMenuButton:Hide()
-
-		FriendsMicroButton:SetScript("OnShow", FriendsMicroButton.Hide)
-		FriendsMicroButton:Hide()
-
-		GeneralDockManagerOverflowButton:SetScript("OnShow", GeneralDockManagerOverflowButton.Hide)
-		GeneralDockManagerOverflowButton:Hide()
-
-		if not hooks.ChatFrame_OnUpdate then
-			hooks.ChatFrame_OnUpdate = ChatFrame_OnUpdate
-			ChatFrame_OnUpdate = self.ChatFrame_OnUpdate
-		end
-
-		if not hooks.FCF_SetButtonSide then
-			hooks.FCF_SetButtonSide = FCF_SetButtonSide
-			FCF_SetButtonSide = noop
-		end
-	elseif not self.isLoading then
-		ChatFrameMenuButton:SetScript("OnShow", nil)
-		ChatFrameMenuButton:Show()
-
-		FriendsMicroButton:SetScript("OnShow", nil)
-		FriendsMicroButton:Show()
-
-		GeneralDockManagerOverflowButton:SetScript("OnShow", nil)
-		GeneralDockManagerOverflowButton:Show()
-
-		if hooks.ChatFrame_OnUpdate then
-			ChatFrame_OnUpdate = hooks.ChatFrame_OnUpdate
-			hooks.ChatFrame_OnUpdate = nil
-		end
-
-		if hooks.ChatFrame_OnUpdate then
-			FCF_SetButtonSide = hooks.FCF_SetButtonSide
-			hooks.FCF_SetButtonSide = nil
-		end
-
-		local button
-		for i = 1, 10 do
-			local frame = _G[("ChatFrame%d"):format(i)]
-
-			if hooks[frame.buttonFrame.SetAlpha] then
-				frame.buttonFrame.SetAlpha = hooks[frame.buttonFrame.SetAlpha]
-				hooks[frame.buttonFrame.SetAlpha] = nil
-			end
-
-			button = _G[("ChatFrame%dButtonFrameUpButton"):format(i)]
-			button:SetScript("OnShow", nil)
-			button:Show()
-
-			button = _G[("ChatFrame%dButtonFrameDownButton"):format(i)]
-			button:SetScript("OnShow", nil)
-			button:Show()
-
-			button = _G[("ChatFrame%dButtonFrameBottomButton"):format(i)]
-			button:ClearAllPoints()
-			button:SetPoint("BOTTOMRIGHT", frame, "BOTTOMLEFT", 0, -4)
-			button:Show()
-
-			FCF_UpdateButtonSide(frame)
-		end
-	end
-end
-
-function PhanxChat:SetHideCrap(v) -- #TODO: update for 3.3.5
-	if type(v) == "boolean" then
-		self.db.hideCrap = v
-	end
-
-	if self.db.hideCrap then
-		for i = 1, 10 do
-			local frame = _G[("ChatFrame%d"):format(i)]
-
-			local editBox = _G[("ChatFrame%dEditBox"):format(i)]
-			if not editBox.left then
-				editBox.left = _G[("ChatFrame%sEditBoxLeft"):format(i)]
-				editBox.right = _G[("ChatFrame%sEditBoxRight"):format(i)]
-				editBox.mid = _G[("ChatFrame%sEditBoxMid"):format(i)]
-			end
-
-			editBox.left:SetAlpha(0)
-			editBox.right:SetAlpha(0)
-			editBox.mid:SetAlpha(0)
-
-			editBox.focusLeft:SetTexture([[Interface\ChatFrame\UI-ChatInputBorder-Left2]])
-			editBox.focusRight:SetTexture([[Interface\ChatFrame\UI-ChatInputBorder-Right2]])
-			editBox.focusMid:SetTexture([[Interface\ChatFrame\UI-ChatInputBorder-Mid2]])
-
-			local tab = _G[("ChatFrame%dTab"):format(i)]
-			tab.noMouseAlpha = 0
-			FCFTab_UpdateAlpha(frame)
-
-			tab.leftSelectedTexture:SetAlpha(0)
-			tab.rightSelectedTexture:SetAlpha(0)
-			tab.middleSelectedTexture:SetAlpha(0)
-
-			tab.leftHighlightTexture:SetTexture(nil)
-			tab.rightHighlightTexture:SetTexture(nil)
-			tab.middleHighlightTexture:SetTexture([[Interface\PaperDollInfoFrame\UI-Character-Tab-Highlight]])
-			tab.middleHighlightTexture:SetWidth(76)
-
-			if not hooks[tab.middleHighlightTexture.SetVertexColor] then
-				hooks[tab.middleHighlightTexture.SetVertexColor] = tab.middleHighlightTexture.SetVertexColor
-				tab.middleHighlightTexture.SetVertexColor = noop
-			end
-		end
-	elseif not self.isLoading then
-		for i = 1, 10 do
-			local editBox = _G[("ChatFrame%dEditBox"):format(i)]
-			if not editBox.left then
-				editBox.left = _G[("ChatFrame%sEditBoxLeft"):format(i)]
-				editBox.right = _G[("ChatFrame%sEditBoxRight"):format(i)]
-				editBox.mid = _G[("ChatFrame%sEditBoxMid"):format(i)]
-			end
-
-			editBox.left:SetAlpha(1)
-			editBox.right:SetAlpha(1)
-			editBox.mid:SetAlpha(1)
-
-			editBox.focusLeft:SetTexture([[Interface\ChatFrame\UI-ChatInputBorderFocus-Left]])
-			editBox.focusRight:SetTexture([[Interface\ChatFrame\UI-ChatInputBorderFocus-Right]])
-			editBox.focusMid:SetTexture([[Interface\ChatFrame\UI-ChatInputBorderFocus-Mid]])
-
-			local tab = _G[("ChatFrame%dTab"):format(i)]
-			tab.noMouseAlpha = 0.4
-
-			tab.leftSelectedTexture:SetAlpha(1)
-			tab.rightSelectedTexture:SetAlpha(1)
-			tab.middleSelectedTexture:SetAlpha(1)
-
-			tab.leftHighlightTexture:SetTexture([[Interface\ChatFrame\ChatFrameTab-HighlightLeft]])
-			tab.rightHighlightTexture:SetTexture([[Interface\ChatFrame\ChatFrameTab-HighlightRight]])
-			tab.middleHighlightTexture:SetTexture([[Interface\ChatFrame\ChatFrameTab-HighlightMid]])
-			tab.middleHighlightTexture:SetWidth(44)
-
-			if hooks[tab.middleHighlightTexture.SetVertexColor] then
-				tab.middleHighlightTexture.SetVertexColor = hooks[tab.middleHighlightTexture.SetVertexColor]
-				hooks[tab.middleHighlightTexture.SetVertexColor] = nil
-			end
-		end
-	end
-end
-
-function PhanxChat:SetLinkURLs(v)
-	if type(v) == "boolean" then
-		self.db.linkURLs = v
-	end
-
-	if self.db.linkURLs then
-		for event in pairs(eventsToLinkURLs) do
-			ChatFrame_AddMessageEventFilter(event, self.LinkURLs)
-		end
-		if not hooks.SetItemRef then
-			hooks.SetItemRef = SetItemRef
-			SetItemRef = self.SetItemRef
-		end
-	elseif not self.isLoading then
-		for event in pairs(eventsToLinkURLs) do
-			ChatFrame_RemoveMessageEventFilter(event, self.LinkURLs)
-		end
-		if hooks.SetItemRef then
-			SetItemRef = hooks.SetItemRef
-			hooks.SetItemRef = nil
-		end
-	end
-end
-
-function PhanxChat:SetLockDockedTabs(v)
-	if type(v) == "boolean" then
-		self.db.lockDockedTabs = v
-	end
-
-	if self.db.lockDockedTabs then
-		local tab
-		for i = 2, 7 do
-			tab = _G[("ChatFrame%dTab"):format(i)]
-			if not hooks[tab] then
-				hooks[tab] = { }
-			end
-			if not hooks[tab].OnDragStart then
-				hooks[tab].OnDragStart = tab:GetScript("OnDragStart")
-				tab:SetScript("OnDragStart", self.ChatTab_OnDragStart)
-			end
-		end
-	elseif not self.isLoading then
-		local tab
-		for i = 2, 7 do
-			tab = _G[("ChatFrame%dTab"):format(i)]
-			if hooks[tab] and hooks[tab].OnDragStart then
-				tab:SetScript("OnDragStart", hooks[tab].OnDragStart)
-				hooks[tab].OnDragStart = nil
-			end
-		end
-	end
-end
-
-function PhanxChat:SetMoveEditBox(v)
-	if type(v) == "boolean" then
-		self.db.moveEditBox = v
-	end
-
-	if self.db.moveEditBox then
-		for i = 1, 10 do
-			local f = _G[("ChatFrame%d"):format(i)]
-			f.editBox:ClearAllPoints()
-			f.editBox:SetPoint("BOTTOMLEFT", f, "TOPLEFT", -5, 2)
-			f.editBox:SetPoint("BOTTOMRIGHT", f, "TOPRIGHT", 5, 2)
-		end
-	elseif not self.isLoading then
-		for i = 1, 10 do
-			local f = _G[("ChatFrame%d"):format(i)]
-			f.editBox:ClearAllPoints()
-			f.editBox:SetPoint("TOPLEFT", f, "BOTTOMLEFT", -5, -2)
-			f.editBox:SetPoint("TOPRIGHT", f, "BOTTOMRIGHT", 5, -2)
-		end
-	end
-end
-
-function PhanxChat:SetShortChannels(v)
-	if type(v) == "boolean" then
-		self.db.shortChannels = v
-	end
-
-	if self.db.shortChannels then
-		for k, v in pairs(ShortStrings) do
-			ShortStrings[k] = _G[k]
-			_G[k] = v
-		end
-		self:BuildChannelList(GetChannelList())
-	elseif not self.isLoading then
-		for k, v in pairs(self.strings) do
-			_G[k] = v
-			self.strings[k] = nil
-		end
-		for k, v in pairs(ChannelList) do
-			ChannelList[k] = nil
-		end
-	end
-end
 
 function PhanxChat:SetStickyChannels(v)
 	if type(v) == "string" and v == "ALL" or v == "BLIZZARD" or v == "NONE" then
