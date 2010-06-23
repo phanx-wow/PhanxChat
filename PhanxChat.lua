@@ -2,10 +2,9 @@
 	PhanxChat
 	Reduces chat frame clutter and improves chat frame usability.
 	By Phanx < addons@phanx.net >
+	Copyright © 2006–2010 Phanx. See README for license terms.
 	http://www.wowinterface.com/downloads/info6323-PhanxChat.html
 	http://wow.curse.com/downloads/wow-addons/details/phanxchat.aspx
-	Copyright ©2006–2010 Alyssa "Phanx" Kinley
-	See README for license terms and other information.
 ----------------------------------------------------------------------]]
 
 if ChatFrameEditBox then
@@ -969,7 +968,7 @@ function PhanxChat:SetHideButtons(v)
 			local cf = _G[("ChatFrame%d"):format(i)]
 
 			local bf = _G[("ChatFrame%dButtonFrame"):format(i)]
-			bf:SetScript("OnSHow", bf.Hide)
+			bf:SetScript("OnShow", bf.Hide)
 			bf:Hide()
 
 			local ub = _G[("ChatFrame%dButtonFrameUpButton"):format(i)]
@@ -1009,10 +1008,10 @@ function PhanxChat:SetHideButtons(v)
 			ChatFrame_OnUpdate = self.ChatFrame_OnUpdate
 		end
 
-		if not hooks.FCF_SetButtonSide then
-			hooks.FCF_SetButtonSide = FCF_SetButtonSide
-			FCF_SetButtonSide = noop
-		end
+--		if not hooks.FCF_SetButtonSide then
+--			hooks.FCF_SetButtonSide = FCF_SetButtonSide
+--			FCF_SetButtonSide = noop
+--		end
 	elseif not self.isLoading then
 		ChatFrameMenuButton:SetScript("OnShow", nil)
 		ChatFrameMenuButton:Show()
@@ -1028,10 +1027,10 @@ function PhanxChat:SetHideButtons(v)
 			hooks.ChatFrame_OnUpdate = nil
 		end
 
-		if hooks.ChatFrame_OnUpdate then
-			FCF_SetButtonSide = hooks.FCF_SetButtonSide
-			hooks.FCF_SetButtonSide = nil
-		end
+--		if hooks.FCF_SetButtonSide then
+--			FCF_SetButtonSide = hooks.FCF_SetButtonSide
+--			hooks.FCF_SetButtonSide = nil
+--		end
 
 		for i = 1, 10 do
 			local cf = _G[("ChatFrame%d"):format(i)]
@@ -1499,7 +1498,7 @@ function PhanxChat:SetStickyChannels(v)
 		ChatTypeInfo.SAY.sticky = 1
 		ChatTypeInfo.WHISPER.sticky = 1
 		ChatTypeInfo.YELL.sticky = 1
-	elseif self.db.shortChannels == "BLIZZARD" and not self.isLoading then
+	elseif self.db.stickyChannels == "BLIZZARD" and not self.isLoading then
 		ChatTypeInfo.BATTLEGROUND.sticky = 1
 		ChatTypeInfo.CHANNEL.sticky = 0
 		ChatTypeInfo.EMOTE.sticky = 0
@@ -1511,7 +1510,7 @@ function PhanxChat:SetStickyChannels(v)
 		ChatTypeInfo.SAY.sticky = 1
 		ChatTypeInfo.WHISPER.sticky = 0
 		ChatTypeInfo.YELL.sticky = 0
-	elseif self.db.shortChannels == "NONE" then
+	elseif self.db.stickyChannels == "NONE" then
 		ChatTypeInfo.BATTLEGROUND.sticky = 0
 		ChatTypeInfo.CHANNEL.sticky = 0
 		ChatTypeInfo.EMOTE.sticky = 0
