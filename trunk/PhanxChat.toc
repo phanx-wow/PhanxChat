@@ -11,8 +11,8 @@
 
 ## Author: Phanx
 ## X-Email: addons@phanx.net
-## X-Copyright: Copyright ©2006–2010 Alyssa "Phanx" Kinley
-## X-License: Do not redistribute. See README for complete license terms.
+## X-Copyright: Copyright © 2006–2010 Phanx
+## X-License: Do not redistribute. See README for license terms.
 
 ## OptionalDependencies: LibAboutPanel, PhanxConfigWidgets
 ## SavedVariables: PhanxChatDB
