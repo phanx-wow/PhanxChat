@@ -8,6 +8,12 @@
 	See README for license terms and other information.
 ----------------------------------------------------------------------]]
 
+if ChatFrameEditBox then
+	print("ATTENTION! This version of PhanxChat is only compatible with WoW 3.3.5 or higher.")
+	print("Until your locale patches to 3.3.5, you should download an older version of PhanxChat.")
+	return
+end
+
 local ADDON_NAME, PhanxChat = ...
 
 ------------------------------------------------------------------------
@@ -752,7 +758,7 @@ function PhanxChat.ChatFrame_StartResizing(self)
 	local chatFrame = self:GetParent()
 	if chatFrame.isLocked then return end
 	if chatFrame.isDocked and chatFrame ~= DEFAULT_CHAT_FRAME then return end
-
+	SetCursor("UI-Cursor-Size")
 	chatFrame.resizing = 1
 	chatFrame:StartSizing(self.anchorPoint)
 end
@@ -760,10 +766,12 @@ end
 function PhanxChat.ChatFrame_StopResizing(self)
 	local chatFrame = self:GetParent()
 	chatFrame:StopMovingOrSizing()
-	if chatFrame == DEFAULT_CHAT_FRAME then
-		FCF_DockUpdate()
-	end
+	SetCursor(nil)
+--	if chatFrame == DEFAULT_CHAT_FRAME then
+--		FCF_DockUpdate()
+--	end
 	chatFrame.resizing = nil
+	FCF_SavePositionAndDimensions(chatFrame)
 end
 
 function PhanxChat.FCF_FadeInChatFrame(frame)
