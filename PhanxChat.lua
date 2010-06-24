@@ -1050,7 +1050,7 @@ function PhanxChat:SetHideButtons(v)
 			local bb = _G[("ChatFrame%dButtonFrameBottomButton"):format(i)]
 			bb:ClearAllPoints()
 			bb:SetParent(bf)
-			button:SetPoint("BOTTOMRIGHT", cf, "BOTTOMLEFT", 0, -4)
+			bb:SetPoint("BOTTOMRIGHT", cf, "BOTTOMLEFT", 0, -4)
 			bb:Show()
 
 			if hooks[bb] and hooks[bb].OnClick then
@@ -1426,7 +1426,7 @@ function PhanxChat:SetShortChannels(v)
 		end
 		self:BuildChannelList(GetChannelList())
 	elseif not self.isLoading then
-		for k, v in pairs(self.strings) do
+		for k, v in pairs(ShortStrings) do
 			_G[k] = v
 			self.strings[k] = nil
 		end
