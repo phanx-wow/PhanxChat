@@ -200,6 +200,8 @@ local function noop() return end
 --	Internals
 ------------------------------------------------------------------------
 
+local playerRealm = GetRealmName()
+
 local hooks = { }
 local ChannelList = { }
 local PlayerClasses = { }
@@ -299,7 +301,7 @@ function PhanxChat:ADDON_LOADED(addon)
 			framesToIgnore[k] = v
 		end
 	end
-	local t = framesToIgnore[("%s-%s"):format(GetRealmName(), UnitName("player"))]
+	local t = framesToIgnore[("%s-%s"):format(playerRealm, UnitName("player"))]
 	if t then
 		for k, v in pairs(t) do
 			framesToIgnore[k] = v
@@ -349,11 +351,11 @@ function PhanxChat:ADDON_LOADED(addon)
 	self:SetStickyChannels()
 
 	self.isLoading = nil
-
+--[[
 	SLASH_TELLTARGET1 = "/tt"
 	SLASH_TELLTARGET2 = "/wt"
 	SlashCmdList.TELLTARGET = self.TellTarget
-
+]]
 	self:UnregisterEvent("ADDON_LOADED")
 	self.ADDON_LOADED = nil
 
@@ -1468,16 +1470,6 @@ function PhanxChat:BuildChannelList(...)
 end
 
 ------------------------------------------------------------------------
---	Tell target
-------------------------------------------------------------------------
-
-function PhanxChat.TellTarget(v)
-	if UnitExists("target") and UnitIsPlayer("target") and (UnitIsFriend("player", "target") or UnitIsCharmed("target")) then
-		SendChatMessage(v, "WHISPER", nil, UnitName("target"))
-	end
-end
-
-------------------------------------------------------------------------
 --	Sticky channels
 ------------------------------------------------------------------------
 
@@ -1524,6 +1516,39 @@ function PhanxChat:SetStickyChannels(v)
 		ChatTypeInfo.YELL.sticky = 0
 	end
 end
+
+------------------------------------------------------------------------
+--	Tell target
+------------------------------------------------------------------------
+--[[
+function PhanxChat.TellTarget(message)
+	if UnitExists("target") and UnitIsPlayer("target") and (UnitIsFriend("player", "target") or UnitIsCharmed("target")) then
+		local targetName, targetRealm = UnitName("target")
+		if targetRealm and targetRealm ~= "" and targetRealm ~= playerRealm then
+			targetName = string.format("%s-%s", targetName, targetRealm)
+		end
+		SendChatMessage(message, "WHISPER", nil, targetName)
+	end
+end
+]]
+hooksecurefunc("ChatEdit_ParseText", function(editBox, send, parseIfNoSpaces)
+	if not send and not editBox.autoCompleteParams then
+		local text = editBox:GetText()
+		local command = text:match("^(/[^%s]+) ")
+		if command == "/tt" or command == "/wt" then
+			if UnitExists("target") and UnitIsPlayer("target") and (UnitIsFriend("player", "target") or UnitIsCharmed("target")) then
+				local targetName, targetRealm = UnitName("target")
+				if targetRealm and targetRealm ~= "" and targetRealm ~= playerRealm then
+					targetName = string.format("%s-%s", targetName, targetRealm)
+				end
+				editBox:SetAttribute("chatType", "WHISPER")
+				editBox:SetAttribute("tellTarget", targetName)
+				editBox:SetText(text:match("^/[tw]t (.*)"))
+				ChatEdit_UpdateHeader(editBox)
+			end
+		end
+	end
+end)
 
 ------------------------------------------------------------------------
 --	Configuration frame
