@@ -92,6 +92,8 @@ local default_L = {
 	-- Chat Strings
 	SHORT_BATTLEGROUND = "b",
 	SHORT_BATTLEGROUND_LEADER = "B",
+	SHORT_BN_WHISPER = "F",
+	SHORT_BN_WHISPER_INFORM = "T",
 	SHORT_GUILD = "g",
 	SHORT_OFFICER = "o",
 	SHORT_PARTY = "p",
@@ -138,6 +140,8 @@ local eventsToFormat = {
 	CHAT_MSG_AFK = true,
 	CHAT_MSG_BATTLEGROUND = true,
 	CHAT_MSG_BATTLEGROUND_LEADER = true,
+	CHAT_MSG_BN_WHISPER = true,
+	CHAT_MSG_BN_WHISPER_INFORM = true,
 	CHAT_MSG_CHANNEL = true,
 	CHAT_MSG_CHANNEL_JOIN = true,
 	CHAT_MSG_CHANNEL_LEAVE = true,
@@ -163,6 +167,8 @@ local eventsToFormat = {
 local eventsToLinkURLs = {
 	CHAT_MSG_BATTLEGROUND = true,
 	CHAT_MSG_BATTLEGROUND_LEADER = true,
+	CHAT_MSG_BN_WHISPER = true,
+	CHAT_MSG_BN_WHISPER_INFORM = true,
 	CHAT_MSG_CHANNEL = true,
 	CHAT_MSG_DUNEON_GUIDE = true,
 	CHAT_MSG_GUILD = true,
@@ -201,6 +207,7 @@ local function noop() return end
 ------------------------------------------------------------------------
 
 local playerRealm = GetRealmName()
+local ACHIEVEMENT_BROADCAST = ACHIEVEMENT_BROADCAST:gsub("%%s[^%s]?", "") -- "%s has earned the achievement %s!"
 
 local hooks = { }
 local ChannelList = { }
@@ -237,21 +244,23 @@ local ChannelNames = {
 local STRING_STYLE_LINK = STRING_STYLE:format("|Hchannel:%s|h%s|h")
 
 local ShortStrings = {
-	CHAT_BATTLEGROUND_GET		= STRING_STYLE_LINK:format("Battleground", L.SHORT_BATTLEGROUND, "%s"),
-	CHAT_BATTLEGROUND_LEADER_GET= STRING_STYLE_LINK:format("Battleground", L.SHORT_BATTLEGROUND_LEADER, "%s"),
-	CHAT_CHANNEL_GET			= STRING_STYLE_CHANNEL,
-	CHAT_GUILD_GET				= STRING_STYLE_LINK:format("Guild", L.SHORT_GUILD, "%s"),
-	CHAT_OFFICER_GET			= STRING_STYLE_LINK:format("o", L.SHORT_OFFICER, "%s"),
-	CHAT_PARTY_GET				= STRING_STYLE_LINK:format("Party", L.SHORT_PARTY, "%s"),
-	CHAT_PARTY_GUIDE_GET		= STRING_STYLE_LINK:format("Party", L.SHORT_PARTY_GUIDE, "%s"),
-	CHAT_PARTY_LEADER_GET		= STRING_STYLE_LINK:format("Party", L.SHORT_PARTY_LEADER, "%s"),
-	CHAT_RAID_GET				= STRING_STYLE_LINK:format("Raid", L.SHORT_RAID, "%s"),
-	CHAT_RAID_LEADER_GET		= STRING_STYLE_LINK:format("Raid", L.SHORT_RAID_LEADER, "%s"),
-	CHAT_RAID_WARNING_GET		= STRING_STYLE_LINK:format("Raid", L.SHORT_RAID_WARNING, "%s"),
-	CHAT_SAY_GET				= STRING_STYLE_LINK:format("s", L.SHORT_SAY, "%s"),
-	CHAT_WHISPER_GET			= STRING_STYLE:format(L.SHORT_WHISPER, "%s"),
-	CHAT_WHISPER_INFORM_GET		= STRING_STYLE:format(L.SHORT_WHISPER_INFORM, "%s"),
-	CHAT_YELL_GET				= STRING_STYLE_LINK:format("y", L.SHORT_YELL, "%s"),
+	CHAT_BATTLEGROUND_GET        = STRING_STYLE_LINK:format("Battleground", L.SHORT_BATTLEGROUND, "%s"),
+	CHAT_BATTLEGROUND_LEADER_GET = STRING_STYLE_LINK:format("Battleground", L.SHORT_BATTLEGROUND_LEADER, "%s"),
+	CHAT_BN_WHISPER_GET          = STRING_STYLE:format(L.SHORT_BN_WHISPER, "%s"),
+	CHAT_BN_WHISPER_INFORM_GET   = STRING_STYLE:format(L.SHORT_BN_WHISPER_INFORM, "%s"),
+	CHAT_CHANNEL_GET             = STRING_STYLE_CHANNEL,
+	CHAT_GUILD_GET               = STRING_STYLE_LINK:format("Guild", L.SHORT_GUILD, "%s"),
+	CHAT_OFFICER_GET             = STRING_STYLE_LINK:format("o", L.SHORT_OFFICER, "%s"),
+	CHAT_PARTY_GET               = STRING_STYLE_LINK:format("Party", L.SHORT_PARTY, "%s"),
+	CHAT_PARTY_GUIDE_GET         = STRING_STYLE_LINK:format("Party", L.SHORT_PARTY_GUIDE, "%s"),
+	CHAT_PARTY_LEADER_GET        = STRING_STYLE_LINK:format("Party", L.SHORT_PARTY_LEADER, "%s"),
+	CHAT_RAID_GET                = STRING_STYLE_LINK:format("Raid", L.SHORT_RAID, "%s"),
+	CHAT_RAID_LEADER_GET         = STRING_STYLE_LINK:format("Raid", L.SHORT_RAID_LEADER, "%s"),
+	CHAT_RAID_WARNING_GET        = STRING_STYLE_LINK:format("Raid", L.SHORT_RAID_WARNING, "%s"),
+	CHAT_SAY_GET                 = STRING_STYLE_LINK:format("s", L.SHORT_SAY, "%s"),
+	CHAT_WHISPER_GET             = STRING_STYLE:format(L.SHORT_WHISPER, "%s"),
+	CHAT_WHISPER_INFORM_GET      = STRING_STYLE:format(L.SHORT_WHISPER_INFORM, "%s"),
+	CHAT_YELL_GET                = STRING_STYLE_LINK:format("y", L.SHORT_YELL, "%s"),
 }
 
 PLAYER_STYLE = "|Hplayer:%s|h" .. PLAYER_STYLE .. "%s|h"
@@ -388,8 +397,11 @@ end
 ------------------------------------------------------------------------
 
 function PhanxChat.ChatFrame_AddMessage(frame, text, ...)
-	if eventsToFormat[event] then
-		local name = event ~= "CHAT_MSG_SYSTEM" and arg2 or text:match("|Hplayer:(.-)[:|]")
+	if not event or eventsToFormat[event] then
+		local name = event and event ~= "CHAT_MSG_SYSTEM" and arg2
+		if not name then
+			name = text:match("|Hplayer:(.-)[:|]")
+		end
 		if name then
 			if PhanxChat.db.colorPlayerNames and eventsToColor[event] then
 				text = text:gsub("|Hplayer:(.-)|h%[.-%](.-)|h", format(PLAYER_STYLE, "%1", PlayerNames[name] or name, "%2"), 1)
@@ -1480,6 +1492,8 @@ function PhanxChat:SetStickyChannels(v)
 
 	if self.db.stickyChannels == "ALL" then
 		ChatTypeInfo.BATTLEGROUND.sticky = 1
+		ChatTypeInfo.BN_CONVERSATION.sticky = 1
+		ChatTypeInfo.BN_WHISPER.sticky = 1
 		ChatTypeInfo.CHANNEL.sticky = 1
 		ChatTypeInfo.EMOTE.sticky = 0
 		ChatTypeInfo.GUILD.sticky = 1
@@ -1492,6 +1506,8 @@ function PhanxChat:SetStickyChannels(v)
 		ChatTypeInfo.YELL.sticky = 1
 	elseif self.db.stickyChannels == "BLIZZARD" and not self.isLoading then
 		ChatTypeInfo.BATTLEGROUND.sticky = 1
+		ChatTypeInfo.BN_CONVERSATION.sticky = 1
+		ChatTypeInfo.BN_WHISPER.sticky = 1
 		ChatTypeInfo.CHANNEL.sticky = 0
 		ChatTypeInfo.EMOTE.sticky = 0
 		ChatTypeInfo.GUILD.sticky = 1
@@ -1504,6 +1520,8 @@ function PhanxChat:SetStickyChannels(v)
 		ChatTypeInfo.YELL.sticky = 0
 	elseif self.db.stickyChannels == "NONE" then
 		ChatTypeInfo.BATTLEGROUND.sticky = 0
+		ChatTypeInfo.BN_CONVERSATION.sticky = 0
+		ChatTypeInfo.BN_WHISPER.sticky = 0
 		ChatTypeInfo.CHANNEL.sticky = 0
 		ChatTypeInfo.EMOTE.sticky = 0
 		ChatTypeInfo.GUILD.sticky = 0
