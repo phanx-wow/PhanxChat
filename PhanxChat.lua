@@ -644,6 +644,60 @@ end
 
 local anchorPoints = { "TopLeft", "TopRight", "BottomLeft", "BottomRight", "Top", "Bottom", "Left", "Right" }
 
+local function AddResizeEdges(f)
+	if f.resizeTopLeft then return end
+	local i = f:GetName():match("(%d+)")
+
+	f.background = _G[("ChatFrame%dBackground"):format(i)]
+
+	for _, v in ipairs(anchorPoints) do
+		local k = "resize" .. v
+		f[k] = CreateFrame("Button", "ChatFrame" .. i .. "Resize" .. v, f)
+		local b = f[k]
+		b.anchorPoint = v:upper()
+		b:SetWidth(20)
+		b:SetHeight(20)
+		b:SetScript("OnMouseDown", PhanxChat.ChatFrame_StartResizing)
+		b:SetScript("OnMouseUp", PhanxChat.ChatFrame_StopResizing)
+		LowerFrameLevel(b)
+
+		b.tex = b:CreateTexture(nil, "BACKGROUND")
+		b.tex:SetTexture([[Interface\ChatFrame\ChatFrameBorder]])
+		b.tex:SetWidth(20)
+		b.tex:SetHeight(20)
+		b.tex:SetAllPoints(b)
+		b.tex:SetVertexColor(0, 0, 0, 0.25)
+	end
+
+	f.resizeTopLeft:SetPoint("TOPLEFT", f.background, -2, 2)
+	f.resizeTopLeft.tex:SetTexCoord(0, 0.25, 0, 0.125)
+
+	f.resizeTopRight:SetPoint("TOPRIGHT", f.background, 2, 2)
+	f.resizeTopRight.tex:SetTexCoord(0.75, 1, 0, 0.125)
+
+	f.resizeBottomLeft:SetPoint("BOTTOMLEFT", f.background, -2, -3)
+	f.resizeBottomLeft.tex:SetTexCoord(0, 0.25, 0.7265625, 0.8515625)
+
+	f.resizeBottomRight:SetPoint("BOTTOMRIGHT", f.background, 2, -3)
+	f.resizeBottomRight.tex:SetTexCoord(0.75, 1, 0.7265625, 0.8515625)
+
+	f.resizeTop:SetPoint("LEFT", f.resizeTopLeft, "RIGHT", 0, 0)
+	f.resizeTop:SetPoint("RIGHT", f.resizeTopRight, "LEFT", 0, 0)
+	f.resizeTop.tex:SetTexCoord(0.25, 0.75, 0, 0.125)
+
+	f.resizeBottom:SetPoint("LEFT", f.resizeBottomLeft, "RIGHT", 0, 0)
+	f.resizeBottom:SetPoint("RIGHT", f.resizeBottomRight, "LEFT", 0, 0)
+	f.resizeBottom.tex:SetTexCoord(0.25, 0.75, 0.7265625, 0.8515625)
+
+	f.resizeLeft:SetPoint("TOP", f.resizeTopLeft, "BOTTOM", 0, 0)
+	f.resizeLeft:SetPoint("BOTTOM", f.resizeBottomLeft, "TOP", 0, 0)
+	f.resizeLeft.tex:SetTexCoord(0, 0.25, 0.125, 0.7265625)
+
+	f.resizeRight:SetPoint("TOP", f.resizeTopRight, "BOTTOM", 0, 0)
+	f.resizeRight:SetPoint("BOTTOM", f.resizeBottomRight, "TOP", 0, 0)
+	f.resizeRight.tex:SetTexCoord(0.75, 1, 0.125, 0.7265625)
+end
+
 function PhanxChat:SetEnableResizeEdges(v)
 	if type(v) == "boolean" then
 		self.db.enableResizeEdges = v
@@ -651,57 +705,7 @@ function PhanxChat:SetEnableResizeEdges(v)
 
 	if self.db.enableResizeEdges then
 		for i = 1, 10 do
-			local f = _G[("ChatFrame%d"):format(i)]
-			if not f.resizeTopLeft then
-				f.background = _G[("ChatFrame%dBackground"):format(i)]
-
-				for _, v in ipairs(anchorPoints) do
-					local k = "resize" .. v
-					f[k] = CreateFrame("Button", "ChatFrame" .. i .. "Resize" .. v, f)
-					local b = f[k]
-					b.anchorPoint = v:upper()
-					b:SetWidth(20)
-					b:SetHeight(20)
-					b:SetScript("OnMouseDown", self.ChatFrame_StartResizing)
-					b:SetScript("OnMouseUp", self.ChatFrame_StopResizing)
-					LowerFrameLevel(b)
-
-					b.tex = b:CreateTexture(nil, "BACKGROUND")
-					b.tex:SetTexture([[Interface\ChatFrame\ChatFrameBorder]])
-					b.tex:SetWidth(20)
-					b.tex:SetHeight(20)
-					b.tex:SetAllPoints(b)
-					b.tex:SetVertexColor(0, 0, 0, 0.25)
-				end
-
-				f.resizeTopLeft:SetPoint("TOPLEFT", f.background, -2, 2)
-				f.resizeTopLeft.tex:SetTexCoord(0, 0.25, 0, 0.125)
-
-				f.resizeTopRight:SetPoint("TOPRIGHT", f.background, 2, 2)
-				f.resizeTopRight.tex:SetTexCoord(0.75, 1, 0, 0.125)
-
-				f.resizeBottomLeft:SetPoint("BOTTOMLEFT", f.background, -2, -3)
-				f.resizeBottomLeft.tex:SetTexCoord(0, 0.25, 0.7265625, 0.8515625)
-
-				f.resizeBottomRight:SetPoint("BOTTOMRIGHT", f.background, 2, -3)
-				f.resizeBottomRight.tex:SetTexCoord(0.75, 1, 0.7265625, 0.8515625)
-
-				f.resizeTop:SetPoint("LEFT", f.resizeTopLeft, "RIGHT", 0, 0)
-				f.resizeTop:SetPoint("RIGHT", f.resizeTopRight, "LEFT", 0, 0)
-				f.resizeTop.tex:SetTexCoord(0.25, 0.75, 0, 0.125)
-
-				f.resizeBottom:SetPoint("LEFT", f.resizeBottomLeft, "RIGHT", 0, 0)
-				f.resizeBottom:SetPoint("RIGHT", f.resizeBottomRight, "LEFT", 0, 0)
-				f.resizeBottom.tex:SetTexCoord(0.25, 0.75, 0.7265625, 0.8515625)
-
-				f.resizeLeft:SetPoint("TOP", f.resizeTopLeft, "BOTTOM", 0, 0)
-				f.resizeLeft:SetPoint("BOTTOM", f.resizeBottomLeft, "TOP", 0, 0)
-				f.resizeLeft.tex:SetTexCoord(0, 0.25, 0.125, 0.7265625)
-
-				f.resizeRight:SetPoint("TOP", f.resizeTopRight, "BOTTOM", 0, 0)
-				f.resizeRight:SetPoint("BOTTOM", f.resizeBottomRight, "TOP", 0, 0)
-				f.resizeRight.tex:SetTexCoord(0.75, 1, 0.125, 0.7265625)
-			end
+			AddResizeEdges(_G[("ChatFrame%d"):format(i)])
 
 			if not hooks.FCF_FadeInChatFrame then
 				hooks.FCF_FadeInChatFrame = FCF_FadeInChatFrame
@@ -731,10 +735,9 @@ function PhanxChat:SetEnableResizeEdges(v)
 	elseif not self.isLoading then
 		for i = 1, 10 do
 			local f = _G[("ChatFrame%d"):format(i)]
-			if f.resizeTopLeft then
-				for _, v in ipairs(anchorPoints) do
-					f["resize" .. v]:Hide()
-				end
+			AddResizeEdges(f)
+			for _, v in ipairs(anchorPoints) do
+				f["resize" .. v]:Hide()
 			end
 
 			if hooks.FCF_FadeInChatFrame then
@@ -789,6 +792,7 @@ end
 
 function PhanxChat.FCF_FadeInChatFrame(frame)
 	hooks.FCF_FadeInChatFrame(frame)
+	AddResizeEdges(frame)
 	for _, v in ipairs(anchorPoints) do
 		local object = frame["resize" .. v]
 		if object:IsShown() then
@@ -799,6 +803,7 @@ end
 
 function PhanxChat.FCF_FadeOutChatFrame(frame)
 	hooks.FCF_FadeOutChatFrame(frame)
+	AddResizeEdges(frame)
 	for _, v in ipairs(anchorPoints) do
 		local object = frame["resize" .. v]
 		if object:IsShown() then
@@ -807,27 +812,27 @@ function PhanxChat.FCF_FadeOutChatFrame(frame)
 	end
 end
 
-function PhanxChat.FCF_SetWindowAlpha(frame, a, doNotSave)
-	hooks.FCF_SetWindowAlpha(frame, a, doNotSave)
+function PhanxChat.FCF_SetWindowAlpha(frame, a, ...)
+	hooks.FCF_SetWindowAlpha(frame, a, ...)
+	AddResizeEdges(frame)
 	for _, v in ipairs(anchorPoints) do
 		frame["resize" .. v]:SetAlpha(a)
 	end
 end
 
-function PhanxChat.FCF_SetWindowColor(frame, r, g, b, doNotSave)
-	hooks.FCF_SetWindowColor(frame, r, g, b, doNotSave)
+function PhanxChat.FCF_SetWindowColor(frame, r, g, b, ...)
+	hooks.FCF_SetWindowColor(frame, r, g, b, ...)
+	AddResizeEdges(frame)
 	for _, v in ipairs(anchorPoints) do
 		frame["resize" .. v].tex:SetVertexColor(r, g, b)
 	end
 end
 
 function PhanxChat.SetChatWindowLocked(index, locked, ...)
-	local f = _G["ChatFrame" .. index]
+	local frame = _G["ChatFrame" .. index]
+	AddResizeEdges(frame)
 	for _, v in ipairs(anchorPoints) do
-		local k = "resize" .. v
-		if f[k] then
-			f[k]:EnableMouse(not locked)
-		end
+		frame["resize" .. v]:EnableMouse(not locked)
 	end
 	return hooks.SetChatWindowLocked(index, locked, ...)
 end
@@ -1550,7 +1555,7 @@ function PhanxChat.TellTarget(message)
 end
 ]]
 hooksecurefunc("ChatEdit_ParseText", function(editBox, send, parseIfNoSpaces)
-	if not send and not editBox.autoCompleteParams then
+	if not editBox.autoCompleteParams then
 		local text = editBox:GetText()
 		local command = text:match("^(/[^%s]+) ")
 		if command == "/tt" or command == "/wt" then
