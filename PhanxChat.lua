@@ -40,6 +40,8 @@ local STRING_STYLE_CHANNEL = "%s: "
 local URL_STYLE = "|cff00ccff%s|r"
 -- %s = player name
 
+local NUM_HISTORY_LINES = 15
+
 local NUM_SCROLL_LINES = 3
 
 local framesToIgnore = {
