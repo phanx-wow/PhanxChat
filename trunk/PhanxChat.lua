@@ -1730,7 +1730,7 @@ PhanxChat.optionsFrame:SetScript("OnShow", function(self)
 	fadeTime.desc = L["Set the time, in minutes, to wait before fading chat text. A setting of 0 will disable fading."]
 	fadeTime:SetPoint("TOPLEFT", stickyChannels, "BOTTOMLEFT", 0, -12)
 	fadeTime:SetPoint("TOPRIGHT", stickyChannels, "BOTTOMRIGHT", 0, -12)
-	fadeTime(PhanxChat.db.fadeTime)
+	fadeTime:SetValue(PhanxChat.db.fadeTime)
 	fadeTime.OnValueChanged = function(self, value)
 		value = math.floor(value + 0.5)
 		PhanxChat:SetFadeTime(value)
@@ -1738,7 +1738,7 @@ PhanxChat.optionsFrame:SetScript("OnShow", function(self)
 	end
 
 	local currentFontSize = math.floor(select(2, ChatFrame1:GetFont()) + 0.5)
-	
+
 	local fontSize = self:CreateSlider(L["Font size"], 8, 24, 1)
 	fontSize.desc = L["Set the font size for all chat frames."] .. "\n\n" .. L["Note that this is just a shortcut to configuring each chat frame individually through the Blizzard chat options."]
 	fontSize:SetPoint("TOPLEFT", fadeTime, "BOTTOMLEFT", 0, -10)
