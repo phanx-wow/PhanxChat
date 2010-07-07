@@ -312,7 +312,7 @@ function PhanxChat:ADDON_LOADED(addon)
 			framesToIgnore[k] = v
 		end
 	end
-	local t = framesToIgnore[("%s-%s"):format(playerRealm, UnitName("player"))]
+	local t = framesToIgnore[("%s-%s"):format((UnitName("player")), playerRealm)]
 	if t then
 		for k, v in pairs(t) do
 			framesToIgnore[k] = v
@@ -1684,13 +1684,13 @@ PhanxChat.optionsFrame:SetScript("OnShow", function(self)
 		PhanxChat:SetShortChannels(checked)
 	end
 
-	local stickyChannels = self:CreateDropdown(L["Sticky chat"])
-	stickyChannels.container.desc = L["Set which chat types should be sticky."]
-	stickyChannels.container:SetPoint("TOPLEFT", notes, "BOTTOM", 8, -8)
-	stickyChannels.container:SetPoint("TOPRIGHT", notes, "BOTTOMRIGHT", 0, -8)
+	local stickyValues = {
+		["ALL"] = L["All"],
+		["BLIZZARD"] = L["Default"],
+		["NONE"] = L["None"],
+	}
+	local stickyChannels
 	do
-		local values = { ["ALL"] = L["All"], ["BLIZZARD"] = L["Default"], ["NONE"] = L["None"] }
-
 		local function OnClick(self)
 			PhanxChat:SetStickyChannels(self.value)
 			stickyChannels.valueText:SetText(self.text)
@@ -1698,8 +1698,9 @@ PhanxChat.optionsFrame:SetScript("OnShow", function(self)
 		end
 
 		local info = { } -- UIDropDownMenu_CreateInfo()
-		UIDropDownMenu_Initialize(stickyChannels, function(self)
-			local selected = UIDropDownMenu_GetSelectedValue(stickyChannels)
+
+		stickyChannels = self:CreateDropdown(L["Sticky chat"], function()
+			local selected = PhanxChat.db.stickyChannels
 
 			info.text = L["All"]
 			info.value = "ALL"
@@ -1719,17 +1720,17 @@ PhanxChat.optionsFrame:SetScript("OnShow", function(self)
 			info.checked = "NONE" == selected
 			UIDropDownMenu_AddButton(info)
 		end)
-
-		stickyChannels.valueText:SetText(values[PhanxChat.db.stickyChannels])
-		UIDropDownMenu_SetSelectedValue(stickyChannels, PhanxChat.db.stickyChannels)
 	end
+	stickyChannels.desc = L["Set which chat types should be sticky."]
+	stickyChannels:SetPoint("TOPLEFT", notes, "BOTTOM", 8, -8)
+	stickyChannels:SetPoint("TOPRIGHT", notes, "BOTTOMRIGHT", 0, -8)
+	stickyChannels:SetValue(PhanxChat.db.stickyChannels, stickyValues[PhanxChat.db.stickyChannels])
 
 	local fadeTime = self:CreateSlider(L["Fade time"], 0, 10, 1)
 	fadeTime.desc = L["Set the time, in minutes, to wait before fading chat text. A setting of 0 will disable fading."]
-	fadeTime.container:SetPoint("TOPLEFT", stickyChannels.container, "BOTTOMLEFT", 0, -12)
-	fadeTime.container:SetPoint("TOPRIGHT", stickyChannels.container, "BOTTOMRIGHT", 0, -12)
-	fadeTime:SetValue(PhanxChat.db.fadeTime)
-	fadeTime.valueText:SetText(PhanxChat.db.fadeTime)
+	fadeTime:SetPoint("TOPLEFT", stickyChannels, "BOTTOMLEFT", 0, -12)
+	fadeTime:SetPoint("TOPRIGHT", stickyChannels, "BOTTOMRIGHT", 0, -12)
+	fadeTime(PhanxChat.db.fadeTime)
 	fadeTime.OnValueChanged = function(self, value)
 		value = math.floor(value + 0.5)
 		PhanxChat:SetFadeTime(value)
@@ -1737,12 +1738,12 @@ PhanxChat.optionsFrame:SetScript("OnShow", function(self)
 	end
 
 	local currentFontSize = math.floor(select(2, ChatFrame1:GetFont()) + 0.5)
+	
 	local fontSize = self:CreateSlider(L["Font size"], 8, 24, 1)
 	fontSize.desc = L["Set the font size for all chat frames."] .. "\n\n" .. L["Note that this is just a shortcut to configuring each chat frame individually through the Blizzard chat options."]
-	fontSize.container:SetPoint("TOPLEFT", fadeTime.container, "BOTTOMLEFT", 0, -10)
-	fontSize.container:SetPoint("TOPRIGHT", fadeTime.container, "BOTTOMRIGHT", 0, -10)
+	fontSize:SetPoint("TOPLEFT", fadeTime, "BOTTOMLEFT", 0, -10)
+	fontSize:SetPoint("TOPRIGHT", fadeTime, "BOTTOMRIGHT", 0, -10)
 	fontSize:SetValue(currentFontSize)
-	fontSize.valueText:SetText(currentFontSize)
 	fontSize.OnValueChanged = function(self, value)
 		value = math.floor(value + 0.5)
 		PhanxChat:SetFontSize(value)
