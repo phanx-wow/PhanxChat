@@ -1,5 +1,5 @@
 ## Interface: 30300
-## Version: 3.3.5.wowi-revision
+## Version: 3.3.5.wowi-revision-beta
 
 ## Title: PhanxChat
 ## Notes: Removes chat frame clutter and adds some functionality.
