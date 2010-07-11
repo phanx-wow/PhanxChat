@@ -1,119 +1,109 @@
---[[--------------------------------------------------------------------
-	Russian translations for PhanxChat
-	Last updated: 2008-09-26 by Valle
-	Contributors:
-		Valle of Warsong
-----------------------------------------------------------------------]]
+------------------------------------------------------------------------
+--	PhanxChat                                                         --
+--	Removes chat frame clutter and adds some functionality.           --
+--	by Phanx < addons@phanx.net >                                     --
+--	Copyright © 2006–2010 Phanx. See README for license terms.        --
+--	http://www.wowinterface.com/downloads/info6323-PhanxChat.html     --
+--	http://wow.curse.com/downloads/wow-addons/details/phanxchat.aspx  --
+------------------------------------------------------------------------
+--	Localization: ruRU / Russian / Русский
+--	Last Updated: YYYY-MM-DD by YourName < ContactInfo >
+------------------------------------------------------------------------
 
 if GetLocale() ~= "ruRU" then return end
-
 local L, _, PhanxChat = { }, ...
 PhanxChat.L = L
 
 ------------------------------------------------------------------------
--- Channel Names
--- These must match the channel names sent from the server.
+--	Server Channel Names
+--	These must exactly match the channel names used in your locale.
 ------------------------------------------------------------------------
 
+-- L["Conversation"]     = ""
 L["General"]          = "Общий"
-L["Trade"]            = "Торговля"
-L["LocalDefense"]     = "Оборона: локальный"
-L["WorldDefense"]     = "Оборона: глобальный"
-L["LookingForGroup"]  = "Поис спутников"
 L["GuildRecruitment"] = "Набор в гильдии"
+L["LocalDefense"]     = "Оборона: локальный"
+L["LookingForGroup"]  = "Поис спутников"
+L["Trade"]            = "Торговля"
+L["WorldDefense"]     = "Оборона: глобальный"
+
+L["Battleground"]        = CHAT_MSG_BATTLEGROUND
+L["Battleground Leader"] = CHAT_MSG_BATTLEGROUND_LEADER
+L["Guild"]               = CHAT_MSG_GUILD
+L["Officer"]             = CHAT_MSG_OFFICER
+L["Party"]               = CHAT_MSG_PARTY
+-- L["Party Guide"]         = ""
+L["Party Leader"]        = CHAT_MSG_PARTY_LEADER
+L["Raid"]                = CHAT_MSG_RAID
+L["Raid Leader"]         = CHAT_MSG_RAID_LEADER
+L["Raid Warning"]        = CHAT_MSG_RAID_WARNING
 
 ------------------------------------------------------------------------
--- Short Channel Names
--- These should be one- or two-character abbreviations.
+--	Abbreviated Channel Names
+--	These should be one- or two-character abbreviations.
 ------------------------------------------------------------------------
 
-L["SHORT_GENERAL"]          = "О"
-L["SHORT_TRADE"]            = "Т"
-L["SHORT_LOCALDEFENSE"]     = "ЛО"
-L["SHORT_WORLDDEFENSE"]     = "МО"
-L["SHORT_LOOKINGFORGROUP"]  = "ЛФГ"
-L["SHORT_GUILDRECRUITMENT"] = "НвГ"
+-- L.CONVERSATION_ABBR       = ""
+L.GENERAL_ABBR            = "О"
+L.GUILDRECRUITMENT_ABBR   = "НвГ"
+L.LOCALDEFENSE_ABBR       = "ЛО"
+L.LOOKINGFORGROUP_ABBR    = "ЛФГ"
+L.TRADE_ABBR              = "Т"
+L.WORLDDEFENSE_ABBR       = "МО"
+
+L.BATTLEGROUND_ABBR        = "ПБ"
+L.BATTLEGROUND_LEADER_ABBR = "ЛПБ"
+L.GUILD_ABBR               = "Г"
+L.OFFICER_ABBR             = "Оф"
+L.PARTY_ABBR               = "Гр"
+L.PARTY_GUIDE_ABBR         = "ГрЛ"
+L.PARTY_LEADER_ABBR        = "ГрЛ"
+L.RAID_ABBR                = "Р"
+L.RAID_LEADER_ABBR         = "РЛ"
+L.RAID_WARNING_ABBR        = "РВ"
+L.SAY_ABBR                 = "С"
+L.YELL_ABBR                = "К"
+L.WHISPER_ABBR             = "Ш" -- incoming
+L.WHISPER_INFORM_ABBR      = "Ш" -- outgoing
 
 ------------------------------------------------------------------------
--- Short Chat Strings
--- These should be one- or two-character abbreviations.
+--	User Interface Strings
+--	Please verify that your translations fit in the available UI space.
 ------------------------------------------------------------------------
 
-L["SHORT_BATTLEGROUND"]        = "ПБ"
-L["SHORT_BATTLEGROUND_LEADER"] = "ЛПБ"
-L["SHORT_GUILD"]               = "Г"
-L["SHORT_OFFICER"]             = "Оф"
-L["SHORT_PARTY"]               = "Гр"
-L["SHORT_PARTY_GUIDE"]         = "ГрЛ"
-L["SHORT_PARTY_LEADER"]        = "ГрЛ"
-L["SHORT_RAID"]                = "Р"
-L["SHORT_RAID_LEADER"]         = "РЛ"
-L["SHORT_RAID_WARNING"]        = "РВ"
-L["SHORT_SAY"]                 = "С"
-L["SHORT_WHISPER"]             = "Ш" -- whispers sent to you
-L["SHORT_WHISPER_INFORM"]      = "Ш" -- whispers sent by you
-L["SHORT_YELL"]                = "К"
-
-------------------------------------------------------------------------
---	Configuration Panel Text
---	Please verify that your translations fit in the available UI space!
-------------------------------------------------------------------------
-
--- L["Configure options for making your chat frames more user-friendly and less cluttered."] = ""
-
-L["Color player names"] = "Окраска имен игроков"
-L["Enable player name class coloring for all chat message types."] = "Окрашивать имена игроков в цвет класса если класс известен."
--- L["Note that this is just a shortcut to enabling class coloring for each message type individually through the Blizzard chat options."] = ""
-
-L["Disable tab flashing"] = "Отключить мерцание закладок"
-L["Disable the flashing effect on chat tabs that receive new messages."] = "Отключить мерцание закладок."
-
-L["Enable arrow keys"] = "Использовать кнопки передвижения"
-L["Enable arrow keys in the chat edit box."] = "Использовать кнопки передвижения в строке ввода."
-
+-- L["Short channel names"] = ""
+-- L["Shorten channel names and chat strings."] = ""
+-- L["Short player names"] = ""
+-- L["Shorten player names by removing realm names and Real ID last names."] = ""
+-- L["Enable arrow keys"] = ""
+-- L["Enable arrow keys in the chat edit box."] = ""
 -- L["Enable resize edges"] = ""
--- L["Enable resize controls at all edges of chat frames, instead of just in the bottom right corner."] = ""
-
-L["Hide buttons"] = "Скрыть кнопки чата"
-L["Hide the chat frame menu and scroll buttons."] = "Скрыть кнопки чата."
-
+-- L["Enable resize controls at all edges of chat frames, instead of only the bottom right corner."] = ""
+-- L["Link URLs"] = ""
+-- L["Transform URLs in chat into clickable links for easy copying."] = ""
+-- L["Lock docked tabs"] = ""
+-- L["Prevent docked chat tabs from being dragged unless the Shift key is down."] = ""
+-- L["Move edit boxes"] = ""
+-- L["Move chat edit boxes to the top their respective chat frame."] = ""
+-- L["Hide buttons"] = ""
+-- L["Hide the chat frame menu and scroll buttons."] = ""
 -- L["Hide extra textures"] = ""
 -- L["Hide the extra textures on chat tabs and chat edit boxes added in patch 3.3.5."] = ""
-
-L["Link URLs"] = "Кликабельные URL"
-L["Transform URLs in chat into clickable links for easy copying."] = "Кликабельные URL для облегчения копирования."
-
-L["Lock docked tabs"] = "Закрепление закладок чата"
-L["Prevent locked chat tabs from being dragged unless the Alt key is down."] = "Закрепить закладки чата (удерживайте Alt для перемещения)."
-
-L["Move edit box"] = "Перемещение строки ввода"
-L["Move the chat edit box above the chat frame."] = "Переместить строку ввода наверх."
-
-L["Shorten channel names"] = "Сокращать названия каналов"
-L["Shorten channel names and chat strings."] = "Сокращать названия каналов и строки чата."
-
-L["Sticky chat"] = "Липкие каналы"
-L["Set which chat types should be sticky."] = "Липкие каналы."
+-- L["Hide tab flash"] = ""
+-- L["Disable the flashing effect on chat tabs that receive new messages."] = ""
+-- L["Hide notices"] = ""
+-- L["Hide channel notification messages."] = ""
+-- L["Hide repeats"] = ""
+-- L["Hide repeated messages in public channels."] = ""
+-- L["Sticky chat"] = ""
+-- L["Set which chat types should be sticky."] = ""
 -- L["All"] = ""
 -- L["Default"] = ""
 -- L["None"] = ""
-
-L["Fade time"] = "Исчезновение текста"
-L["Set the time in minutes to wait before fading chat text. A setting of 0 will disable fading."] = "Установить время исчезновения текста в минутах. 0 = отключить."
-
-L["Font size"] = "Установить размер шрифта"
-L["Set the font size for all chat frames."] = "Установить размер шрифта для всех окон."
-L["Note that this is just a shortcut to setting the font size for each chat frame individually through the Blizzard chat options."] = ""
-
-L["Filter notifications"] = "Подавление уведомлений"
-L["Hide channel notification messages."] = "Подавление уведомлений каналов."
-
--- L["Filter repeats"] = ""
-L["Hide repeated messages in public channels."] = "Подавление повторяющихся сообщений в общих каналах."
-
--- L["Auto-start chat log"] = ""
-L["Automatically start chat logging when you log into the game."] = ""
--- L["Chat logs are written to [ World of Warcraft > Logs > WoWChatLog.txt ] only when you log out of your character."] = ""
-L["You can manually start or stop chat logging at any time by typing /chatlog."] = "Автоматическое включение записи чата."
+-- L["Fade time"] = ""
+-- L["Set the time, in minutes, to wait before fading chat text. A setting of 0 will disable fading."] = ""
+-- L["Font size"] = ""
+-- L["Set the font size for all chat frames."] = ""
+-- L["Note that this is just a shortcut to configuring each chat frame individually through the Blizzard chat options."] = ""
 
 ------------------------------------------------------------------------

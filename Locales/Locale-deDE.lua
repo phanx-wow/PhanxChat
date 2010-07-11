@@ -1,119 +1,108 @@
---[[--------------------------------------------------------------------
-	German (Deutsch) translations for PhanxChat
-	Last updated: 2008-09-26 by Melikae
-	Contributors:
-		Melikae - Proudmoore <melikae@gmx.eu>
-----------------------------------------------------------------------]]
+------------------------------------------------------------------------
+--	PhanxChat                                                         --
+--	Removes chat frame clutter and adds some functionality.           --
+--	by Phanx < addons@phanx.net >                                     --
+--	Copyright © 2006–2010 Phanx. See README for license terms.        --
+--	http://www.wowinterface.com/downloads/info6323-PhanxChat.html     --
+--	http://wow.curse.com/downloads/wow-addons/details/phanxchat.aspx  --
+------------------------------------------------------------------------
+--	Localization: deDE / German / Deutsch
+--	Last Updated: YYYY-MM-DD by YourName < ContactInfo >
+------------------------------------------------------------------------
 
 if GetLocale() ~= "deDE" then return end
-
 local L, _, PhanxChat = { }, ...
 PhanxChat.L = L
 
 ------------------------------------------------------------------------
--- Channel Names
--- These must match the channel names sent from the server.
+--	Server Channel Names
+--	These must exactly match the channel names used in your locale.
 ------------------------------------------------------------------------
 
+-- L["Conversation"]     = ""
 L["General"]          = "Allgemein"
-L["Trade"]            = "Handel"
-L["LocalDefense"]     = "LokaleVerteidigung"
-L["WorldDefense"]     = "GlobaleVerteidigung"
-L["LookingForGroup"]  = "SucheNachGruppe"
 L["GuildRecruitment"] = "Gildenrekrutierung"
+L["LocalDefense"]     = "LokaleVerteidigung"
+L["LookingForGroup"]  = "SucheNachGruppe"
+L["Trade"]            = "Handel"
+L["WorldDefense"]     = "GlobaleVerteidigung"
+
+L["Battleground"]        = CHAT_MSG_BATTLEGROUND
+L["Battleground Leader"] = CHAT_MSG_BATTLEGROUND_LEADER
+L["Guild"]               = CHAT_MSG_GUILD
+L["Officer"]             = CHAT_MSG_OFFICER
+L["Party"]               = CHAT_MSG_PARTY
+-- L["Party Guide"]         = ""
+L["Party Leader"]        = CHAT_MSG_PARTY_LEADER
+L["Raid"]                = CHAT_MSG_RAID
+L["Raid Leader"]         = CHAT_MSG_RAID_LEADER
+L["Raid Warning"]        = CHAT_MSG_RAID_WARNING
 
 ------------------------------------------------------------------------
--- Short Channel Names
--- These should be one- or two-character abbreviations.
+--	Abbreviated Channel Names
 ------------------------------------------------------------------------
 
-L["SHORT_GENERAL"]          = "A"
-L["SHORT_TRADE"]            = "H"
-L["SHORT_LOCALDEFENSE"]     = "LV"
-L["SHORT_WORLDDEFENSE"]     = "GB"
-L["SHORT_LOOKINGFORGROUP"]  = "LFG"
-L["SHORT_GUILDRECRUITMENT"] = "R"
+-- L.CONVERSATION_ABBR       = ""
+L.GENERAL_ABBR            = "A"
+L.GUILDRECRUITMENT_ABBR   = "R"
+L.LOCALDEFENSE_ABBR       = "LV"
+L.LOOKINGFORGROUP_ABBR    = "LFG"
+L.TRADE_ABBR              = "H"
+L.WORLDDEFENSE_ABBR       = "GB"
+
+L.BATTLEGROUND_ABBR        = "SF"
+L.BATTLEGROUND_LEADER_ABBR = "SFL"
+L.GUILD_ABBR               = "G"
+L.OFFICER_ABBR             = "O"
+L.PARTY_ABBR               = "G"
+L.PARTY_GUIDE_ABBR         = "GL"
+L.PARTY_LEADER_ABBR        = "GL"
+L.RAID_ABBR                = "SZ"
+L.RAID_LEADER_ABBR         = "SZL"
+L.RAID_WARNING_ABBR        = "SZW"
+L.SAY_ABBR                 = "S"
+L.YELL_ABBR                = "S"
+L.WHISPER_ABBR             = "W" -- incoming
+L.WHISPER_INFORM_ABBR      = "W" -- outgoing
 
 ------------------------------------------------------------------------
--- Short Chat Strings
--- These should be one- or two-character abbreviations.
+--	User Interface Strings
+--	Please verify that your translations fit in the available UI space.
 ------------------------------------------------------------------------
 
-L["SHORT_BATTLEGROUND"]        = "SF"
-L["SHORT_BATTLEGROUND_LEADER"] = "SFL"
-L["SHORT_GUILD"]               = "G"
-L["SHORT_OFFICER"]             = "O"
-L["SHORT_PARTY"]               = "G"
-L["SHORT_PARTY_GUIDE"]         = "GL"
-L["SHORT_PARTY_LEADER"]        = "GL"
-L["SHORT_RAID"]                = "SZ"
-L["SHORT_RAID_LEADER"]         = "SZL"
-L["SHORT_RAID_WARNING"]        = "SZW"
-L["SHORT_SAY"]                 = "S"
-L["SHORT_WHISPER"]             = "W" -- whispers sent to you
-L["SHORT_WHISPER_INFORM"]      = "W" -- whispers sent by you
-L["SHORT_YELL"]                = "S"
-
-------------------------------------------------------------------------
---	Configuration Panel Text
---	Please verify that your translations fit in the available UI space!
-------------------------------------------------------------------------
-
--- L["Configure options for making your chat frames more user-friendly and less cluttered."] = ""
-
-L["Color player names"] = "Namen einfärben"
-L["Enable player name class coloring for all chat message types."] = "Namen der Spieler nach Klasse einfärben"
--- L["Note that this is just a shortcut to enabling class coloring for each message type individually through the Blizzard chat options."] = ""
-
-L["Disable tab flashing"] = "Blinken verhindern"
-L["Disable the flashing effect on chat tabs that receive new messages."] = "Blinken der Tabs verhindern"
-
-L["Enable arrow keys"] = "Pfeiltasten aktivieren"
-L["Enable arrow keys in the chat edit box."] = "Pfeiltasten für das Eingabefeld aktivieren"
-
+-- L["Short channel names"] = ""
+-- L["Shorten channel names and chat strings."] = ""
+-- L["Short player names"] = ""
+-- L["Shorten player names by removing realm names and Real ID last names."] = ""
+-- L["Enable arrow keys"] = ""
+-- L["Enable arrow keys in the chat edit box."] = ""
 -- L["Enable resize edges"] = ""
--- L["Enable resize controls at all edges of chat frames, instead of just in the bottom right corner."] = ""
-
-L["Hide buttons"] = "Buttons verstecken"
-L["Hide the chat frame menu and scroll buttons."] = "Scroll Buttons verstecken"
-
+-- L["Enable resize controls at all edges of chat frames, instead of only the bottom right corner."] = ""
+-- L["Link URLs"] = ""
+-- L["Transform URLs in chat into clickable links for easy copying."] = ""
+-- L["Lock docked tabs"] = ""
+-- L["Prevent docked chat tabs from being dragged unless the Shift key is down."] = ""
+-- L["Move edit boxes"] = ""
+-- L["Move chat edit boxes to the top their respective chat frame."] = ""
+-- L["Hide buttons"] = ""
+-- L["Hide the chat frame menu and scroll buttons."] = ""
 -- L["Hide extra textures"] = ""
 -- L["Hide the extra textures on chat tabs and chat edit boxes added in patch 3.3.5."] = ""
-
-L["Link URLs"] = "URLs anklickbar"
-L["Transform URLs in chat into clickable links for easy copying."] = "URLs für einfaches kopieren anklickbar machen"
-
-L["Lock docked tabs"] = "Tabs verhindern"
-L["Prevent locked chat tabs from being dragged unless the Alt key is down."] = "Verschieben angedockter Tabs verhindern (zum Verschieben Alt gedrückt halten)"
-
-L["Move edit box"] = "Eingabefeld anzeigen"
-L["Move the chat edit box above the chat frame."] = "Eingabefeld über dem Chatfenster anzeigen"
-
-L["Shorten channel names"] = "Kanal Namen abkürzen"
-L["Shorten channel names and chat strings."] = "Kanal Namen und Chat Bezeichnungen abkürzen"
-
-L["Sticky chat"] = "Kanäle merken"
-L["Set which chat types should be sticky."] = "Mehr Kanäle \"sticky\" machen"
+-- L["Hide tab flash"] = ""
+-- L["Disable the flashing effect on chat tabs that receive new messages."] = ""
+-- L["Hide notices"] = ""
+-- L["Hide channel notification messages."] = ""
+-- L["Hide repeats"] = ""
+-- L["Hide repeated messages in public channels."] = ""
+-- L["Sticky chat"] = ""
+-- L["Set which chat types should be sticky."] = ""
 -- L["All"] = ""
 -- L["Default"] = ""
 -- L["None"] = ""
-
-L["Fade time"] = "Ausblenden des Textes"
-L["Set the time in minutes to wait before fading chat text. A setting of 0 will disable fading."] = "Zeit bis zum Ausblenden des Textes in Minuten (0 = deaktiviert)"
-
-L["Font size"] = "Schriftgröße"
-L["Set the font size for all chat frames."] = "Schriftgröße für alle Fenster einstellen"
--- L["Note that this is just a shortcut to setting the font size for each chat frame individually through the Blizzard chat options."] = ""
-
-L["Filter notifications"] = "Kanal Meldungen unterdrücken"
-L["Hide channel notification messages."] = "Kanal Meldungen unterdrücken"
-
-L["Filter repeats"] = "Wiederholungen unterdrücken"
-L["Hide repeated messages in public channels."] = "Wiederholungen in öffentlichen Channels unterdrücken"
-
-L["Auto-start chat log"] = "Chat automatisch aufzeichen"
-L["Automatically start chat logging when you log into the game."] = "Chat automatisch aufzeichen"
--- L["Chat logs are written to [ World of Warcraft > Logs > WoWChatLog.txt ] only when you log out of your character."] = ""
--- L["You can manually start or stop chat logging at any time by typing /chatlog."] = ""
+-- L["Fade time"] = ""
+-- L["Set the time, in minutes, to wait before fading chat text. A setting of 0 will disable fading."] = ""
+-- L["Font size"] = ""
+-- L["Set the font size for all chat frames."] = ""
+-- L["Note that this is just a shortcut to configuring each chat frame individually through the Blizzard chat options."] = ""
 
 ------------------------------------------------------------------------

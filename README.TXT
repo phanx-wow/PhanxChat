@@ -1,73 +1,74 @@
+------------------------------------------------------------------------
+--	PhanxChat                                                         --
+--	Removes chat frame clutter and adds some functionality.           --
+--	by Phanx < addons@phanx.net >                                     --
+--	Copyright © 2006–2010 Phanx. See README for license terms.        --
+--	http://www.wowinterface.com/downloads/info6323-PhanxChat.html     --
+--	http://wow.curse.com/downloads/wow-addons/details/phanxchat.aspx  --
+------------------------------------------------------------------------
 
-PhanxChat - a World of Warcraft user interface addon
+== Features
 
-	by Phanx < addons@phanx.net >
-	http://www.wowinterface.com/downloads/info6323-PhanxChat.html
-	http://wow.curse.com/downloads/wow-addons/details/phanxchat.aspx
+* Shorten chat channel names
+* Shorten cross-realm and Real ID player names
+* Enable arrow keys without the Alt key
+* Enable resizing chat frames by their edges
+* Enable sticky behavior for all channels
+* Make URLs clickable for easy copying
+* Move the input box above the chat frame
+* Set the delay time for chat text fading
+* Stop docked chat tabs from being dragged
+* Hide the scroll, menu, and social buttons
+* Hide extra textures on chat frames
+* Hide the flashing effect on chat tabs
+* Hide channel notification messages
+* Hide repeated messages in public channels
 
-Description
+== Usage
 
-	PhanxChat unclutters your chat frames and makes them a little more
-	user-friendly.
+* Type "/pchat" for options, or find them in the Interface Options.
+* Type "/pchat clear" to clear all chat windows.
+* Type "/tt" or "/wt" to send a whisper to your current target.
 
-	* Enables clickable links for URLs in chat
-	* Enables class coloring in more message types
-	* Enables sticky behavior in more message types
-	* Enables arrow keys in the chat input box
-	* Enables resize controls all around chat frames
-	* Hides chat frame scroll and menu buttons
-	* Hides repeated messages in public channels
-	* Hides channel notification messages
-	* Hides extra textures on chat tabs and edit box
-	* Moves the edit box to the top of the chat frame
-	* Shortens channel names and chat type strings
-	* Stops chat tabs from flashing when new messages arrive
-	* Stops docked chat tabs from being dragged by accident
+== Localization
 
-Usage
+* Compatible with all locales.
+* Translated into English.
 
-	Options are available in the Interface Options window. Type "/pchat"
-	to open the window directly to the PhanxChat panel.
+If you can provide translations for any locale, please contact me.
 
-Localization
+== Feedback
 
-	Compatible with: en*, deDE, esES, esMX, frFR, koKR, ruRU, zhCN, zhTW
-	Translated into: en*, deDE, frFR, koKR, ruRU, zhCN, zhTW
+Bugs and feature requests should be directed to the ticket tracker on
+the addon's download page. General questions and comments may be posted
+in the addon's comments on wowinterface.com.
 
-	If you can help translate for any locale, please contact me.
+If you need to contact me privately, you may do by private message
+on the addon's download page, or by email at addons@phanx.net.
 
-Feedback
+Please DO NOT use email or private messaging to report bugs, request
+features, or ask for help.
 
-	Please use the ticket system on either download site report bugs or
-	request features. Use the comment system only for general questions
-	or comments.
+== License
 
-	If you need to contact me privately, you may do by private message
-	on either download site, or by email at addons@phanx.net.
+Copyright © 2006–2010 Phanx.
 
-	Note that email and private messaging are not appropriate ways to
-	report bugs, request features, or ask for help with using an addon.
+The contents of this addon, excluding third-party resources, are
+copyrighted to its author with all rights reserved, under United States
+copyright law and various international treaties.
 
-License
+In particular, please note that you may not distribute this addon in any
+form, with or without modifications, including as part of a compilation,
+without prior written permission from its author.
 
-	Copyright © 2006–2010 Phanx
+The author of this addon hereby grants you the following rights:
 
-	The contents of this addon, excluding third-party resources, are
-	copyrighted to its author with all rights reserved, under United
-	States copyright law and various international treaties.
+1. You may make modifications to this addon for private use only.
 
-	In particular, please note that you may not distribute this addon in
-	any form, with or without modifications, including as part of a
-	compilation, without prior written permission from its author.
+2. You may use source code from this addon for any purpose, provided
+that the names of this addon and its author are not used to promote your
+work and do not appear in any materials associated with your work
+without prior written permission.
 
-	The author of this addon hereby grants you the following rights:
-
-	1. You may make modifications to this addon for private use only.
-
-	2. You may use source code from this addon for any purpose, provided
-	that the names of this addon and its author do not appear in the
-	title, source code, or file names of your project, and are not used
-	to promote your project.
-
-	All rights not explicitly addressed in this license are reserved by
-	the copyright holder.
+All rights not explicitly addressed in this license are reserved by
+the copyright holder.

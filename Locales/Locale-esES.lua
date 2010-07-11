@@ -6,11 +6,11 @@
 --	http://www.wowinterface.com/downloads/info6323-PhanxChat.html     --
 --	http://wow.curse.com/downloads/wow-addons/details/phanxchat.aspx  --
 ------------------------------------------------------------------------
---	Localization: zhCN / Simplified Chinese / 简体中文
+--	Localization: esES / Spanish (Europe) / Español (EU)
 --	Last Updated: YYYY-MM-DD by YourName < ContactInfo >
 ------------------------------------------------------------------------
 
-if GetLocale() ~= "zhCN" then return end
+if GetLocale() ~= "esES" and GetLocale() ~= "esMX" then return end
 local L, _, PhanxChat = { }, ...
 PhanxChat.L = L
 
@@ -20,12 +20,12 @@ PhanxChat.L = L
 ------------------------------------------------------------------------
 
 -- L["Conversation"]     = ""
-L["General"]          = "综合"
-L["GuildRecruitment"] = "公会招募"
-L["LocalDefense"]     = "本地防务"
-L["LookingForGroup"]  = "寻求组队"
-L["Trade"]            = "交易"
-L["WorldDefense"]     = "世界防务"
+L["General"]          = GENERAL
+-- L["GuildRecruitment"] = ""
+-- L["LocalDefense"]     = ""
+L["LookingForGroup"]  = LOOKING
+L["Trade"]            = TRADE
+-- L["WorldDefense"]     = ""
 
 L["Battleground"]        = CHAT_MSG_BATTLEGROUND
 L["Battleground Leader"] = CHAT_MSG_BATTLEGROUND_LEADER
@@ -44,27 +44,27 @@ L["Raid Warning"]        = CHAT_MSG_RAID_WARNING
 ------------------------------------------------------------------------
 
 -- L.CONVERSATION_ABBR       = ""
-L.GENERAL_ABBR            = "综"
-L.GUILDRECRUITMENT_ABBR   = "招"
-L.LOCALDEFENSE_ABBR       = "本"
-L.LOOKINGFORGROUP_ABBR    = "寻"
-L.TRADE_ABBR              = "交"
-L.WORLDDEFENSE_ABBR       = "世"
+-- L.GENERAL_ABBR            = ""
+-- L.GUILDRECRUITMENT_ABBR   = ""
+-- L.LOCALDEFENSE_ABBR       = ""
+-- L.LOOKINGFORGROUP_ABBR    = ""
+-- L.TRADE_ABBR              = ""
+-- L.WORLDDEFENSE_ABBR       = ""
 
-L.BATTLEGROUND_ABBR        = "战"
-L.BATTLEGROUND_LEADER_ABBR = "战领"
-L.GUILD_ABBR               = "公"
-L.OFFICER_ABBR             = "官"
-L.PARTY_ABBR               = "队"
+-- L.BATTLEGROUND_ABBR        = ""
+-- L.BATTLEGROUND_LEADER_ABBR = ""
+-- L.GUILD_ABBR               = ""
+-- L.OFFICER_ABBR             = ""
+-- L.PARTY_ABBR               = ""
 -- L.PARTY_GUIDE_ABBR         = ""
 -- L.PARTY_LEADER_ABBR        = ""
-L.RAID_ABBR                = "团"
-L.RAID_LEADER_ABBR         = "领"
-L.RAID_WARNING_ABBR        = "警"
-L.SAY_ABBR                 = "说"
-L.YELL_ABBR                = "喊"
-L.WHISPER_ABBR             = "密自" -- incoming
-L.WHISPER_INFORM_ABBR      = "密往" -- outgoing
+-- L.RAID_ABBR                = ""
+-- L.RAID_LEADER_ABBR         = ""
+-- L.RAID_WARNING_ABBR        = ""
+-- L.SAY_ABBR                 = ""
+-- L.YELL_ABBR                = ""
+-- L.WHISPER_ABBR             = "" -- incoming
+-- L.WHISPER_INFORM_ABBR      = "" -- outgoing
 
 ------------------------------------------------------------------------
 --	User Interface Strings
