@@ -113,6 +113,7 @@ end })
 
 ------------------------------------------------------------------------
 
+local STRING_LINK    = "|h" .. STRING_STYLE .. "|h"
 local CHANNEL_LINK   = "|h" .. STRING_STYLE:format(CHANNEL_STYLE) .. "|h"
 local PLAYER_LINK    = "|Hplayer:%s|h" .. PLAYER_STYLE.. "|h"
 local PLAYER_BN_LINK = "|HBNplayer:%s:%s|h" .. PLAYER_STYLE .. "|h"
@@ -128,16 +129,16 @@ local ChannelNames = {
 }
 
 local ChannelStrings = {
-	["|h%[" .. L["Battleground"] .. "%]|h%s?"]        = STRING_STYLE:format(L.BATTLEGROUND_ABBR),
-	["|h%[" .. L["Battleground Leader"] .. "%]|h%s?"] = STRING_STYLE:format(L.BATTLEGROUND_LEADER_ABBR),
-	["|h%[" .. L["Guild"] .. "%]|h%s?"]               = STRING_STYLE:format(L.GUILD_ABBR),
-	["|h%[" .. L["Officer"] .. "%]|h%s?"]             = STRING_STYLE:format(L.OFFICER_ABBR),
-	["|h%[" .. L["Party"] .. "%]|h%s?"]               = STRING_STYLE:format(L.PARTY_ABBR),
-	["|h%[" .. L["Party Guide"] .. "%]|h%s?"]         = STRING_STYLE:format(L.PARTY_GUIDE_ABBR),
-	["|h%[" .. L["Party Leader"] .. "%]|h%s?"]        = STRING_STYLE:format(L.PARTY_LEADER_ABBR),
-	["|h%[" .. L["Raid"] .. "%]|h%s?"]                = STRING_STYLE:format(L.RAID_ABBR),
-	["|h%[" .. L["Raid Leader"] .. "%]|h%s?"]         = STRING_STYLE:format(L.RAID_LEADER_ABBR),
-	["|h%[" .. L["Raid Warning"] .. "%]|h%s?"]        = STRING_STYLE:format(L.RAID_WARNING_ABBR),
+	["|h%[" .. L["Battleground"] .. "%]|h%s?"]        = STRING_LINK:format(L.BATTLEGROUND_ABBR),
+	["|h%[" .. L["Battleground Leader"] .. "%]|h%s?"] = STRING_LINK:format(L.BATTLEGROUND_LEADER_ABBR),
+	["|h%[" .. L["Guild"] .. "%]|h%s?"]               = STRING_LINK:format(L.GUILD_ABBR),
+	["|h%[" .. L["Officer"] .. "%]|h%s?"]             = STRING_LINK:format(L.OFFICER_ABBR),
+	["|h%[" .. L["Party"] .. "%]|h%s?"]               = STRING_LINK:format(L.PARTY_ABBR),
+	["|h%[" .. L["Party Guide"] .. "%]|h%s?"]         = STRING_LINK:format(L.PARTY_GUIDE_ABBR),
+	["|h%[" .. L["Party Leader"] .. "%]|h%s?"]        = STRING_LINK:format(L.PARTY_LEADER_ABBR),
+	["|h%[" .. L["Raid"] .. "%]|h%s?"]                = STRING_LINK:format(L.RAID_ABBR),
+	["|h%[" .. L["Raid Leader"] .. "%]|h%s?"]         = STRING_LINK:format(L.RAID_LEADER_ABBR),
+	["|h%[" .. L["Raid Warning"] .. "%]|h%s?"]        = STRING_LINK:format(L.RAID_WARNING_ABBR),
 
 	[CHAT_SAY_GET:gsub("%%s", "(|Hplayer:.+|h)"):gsub(":%s?", "")] = STRING_STYLE:format(L.SAY_ABBR) .. "%1",
 	[CHAT_YELL_GET:gsub("%%s", "(|Hplayer:.+|h)"):gsub(":%s?", "")] = STRING_STYLE:format(L.YELL_ABBR) .. "%1",
