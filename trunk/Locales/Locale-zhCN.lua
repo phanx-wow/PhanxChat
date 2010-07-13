@@ -29,7 +29,7 @@ L["WorldDefense"]     = "世界防务"
 
 L["Battleground"]        = CHAT_MSG_BATTLEGROUND
 L["Battleground Leader"] = CHAT_MSG_BATTLEGROUND_LEADER
-L["Dungeon Guide"]       = CHAT_PARTY_GUIDE_GET:match("%[(.-)%])
+L["Dungeon Guide"]       = CHAT_PARTY_GUIDE_GET:match("%[(.-)%]")
 L["Guild"]               = CHAT_MSG_GUILD
 L["Officer"]             = CHAT_MSG_OFFICER
 L["Party"]               = CHAT_MSG_PARTY
