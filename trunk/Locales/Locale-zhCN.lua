@@ -19,7 +19,7 @@ PhanxChat.L = L
 --	These must exactly match the channel names used in your locale.
 ------------------------------------------------------------------------
 
--- L["Conversation"]     = ""
+L["Conversation"]     = CHAT_BN_CONVERSATION_SEND:match("%.%s?(%.-)%]")
 L["General"]          = "综合"
 L["GuildRecruitment"] = "公会招募"
 L["LocalDefense"]     = "本地防务"
@@ -29,10 +29,10 @@ L["WorldDefense"]     = "世界防务"
 
 L["Battleground"]        = CHAT_MSG_BATTLEGROUND
 L["Battleground Leader"] = CHAT_MSG_BATTLEGROUND_LEADER
+L["Dungeon Guide"]       = CHAT_PARTY_GUIDE_GET:match("%[(.-)%])
 L["Guild"]               = CHAT_MSG_GUILD
 L["Officer"]             = CHAT_MSG_OFFICER
 L["Party"]               = CHAT_MSG_PARTY
--- L["Party Guide"]         = ""
 L["Party Leader"]        = CHAT_MSG_PARTY_LEADER
 L["Raid"]                = CHAT_MSG_RAID
 L["Raid Leader"]         = CHAT_MSG_RAID_LEADER
