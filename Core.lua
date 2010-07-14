@@ -14,12 +14,18 @@ local STRING_STYLE  = "%s||"
 local CHANNEL_STYLE = "%d"
 	-- %d = channel number (optional)
 	-- %s = channel name (optional)
+	-- Will be used with STRING_STYLE for numbered channels.
 
 local PLAYER_STYLE  = "%s"
 	-- %s = player name (required)
 
 local NUM_LINES_TO_SCROLL = 3
 	-- Lines scrolled per turn of mouse wheel
+
+local CUSTOM_CHANNELS = {
+	-- Not case-sensitive. Must be in the format:
+	-- ["mychannel"] = "MC",
+}
 
 local DEFAULT_STRINGS = {
 	-- If you play in a non-English locale, you'll need to edit the
@@ -89,6 +95,8 @@ PhanxChat.debug = false
 PhanxChat.RunOnLoad = { }
 PhanxChat.RunOnProcessFrame = { }
 
+PhanxChat.STRING_STYLE = STRING_STYLE
+
 local frames = { }
 PhanxChat.frames = frames
 
@@ -113,8 +121,8 @@ end })
 
 ------------------------------------------------------------------------
 
-local STRING_LINK    = "|h" .. STRING_STYLE .. "|h"
 local CHANNEL_LINK   = "|h" .. STRING_STYLE:format(CHANNEL_STYLE) .. "|h"
+
 local PLAYER_LINK    = "|Hplayer:%s|h" .. PLAYER_STYLE.. "|h"
 local PLAYER_BN_LINK = "|HBNplayer:%s:%s|h" .. PLAYER_STYLE .. "|h"
 
@@ -128,38 +136,16 @@ local ChannelNames = {
 	[L["WorldDefense"]]     = WORLDDEFENSE_ABBR,
 }
 
-local ChannelStrings = {
-	["|h%[" .. L["Battleground"] .. "%]|h%s?"]        = STRING_LINK:format(L.BATTLEGROUND_ABBR),
-	["|h%[" .. L["Battleground Leader"] .. "%]|h%s?"] = STRING_LINK:format(L.BATTLEGROUND_LEADER_ABBR),
-	["|h%[" .. L["Dungeon Guide"] .. "%]|h%s?"]       = STRING_LINK:format(L.PARTY_GUIDE_ABBR),
-	["|h%[" .. L["Guild"] .. "%]|h%s?"]               = STRING_LINK:format(L.GUILD_ABBR),
-	["|h%[" .. L["Officer"] .. "%]|h%s?"]             = STRING_LINK:format(L.OFFICER_ABBR),
-	["|h%[" .. L["Party"] .. "%]|h%s?"]               = STRING_LINK:format(L.PARTY_ABBR),
-	["|h%[" .. L["Party Leader"] .. "%]|h%s?"]        = STRING_LINK:format(L.PARTY_LEADER_ABBR),
-	["|h%[" .. L["Raid"] .. "%]|h%s?"]                = STRING_LINK:format(L.RAID_ABBR),
-	["|h%[" .. L["Raid Leader"] .. "%]|h%s?"]         = STRING_LINK:format(L.RAID_LEADER_ABBR),
-	["|h%[" .. L["Raid Warning"] .. "%]|h%s?"]        = STRING_LINK:format(L.RAID_WARNING_ABBR),
-
-	[CHAT_SAY_GET:gsub("%%s", "(|Hplayer:.+|h)"):gsub(":%s?", "")] = STRING_STYLE:format(L.SAY_ABBR) .. "%1",
-	[CHAT_YELL_GET:gsub("%%s", "(|Hplayer:.+|h)"):gsub(":%s?", "")] = STRING_STYLE:format(L.YELL_ABBR) .. "%1",
-	[CHAT_WHISPER_GET:gsub("%%s", "(|Hplayer:.+|h)"):gsub(":%s?", "")] = STRING_STYLE:format(L.WHISPER_ABBR) .. "%1",
-	[CHAT_WHISPER_INFORM_GET:gsub("%%s", "(|Hplayer:.+|h)"):gsub(":%s?", "")] = STRING_STYLE:format(L.WHISPER_INFORM_ABBR) .. "%1",
-}
+for name, abbr in pairs(CUSTOM_CHANNELS) do
+	ChannelNames[name:lower()] = abbr
+end
 
 local AddMessage = function(frame, message, ...)
 	if type(message) == "string" then
 		if db.ShortenChannelNames then
 			local cblob, cnum, cname = message:match("(|h%[(%d+)%.%s?([^%]%-%s]+)%]|h%s?).+")
 			if cblob then
-				message = message:replace(cblob, CHANNEL_LINK:replace("%d", cnum):replace("%s", ChannelNames[cname] or cname:sub(1, 3))) -- truncate unknown channel names
-			else
-				for k, v in pairs(ChannelStrings) do
-					local new = message:gsub(k, v)
-					if message ~= new then
-						message = new
-						break
-					end
-				end
+				message = message:replace(cblob, CHANNEL_LINK:replace("%d", cnum):replace("%s", ChannelNames[cname] or ChannelNames[cname:lower()] or cname:sub(1, 3))) -- truncate unknown channel names
 			end
 		end
 
