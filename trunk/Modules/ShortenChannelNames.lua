@@ -41,19 +41,18 @@ table.insert(PhanxChat.RunOnLoad, PhanxChat.SetShortenChannelNames)
 ------------------------------------------------------------------------
 
 local STRING_STYLE = PhanxChat.STRING_STYLE
-local STRING_LINK  = "|Hchannel:%s|h" .. STRING_STYLE .. "|h"
 
 ChannelStrings = {
-	CHAT_BATTLEGROUND_GET        = STRING_LINK:format("Battleground", L.BATTLEGROUND_ABBR),
-	CHAT_BATTLEGROUND_LEADER_GET = STRING_LINK:format("Battleground", L.BATTLEGROUND_LEADER_ABBR),
-	CHAT_GUILD_GET               = STRING_LINK:format("Guild", L.GUILD_ABBR),
-	CHAT_OFFICER_GET             = STRING_LINK:format("o", L.OFFICER_ABBR),
-	CHAT_PARTY_GET               = STRING_LINK:format("Party", L.PARTY_ABBR),
-	CHAT_PARTY_GUIDE_GET         = STRING_LINK:format("party", L.PARTY_GUIDE_ABBR),
-	CHAT_PARTY_LEADER_GET        = STRING_LINK:format("party", L.PARTY_LEADER_ABBR),
-	CHAT_RAID_GET                = STRING_LINK:format("raid", L.RAID_ABBR),
-	CHAT_RAID_LEADER_GET         = STRING_LINK:format("raid", L.RAID_LEADER_ABBR),
-	CHAT_RAID_WARNING_GET        = STRING_STYLE:format(L.RAID_WARNING_ABBR),
+	CHAT_BATTLEGROUND_GET        = "|Hchannel:Battleground|h" .. STRING_STYLE:format(L.BATTLEGROUND_ABBR) .. "|h%s:\32",
+	CHAT_BATTLEGROUND_LEADER_GET = "|Hchannel:Battleground|h" .. STRING_STYLE:format(L.BATTLEGROUND_LEADER_ABBR) .. "|h%s:\32",
+	CHAT_GUILD_GET               = "|Hchannel:Guild|h" .. STRING_STYLE:format(L.GUILD_ABBR) .. "|h%s:\32",
+	CHAT_OFFICER_GET             = "|Hchannel:o|h" .. STRING_STYLE:format(L.OFFICER_ABBR) .. "|h%s:\32",
+	CHAT_PARTY_GET               = "|Hchannel:Party|h" .. STRING_STYLE:format(L.PARTY_ABBR) .. "|h%s:\32",
+	CHAT_PARTY_GUIDE_GET         = "|Hchannel:party|h" .. STRING_STYLE:format(L.PARTY_GUIDE_ABBR) .. "|h%s:\32",
+	CHAT_PARTY_LEADER_GET        = "|Hchannel:party|h" .. STRING_STYLE:format(L.PARTY_LEADER_ABBR) .. "|h%s:\32",
+	CHAT_RAID_GET                = "|Hchannel:raid|h" .. STRING_STYLE:format(L.RAID_ABBR) .. "|h%s:\32",
+	CHAT_RAID_LEADER_GET         = "|Hchannel:raid|h" .. STRING_STYLE:format(L.RAID_LEADER_ABBR) .. "|h%s:\32",
+	CHAT_RAID_WARNING_GET        = STRING_STYLE:format(L.RAID_WARNING_ABBR) .. "%s:\32",
 	CHAT_SAY_GET                 = STRING_STYLE:format(L.SAY_ABBR) .. "%s:\32",
 	CHAT_WHISPER_GET             = STRING_STYLE:format(L.WHISPER_ABBR) .. "%s:\32",
 	CHAT_WHISPER_INFORM_GET      = STRING_STYLE:format(L.WHISPER_INFORM_ABBR) .. "%s:\32",
