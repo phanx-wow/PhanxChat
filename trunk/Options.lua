@@ -46,7 +46,7 @@ panel:SetScript("OnShow", function(self)
 	ShortenChannelNames:SetChecked(db.ShortenChannelNames)
 	ShortenChannelNames.OnClick = function(self, checked)
 		if PhanxChat.debug then print("PhanxChat: ShortenChannelNames", checked) end
-		db.ShortenChannelNames = checked
+		PhanxChat:SetShortenChannelNames(checked)
 	end
 
 	--------------------------------------------------------------------

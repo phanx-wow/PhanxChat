@@ -27,17 +27,6 @@ L["LookingForGroup"]  = "尋求組隊"
 L["Trade"]            = "交易"
 L["WorldDefense"]     = "世界防務"
 
-L["Battleground"]        = CHAT_MSG_BATTLEGROUND
-L["Battleground Leader"] = CHAT_MSG_BATTLEGROUND_LEADER
-L["Dungeon Guide"]       = CHAT_PARTY_GUIDE_GET:match("%[(.-)%]")
-L["Guild"]               = CHAT_MSG_GUILD
-L["Officer"]             = CHAT_MSG_OFFICER
-L["Party"]               = CHAT_MSG_PARTY
-L["Party Leader"]        = CHAT_MSG_PARTY_LEADER
-L["Raid"]                = CHAT_MSG_RAID
-L["Raid Leader"]         = CHAT_MSG_RAID_LEADER
-L["Raid Warning"]        = CHAT_MSG_RAID_WARNING
-
 ------------------------------------------------------------------------
 --	Abbreviated Channel Names
 --	These should be one- or two-character abbreviations.
