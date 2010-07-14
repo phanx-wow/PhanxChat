@@ -20,7 +20,7 @@ end
 
 function PhanxChat:SetFadeTime(v)
 	if self.debug then print("PhanxChat: SetFadeTime", v) end
-	if type(v) == "boolean" then
+	if type(v) == "number" then
 		self.db.FadeTime = v
 	end
 
