@@ -12,12 +12,12 @@ local _, PhanxChat = ...
 local NOTICE_EVENTS = {
 	"CHAT_MSG_CHANNEL_JOIN",
 	"CHAT_MSG_CHANNEL_LEAVE",
---	"CHAT_MSG_CHANNEL_NOTICE",
+	"CHAT_MSG_CHANNEL_NOTICE",
 	"CHAT_MSG_CHANNEL_NOTICE_USER",
 }
 
-local function HideNotices()
-	return true
+local function HideNotices(frame, event, type, ...)
+	return event ~= "CHAT_MSG_CHANNEL_NOTICE" or (type ~= "YOU_JOINED" and type ~= "YOU_LEFT")
 end
 
 function PhanxChat:SetHideNotices(v)
