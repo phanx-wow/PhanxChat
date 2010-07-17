@@ -127,13 +127,13 @@ local PLAYER_LINK    = "|Hplayer:%s|h" .. PLAYER_STYLE.. "|h"
 local PLAYER_BN_LINK = "|HBNplayer:%s:%s|h" .. PLAYER_STYLE .. "|h"
 
 local ChannelNames = {
-	[L["Conversation"]]		= CONVERSATION_ABBR,
-	[L["General"]]          = GENERAL_ABBR,
-	[L["GuildRecruitment"]] = GUILDRECRUITMENT_ABBR,
-	[L["LocalDefense"]]     = LOCALDEFENSE_ABBR,
-	[L["LookingForGroup"]]  = LOOKINGFORGROUP_ABBR,
-	[L["Trade"]]            = TRADE_ABBR,
-	[L["WorldDefense"]]     = WORLDDEFENSE_ABBR,
+	[L["Conversation"]]	    = L.CONVERSATION_ABBR,
+	[L["General"]]          = L.GENERAL_ABBR,
+	[L["GuildRecruitment"]] = L.GUILDRECRUITMENT_ABBR,
+	[L["LocalDefense"]]     = L.LOCALDEFENSE_ABBR,
+	[L["LookingForGroup"]]  = L.LOOKINGFORGROUP_ABBR,
+	[L["Trade"]]            = L.TRADE_ABBR,
+	[L["WorldDefense"]]     = L.WORLDDEFENSE_ABBR,
 }
 
 for name, abbr in pairs(CUSTOM_CHANNELS) do
@@ -230,6 +230,8 @@ function PhanxChat:ProcessFrame(frame)
 	frame:SetMaxResize(UIParent:GetWidth(), UIParent:GetHeight())
 	frame:SetMinResize(150, 25)
 
+	if self.debug then print("PhanxChat: ProcessFrame", frame:GetName()) end
+
 	if frame ~= COMBATLOG then
 		if not hooks[frame] then
 			hooks[frame] = { }
@@ -239,8 +241,6 @@ function PhanxChat:ProcessFrame(frame)
 			frame.AddMessage = AddMessage
 		end
 	end
-
-	if self.debug then print("PhanxChat: ProcessFrame", frame:GetName()) end
 
 	if not self.isLoading then
 		for _, func in ipairs(self.RunOnProcessFrame) do
