@@ -1,5 +1,5 @@
 ## Interface: 30300
-## Version: 3.3.5.wowi:revision-beta
+## Version: 3.3.5.wowi:revision
 
 ## Title: PhanxChat
 ## Notes: Removes chat frame clutter and adds some functionality.
@@ -8,6 +8,8 @@
 ## X-Copyright: Copyright © 2006–2010 Phanx.
 ## X-License: See README for license terms.
 ## X-Website: http://www.wowinterface.com/downloads/info6323-PhanxChat.html
+## X-Curse-Project-ID: phanxchat
+## X-WoWI-ID: 6323
 
 ## OptionalDependencies: LibAboutPanel, PhanxConfigWidgets
 ## SavedVariables: PhanxChatDB
