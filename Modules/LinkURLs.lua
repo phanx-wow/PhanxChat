@@ -15,8 +15,10 @@ local URL_STYLE = "|cff33ccff%s|r"
 ------------------------------------------------------------------------
 
 local _, PhanxChat = ...
-local CURRENT_URL, TLDS, URL_EVENTS, URL_PATTERNS
+local TLDS, URL_EVENTS, URL_PATTERNS
 local URL_LINK = "|Hurl:%s|h" .. URL_STYLE .. "|h"
+
+local currentURL
 
 ------------------------------------------------------------------------
 
@@ -43,12 +45,13 @@ end
 
 ------------------------------------------------------------------------
 
-function PhanxChat.SetItemRef(link, ...)
+function PhanxChat.ChatFrame_OnHyperlinkShow(frame, link, text, button)
 	if link:sub(1, 3) == "url" then
-		CURRENT_URL = link:sub(5)
-		return StaticPopup_Show("URL_COPY_DIALOG")
+		currentLink = link:sub(5)
+		StaticPopup_Show("URL_COPY_DIALOG")
+		return
 	end
-	PhanxChat.hooks.SetItemRef(link, ...)
+	return self.hooks.ChatFrame_OnHyperlinkShow(frame, link, text, button)
 end
 
 ------------------------------------------------------------------------
@@ -63,17 +66,17 @@ function PhanxChat:SetLinkURLs(v)
 		for _, event in ipairs(URL_EVENTS) do
 			ChatFrame_AddMessageEventFilter(event, LinkURLs)
 		end
-		if not self.hooks.SetItemRef then
-			self.hooks.SetItemRef = SetItemRef
-			SetItemRef = self.SetItemRef
+		if not self.hooks.ChatFrame_OnHyperlinkShow then
+			self.hooks.ChatFrame_OnHyperlinkShow = ChatFrame_OnHyperlinkShow
+			ChatFrame_OnHyperlinkShow = self.ChatFrame_OnHyperlinkShow
 		end
 	else
 		for _, event in ipairs(URL_EVENTS) do
 			ChatFrame_RemoveMessageEventFilter(event, LinkURLs)
 		end
-		if self.hooks.SetItemRef then
-			SetItemRef = self.hooks.SetItemRef
-			self.hooks.SetItemRef = nil
+		if self.hooks.ChatFrame_OnHyperlinkShow then
+			ChatFrame_OnHyperlinkShow = self.hooks.ChatFrame_OnHyperlinkShow
+			self.hooks.ChatFrame_OnHyperlinkShow = nil
 		end
 	end
 
@@ -89,22 +92,19 @@ function PhanxChat:SetLinkURLs(v)
 			timeout = 0,
 			whileDead = 1,
 			OnShow = function(self)
-				local icon = self.icon or _G[self:GetName().."AlertIcon"]
-				if icon then
-					icon:Hide()
-				end
-				local wideEditBox = self.wideEditBox or _G[self:GetName().."WideEditBox"]
-				if wideEditBox then
-					wideEditBox:SetText(CURRENT_URL)
-					wideEditBox:SetFocus()
-					wideEditBox:HighlightText(0)
-				end
+				(self.icon or _G[self:GetName().."AlertIcon"]):Hide()
+
 				local button2 = self.button2 or _G[self:GetName().."Button2"]
-				if button2 then
-					button2:ClearAllPoints()
-					button2:SetPoint("TOPRIGHT", wideEditBox, "BOTTOMRIGHT", 7, 12)
-					button2:SetWidth(150)
-				end
+				button2:ClearAllPoints()
+				button2:SetPoint("TOPRIGHT", wideEditBox, "BOTTOMRIGHT", 7, 12)
+				button2:SetWidth(150)
+
+				local wideEditBox = self.wideEditBox or _G[self:GetName().."WideEditBox"]
+				wideEditBox:SetText(currentURL)
+				wideEditBox:SetFocus()
+				wideEditBox:HighlightText(0)
+
+				currentURL = nil
 			end,
 			EditBoxOnEscapePressed = function(self)
 				self:GetParent():Hide()

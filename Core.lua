@@ -197,6 +197,14 @@ function FloatingChatFrame_OnMouseScroll(self, delta)
 			end
 		end
 	end
+
+	if db.HideButtons then
+		if frame:AtBottom() then
+			_G[frame:GetName() .. "ButtonFrameBottomButton"]:Hide()
+		else
+			_G[frame:GetName() .. "ButtonFrameBottomButton"]:Show()
+		end
+	end
 end
 
 ------------------------------------------------------------------------
@@ -266,8 +274,8 @@ function PhanxChat:ADDON_LOADED(addon)
 	self.defaults = {
 		EnableArrows        = true,
 		EnableResizeEdges   = true,
-		EnableSticky        = "ALL",	-- may be ALL, BLIZZARD, or NONE
-		FadeTime			= 1,
+		EnableSticky        = "ALL",  -- may be ALL, BLIZZARD, or NONE
+		FadeTime			= 1,      -- 0 disables fading
 		HideButtons         = true,
 		HideFlash           = false,
 		HideNotices         = false,
@@ -310,10 +318,6 @@ function PhanxChat:ADDON_LOADED(addon)
 	end
 
 	self.isLoading = nil
-
-	if self.noTranslations then
-		-- do nothing for now
-	end
 
 	self.frame:UnregisterEvent("ADDON_LOADED")
 	self.ADDON_LOADED = nil
