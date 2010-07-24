@@ -19,6 +19,7 @@ local function OnClick(self, button)
 	else
 		frame:GetParent():ScrollToBottom()
 	end
+	_G[frame:GetName() .. "ButtonFrameBottomButton"]:Hide()
 end
 
 function PhanxChat:HideButtons(frame)
@@ -92,14 +93,6 @@ function PhanxChat.BNToastFrame_UpdateAnchor(forceAnchor)
 	end
 end
 ]]
-function PhanxChat.ChatFrame_OnUpdate(frame, elapsed)
-	if frame:AtBottom() then
-		_G[frame:GetName() .. "ButtonFrameBottomButton"]:Hide()
-	else
-		_G[frame:GetName() .. "ButtonFrameBottomButton"]:Show()
-		PhanxChat.hooks.ChatFrame_OnUpdate(frame, elapsed)
-	end
-end
 
 function PhanxChat:SetHideButtons(v)
 	if self.debug then print("PhanxChat: SetHideButtons", v) end
@@ -125,11 +118,6 @@ function PhanxChat:SetHideButtons(v)
 			self.hooks.BN_TOAST_LEFT_OFFSET = BN_TOAST_LEFT_OFFSET
 			BN_TOAST_LEFT_OFFSET = BN_TOAST_LEFT_OFFSET + ChatFrame1ButtonFrame:GetWidth() + 5
 		end
-
-		if not self.hooks.ChatFrame_OnUpdate then
-			self.hooks.ChatFrame_OnUpdate = ChatFrame_OnUpdate
-			ChatFrame_OnUpdate = self.ChatFrame_OnUpdate
-		end
 	elseif not self.isLoading then
 		ChatFrameMenuButton:SetScript("OnShow", nil)
 		ChatFrameMenuButton:Show()
@@ -143,11 +131,6 @@ function PhanxChat:SetHideButtons(v)
 		if self.hooks.BN_TOAST_LEFT_OFFSET then
 			BN_TOAST_LEFT_OFFSET = self.hooks.BN_TOAST_LEFT_OFFSET
 			self.hooks.BN_TOAST_LEFT_OFFSET = nil
-		end
-
-		if self.hooks.ChatFrame_OnUpdate then
-			ChatFrame_OnUpdate = self.hooks.ChatFrame_OnUpdate
-			self.hooks.ChatFrame_OnUpdate = nil
 		end
 	end
 end
