@@ -42,7 +42,7 @@ end
 
 function PhanxChat:EnableResizeEdges(frame)
 	local name = frame:GetName()
-	local _, _, _, _, _, _, _, locked = FCF_GetChatWindowInfo(frame:GetID())
+	local _, _, r, g, b, a, _, locked = FCF_GetChatWindowInfo(frame:GetID())
 
 	if not frame.resizeTopLeft then
 		local bg = _G[name .. "Background"]
@@ -63,7 +63,9 @@ function PhanxChat:EnableResizeEdges(frame)
 			edge.tex:SetWidth(20)
 			edge.tex:SetHeight(20)
 			edge.tex:SetAllPoints(edge)
-			edge.tex:SetVertexColor(0, 0, 0, locked and 0 or 0.5)
+			edge.tex:SetVertexColor(r, g, b, math.min(a + 0.25, 1))
+
+			if locked then edge:Hide() end
 		end
 
 		frame.resizeTopLeft:SetPoint("TOPLEFT", bg, -2, 2)
@@ -116,30 +118,35 @@ end
 
 ------------------------------------------------------------------------
 
-function PhanxChat.FCF_SetWindowAlpha(frame, alpha, doNotSave)
-	PhanxChat.hooks.FCF_SetWindowAlpha(frame, alpha, doNotSave)
+function PhanxChat.FCF_SetWindowAlpha(frame, a, doNotSave)
+	PhanxChat.hooks.FCF_SetWindowAlpha(frame, a, doNotSave)
 
-	local _, _, _, _, _, _, _, locked = FCF_GetChatWindowInfo(frame:GetID())
+	local _, _, r, g, b = FCF_GetChatWindowInfo(frame:GetID())
 	for _, point in ipairs(anchorPoints) do
-		frame["resize" .. point]:SetAlpha(locked and 0 or 1)
+		frame["resize" .. point].tex:SetVertexColor(r, g, b, math.min(a + 0.25, 1))
 	end
 end
 
 function PhanxChat.FCF_SetWindowColor(frame, r, g, b, doNotSave)
 	PhanxChat.hooks.FCF_SetWindowColor(frame, r, g, b, doNotSave)
 
+	local _, _, _, _, _, a = FCF_GetChatWindowInfo(frame:GetID())
 	for _, point in ipairs(anchorPoints) do
-		frame["resize" .. point].tex:SetVertexColor(r, g, b)
+		frame["resize" .. point].tex:SetVertexColor(r, g, b, math.min(a + 0.25, 1))
 	end
 end
 
 function PhanxChat.SetChatWindowLocked(i, locked, ...)
 	local frame = _G["ChatFrame" .. i]
 
-	for _, point in ipairs(anchorPoints) do
-		local button = frame["resize" .. point]
-		button:EnableMouse(not locked)
-		button:SetAlpha(locked and 0 or 1)
+	if locked then
+		for _, point in ipairs(anchorPoints) do
+			frame["resize" .. point]:Hide()
+		end
+	else
+		for _, point in ipairs(anchorPoints) do
+			frame["resize" .. point]:Show()
+		end
 	end
 
 	return PhanxChat.hooks.SetChatWindowLocked(i, locked, ...)

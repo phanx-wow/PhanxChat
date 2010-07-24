@@ -199,10 +199,10 @@ function FloatingChatFrame_OnMouseScroll(self, delta)
 	end
 
 	if db.HideButtons then
-		if frame:AtBottom() then
-			_G[frame:GetName() .. "ButtonFrameBottomButton"]:Hide()
+		if self:AtBottom() then
+			_G[self:GetName() .. "ButtonFrameBottomButton"]:Hide()
 		else
-			_G[frame:GetName() .. "ButtonFrameBottomButton"]:Show()
+			_G[self:GetName() .. "ButtonFrameBottomButton"]:Show()
 		end
 	end
 end

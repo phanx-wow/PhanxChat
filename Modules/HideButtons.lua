@@ -11,7 +11,7 @@ local _, PhanxChat = ...
 
 ------------------------------------------------------------------------
 
-local function OnClick(self, button)
+local function BottomButton_OnClick(self, button)
 	PlaySound("igChatBottom")
 	local frame = self:GetParent()
 	if frame.ScrollToBottom then
@@ -22,12 +22,23 @@ local function OnClick(self, button)
 	_G[frame:GetName() .. "ButtonFrameBottomButton"]:Hide()
 end
 
+local function ChatFrame_OnShow(self)
+	if not PhanxChat.db.HideButtons then return end
+	if self:AtBottom() then
+		_G[self:GetName() .. "ButtonFrameBottomButton"]:Hide()
+	else
+		_G[self:GetName() .. "ButtonFrameBottomButton"]:Show()
+	end
+end
+
 function PhanxChat:HideButtons(frame)
 	local name = frame:GetName()
 	local buttonFrame = _G[name .. "ButtonFrame"]
 	local upButton = _G[name .. "ButtonFrameUpButton"]
 	local downButton = _G[name .. "ButtonFrameDownButton"]
 	local bottomButton = _G[name .. "ButtonFrameBottomButton"]
+
+	frame:HookScript("OnShow", ChatFrame_OnShow)
 
 	if self.db.HideButtons then
 		buttonFrame:SetScript("OnShow", buttonFrame.Hide)
@@ -50,7 +61,7 @@ function PhanxChat:HideButtons(frame)
 		end
 		if not self.hooks[bottomButton].OnClick then
 			self.hooks[bottomButton].OnClick = bottomButton:GetScript("OnClick")
-			bottomButton:SetScript("OnClick", OnClick)
+			bottomButton:SetScript("OnClick", BottomButton_OnClick)
 		end
 	else
 		buttonFrame:SetScript("OnShow", nil)
