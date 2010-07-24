@@ -47,11 +47,11 @@ end
 
 function PhanxChat.ChatFrame_OnHyperlinkShow(frame, link, text, button)
 	if link:sub(1, 3) == "url" then
-		currentLink = link:sub(5)
+		currentURL = link:sub(5)
 		StaticPopup_Show("URL_COPY_DIALOG")
 		return
 	end
-	return self.hooks.ChatFrame_OnHyperlinkShow(frame, link, text, button)
+	return PhanxChat.hooks.ChatFrame_OnHyperlinkShow(frame, link, text, button)
 end
 
 ------------------------------------------------------------------------
@@ -94,15 +94,15 @@ function PhanxChat:SetLinkURLs(v)
 			OnShow = function(self)
 				(self.icon or _G[self:GetName().."AlertIcon"]):Hide()
 
-				local button2 = self.button2 or _G[self:GetName().."Button2"]
-				button2:ClearAllPoints()
-				button2:SetPoint("TOPRIGHT", wideEditBox, "BOTTOMRIGHT", 7, 12)
-				button2:SetWidth(150)
-
 				local wideEditBox = self.wideEditBox or _G[self:GetName().."WideEditBox"]
 				wideEditBox:SetText(currentURL)
 				wideEditBox:SetFocus()
 				wideEditBox:HighlightText(0)
+
+				local button2 = self.button2 or _G[self:GetName().."Button2"]
+				button2:ClearAllPoints()
+				button2:SetPoint("TOP", wideEditBox, "BOTTOM", 0, 12)
+				button2:SetWidth(150)
 
 				currentURL = nil
 			end,
