@@ -124,7 +124,7 @@ end })
 local CHANNEL_LINK   = "|h" .. STRING_STYLE:format(CHANNEL_STYLE) .. "|h"
 
 local PLAYER_LINK    = "|Hplayer:%s|h" .. PLAYER_STYLE.. "|h"
-local PLAYER_BN_LINK = "|HBNplayer:%s:%s|h" .. PLAYER_STYLE .. "|h"
+local PLAYER_BN_LINK = "|HBNplayer:%s|h" .. PLAYER_STYLE .. "|h"
 
 local ChannelNames = {
 	[L["Conversation"]]	    = L.CONVERSATION_ABBR,
@@ -161,13 +161,12 @@ local AddMessage = function(frame, message, ...)
 			message = message:replace(pblob, PLAYER_LINK:format(pdata, pname))
 		end
 
-		local bblob, bname, bdata = message:match("(|BNplayer:(.-):(.-)|h%[.-%]|h)")
+		local bblob, bdata, bname = message:match("(|HBNplayer:(.-)|h%[(.-)%]|h)")
 		if bblob then
 			if db.ShortenPlayerNames then
-				message = message:replace(bblob, PLAYER_BN_LINK:format(bname, bdata, bname:match("%S+")))
-			else
-				message = message:replace(bblob, PLAYER_BN_LINK:format(bname, bdata, bname))
+				bname = bname:match("%S+")
 			end
+			message = message:replace(bblob, PLAYER_BN_LINK:format(bdata, bname))
 		end
 	end
 	hooks[frame].AddMessage(frame, message, ...)
