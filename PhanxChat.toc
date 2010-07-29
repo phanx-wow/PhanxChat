@@ -43,5 +43,5 @@ Modules\HideTextures.lua
 Modules\LinkURLs.lua
 Modules\LockTabs.lua
 Modules\MoveEditBox.lua
+Modules\ReplaceRealNames.lua
 Modules\ShortenChannelNames.lua
-Modules\ShowBNetCharacters.lua
