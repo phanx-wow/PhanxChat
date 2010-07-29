@@ -11,6 +11,7 @@
 
 * Shorten chat channel names
 * Shorten cross-realm and Real ID player names
+* Replace real names with character names
 * Enable arrow keys without the Alt key
 * Enable resizing chat frames by their edges
 * Enable sticky behavior for all channels
