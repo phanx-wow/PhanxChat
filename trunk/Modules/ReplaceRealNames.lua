@@ -14,44 +14,50 @@ local L = PhanxChat.L
 
 local playerRealm = GetRealmName()
 
+local classColors = { }
+if CUSTOM_CLASS_COLORS then
+	for k, v in pairs(CUSTOM_CLASS_COLORS) do classColors[k] = format("%02x%02x%02x", v.r * 255, v.g * 255, v.b * 255) end
+else
+	for k, v in pairs(RAID_CLASS_COLORS) do classColors[k] = format("%02x%02x%02x", v.r * 255, v.g * 255, v.b * 255) end
+end
+
 local classTokens = { }
 for k, v in pairs(LOCALIZED_CLASS_NAMES_FEMALE) do classTokens[v] = k end
 for k, v in pairs(LOCALIZED_CLASS_NAMES_MALE) do classTokens[v] = k end
 
 local missing = { }
 
-local bnames = setmetatable({ }, { __index = function(bnames, realname)
-	if missing[realname] then return end
-
+local bnames = setmetatable({ }, { __index = function(t, name)
 	local result
+
 	for i = 1, BNGetNumFriends() do
-		local _, first, last, _, id, client = BNGetFriendInfo(i)
-		if first and last and client == BNET_CLIENT_WOW then
-			local fullname = format(BATTLENET_NAME_FORMAT, first, last)
-			if fullname == realname then
-				local _, name, _, realm, _, _, class = BNGetToonInfo(id)
-				if class then
-					local token = classTokens[class]
-					if token then
-						local color = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[token]
-						if color then
-							if realm ~= playerRealm then
-								name = format("%s-%s", name, realm)
-							end
-							result = format("|cff%02x%02x%02x%s|r", color.r * 255, color.g * 255, color.b * 255, name)
+		local _, firstName, lastName, _, toonID, client = BNGetFriendInfo(i)
+		if firstName and lastName then
+			local fullName = format(BATTLENET_NAME_FORMAT, firstName, lastName)
+			if fullName == name then
+				if client == BNET_CLIENT_WOW then
+					local _, toonName, _, realm, _, _, class = BNGetToonInfo(toonID)
+					if class then
+						local color = classColors[classTokens[class]]
+						if realm ~= myRealm then
+							result = format("|cff%s%s-%s|r", color, toonName, realm)
+						else
+							result = format("|cff%s%s|r", color, toonName)
 						end
 					end
+				else
+					result = name
 				end
 			end
 		end
 	end
 
-	if not result then
-		missing[realname] = true
+	if result then
+		t[name] = result
+		return result
+	else
+		missing[name] = true
 	end
-
-	bnames[realname] = result
-	return result
 end })
 
 local function wipe_bnames()
@@ -66,13 +72,13 @@ PhanxChat.bnames = bnames
 
 ------------------------------------------------------------------------
 
-function PhanxChat:SetShowBNetCharacters(v)
-	if self.debug then print("PhanxChat: SetShowBNetCharacters", v) end
+function PhanxChat:SetReplaceRealNames(v)
+	if self.debug then print("PhanxChat: SetReplaceRealNames", v) end
 	if type(v) == "boolean" then
-		self.db.ShowBNetCharacters = v
+		self.db.ReplaceRealNames = v
 	end
 
-	if self.db.ShowBNetCharacters then
+	if self.db.ReplaceRealNames then
 		self:RegisterEvent("BN_FRIEND_ACCOUNT_ONLINE")
 		self:RegisterEvent("BN_FRIEND_TOON_ONLINE")
 	else
@@ -82,9 +88,12 @@ function PhanxChat:SetShowBNetCharacters(v)
 	end
 end
 
-table.insert(PhanxChat.RunOnLoad, PhanxChat.SetShowBNetCharacters)
+table.insert(PhanxChat.RunOnLoad, PhanxChat.SetReplaceRealNames)
 
 ------------------------------------------------------------------------
+
+local BN_WHO_LIST_FORMAT = WHO_LIST_FORMAT:replace("player:%s", "%s")
+local BN_WHO_LIST_GUILD_FORMAT = WHO_LIST_GUILD_FORMAT:replace("player:%s", "%s")
 
 local prehook_OnHyperlinkShow = ChatFrame_OnHyperlinkShow
 
@@ -108,12 +117,13 @@ function ChatFrame_OnHyperlinkShow(frame, link, text, button)
 					local fullName = format(BATTLENET_NAME_FORMAT, firstName, lastName)
 					if fullName == linkName then
 						local hasFocus, toonName, client, realm, faction, race, class, guild, zoneName, level, gameText = BNGetToonInfo(toonID)
+						local color = ChatTypeInfo.SYSTEM
 						if client ~= BNET_CLIENT_WOW then
-							return print(format(L["%s is currently playing %s."], fullName, gameText)
-						elseif guild then
-							return print(format(WHO_LIST_GUILD_FORMAT, toonName, toonName, level, race, class, guild, zoneName)
+							return DEFAULT_CHAT_FRAME:AddMessage(format(L["%s is currently playing %s."], fullName, gameText), color.r, color.g, color.b)
+						elseif guild and guild ~= "" then
+							return DEFAULT_CHAT_FRAME:AddMessage(format(BN_WHO_LIST_GUILD_FORMAT, link, toonName, level, race, class, guild, zoneName), color.r, color.g, color.b)
 						else
-							return print(format(WHO_LIST_FORMAT, toonName, toonName, level, race, class, zoneName)
+							return DEFAULT_CHAT_FRAME:AddMessage(format(BN_WHO_LIST_FORMAT, link, toonName, level, race, class, zoneName), color.r, color.g, color.b)
 						end
 					end
 				end

@@ -163,10 +163,10 @@ local AddMessage = function(frame, message, ...)
 
 		local bblob, bdata, bname = message:match("(|HBNplayer:(.-)|h%[(.-)%]|h)")
 		if bblob then
-			if db.ShowRealIDCharacters then
-				local cname = self.bnames[bname]
+			if db.ReplaceRealNames then
+				local cname = PhanxChat.bnames[bname]
 				if db.ShortenPlayerNames then
-					bname = cname and cname:match("[^%-]+") or bname:match("%S+")
+					bname = cname and cname:gsub("%-[^|]+", "") or bname:match("%S+")
 				else
 					bname = cname or bname
 				end
@@ -326,7 +326,7 @@ function PhanxChat:ADDON_LOADED(addon)
 
 	self.isLoading = nil
 
-	self.frame:UnregisterEvent("ADDON_LOADED")
+	self:UnregisterEvent("ADDON_LOADED")
 	self.ADDON_LOADED = nil
 end
 
@@ -335,5 +335,8 @@ end
 PhanxChat.frame = CreateFrame("Frame")
 PhanxChat.frame:RegisterEvent("ADDON_LOADED")
 PhanxChat.frame:SetScript("OnEvent", function(self, event, ...) return PhanxChat[event] and PhanxChat[event](PhanxChat, ...) end)
+
+function PhanxChat:RegisterEvent(event) return self.frame:RegisterEvent(event) end
+function PhanxChat:UnregisterEvent(event) return self.frame:UnregisterEvent(event) end
 
 ------------------------------------------------------------------------
