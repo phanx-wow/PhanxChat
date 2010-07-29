@@ -163,7 +163,14 @@ local AddMessage = function(frame, message, ...)
 
 		local bblob, bdata, bname = message:match("(|HBNplayer:(.-)|h%[(.-)%]|h)")
 		if bblob then
-			if db.ShortenPlayerNames then
+			if db.ShowRealIDCharacters then
+				local cname = self.bnames[bname]
+				if db.ShortenPlayerNames then
+					bname = cname and cname:match("[^%-]+") or bname:match("%S+")
+				else
+					bname = cname or bname
+				end
+			elseif db.ShortenPlayerNames then
 				bname = bname:match("%S+")
 			end
 			message = message:replace(bblob, PLAYER_BN_LINK:format(bdata, bname))
@@ -285,6 +292,7 @@ function PhanxChat:ADDON_LOADED(addon)
 		MoveEditBox         = true,
 		ShortenChannelNames = true,
 		ShortenPlayerNames  = false,
+		ShowBNetCharacters  = false,
 	}
 
 	if not PhanxChatDB then

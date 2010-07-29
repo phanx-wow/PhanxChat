@@ -44,3 +44,4 @@ Modules\LinkURLs.lua
 Modules\LockTabs.lua
 Modules\MoveEditBox.lua
 Modules\ShortenChannelNames.lua
+Modules\ShowBNetCharacters.lua

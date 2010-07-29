@@ -146,6 +146,8 @@ function PhanxChat:SetHideButtons(v)
 	end
 end
 
+BNToastFrame:SetClampedToScreen(true)
+
 ------------------------------------------------------------------------
 
 table.insert(PhanxChat.RunOnLoad, PhanxChat.SetHideButtons)

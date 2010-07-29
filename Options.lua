@@ -61,10 +61,21 @@ panel:SetScript("OnShow", function(self)
 	end
 
 	--------------------------------------------------------------------
+	
+	local ShowBNetCharacters = self:CreateCheckbox(L["Replace real names"])
+	ShowBNetCharacters.desc = L["Replace Real ID names with character names."]
+	ShowBNetCharacters:SetPoint("TOPLEFT", ShortenPlayerNames, "BOTTOMLEFT", 0, -8)
+	ShowBNetCharacters:SetChecked(db.ShowBNetCharacters)
+	ShowBNetCharacters.OnClick = function(self, checked)
+		if PhanxChat.debug then print("PhanxChat: ShowBNetCharacters", checked) end
+		PhanxChat:ShowBNetCharacters(checked)
+	end
+	
+	--------------------------------------------------------------------
 
 	local EnableArrows = self:CreateCheckbox(L["Enable arrow keys"])
 	EnableArrows.desc = L["Enable arrow keys in the chat edit box."]
-	EnableArrows:SetPoint("TOPLEFT", ShortenPlayerNames, "BOTTOMLEFT", 0, -8)
+	EnableArrows:SetPoint("TOPLEFT", ShowBNetCharacters, "BOTTOMLEFT", 0, -8)
 	EnableArrows:SetChecked(db.EnableArrows)
 	EnableArrows.OnClick = function(self, checked)
 		PhanxChat:SetEnableArrows(checked)
