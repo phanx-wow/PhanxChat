@@ -19,7 +19,7 @@ PhanxChat.L = L
 --	These must exactly match the channel names used in your locale.
 ------------------------------------------------------------------------
 
-L["Conversation"]     = CHAT_BN_CONVERSATION_SEND:match("%.%s?(%.-)%]")
+L["Conversation"]     = CHAT_BN_CONVERSATION_SEND:match("%.%s?(%.-)%]") -- needs check
 L["General"]          = "綜合"
 L["GuildRecruitment"] = "公會招募"
 L["LocalDefense"]     = "本地防務"
@@ -32,7 +32,7 @@ L["WorldDefense"]     = "世界防務"
 --	These should be one- or two-character abbreviations.
 ------------------------------------------------------------------------
 
--- L.CONVERSATION_ABBR       = ""
+-- L.CONVERSATION_ABBR       = "" -- needs translation
 L.GENERAL_ABBR            = "綜"
 L.GUILDRECRUITMENT_ABBR   = "招"
 L.LOCALDEFENSE_ABBR       = "本"
