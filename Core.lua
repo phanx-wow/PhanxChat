@@ -7,7 +7,7 @@
 --	http://wow.curse.com/downloads/wow-addons/details/phanxchat.aspx  --
 ------------------------------------------------------------------------
 
-local STRING_STYLE  = "%s||"
+local STRING_STYLE  = "%s|| "
 	-- %s = chat string (eg. "Guild", "2. Trade") (required)
 	-- Pipe characters must be escaped by doubling them.
 
