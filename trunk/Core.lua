@@ -31,13 +31,13 @@ local DEFAULT_STRINGS = {
 	-- If you play in a non-English locale, you'll need to edit the
 	-- relevant file in the Locales subfolder instead of this table.
 
-	CONVERSATION_ABBR       = "",
-	GENERAL_ABBR            = "GEN",
-	GUILDRECRUITMENT_ABBR   = "REC",
-	LOCALDEFENSE_ABBR       = "DEF",
+	CONVERSATION_ABBR       =    "",
+	GENERAL_ABBR            =   "G",
+	GUILDRECRUITMENT_ABBR   =  "GR",
+	LOCALDEFENSE_ABBR       =  "LD",
 	LOOKINGFORGROUP_ABBR    = "LFG",
-	TRADE_ABBR              = "TRD",
-	WORLDDEFENSE_ABBR       = "DEF",
+	TRADE_ABBR              =   "T",
+	WORLDDEFENSE_ABBR       =  "WD",
 
 	BATTLEGROUND_ABBR        = "bg",
 	BATTLEGROUND_LEADER_ABBR = "BG",
@@ -140,12 +140,19 @@ for name, abbr in pairs(CUSTOM_CHANNELS) do
 	ChannelNames[name:lower()] = abbr
 end
 
+local CHANNEL_PATTERN = GetLocale() == "ruRU" and "(|h%[(%d+)%.%s?(([^%]%-%s:]+):? ?[^%]%-%s]*)%]|h%s?).+" or "(|h%[(%d+)%.%s?([^%]%-%s]+)%]|h%s?).+"
+
 local AddMessage = function(frame, message, ...)
 	if type(message) == "string" then
 		if db.ShortenChannelNames then
-			local cblob, cnum, cname = message:match("(|h%[(%d+)%.%s?([^%]%-%s]+)%]|h%s?).+")
+			local cblob, cnum, cname, csname = message:match(CHANNEL_PATTERN)
 			if cblob then
-				message = message:replace(cblob, CHANNEL_LINK:replace("%d", cnum):replace("%s", ChannelNames[cname] or ChannelNames[cname:lower()] or cname:sub(1, 3))) -- truncate unknown channel names
+				if csname then -- ruRU
+					cname = ChannelNames[cname] or ChannelNames[csname] or ChannelNames[cname:lower()] or cname:sub(1, 2)
+				else
+					cname = ChannelNames[cname] or ChannelNames[cname:lower()] or cname:sub(1, 2)
+				end
+				message = message:replace(cblob, CHANNEL_LINK:replace("%d", cnum):replace("%s", cname))
 			end
 		end
 
