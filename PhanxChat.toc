@@ -3,6 +3,7 @@
 
 ## Title: PhanxChat
 ## Notes: Removes chat frame clutter and adds some functionality.
+## Notes-ruRU: Удаляет беспорядок в окне чата и добавляет новые возможности.
 ## Author: Phanx
 ## X-Email: addons@phanx.net
 ## X-Copyright: Copyright © 2006–2010 Phanx.
