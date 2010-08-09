@@ -75,7 +75,7 @@ function PhanxChat:HideButtons(frame)
 
 		bottomButton:ClearAllPoints()
 		bottomButton:SetParent(buttonFrame)
-		bottomButton:SetPoint("BOTTOMRIGHT", frame, "BOTTOMLEFT", 0, -4)
+		bottomButton:SetPoint("BOTTOM", buttonFrame, "BOTTOM", 0, -7)
 		bottomButton:SetAlpha(1)
 		bottomButton:Show()
 
