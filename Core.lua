@@ -140,7 +140,7 @@ for name, abbr in pairs(CUSTOM_CHANNELS) do
 	ChannelNames[name:lower()] = abbr
 end
 
-local CHANNEL_PATTERN = GetLocale() == "ruRU" and "(|h%[(%d+)%.%s?(([^%]%-%s:]+):? ?[^%]%-%s]*)%]|h%s?).+" or "(|h%[(%d+)%.%s?([^%]%-%s]+)%]|h%s?).+"
+local CHANNEL_PATTERN = GetLocale() == "ruRU" and "(|h%[(%d+)%.%s?(([^%]%-%s:]+):? ?[^%]%-%s]*)%]|h%s?)[^%.].+" or "(|h%[(%d+)%.%s?([^%]%-%s]+)%]|h%s?).+"
 
 local AddMessage = function(frame, message, ...)
 	if type(message) == "string" then
