@@ -121,6 +121,10 @@ end
 function PhanxChat.FCF_SetWindowAlpha(frame, a, doNotSave)
 	PhanxChat.hooks.FCF_SetWindowAlpha(frame, a, doNotSave)
 
+	if not frame.resizeTopLeft then
+		PhanxChat:EnableResizeEdges(frame)
+	end
+
 	local _, _, r, g, b = FCF_GetChatWindowInfo(frame:GetID())
 	for _, point in ipairs(anchorPoints) do
 		frame["resize" .. point].tex:SetVertexColor(r, g, b, math.min(a + 0.25, 1))
@@ -130,6 +134,10 @@ end
 function PhanxChat.FCF_SetWindowColor(frame, r, g, b, doNotSave)
 	PhanxChat.hooks.FCF_SetWindowColor(frame, r, g, b, doNotSave)
 
+	if not frame.resizeTopLeft then
+		PhanxChat:EnableResizeEdges(frame)
+	end
+
 	local _, _, _, _, _, a = FCF_GetChatWindowInfo(frame:GetID())
 	for _, point in ipairs(anchorPoints) do
 		frame["resize" .. point].tex:SetVertexColor(r, g, b, math.min(a + 0.25, 1))
@@ -138,6 +146,10 @@ end
 
 function PhanxChat.SetChatWindowLocked(i, locked, ...)
 	local frame = _G["ChatFrame" .. i]
+
+	if not frame.resizeTopLeft then
+		PhanxChat:EnableResizeEdges(frame)
+	end
 
 	if locked then
 		for _, point in ipairs(anchorPoints) do
