@@ -85,23 +85,23 @@ function PhanxChat:SetLinkURLs(v)
 			text = "URL",
 			button2 = CLOSE,
 			hasEditBox = 1,
-			hasWideEditBox = 1,
-			hideOnEscape = 1,
 			maxLetters = 1024,
+			editBoxWidth = 350,
+			hideOnEscape = 1,
 			showAlert = 1,
 			timeout = 0,
 			whileDead = 1,
 			OnShow = function(self)
 				(self.icon or _G[self:GetName().."AlertIcon"]):Hide()
 
-				local wideEditBox = self.wideEditBox or _G[self:GetName().."WideEditBox"]
-				wideEditBox:SetText(currentURL)
-				wideEditBox:SetFocus()
-				wideEditBox:HighlightText(0)
+				local editBox = self.editBox or _G[self:GetName().."EditBox"]
+				editBox:SetText(currentURL)
+				editBox:SetFocus()
+				editBox:HighlightText(0)
 
 				local button2 = self.button2 or _G[self:GetName().."Button2"]
 				button2:ClearAllPoints()
-				button2:SetPoint("TOP", wideEditBox, "BOTTOM", 0, 12)
+				button2:SetPoint("TOP", editBox, "BOTTOM", 0, -6)
 				button2:SetWidth(150)
 
 				currentURL = nil
