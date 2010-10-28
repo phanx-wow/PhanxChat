@@ -25,7 +25,6 @@ local anchorPoints = {
 local function StartResizing(self)
 	local frame = self:GetParent()
 	if frame.isLocked or (frame.isDocked and frame ~= DEFAULT_CHAT_FRAME) then return end
-	SetCursor("UI-Cursor-Size")
 	frame.resizing = 1
 	frame:StartSizing(self.anchorPoint)
 end
@@ -33,7 +32,6 @@ end
 local function StopResizing(self)
 	local frame = self:GetParent()
 	frame:StopMovingOrSizing()
-	SetCursor(nil)
 	frame.resizing = nil
 	FCF_SavePositionAndDimensions(frame)
 end
