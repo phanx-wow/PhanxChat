@@ -14,61 +14,45 @@ local L = PhanxChat.L
 
 local playerRealm = GetRealmName()
 
-local classColors = { }
-if CUSTOM_CLASS_COLORS then
-	for k, v in pairs(CUSTOM_CLASS_COLORS) do classColors[k] = format("%02x%02x%02x", v.r * 255, v.g * 255, v.b * 255) end
-else
-	for k, v in pairs(RAID_CLASS_COLORS) do classColors[k] = format("%02x%02x%02x", v.r * 255, v.g * 255, v.b * 255) end
-end
-
 local classTokens = { }
 for k, v in pairs(LOCALIZED_CLASS_NAMES_FEMALE) do classTokens[v] = k end
 for k, v in pairs(LOCALIZED_CLASS_NAMES_MALE) do classTokens[v] = k end
 
-local missing = { }
+local shortNames = { }
+local toonNames = { }
 
-local bnames = setmetatable({ }, { __index = function(t, name)
-	local result
+local function UpdateShortNames()
+	wipe(shortNames)
+	wipe(toonNames)
 
 	for i = 1, BNGetNumFriends() do
-		local _, firstName, lastName, _, toonID, client = BNGetFriendInfo(i)
-		if firstName and lastName then
-			local fullName = format(BATTLENET_NAME_FORMAT, firstName, lastName)
-			if fullName == name then
-				if client == BNET_CLIENT_WOW then
-					local _, toonName, _, realm, _, _, class = BNGetToonInfo(toonID)
-					if class then
-						local color = classColors[classTokens[class]]
-						if realm ~= myRealm then
-							result = format("|cff%s%s-%s|r", color, toonName, realm)
-						else
-							result = format("|cff%s%s|r", color, toonName)
-						end
-					end
+		local pID, gName, sName, _, tID, client, online, _, _, _, note = BNGetFriendInfo(i)
+		if note and note:len() > 0 and note:len() < gName:match("|k(.+)|k"):len() then
+			shortNames[pID] = note
+		else
+			shortNames[pID] = gName
+		end
+		if online and tID and client == BNET_CLIENT_WOW then
+			local _, name, _, realm, _, _, class = BNGetToonInfo(tID)
+			local color = classTokens[class] and (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[classTokens[class]]
+			if color then
+				if realm and realm:len() > 0 and realm ~= playerRealm then
+					toonNames[pID] = string.format("|cff%02x%02x%02x%s-%s|r", color.r * 255, color.g * 255, color.b * 255, name, realm)
 				else
-					result = name
+					toonNames[pID] = string.format("|cff%02x%02x%02x%s|r", color.r * 255, color.g * 255, color.b * 255, name)
 				end
+			else
+				toonNames[pID] = shortNames[pID]
 			end
 		end
 	end
-
-	if result then
-		t[name] = result
-		return result
-	else
-		missing[name] = true
-	end
-end })
-
-local function wipe_bnames()
-	wipe(bnames)
-	wipe(missing)
 end
 
-PhanxChat.BN_FRIEND_ACCOUNT_ONLINE = wipe_bnames
-PhanxChat.BN_FRIEND_TOON_ONLINE = wipe_bnames
+PhanxChat.BN_FRIEND_ACCOUNT_ONLINE = UpdateShortNames
+PhanxChat.BN_FRIEND_TOON_ONLINE = UpdateShortNames
 
-PhanxChat.bnames = bnames
+PhanxChat.bnToonNames = toonNames
+PhanxChat.bnShortNames = shortNames
 
 ------------------------------------------------------------------------
 
@@ -84,7 +68,8 @@ function PhanxChat:SetReplaceRealNames(v)
 	else
 		self:UnregisterEvent("BN_FRIEND_ACCOUNT_ONLINE")
 		self:UnregisterEvent("BN_FRIEND_TOON_ONLINE")
-		wipe_bnames()
+		wipe(shortNames)
+		wipe(toonNames)
 	end
 end
 
@@ -99,9 +84,8 @@ local prehook_OnHyperlinkShow = ChatFrame_OnHyperlinkShow
 
 function ChatFrame_OnHyperlinkShow(frame, link, text, button)
 	if link:sub(1, 8) == "BNplayer" then
-		local linkName = link:sub(10):match("[^:]+")
-		if linkName and linkName:len() > 0
-		and IsModifiedClick("CHATLINK")
+		local linkID = link:match("|Kf(%d+)")
+		if linkID and IsModifiedClick("CHATLINK")
 		and not StaticPopup_Visible("ADD_IGNORE")
 		and not StaticPopup_Visible("ADD_MUTE")
 		and not StaticPopup_Visible("ADD_FRIEND")
@@ -112,19 +96,17 @@ function ChatFrame_OnHyperlinkShow(frame, link, text, button)
 		and not ChatEdit_GetActiveWindow()
 		and not HelpFrameOpenTicketEditBox:IsVisible() then
 			for i = 1, BNGetNumFriends() do
-				local _, firstName, lastName, _, toonID = BNGetFriendInfo(i)
-				if firstName and lastName and toonID then
+				local pID, firstName, lastName, _, toonID = BNGetFriendInfo(i)
+				if pID == linkID then
+					local color = ChatTypeInfo.SYSTEM
 					local fullName = format(BATTLENET_NAME_FORMAT, firstName, lastName)
-					if fullName == linkName then
-						local hasFocus, toonName, client, realm, faction, race, class, guild, zoneName, level, gameText = BNGetToonInfo(toonID)
-						local color = ChatTypeInfo.SYSTEM
-						if client ~= BNET_CLIENT_WOW then
-							return DEFAULT_CHAT_FRAME:AddMessage(format(L["%s is currently playing %s."], fullName, gameText), color.r, color.g, color.b)
-						elseif guild and guild ~= "" then
-							return DEFAULT_CHAT_FRAME:AddMessage(format(BN_WHO_LIST_GUILD_FORMAT, link, toonName, level, race, class, guild, zoneName), color.r, color.g, color.b)
-						else
-							return DEFAULT_CHAT_FRAME:AddMessage(format(BN_WHO_LIST_FORMAT, link, toonName, level, race, class, zoneName), color.r, color.g, color.b)
-						end
+					local hasFocus, toonName, client, realm, faction, race, class, guild, zoneName, level, gameText = BNGetToonInfo(toonID)
+					if client ~= BNET_CLIENT_WOW then
+						return DEFAULT_CHAT_FRAME:AddMessage(format(L["%s is currently playing %s."], fullName, gameText), color.r, color.g, color.b)
+					elseif guild and guild ~= "" then
+						return DEFAULT_CHAT_FRAME:AddMessage(format(BN_WHO_LIST_GUILD_FORMAT, link, toonName, level, race, class, guild, zoneName), color.r, color.g, color.b)
+					else
+						return DEFAULT_CHAT_FRAME:AddMessage(format(BN_WHO_LIST_FORMAT, link, toonName, level, race, class, zoneName), color.r, color.g, color.b)
 					end
 				end
 			end

@@ -168,19 +168,20 @@ local AddMessage = function(frame, message, ...)
 			message = message:replace(pblob, PLAYER_LINK:format(pdata, pname))
 		end
 
-		local bblob, bdata, bname = message:match("(|HBNplayer:(.-)|h%[(.-)%]|h)")
-		if bblob then
+		local bnLink, bnData, bnName = message:match("(|HBNplayer:(.-)|h(%[.-%])|h)")
+		if bnLink then
+			local bnID = tonumber(bnName:match("|Kf(%d+)"))
 			if db.ReplaceRealNames then
-				local cname = PhanxChat.bnames[bname]
+				local charName = PhanxChat.bnToonNames[bnID]
 				if db.ShortenPlayerNames then
-					bname = cname and cname:gsub("%-[^|]+", "") or bname:match("%S+")
+					bnName = charName and charName:gsub("%-[^|]+", "") or PhanxChat.bnShortNames[bnID] or bnName
 				else
-					bname = cname or bname
+					bnName = charName or bnName
 				end
 			elseif db.ShortenPlayerNames then
-				bname = bname:match("%S+")
+				bnName = PhanxChat.bnShortNames[bnID]
 			end
-			message = message:replace(bblob, PLAYER_BN_LINK:format(bdata, bname))
+			message = message:replace(bnLink, PLAYER_BN_LINK:format(bnData, bnName))
 		end
 	end
 	hooks[frame].AddMessage(frame, message, ...)
@@ -347,3 +348,5 @@ function PhanxChat:RegisterEvent(event) return self.frame:RegisterEvent(event) e
 function PhanxChat:UnregisterEvent(event) return self.frame:UnregisterEvent(event) end
 
 ------------------------------------------------------------------------
+
+_G.PhanxChat = PhanxChat
