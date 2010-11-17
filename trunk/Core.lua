@@ -168,18 +168,18 @@ local AddMessage = function(frame, message, ...)
 			message = message:replace(pblob, PLAYER_LINK:format(pdata, pname))
 		end
 
-		local bnLink, bnData, bnName = message:match("(|HBNplayer:(.-)|h(%[.-%])|h)")
+		local bnLink, bnData, bnName, bnID = message:match("(|HBNplayer:(.-)|h%[(|Kf(%d+).-)%]|h)")
 		if bnLink then
-			local bnID = tonumber(bnName:match("|Kf(%d+)"))
+			bnID = tonumber(bnID)
 			if db.ReplaceRealNames then
-				local charName = PhanxChat.bnToonNames[bnID]
+				local toonName = PhanxChat.bnToonNames[bnID]
 				if db.ShortenPlayerNames then
-					bnName = charName and charName:gsub("%-[^|]+", "") or PhanxChat.bnShortNames[bnID] or bnName
+					bnName = toonName and toonName:gsub("%-[^|]+", "") or bnName
 				else
-					bnName = charName or bnName
+					bnName = toonName or bnName
 				end
 			elseif db.ShortenPlayerNames then
-				bnName = PhanxChat.bnShortNames[bnID]
+				bnName = PhanxChat.bnShortNames[bnID] or bnName
 			end
 			message = message:replace(bnLink, PLAYER_BN_LINK:format(bnData, bnName))
 		end
