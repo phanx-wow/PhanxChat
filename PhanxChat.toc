@@ -1,13 +1,13 @@
 ## Interface: 40000
-## Version: 4.0.1.wowi:revision
+## Version: 4.0.3.wowi:revision
 
 ## Title: PhanxChat
 ## Notes: Removes chat frame clutter and adds some functionality.
 ## Notes-ruRU: Удаляет беспорядок в окне чата и добавляет новые возможности.
-## Author: Phanx
+## Author: Phanx, Akkorian
 ## X-Email: addons@phanx.net
 ## X-Copyright: Copyright © 2006–2010 Phanx.
-## X-License: See README for license terms.
+## X-License: Some rights reserved. See LICENSE.txt for details.
 ## X-Website: http://www.wowinterface.com/downloads/info6323-PhanxChat.html
 ## X-Curse-Project-ID: phanxchat
 ## X-WoWI-ID: 6323

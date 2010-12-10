@@ -1,14 +1,14 @@
+--[[--------------------------------------------------------------------
+	PhanxChat
+	Reduces chat frame clutter and enhances chat frame functionality.
+	by Phanx < addons@phanx.net >
+	Copyright © 2006–2010 Phanx. Some rights reserved. See LICENSE.txt for details.
+	http://www.wowinterface.com/downloads/info6323-PhanxChat.html
+	http://wow.curse.com/downloads/wow-addons/details/phanxchat.aspx
 ------------------------------------------------------------------------
---	PhanxChat                                                         --
---	Removes chat frame clutter and adds some functionality.           --
---	by Phanx < addons@phanx.net >                                     --
---	Copyright © 2006–2010 Phanx. See README for license terms.        --
---	http://www.wowinterface.com/downloads/info6323-PhanxChat.html     --
---	http://wow.curse.com/downloads/wow-addons/details/phanxchat.aspx  --
-------------------------------------------------------------------------
---	Localization: koKR / Korean / 한국어
---	Last Updated: YYYY-MM-DD by YourName < ContactInfo >
-------------------------------------------------------------------------
+	Localization: koKR / Korean / 한국어
+	Last Updated: YYYY-MM-DD by YourName < ContactInfo >
+----------------------------------------------------------------------]]
 
 if GetLocale() ~= "koKR" then return end
 local L, _, PhanxChat = { }, ...
