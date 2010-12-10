@@ -1,11 +1,17 @@
-------------------------------------------------------------------------
---	PhanxChat                                                         --
---	Removes chat frame clutter and adds some functionality.           --
---	by Phanx < addons@phanx.net >                                     --
---	Copyright © 2006–2010 Phanx. See README for license terms.        --
---	http://www.wowinterface.com/downloads/info6323-PhanxChat.html     --
---	http://wow.curse.com/downloads/wow-addons/details/phanxchat.aspx  --
-------------------------------------------------------------------------
+--[[--------------------------------------------------------------------
+PhanxChat
+Reduces chat frame clutter and enhances chat frame functionality.
+
+http://www.wowinterface.com/downloads/info6323-PhanxChat.html
+http://wow.curse.com/downloads/wow-addons/details/phanxchat.aspx
+
+Copyright © 2006–2010 Phanx < addons@phanx.net >
+
+I, the copyright holder of this work, hereby release it into the public
+domain. This applies worldwide. In case this is not legally possible:
+I grant anyone the right to use this work for any purpose, without any
+conditions, unless such conditions are required by law.
+----------------------------------------------------------------------]]
 
 local _, PhanxChat = ...
 local L = PhanxChat.L
@@ -95,37 +101,47 @@ local BN_WHO_LIST_GUILD_FORMAT = WHO_LIST_GUILD_FORMAT:replace("player:%s", "%s"
 
 local prehook_OnHyperlinkShow = ChatFrame_OnHyperlinkShow
 
+local dialogs = {
+	"ADD_FRIEND",
+	"ADD_GUILDMEMBER",
+	"ADD_IGNORE",
+	"ADD_MUTE",
+	"ADD_RAIDMEMBER",
+	"ADD_TEAMMEMBER",
+	"CHANNEL_INVITE",
+}
+
 function ChatFrame_OnHyperlinkShow(frame, link, text, button)
 	if link:sub(1, 8) == "BNplayer" then
 		local linkID = tonumber(link:match("|Kf(%d+)"))
-		if linkID and IsModifiedClick("CHATLINK")
-		and not ChatEdit_GetActiveWindow()
-		and not HelpFrameOpenTicketEditBox:IsVisible()
-		and not StaticPopup_Visible("ADD_FRIEND")
-		and not StaticPopup_Visible("ADD_GUILDMEMBER")
-		and not StaticPopup_Visible("ADD_IGNORE")
-		and not StaticPopup_Visible("ADD_MUTE")
-		and not StaticPopup_Visible("ADD_RAIDMEMBER")
-		and not StaticPopup_Visible("ADD_TEAMMEMBER")
-		and not StaticPopup_Visible("CHANNEL_INVITE") then
-			for i = 1, BNGetNumFriends() do
-				local pID, firstName, lastName, _, toonID = BNGetFriendInfo(i)
-				if pID == linkID then
-					local color = ChatTypeInfo.SYSTEM
-					local fullName = format(BATTLENET_NAME_FORMAT, firstName, lastName)
-					if toonID then
-						local hasFocus, toonName, client, realm, faction, race, class, guild, zone, level, gameText = BNGetToonInfo(toonID)
-						if client ~= BNET_CLIENT_WOW then
-							return DEFAULT_CHAT_FRAME:AddMessage((L["%s is currently playing %s."]):format(fullName, gameText), color.r, color.g, color.b)
-						elseif guild and guild ~= "" then
-							return DEFAULT_CHAT_FRAME:AddMessage((BN_WHO_LIST_GUILD_FORMAT):format(link, toonName, level, race, class, guild, zone), color.r, color.g, color.b)
-						else
-							return DEFAULT_CHAT_FRAME:AddMessage((BN_WHO_LIST_FORMAT):format(link, toonName, level, race, class, zone), color.r, color.g, color.b)
-						end
-					else
-						return DEFAULT_CHAT_FRAME:AddMessage((L["%s is currently offline."]):format(fullName), color.r, color.g, color.b)
-					end
+		if linkID and IsModifiedClick("CHATLINK") and not ChatEdit_GetActiveWindow() and not HelpFrameOpenTicketEditBox:IsVisible() then
+			local dialogUp
+			for _, dialog in ipairs(dialogs) do
+				if StaticPopup_Visible(dialog) then
+					dialogUp = true
 					break
+				end
+			end
+			if not dialogUp then
+				for i = 1, BNGetNumFriends() do
+					local pID, firstName, lastName, _, toonID = BNGetFriendInfo(i)
+					if pID == linkID then
+						local color = ChatTypeInfo.SYSTEM
+						local fullName = format(BATTLENET_NAME_FORMAT, firstName, lastName)
+						if toonID then
+							local hasFocus, toonName, client, realm, faction, race, class, guild, zone, level, gameText = BNGetToonInfo(toonID)
+							if client ~= BNET_CLIENT_WOW then
+								return DEFAULT_CHAT_FRAME:AddMessage((L["%s is currently playing %s."]):format(fullName, gameText), color.r, color.g, color.b)
+							elseif guild and guild ~= "" then
+								return DEFAULT_CHAT_FRAME:AddMessage((BN_WHO_LIST_GUILD_FORMAT):format(link, toonName, level, race, class, guild, zone), color.r, color.g, color.b)
+							else
+								return DEFAULT_CHAT_FRAME:AddMessage((BN_WHO_LIST_FORMAT):format(link, toonName, level, race, class, zone), color.r, color.g, color.b)
+							end
+						else
+							return DEFAULT_CHAT_FRAME:AddMessage((L["%s is currently offline."]):format(fullName), color.r, color.g, color.b)
+						end
+						break
+					end
 				end
 			end
 		end
