@@ -1,22 +1,16 @@
-PhanxChat
-Reduces chat frame clutter and enhances chat frame functionality.
+# PhanxChat
 
-http://www.wowinterface.com/downloads/info6323-PhanxChat.html
-http://wow.curse.com/downloads/wow-addons/details/phanxchat.aspx
+* by Phanx < addons@phanx.net >
+* Copyright © 2006–2010 Phanx. Some rights reserved. See LICENSE.txt for details.
+* http://www.wowinterface.com/downloads/info6323-PhanxChat.html
+* http://wow.curse.com/downloads/wow-addons/details/phanxchat.aspx
 
-Copyright � 2006�2010 Phanx < addons@phanx.net >
 
-I, the copyright holder of this work, hereby release it into the public
-domain. This applies worldwide. In case this is not legally possible:
-I grant anyone the right to use this work for any purpose, without any
-conditions, unless such conditions are required by law.
-
-------------------------------------------------------------------------
-Features
+## Features
 
 * Shortens chat channel names
 * Shortens cross-realm and Real ID player names
-* Replaces real names with character names
+* Replaces Real ID names with character names
 * Enables arrow keys without the Alt key
 * Enables resizing chat frames by their edges
 * Enables sticky behavior for all channels
@@ -30,23 +24,24 @@ Features
 * Hides channel notification messages
 * Hides repeated messages in public channels
 
-------------------------------------------------------------------------
-Usage
+
+## Usage
 
 * Type "/pchat" for options, or find them in the Interface Options.
 * Type "/pchat clear" to clear all chat windows.
 * Type "/tt" or "/wt" to send a whisper to your current target.
 
-------------------------------------------------------------------------
-Localization
 
-* Compatible with all locales.
-* Translated into English.
+## Localization
 
-If you can provide translations for any locale, please contact me.
+Compatible with English, Deutsch, Español, Français, Русский, 한국어,
+简体中文, and 正體中文 clients.
 
-------------------------------------------------------------------------
-Feedback
+Translated into English, Deutsch, and Français. If you can provide
+translations for another locale, please contact me.
+
+
+## Feedback
 
 Bugs and feature requests should be directed to the ticket tracker
 on the addon's download page. General questions and comments may be
