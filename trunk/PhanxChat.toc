@@ -4,10 +4,12 @@
 ## Title: PhanxChat
 ## Notes: Removes chat frame clutter and adds some functionality.
 ## Notes-ruRU: Удаляет беспорядок в окне чата и добавляет новые возможности.
-## Author: Phanx, Akkorian
-## X-Email: addons@phanx.net
+## Author: Akkorian, Phanx
+## X-Email: akkorian@hotmail.com, addons@phanx.net
 ## X-Copyright: Copyright © 2006–2010 Phanx.
 ## X-License: Some rights reserved. See LICENSE.txt for details.
+## X-CompatibleLocales: deDE, enUS, enGB, esES, esMX, frFR, ruRU, koKR, zhCN, zhTW
+## X-Localizations: deDE, enUS, enGB, frFR, ruRU
 ## X-Website: http://www.wowinterface.com/downloads/info6323-PhanxChat.html
 ## X-Curse-Project-ID: phanxchat
 ## X-WoWI-ID: 6323

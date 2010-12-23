@@ -1,6 +1,7 @@
 # PhanxChat
 
 * by Phanx < addons@phanx.net >
+* Currently maintained by Akkorian < akkorian@hotmail.com >
 * Copyright © 2006–2010 Phanx. Some rights reserved. See LICENSE.txt for details.
 * http://www.wowinterface.com/downloads/info6323-PhanxChat.html
 * http://wow.curse.com/downloads/wow-addons/details/phanxchat.aspx
@@ -27,15 +28,15 @@
 
 ## Usage
 
-* Type "/pchat" for options, or find them in the Interface Options.
-* Type "/pchat clear" to clear all chat windows.
-* Type "/tt" or "/wt" to send a whisper to your current target.
+* Type “/pchat” for options, or find them in the Interface Options.
+* Type “/pchat clear” to clear all chat windows.
+* Type “/tt” or “/wt” to send a whisper to your current target.
 
 
 ## Localization
 
 Compatible with English, Deutsch, Español, Français, Русский, 한국어,
-简体中文, and 正體中文 clients.
+简体中文, and 正體中文 game clients.
 
 Translated into English, Deutsch, and Français. If you can provide
 translations for another locale, please contact me.
@@ -44,8 +45,8 @@ translations for another locale, please contact me.
 ## Feedback
 
 Bugs and feature requests should be directed to the ticket tracker
-on the addon's download page. General questions and comments may be
-posted in the addon's comments on wowinterface.com.
+on the addon’s download page. General questions and comments may be
+posted in the addon’s comments on wowinterface.com.
 
-If you need to contact me privately, you may do by private message
-on the addon's download page, or by email at addons@phanx.net.
+If you need to contact me privately, you can send me a PM on either
+download site, or email me at akkorian@hotmail.com or addons@phanx.net.

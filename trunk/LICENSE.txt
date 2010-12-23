@@ -1,6 +1,5 @@
 PhanxChat
 Reduces chat frame clutter and enhances chat frame functionality.
-
 http://www.wowinterface.com/downloads/info6323-PhanxChat.html
 http://wow.curse.com/downloads/wow-addons/details/phanxchat.aspx
 
