@@ -15,6 +15,7 @@ local NUM_HISTORY_LINES = 15
 
 local _, PhanxChat = ...
 
+local playerName
 local history = { }
 
 local REPEAT_EVENTS = {
@@ -54,7 +55,7 @@ function PhanxChat:SetHideRepeats(v)
 	if type(v) == "boolean" then
 		self.db.HideRepeats = v
 	end
-
+	playerName = UnitName("player")
 	if self.db.HideRepeats then
 		for _, event in ipairs(REPEAT_EVENTS) do
 			ChatFrame_AddMessageEventFilter(event, HideRepeats)
