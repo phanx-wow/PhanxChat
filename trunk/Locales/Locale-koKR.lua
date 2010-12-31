@@ -56,8 +56,8 @@ L.WHISPER_ABBR             = "귓받" -- incoming
 L.WHISPER_INFORM_ABBR      = "귓전" -- outgoing
 
 ------------------------------------------------------------------------
---	--	User Interface Strings
-Please verify that your translations fit in the available UI space.
+--	User Interface Strings
+--	Please verify that your translations fit in the available UI space.
 ------------------------------------------------------------------------
 
 L["Short channel names"] = "채널 이름 줄임"
