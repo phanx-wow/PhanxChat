@@ -10,34 +10,15 @@
 
 local PHANXCHAT, PhanxChat = ...
 
-local panel = CreateFrame("Frame", nil, InterfaceOptionsFramePanelContainer)
-panel.name = PHANXCHAT
-panel:Hide()
-
-panel:SetScript("OnShow", function(self)
+local panel = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( PHANXCHAT, nil, function( self )
 	local L = PhanxChat.L
 	local db = PhanxChat.db
 
-	self.CreateCheckbox = LibStub("PhanxConfig-Checkbox").CreateCheckbox
-	self.CreateDropdown = LibStub("PhanxConfig-Dropdown").CreateDropdown
-	self.CreateSlider = LibStub("PhanxConfig-Slider").CreateSlider
+	self.CreateCheckbox = LibStub( "PhanxConfig-Checkbox" ).CreateCheckbox
+	self.CreateDropdown = LibStub( "PhanxConfig-Dropdown" ).CreateDropdown
+	self.CreateSlider = LibStub( "PhanxConfig-Slider" ).CreateSlider
 
-	--------------------------------------------------------------------
-
-	local title = self:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
-	title:SetPoint("TOPLEFT", 16, -16)
-	title:SetPoint("TOPRIGHT", -16, -16)
-	title:SetJustifyH("LEFT")
-	title:SetText(self.name)
-
-	local notes = self:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-	notes:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -8)
-	notes:SetPoint("TOPRIGHT", title, "BOTTOMRIGHT", 0, -8)
-	notes:SetHeight(20)
-	notes:SetJustifyH("LEFT")
-	notes:SetJustifyV("TOP")
-	notes:SetNonSpaceWrap(true)
-	notes:SetText(GetAddOnMetadata(PHANXCHAT, "Notes"))
+	local title, notes = LibStub( "PhanxConfig-Header" ).CreateHeader( self, self.name, GetAddOnMetadata( PHANXCHAT, "Notes" ) )
 
 	--------------------------------------------------------------------
 
@@ -124,9 +105,30 @@ panel:SetScript("OnShow", function(self)
 
 	--------------------------------------------------------------------
 
+	local HideNotices = self:CreateCheckbox(L["Hide notices"])
+	HideNotices.desc = L["Hide channel notification messages."]
+	HideNotices:SetPoint("TOPLEFT", MoveEditBox, "BOTTOMLEFT", 0, -8)
+	HideNotices:SetChecked(db.HideNotices)
+	HideNotices.OnClick = function(self, checked)
+		PhanxChat:SetHideNotices(checked)
+	end
+
+	--------------------------------------------------------------------
+
+	local HideRepeats = self:CreateCheckbox(L["Hide repeats"])
+	HideRepeats.desc = L["Hide repeated messages in public channels."]
+	HideRepeats:SetPoint("TOPLEFT", HideNotices, "BOTTOMLEFT", 0, -8)
+	HideRepeats:SetChecked(db.HideRepeats)
+	HideRepeats.OnClick = function(self, checked)
+		PhanxChat:SetHideRepeats(checked)
+	end
+
+	--------------------------------------------------------------------
+	--------------------------------------------------------------------
+
 	local HideButtons = self:CreateCheckbox(L["Hide buttons"])
 	HideButtons.desc = L["Hide the chat frame menu and scroll buttons."]
-	HideButtons:SetPoint("TOPLEFT", MoveEditBox, "BOTTOMLEFT", 0, -8)
+	HideButtons:SetPoint("TOPLEFT", notes, "BOTTOM", 2, -12)
 	HideButtons:SetChecked(db.HideButtons)
 	HideButtons.OnClick = function(self, checked)
 		PhanxChat:SetHideButtons(checked)
@@ -150,27 +152,6 @@ panel:SetScript("OnShow", function(self)
 	HideFlash:SetChecked(db.HideFlash)
 	HideFlash.OnClick = function(self, checked)
 		PhanxChat:SetHideFlash(checked)
-	end
-
-	--------------------------------------------------------------------
-	--------------------------------------------------------------------
-
-	local HideNotices = self:CreateCheckbox(L["Hide notices"])
-	HideNotices.desc = L["Hide channel notification messages."]
-	HideNotices:SetPoint("TOPLEFT", notes, "BOTTOM", 2, -12)
-	HideNotices:SetChecked(db.HideNotices)
-	HideNotices.OnClick = function(self, checked)
-		PhanxChat:SetHideNotices(checked)
-	end
-
-	--------------------------------------------------------------------
-
-	local HideRepeats = self:CreateCheckbox(L["Hide repeats"])
-	HideRepeats.desc = L["Hide repeated messages in public channels."]
-	HideRepeats:SetPoint("TOPLEFT", HideNotices, "BOTTOMLEFT", 0, -8)
-	HideRepeats:SetChecked(db.HideRepeats)
-	HideRepeats.OnClick = function(self, checked)
-		PhanxChat:SetHideRepeats(checked)
 	end
 
 	--------------------------------------------------------------------
@@ -212,8 +193,8 @@ panel:SetScript("OnShow", function(self)
 		end)
 	end
 	EnableSticky.desc = L["Set which chat types should be sticky."]
-	EnableSticky:SetPoint("TOPLEFT", HideRepeats, "BOTTOMLEFT", 0, -14)
-	EnableSticky:SetPoint("TOPRIGHT", notes, "BOTTOMRIGHT", -2, -18 - ((HideRepeats:GetHeight() + 8) * 2))
+	EnableSticky:SetPoint("TOPLEFT", HideFlash, "BOTTOMLEFT", 0, -14)
+	EnableSticky:SetPoint("TOPRIGHT", notes, "BOTTOMRIGHT", -2, -18 - ((HideFlash:GetHeight() + 8) * 3))
 	EnableSticky:SetValue(db.EnableSticky, stickyValues[db.EnableSticky])
 
 	--------------------------------------------------------------------
@@ -248,7 +229,7 @@ panel:SetScript("OnShow", function(self)
 
 	--------------------------------------------------------------------
 
-	self.refresh = function()
+	self.refresh = function( self )
 		HideFlash:SetChecked(db.HideFlash)
 		EnableArrows:SetChecked(db.EnableArrows)
 		EnableResizeEdges:SetChecked(db.EnableResizeEdges)
@@ -265,11 +246,8 @@ panel:SetScript("OnShow", function(self)
 		HideNotices:SetChecked(db.HideNotices)
 		HideRepeats:SetChecked(db.HideRepeats)
 	end
+end )
 
-	self:SetScript("OnShow", nil)
-end)
-
-InterfaceOptions_AddCategory(panel)
 LibStub("LibAboutPanel").new(PHANXCHAT, PHANXCHAT)
 
 ------------------------------------------------------------------------
