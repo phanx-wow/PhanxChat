@@ -125,7 +125,7 @@ end })
 local CHANNEL_LINK   = "|h" .. STRING_STYLE:format(CHANNEL_STYLE) .. "|h"
 
 local PLAYER_LINK    = "|Hplayer:%s|h" .. PLAYER_STYLE.. "|h"
-local PLAYER_BN_LINK = "|HBNplayer:%s|h" .. PLAYER_STYLE .. "|h"
+local PLAYER_BN_LINK = "|HBNplayer:%s|h" .. PLAYER_STYLE .. "%s|h"
 
 local ChannelNames = {
 	[L["Conversation"]]	    = L.CONVERSATION_ABBR,
@@ -169,7 +169,7 @@ local AddMessage = function(frame, message, ...)
 			message = message:replace(pblob, PLAYER_LINK:format(pdata, pname))
 		end
 
-		local bnLink, bnData, bnName, bnID = message:match("(|HBNplayer:(.-)|h%[(|Kf(%d+).-)%]|h)")
+		local bnLink, bnData, bnName, bnID, bnExtra = message:match("(|HBNplayer:(.-)|h%[(|Kf(%d+).-)%](.*)|h)")
 		if bnLink then
 			bnID = tonumber(bnID)
 			if db.ReplaceRealNames then
@@ -182,7 +182,7 @@ local AddMessage = function(frame, message, ...)
 			elseif db.ShortenPlayerNames then
 				bnName = PhanxChat.bnShortNames[bnID] or bnName
 			end
-			message = message:replace(bnLink, PLAYER_BN_LINK:format(bnData, bnName))
+			message = message:replace(bnLink, PLAYER_BN_LINK:format(bnData, bnName, bnExtra or ""))
 		end
 	end
 	hooks[frame].AddMessage(frame, message, ...)
