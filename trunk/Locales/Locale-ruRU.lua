@@ -12,90 +12,92 @@
 ----------------------------------------------------------------------]]
 
 if GetLocale() ~= "ruRU" then return end
-local L, _, PhanxChat = { }, ...
-PhanxChat.L = L
+local _, PhanxChat = ...
+PhanxChat.L = {
 
 ------------------------------------------------------------------------
 --	Server Channel Names
 --	These must exactly match the channel names used in your locale.
 ------------------------------------------------------------------------
 
-L["Conversation"]     = "Разговор"
-L["General"]          = "Общий"
-L["GuildRecruitment"] = "Гильдии"
-L["LocalDefense"]     = "Оборона"
-L["LookingForGroup"]  = "Поиск спутников"
-L["Trade"]            = "Торговля"
-L["WorldDefense"]     = "Оборона: глобальный"
+	["Conversation"]     = "Разговор",
+	["General"]          = "Общий",
+	["GuildRecruitment"] = "Гильдии",
+	["LocalDefense"]     = "Оборона",
+	["LookingForGroup"]  = "Поиск спутников",
+	["Trade"]            = "Торговля",
+	["WorldDefense"]     = "Оборона: глобальный",
 
 ------------------------------------------------------------------------
 --	Abbreviated Channel Names
 --	These should be one- or two-character abbreviations.
 ------------------------------------------------------------------------
 
-L.CONVERSATION_ABBR       = "Ра"
-L.GENERAL_ABBR            = "О"
-L.GUILDRECRUITMENT_ABBR   = "НвГ"
-L.LOCALDEFENSE_ABBR       = "ЛО"
-L.LOOKINGFORGROUP_ABBR    = "ЛФГ"
-L.TRADE_ABBR              = "Т"
-L.WORLDDEFENSE_ABBR       = "МО"
+	CONVERSATION_ABBR       = "Ра",
+	GENERAL_ABBR            = "О",
+	GUILDRECRUITMENT_ABBR   = "НвГ",
+	LOCALDEFENSE_ABBR       = "ЛО",
+	LOOKINGFORGROUP_ABBR    = "ЛФГ",
+	TRADE_ABBR              = "Т",
+	WORLDDEFENSE_ABBR       = "МО",
 
-L.BATTLEGROUND_ABBR        = "ПБ"
-L.BATTLEGROUND_LEADER_ABBR = "ЛПБ"
-L.GUILD_ABBR               = "Г"
-L.OFFICER_ABBR             = "Оф"
-L.PARTY_ABBR               = "Гр"
-L.PARTY_GUIDE_ABBR         = "ГрЛ"
-L.PARTY_LEADER_ABBR        = "ГрЛ"
-L.RAID_ABBR                = "Р"
-L.RAID_LEADER_ABBR         = "РЛ"
-L.RAID_WARNING_ABBR        = "РВ"
-L.SAY_ABBR                 = "С"
-L.YELL_ABBR                = "К"
-L.WHISPER_ABBR             = "Ш" -- incoming
-L.WHISPER_INFORM_ABBR      = "Ш" -- outgoing
+	BATTLEGROUND_ABBR        = "ПБ",
+	BATTLEGROUND_LEADER_ABBR = "ЛПБ",
+	GUILD_ABBR               = "Г",
+	OFFICER_ABBR             = "Оф",
+	PARTY_ABBR               = "Гр",
+	PARTY_GUIDE_ABBR         = "ГрЛ",
+	PARTY_LEADER_ABBR        = "ГрЛ",
+	RAID_ABBR                = "Р",
+	RAID_LEADER_ABBR         = "РЛ",
+	RAID_WARNING_ABBR        = "РВ",
+	SAY_ABBR                 = "С",
+	YELL_ABBR                = "К",
+	WHISPER_ABBR             = "Ш", -- incoming
+	WHISPER_INFORM_ABBR      = "Ш", -- outgoing
 
 ------------------------------------------------------------------------
 --	User Interface Strings
 --	Please verify that your translations fit in the available UI space.
 ------------------------------------------------------------------------
 
-L["Short channel names"] = "Короткие имена каналов"
-L["Shorten channel names and chat strings."] = "Сокращать имена каналов и строчки чата."
-L["Short player names"] = "Короткие имена игроков"
-L["Shorten player names by removing realm names and Real ID last names."] = "Сокращать имена игроков, удаляя названия серверов и фамилии Real ID."
-L["Replace real names"] = "Заменить реальное имя"
-L["Replace Real ID names with character names."] = "Заменять Real ID имена на имена персонажей."
-L["Enable arrow keys"] = "Включить стрелки"
-L["Enable arrow keys in the chat edit box."] = "Использовать стрелки курсора в окне редактирования сообщения."
-L["Enable resize edges"] = "Включить рамку размера"
-L["Enable resize controls at all edges of chat frames, instead of only the bottom right corner."] = "Включить рамку изменения размера окна чата, вместо только нижнего правого угла."
-L["Link URLs"] = "Копирование ссылок"
-L["Transform URLs in chat into clickable links for easy copying."] = "Превратить ссылки в чате в кликабельные для простоты копирования."
-L["Lock docked tabs"] = "Зафиксировать вкладки"
-L["Prevent docked chat tabs from being dragged unless the Shift key is down."] = "Запретить перетаскивание зафиксированных вкладок без зажатого Shift."
-L["Move edit boxes"] = "Переместить окно ввода"
-L["Move chat edit boxes to the top their respective chat frame."] = "Переместить окно ввода наверх окна чата."
-L["Hide buttons"] = "Скрыть кнопки"
-L["Hide the chat frame menu and scroll buttons."] = "Скрыть кнопку \"Общение\" и кнопки прокрутки."
-L["Hide extra textures"] = "Скрыть текстуры"
-L["Hide the extra textures on chat tabs and chat edit boxes added in patch 3.3.5."] = "Скрыть дополнительные текстуры вкладок и окна ввода сообщения, добавленныe а патче 3.3.5."
-L["Hide tab flash"] = "Скрыть мигание вкладок"
-L["Disable the flashing effect on chat tabs that receive new messages."] = "Отключить мигание вкладок с новыми сообщениями."
-L["Hide notices"] = "Скрыть уведомления"
-L["Hide channel notification messages."] = "Скрывать информационные сообщения канала."
-L["Hide repeats"] = "Скрыть повторы"
-L["Hide repeated messages in public channels."] = "Скрывать повторяющиеся сообщения в общих каналах."
-L["Sticky chat"] = "Запоминать последний ввод"
-L["Set which chat types should be sticky."] = "Установить какие типы чата должны запоминать последний ввод, быть \"липкими\"."
-L["All"] = "Все"
-L["Default"] = "По умолчанию"
-L["None"] = "Никакие"
-L["Fade time"] = "Время угасания"
-L["Set the time, in minutes, to wait before fading chat text. A setting of 0 will disable fading."] = "Установить время в минутах перед угасанием чата. Установив значение в 0 вы отмените угасание."
-L["Font size"] = "Размер шрифта"
-L["Set the font size for all chat frames."] = "Установить размер шрифта для всех окон чата."
-L["Note that this is just a shortcut to configuring each chat frame individually through the Blizzard chat options."] = "Заметьте, что это просто настраивает каждую вкладку индивидуально, как вы могли бы сделать обычным способом, через управление чатом в меню."
+	["Short channel names"] = "Короткие имена каналов",
+	["Shorten channel names and chat strings."] = "Сокращать имена каналов и строчки чата.",
+	["Short player names"] = "Короткие имена игроков",
+	["Shorten player names by removing realm names and Real ID last names."] = "Сокращать имена игроков, удаляя названия серверов и фамилии Real ID.",
+	["Replace real names"] = "Заменить реальное имя",
+	["Replace Real ID names with character names."] = "Заменять Real ID имена на имена персонажей.",
+	["Enable arrow keys"] = "Включить стрелки",
+	["Enable arrow keys in the chat edit box."] = "Использовать стрелки курсора в окне редактирования сообщения.",
+	["Enable resize edges"] = "Включить рамку размера",
+	["Enable resize controls at all edges of chat frames, instead of only the bottom right corner."] = "Включить рамку изменения размера окна чата, вместо только нижнего правого угла.",
+	["Link URLs"] = "Копирование ссылок",
+	["Transform URLs in chat into clickable links for easy copying."] = "Превратить ссылки в чате в кликабельные для простоты копирования.",
+	["Lock docked tabs"] = "Зафиксировать вкладки",
+	["Prevent docked chat tabs from being dragged unless the Shift key is down."] = "Запретить перетаскивание зафиксированных вкладок без зажатого Shift.",
+	["Move edit boxes"] = "Переместить окно ввода",
+	["Move chat edit boxes to the top their respective chat frame."] = "Переместить окно ввода наверх окна чата.",
+	["Hide buttons"] = "Скрыть кнопки",
+	["Hide the chat frame menu and scroll buttons."] = "Скрыть кнопку \"Общение\" и кнопки прокрутки.",
+	["Hide extra textures"] = "Скрыть текстуры",
+	["Hide the extra textures on chat tabs and chat edit boxes added in patch 3.3.5."] = "Скрыть дополнительные текстуры вкладок и окна ввода сообщения, добавленныe а патче 3.3.5.",
+	["Hide tab flash"] = "Скрыть мигание вкладок",
+	["Disable the flashing effect on chat tabs that receive new messages."] = "Отключить мигание вкладок с новыми сообщениями.",
+	["Hide notices"] = "Скрыть уведомления",
+	["Hide channel notification messages."] = "Скрывать информационные сообщения канала.",
+	["Hide repeats"] = "Скрыть повторы",
+	["Hide repeated messages in public channels."] = "Скрывать повторяющиеся сообщения в общих каналах.",
+	["Sticky chat"] = "Запоминать последний ввод",
+	["Set which chat types should be sticky."] = "Установить какие типы чата должны запоминать последний ввод, быть \"липкими\".",
+	["All"] = "Все",
+	["Default"] = "По умолчанию",
+	["None"] = "Никакие",
+	["Fade time"] = "Время угасания",
+	["Set the time, in minutes, to wait before fading chat text. A setting of 0 will disable fading."] = "Установить время в минутах перед угасанием чата. Установив значение в 0 вы отмените угасание.",
+	["Font size"] = "Размер шрифта",
+	["Set the font size for all chat frames."] = "Установить размер шрифта для всех окон чата.",
+	["Note that this is just a shortcut to configuring each chat frame individually through the Blizzard chat options."] = "Заметьте, что это просто настраивает каждую вкладку индивидуально, как вы могли бы сделать обычным способом, через управление чатом в меню.",
 
 ------------------------------------------------------------------------
+
+}
