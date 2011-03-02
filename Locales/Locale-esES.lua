@@ -21,11 +21,11 @@ PhanxChat.L = {
 ------------------------------------------------------------------------
 
 	["Conversation"]     = "Conversación",
-	["General"]          = GENERAL
+	["General"]          = GENERAL,
 --	["GuildRecruitment"] = "",
 --	["LocalDefense"]     = "",
 --	["LookingForGroup"]  = "",
-	["Trade"]            = TRADE
+	["Trade"]            = TRADE,
 --	["WorldDefense"]     = "",
 
 ------------------------------------------------------------------------
@@ -35,7 +35,7 @@ PhanxChat.L = {
 
 	CONVERSATION_ABBR       = "",
 	GENERAL_ABBR            = "G",
-	GUILDRECRUITMENT_ABBR   = "R
+	GUILDRECRUITMENT_ABBR   = "R",
 	LOCALDEFENSE_ABBR       = "D",
 	LOOKINGFORGROUP_ABBR    = "BDG",
 	TRADE_ABBR              = "C",
