@@ -21,11 +21,11 @@ PhanxChat.L = {
 ------------------------------------------------------------------------
 
 	["Conversation"]     = "Conversación",
-	["General"]          = GENERAL
+	["General"]          = GENERAL,
 --	["GuildRecruitment"] = "",
 --	["LocalDefense"]     = "",
 --	["LookingForGroup"]  = "",
-	["Trade"]            = TRADE
+	["Trade"]            = TRADE,
 --	["WorldDefense"]     = "",
 
 ------------------------------------------------------------------------

@@ -53,8 +53,8 @@ PhanxChat.L = {
 	RAID_WARNING_ABBR        = "警",
 	SAY_ABBR                 = "说",
 	YELL_ABBR                = "喊",
-	WHISPER_ABBR             = "密自" -- incoming
-	WHISPER_INFORM_ABBR      = "密往" -- outgoing
+	WHISPER_ABBR             = "密自", -- incoming
+	WHISPER_INFORM_ABBR      = "密往", -- outgoing
 
 ------------------------------------------------------------------------
 --	User Interface Strings
