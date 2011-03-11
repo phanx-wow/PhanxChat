@@ -10,6 +10,8 @@
 
 local _, PhanxChat = ...
 
+local noop = function() end
+
 ------------------------------------------------------------------------
 
 local function BottomButton_OnClick(self, button)
@@ -42,13 +44,13 @@ function PhanxChat:HideButtons(frame)
 	frame:HookScript("OnShow", ChatFrame_OnShow)
 
 	if self.db.HideButtons then
-		buttonFrame:SetScript("OnShow", buttonFrame.Hide)
+		buttonFrame.Show = noop
 		buttonFrame:Hide()
 
-		upButton:SetScript("OnShow", upButton.Hide)
+		upButton.Show = noop
 		upButton:Hide()
 
-		downButton:SetScript("OnShow", downButton.Hide)
+		downButton.Show = noop
 		downButton:Hide()
 
 		bottomButton:ClearAllPoints()
@@ -65,13 +67,13 @@ function PhanxChat:HideButtons(frame)
 			bottomButton:SetScript("OnClick", BottomButton_OnClick)
 		end
 	else
-		buttonFrame:SetScript("OnShow", nil)
+		buttonFrame.Show = nil
 		buttonFrame:Show()
 
-		upButton:SetScript("OnShow", nil)
+		upButton.Show = nil
 		upButton:Show()
 
-		downButton:SetScript("OnShow", nil)
+		downButton.Show = nil
 		downButton:Show()
 
 		bottomButton:ClearAllPoints()
@@ -90,21 +92,6 @@ function PhanxChat:HideButtons(frame)
 end
 
 ------------------------------------------------------------------------
---[[ -- for use with a posthook
-function PhanxChat.BNToastFrame_UpdateAnchor(forceAnchor)
-	if BNToastFrame.buttonSide == "left" then
-		xoffset = 5
-	else
-		xoffset = -5
-	end
-	BNToastFrame:ClearAllPoints()
-	if BNToastFrame.topSide then
-		BNToastFrame:SetPoint("BOTTOM"..BNToastFrame.buttonSide, ChatFrame1, "TOP"..BNToastFrame.buttonSide, xoffset, BN_TOAST_TOP_OFFSET)
-	else
-		BNToastFrame:SetPoint("TOP"..BNToastFrame.buttonSide, ChatFrame1, "BOTTOM"..BNToastFrame.buttonSide, xoffset, BN_TOAST_BOTTOM_OFFSET)
-	end
-end
-]]
 
 function PhanxChat:SetHideButtons(v)
 	if self.debug then print("PhanxChat: SetHideButtons", v) end
@@ -123,9 +110,6 @@ function PhanxChat:SetHideButtons(v)
 		FriendsMicroButton:SetScript("OnShow", FriendsMicroButton.Hide)
 		FriendsMicroButton:Hide()
 
-		GeneralDockManagerOverflowButton:SetScript("OnShow", GeneralDockManagerOverflowButton.Hide)
-		GeneralDockManagerOverflowButton:Hide()
-
 		if not self.hooks.BN_TOAST_LEFT_OFFSET then
 			self.hooks.BN_TOAST_LEFT_OFFSET = BN_TOAST_LEFT_OFFSET
 			BN_TOAST_LEFT_OFFSET = BN_TOAST_LEFT_OFFSET + ChatFrame1ButtonFrame:GetWidth() + 5
@@ -136,9 +120,6 @@ function PhanxChat:SetHideButtons(v)
 
 		FriendsMicroButton:SetScript("OnShow", nil)
 		FriendsMicroButton:Show()
-
-		GeneralDockManagerOverflowButton:SetScript("OnShow", nil)
-		GeneralDockManagerOverflowButton:Show()
 
 		if self.hooks.BN_TOAST_LEFT_OFFSET then
 			BN_TOAST_LEFT_OFFSET = self.hooks.BN_TOAST_LEFT_OFFSET
@@ -153,5 +134,3 @@ BNToastFrame:SetClampedToScreen(true)
 
 table.insert(PhanxChat.RunOnLoad, PhanxChat.SetHideButtons)
 table.insert(PhanxChat.RunOnProcessFrame, PhanxChat.HideButtons)
-
-------------------------------------------------------------------------

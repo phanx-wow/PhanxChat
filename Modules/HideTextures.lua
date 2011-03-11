@@ -10,15 +10,7 @@
 
 local _, PhanxChat = ...
 
---[[ -- not currently used
-function PhanxChat.PanelTemplates_TabResize(tab, padding, absoluteSize, maxWidth, absoluteTextSize)
-	local tabName = tab:GetName()
-	if tabName:match("^ChatFrame%d") then
-		absoluteSize = _G[("%sText"):format(tabName)]:GetStringWidth() + 35
-	end
-	return PhanxChat.hooks.PanelTemplates_TabResize(tab, padding, absoluteSize, maxWidth, absoluteTextSize)
-end
-]]
+local noop = function() end
 
 function PhanxChat:HideTextures(frame)
 	if self.db.HideTextures then
@@ -43,18 +35,19 @@ function PhanxChat:HideTextures(frame)
 		local tabText = _G[name .. "TabText"]
 
 		tabText:ClearAllPoints()
-		tabText:SetPoint("BOTTOMLEFT", tab, 10, 5)
-		tabText:SetPoint("BOTTOMRIGHT", tab, -10, 5)
+		tabText:SetPoint("BOTTOMLEFT", tab, 16, 5)
+		tabText:SetPoint("BOTTOMRIGHT", tab, -16, 5)
 		tabText:SetJustifyH("LEFT")
+		tabText.GetWidth = tabText.GetStringWidth
 
 		tab.noMouseAlpha = 0
 		FCFTab_UpdateAlpha(frame)
 
 		tab.leftSelectedTexture:SetAlpha(0)
-		tab.leftHighlightTexture:SetTexture(nil)
+		tab.leftHighlightTexture:SetTexture("")
 
 		tab.rightSelectedTexture:SetAlpha(0)
-		tab.rightHighlightTexture:SetTexture(nil)
+		tab.rightHighlightTexture:SetTexture("")
 
 		tab.middleSelectedTexture:SetAlpha(0)
 		tab.middleHighlightTexture:SetTexture([[Interface\PaperDollInfoFrame\UI-Character-Tab-Highlight]])
@@ -96,9 +89,8 @@ function PhanxChat:HideTextures(frame)
 		FCFTab_UpdateAlpha(frame)
 
 		tabText:ClearAllPoints()
-		tabText:SetPoint("BOTTOMLEFT", tab, 10, 5)
-		tabText:SetPoint("BOTTOMRIGHT", tab, -10, 5)
-		tabText:SetJustifyH("LEFT")
+		tabText:SetPoint("LEFT", _G[name .. "TabRight"], "RIGHT", 0, -5)
+		tabText.GetWidth = nil
 
 		tab.leftSelectedTexture:SetAlpha(1)
 		tab.leftHighlightTexture:SetTexture([[Interface\ChatFrame\ChatFrameTab-HighlightLeft]])
@@ -135,5 +127,3 @@ end
 
 table.insert(PhanxChat.RunOnLoad, PhanxChat.SetHideTextures)
 table.insert(PhanxChat.RunOnProcessFrame, PhanxChat.HideTextures)
-
-------------------------------------------------------------------------
