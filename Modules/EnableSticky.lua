@@ -10,7 +10,20 @@
 
 local _, PhanxChat = ...
 
-local StickyChannels
+local StickyChannels = {
+	BATTLEGROUND	= ChatTypeInfo.BATTLEGROUND.sticky,		-- 1
+	BN_CONVERSATION	= ChatTypeInfo.BN_CONVERSATION.sticky,	-- 1
+	BN_WHISPER		= ChatTypeInfo.BN_WHISPER.sticky,		-- 1
+	CHANNEL			= ChatTypeInfo.CHANNEL.sticky,			-- 1
+	EMOTE 			= ChatTypeInfo.EMOTE.sticky,			-- 0
+	GUILD 			= ChatTypeInfo.GUILD.sticky,			-- 1
+	OFFICER 		= ChatTypeInfo.OFFICER.sticky,			-- 1
+	PARTY 			= ChatTypeInfo.PARTY.sticky,			-- 1
+	SAY 			= ChatTypeInfo.SAY.sticky,				-- 1
+	RAID 			= ChatTypeInfo.RAID.sticky,				-- 1
+	WHISPER 		= ChatTypeInfo.WHISPER.sticky,			-- 1
+	YELL 			= ChatTypeInfo.YELL.sticky,				-- 0
+}
 
 function PhanxChat:SetEnableSticky(v)
 	if self.debug then print("PhanxChat: SetEnableSticky", v) end
@@ -47,23 +60,3 @@ function PhanxChat:SetEnableSticky(v)
 end
 
 table.insert(PhanxChat.RunOnLoad, PhanxChat.SetEnableSticky)
-
-------------------------------------------------------------------------
-
-StickyChannels = {
-	BATTLEGROUND = ChatTypeInfo.BATTLEGROUND.sticky,
-	BN_CONVERSATION = ChatTypeInfo.BN_CONVERSATION.sticky,
-	BN_WHISPER = ChatTypeInfo.BN_WHISPER.sticky,
-	CHANNEL = ChatTypeInfo.CHANNEL.sticky,
-	EMOTE = ChatTypeInfo.EMOTE.sticky,
-	GUILD = ChatTypeInfo.GUILD.sticky,
-	OFFICER = ChatTypeInfo.OFFICER.sticky,
-	PARTY = ChatTypeInfo.PARTY.sticky,
-	RAID = ChatTypeInfo.RAID.sticky,
-	RAID_WARNING = ChatTypeInfo.RAID_WARNING.sticky,
-	SAY = ChatTypeInfo.SAY.sticky,
-	WHISPER = ChatTypeInfo.WHISPER.sticky,
-	YELL = ChatTypeInfo.YELL.sticky,
-}
-
-------------------------------------------------------------------------
