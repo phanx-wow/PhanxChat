@@ -218,13 +218,9 @@ local panel = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( PHANXCHA
 	FontSize:SetPoint("TOPRIGHT", FadeTime, "BOTTOMRIGHT", 0, -10)
 	FontSize:SetValue(math.floor(select(2, ChatFrame1:GetFont()) + 0.5))
 	FontSize.OnValueChanged = function(self, value)
-		value = math.floor(value + 0.5)
-		if value >= 6 and value <= 32 then
-			for frame in pairs(PhanxChat.frames) do
-				FCF_SetChatWindowFontSize(nil, frame, value)
-			end
+		for frame in pairs(PhanxChat.frames) do
+			FCF_SetChatWindowFontSize(nil, frame, value)
 		end
-		return value
 	end
 
 	--------------------------------------------------------------------
