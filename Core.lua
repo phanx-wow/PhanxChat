@@ -146,19 +146,19 @@ local CHANNEL_PATTERN = GetLocale() == "ruRU" and "(|h%[(%d+)%.%s?(([^%]%-%s:]+)
 local AddMessage = function(frame, message, ...)
 	if type(message) == "string" then
 		if db.ShortenChannelNames then
-			local cblob, cnum, cname, csname = message:match(CHANNEL_PATTERN)
-			if cblob then
+			local cnum, cname, csname = message:match(CHANNEL_PATTERN)
+			if cnum and cname then
 				if csname then -- ruRU
 					cname = ChannelNames[cname] or ChannelNames[csname] or ChannelNames[cname:lower()] or cname:sub(1, 2)
 				else
 					cname = ChannelNames[cname] or ChannelNames[cname:lower()] or cname:sub(1, 2)
 				end
-				message = message:replace(cblob, CHANNEL_LINK:replace("%d", cnum):replace("%s", cname))
+				message = message:gsub(CHANNEL_PATTERN, CHANNEL_LINK:gsub("%%d", cnum):gsub("%%s", cname))
 			end
 		end
 
-		local pblob, pdata, pname = message:match("(|Hplayer:(.-)|h%[(.-)%]|h)")
-		if pblob then
+		local pdata, pname = message:match("|Hplayer:(.-)|h%[(.-)%]|h")
+		if pdata and pname then
 			if db.ShortenPlayerNames then
 				if pname:match("|cff") then
 					pname = pname:gsub("%-[^|]+", "")
@@ -166,7 +166,7 @@ local AddMessage = function(frame, message, ...)
 					pname = pname:match("[^%-]+")
 				end
 			end
-			message = message:replace(pblob, PLAYER_LINK:format(pdata, pname))
+			message = message:gsub("|Hplayer:.-|h%[.-%]|h", PLAYER_LINK:format(pdata, pname))
 		end
 
 		local bnLink, bnData, bnName, bnID, bnExtra = message:match("(|HBNplayer:(.-)|h%[(|Kf(%d+).-)%](.*)|h)")
@@ -174,15 +174,20 @@ local AddMessage = function(frame, message, ...)
 			bnID = tonumber(bnID)
 			if db.ReplaceRealNames then
 				local toonName = PhanxChat.bnToonNames[bnID]
-				if db.ShortenPlayerNames then
-					bnName = toonName and toonName:gsub("%-[^|]+", "") or bnName
-				else
-					bnName = toonName or bnName
+				if toonName then
+					if db.ShortenPlayerNames then
+						bnName = toonName:gsub("%-[^|]+", "")
+					else
+						bnName = toonName
+					end
+					if bnExtra then
+						bnExtra = bnExtra:gsub(" %(.-%)", "")
+					end
 				end
 			elseif db.ShortenPlayerNames then
 				bnName = PhanxChat.bnShortNames[bnID] or bnName
 			end
-			message = message:replace(bnLink, PLAYER_BN_LINK:format(bnData, bnName, bnExtra or ""))
+			message = message:gsub(bnLink, PLAYER_BN_LINK:format(bnData, bnName, bnExtra or ""))
 		end
 	end
 	hooks[frame].AddMessage(frame, message, ...)
@@ -353,3 +358,4 @@ function PhanxChat:UnregisterEvent(event) return self.frame:UnregisterEvent(even
 ------------------------------------------------------------------------
 
 _G.PhanxChat = PhanxChat
+_G.SLASH_RELOAD3 = "/rl"
