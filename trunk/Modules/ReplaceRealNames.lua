@@ -67,16 +67,6 @@ PhanxChat.bnShortNames = shortNames
 
 ------------------------------------------------------------------------
 
-local function RemoveExtraName( _, _, message, ... )
-	local icon = message:match( [[TInterface\ChatFrame\UI-ChatIcon[^|]|t]] )
-	if icon then
-		message = message:replace( [[|TInterface\FriendsFrame\UI-Toast-ToastIcons.tga:16:16:0:128:64:2:29:34:61|t]], icon )
-	end
-	return true, message:gsub( [[ %(.-%)]], "", 1 ), ...
-end
-
-------------------------------------------------------------------------
-
 function PhanxChat:SetReplaceRealNames(v)
 	if self.debug then print("PhanxChat: SetReplaceRealNames", v) end
 	if type(v) == "boolean" then
@@ -84,13 +74,11 @@ function PhanxChat:SetReplaceRealNames(v)
 	end
 
 	if self.db.ReplaceRealNames then
-		ChatFrame_AddMessageEventFilter("BN_INLINE_TOAST_ALERT", RemoveExtraName)
 		self:RegisterEvent("BN_FRIEND_ACCOUNT_ONLINE")
 		self:RegisterEvent("BN_FRIEND_TOON_ONLINE")
 		self:RegisterEvent("PLAYER_ENTERING_WORLD")
 		UpdateShortNames()
 	else
-		ChatFrame_RemoveMessageEventFilter("BN_INLINE_TOAST_ALERT", RemoveExtraName)
 		self:UnregisterEvent("BN_FRIEND_ACCOUNT_ONLINE")
 		self:UnregisterEvent("BN_FRIEND_TOON_ONLINE")
 		self:UnregisterEvent("PLAYER_ENTERING_WORLD")
@@ -103,8 +91,8 @@ table.insert(PhanxChat.RunOnLoad, PhanxChat.SetReplaceRealNames)
 
 ------------------------------------------------------------------------
 
-local BN_WHO_LIST_FORMAT = WHO_LIST_FORMAT:replace("player:%s", "%s")
-local BN_WHO_LIST_GUILD_FORMAT = WHO_LIST_GUILD_FORMAT:replace("player:%s", "%s")
+local BN_WHO_LIST_FORMAT = WHO_LIST_FORMAT:gsub("player:%%s", "%s")
+local BN_WHO_LIST_GUILD_FORMAT = WHO_LIST_GUILD_FORMAT:gsub("player:%%s", "%s")
 
 local prehook_OnHyperlinkShow = ChatFrame_OnHyperlinkShow
 
