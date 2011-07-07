@@ -110,6 +110,17 @@ local db
 
 ------------------------------------------------------------------------
 
+if not string.replace then
+	local function replace(s, a, b)
+		a = a:gsub("([%^%$%(%)%%%.%[%]%*%+%-%?])", "[%%%1]")
+		b = b:gsub("([%^%$%(%)%%%.%[%]%*%+%-%?])", "[%%%1]")
+		return s:gsub(a,b)
+	end
+	string.replace = replace
+end
+
+------------------------------------------------------------------------
+
 if not PhanxChat.L then
 	PhanxChat.L = DEFAULT_STRINGS
 end
@@ -124,7 +135,7 @@ end })
 
 local CHANNEL_LINK   = "|h" .. STRING_STYLE:format(CHANNEL_STYLE) .. "|h"
 
-local PLAYER_LINK    = "|Hplayer:%s|h" .. PLAYER_STYLE.. "|h"
+local PLAYER_LINK    = "|Hplayer:%s|h" .. PLAYER_STYLE .. "|h"
 local PLAYER_BN_LINK = "|HBNplayer:%s|h" .. PLAYER_STYLE .. "%s|h"
 
 local ChannelNames = {
@@ -141,24 +152,28 @@ for name, abbr in pairs(CUSTOM_CHANNELS) do
 	ChannelNames[name:lower()] = abbr
 end
 
-local CHANNEL_PATTERN = GetLocale() == "ruRU" and "(|h%[(%d+)%.%s?(([^%]%-%s:]+):? ?[^%]%-%s]*)%]|h%s?)[^%.].+" or "(|h%[(%d+)%.%s?([^%]%-%s]+)%]|h%s?).+"
+local CHANNEL_PATTERN = GetLocale() == "ruRU" and "|h%[(%d+)%.%s?(([^%]%-%s:]+):? ?[^%]%-%s]*)%]|h%s?" or "|h%[(%d+)%.%s?([^%]%-%s]+)%]|h%s?"
+local CHANNEL_PATTERN_PLUS = GetLocale() == "ruRU" and "|h%[(%d+)%.%s?(([^%]%-%s:]+):? ?[^%]%-%s]*)%]|h%s?[^%.].+" or "|h%[(%d+)%.%s?([^%]%-%s]+)%]|h%s?.+"
+
+local PLAYER_PATTERN = "|Hplayer:(.-)|h%[(.-)%]|h"
+local BNPLAYER_PATTERN = "|HBNplayer:(.-)|h%[(|Kf(%d+).-)%](.*)|h"
 
 local AddMessage = function(frame, message, ...)
 	if type(message) == "string" then
 		if db.ShortenChannelNames then
-			local cnum, cname, csname = message:match(CHANNEL_PATTERN)
-			if cnum and cname then
+			local cnum, cname, csname = message:match(CHANNEL_PATTERN_PLUS)
+			if cnum then
 				if csname then -- ruRU
 					cname = ChannelNames[cname] or ChannelNames[csname] or ChannelNames[cname:lower()] or cname:sub(1, 2)
 				else
 					cname = ChannelNames[cname] or ChannelNames[cname:lower()] or cname:sub(1, 2)
 				end
-				message = message:gsub(CHANNEL_PATTERN, CHANNEL_LINK:gsub("%%d", cnum):gsub("%%s", cname))
+				message = message:gsub(CHANNEL_PATTERN, (CHANNEL_LINK:gsub("%%d", cnum):gsub("%%s", cname)))
 			end
 		end
 
-		local pdata, pname = message:match("|Hplayer:(.-)|h%[(.-)%]|h")
-		if pdata and pname then
+		local pdata, pname = message:match(PLAYER_PATTERN)
+		if pdata then
 			if db.ShortenPlayerNames then
 				if pname:match("|cff") then
 					pname = pname:gsub("%-[^|]+", "")
@@ -166,19 +181,19 @@ local AddMessage = function(frame, message, ...)
 					pname = pname:match("[^%-]+")
 				end
 			end
-			message = message:gsub("|Hplayer:.-|h%[.-%]|h", PLAYER_LINK:format(pdata, pname))
+			message = message:gsub(PLAYER_PATTERN, PLAYER_LINK:format(pdata, pname))
 		end
 
-		local bnLink, bnData, bnName, bnID, bnExtra = message:match("(|HBNplayer:(.-)|h%[(|Kf(%d+).-)%](.*)|h)")
-		if bnLink then
+		local bnData, bnName, bnID, bnExtra = message:match(BNPLAYER_PATTERN)
+		if bnData then
 			bnID = tonumber(bnID)
 			if db.ReplaceRealNames then
 				local toonName = PhanxChat.bnToonNames[bnID]
 				if toonName then
 					if db.ShortenPlayerNames then
-						bnName = toonName:gsub("%-[^|]+", "")
+							bnName = toonName:gsub("%-[^|]+", "")
 					else
-						bnName = toonName
+							bnName = toonName
 					end
 					if bnExtra then
 						bnExtra = bnExtra:gsub(" %(.-%)", "")
@@ -187,7 +202,8 @@ local AddMessage = function(frame, message, ...)
 			elseif db.ShortenPlayerNames then
 				bnName = PhanxChat.bnShortNames[bnID] or bnName
 			end
-			message = message:gsub(bnLink, PLAYER_BN_LINK:format(bnData, bnName, bnExtra or ""))
+			local link = PLAYER_BN_LINK:format(bnData, bnName, bnExtra or "")
+			message = message:gsub( BNPLAYER_PATTERN, link )
 		end
 	end
 	hooks[frame].AddMessage(frame, message, ...)
