@@ -1,5 +1,5 @@
 ## Interface: 40200
-## Version: 4.2.0.wowi:revision
+## Version: 4.2.2.wowi:revision
 
 ## Title: PhanxChat
 ## Notes: Removes chat frame clutter and adds some functionality.
