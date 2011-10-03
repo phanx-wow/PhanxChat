@@ -22,6 +22,7 @@ end
 
 local function Tab_OnLeave(tab)
 	hooks[tab].OnLeave(tab)
+	GameTooltip_Hide()
 	if tab.frame.selected then return end
 	tab.text:SetTextColor(1, 0.8, 0)
 end
@@ -142,11 +143,11 @@ function PhanxChat:HideTextures(frame)
 			FCFTab_UpdateColors = Tab_UpdateColors
 		end
 		if not hooks[tab].OnEnter then
-			hooks[tab].OnEnter = tab:GetScript("OnEnter") or noop
+			hooks[tab].OnEnter = tab:GetScript("OnEnter")
 			tab:SetScript("OnLeave", Tab_OnEnter)
 		end
 		if not hooks[tab].OnLeave then
-			hooks[tab].OnLeave = tab:GetScript("OnLeave") or noop
+			hooks[tab].OnLeave = tab:GetScript("OnLeave")
 			tab:SetScript("OnLeave", Tab_OnLeave)
 		end
 	else
@@ -183,7 +184,7 @@ function PhanxChat:HideTextures(frame)
 		local tabText = tab.text
 
 		tabText:ClearAllPoints()
-		tabText:SetPoint("LEFT", tab.right, "RIGHT", 0, -5)
+		tabText:SetPoint("LEFT", tab.left, "RIGHT", 0, -5)
 		tabText.GetWidth = nil
 
 		tabText:SetTextColor(1, 0.8, 0)
@@ -199,12 +200,12 @@ function PhanxChat:HideTextures(frame)
 		end
 		local enter = hooks[tab].OnEnter
 		if enter then
-			tab:SetScript("OnEnter", enter ~= noop and enter or nil)
+			tab:SetScript("OnEnter", enter)
 			hooks[tab].OnEnter = nil
 		end
 		local leave = hooks[tab].OnLeave
 		if leave then
-			tab:SetScript("OnLeave", leave ~= noop and leave or nil)
+			tab:SetScript("OnLeave", leave)
 			hooks[tab].OnLeave = nil
 		end
 	end
