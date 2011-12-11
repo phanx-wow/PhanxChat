@@ -1,17 +1,18 @@
-## Interface: 40200
-## Version: 4.2.2.wowi:revision
+## Interface: 40300
+## Version: 4.3.0.wowi:revision
 
 ## Title: PhanxChat
 ## Notes: Removes chat frame clutter and adds some functionality.
-## Notes-esES: Eliminar desorden de la ventana de chat, y añadir algunas funciones.
-## Notes-esMX: Eliminar desorden de la ventana de chat, y añadir algunas funciones.
+## Notes-esES: Eliminar desorden de la ventana de chat y añadir algunas funciones.
+## Notes-esMX: Eliminar desorden de la ventana de chat y añadir algunas funciones.
+## Notes-ptBR: Remover a desordem da janela de bate-papo e adicionar algumas funcionalidades.
 ## Notes-ruRU: Удаляет беспорядок в окне чата и добавляет новые возможности.
 ## Author: Phanx, Akkorian
 ## X-Email: akkorian@hotmail.com
 ## X-Copyright: Copyright © 2006–2011 Phanx.
 ## X-License: Some rights reserved. See LICENSE.txt for details.
-## X-CompatibleLocales: enUS, deDE, esES, esMX, frFR, ruRU, koKR, zhCN, zhTW
-## X-Localizations: enUS, deDE, esES, esMX, frFR, ruRU, koKR, zhCN
+## X-CompatibleLocales: enUS, deDE, esES, esMX, frFR, ptBR, ruRU, koKR, zhCN, zhTW
+## X-Localizations: enUS, deDE, esES, esMX, frFR, ptBR, ruRU, koKR, zhCN
 ## X-Website: http://www.wowinterface.com/downloads/info6323-PhanxChat.html
 ## X-Curse-Project-ID: phanxchat
 ## X-WoWI-ID: 6323
@@ -30,6 +31,7 @@ Libs\PhanxConfig-Slider\PhanxConfig-Slider.lua
 Locales\Locale-deDE.lua
 Locales\Locale-esES.lua
 Locales\Locale-frFR.lua
+Locales\Locale-ptBR.lua
 Locales\Locale-koKR.lua
 Locales\Locale-ruRU.lua
 Locales\Locale-zhCN.lua
