@@ -46,7 +46,7 @@ end
 ------------------------------------------------------------------------
 
 function PhanxChat.ChatFrame_OnHyperlinkShow(frame, link, text, button)
-	if link:sub(1, 3) == "url" then
+	if link:sub(1, 4) == "url:" then -- ignore Blizzard urlIndex links
 		currentURL = link:sub(5)
 		StaticPopup_Show("URL_COPY_DIALOG")
 		return
