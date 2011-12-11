@@ -38,7 +38,7 @@ PhanxChat.L = {
 	GUILDRECRUITMENT_ABBR   = "RG", -- needs check
 	LOCALDEFENSE_ABBR       = "DL", -- needs check
 	LOOKINGFORGROUP_ABBR    = "PG", -- needs check
-	TRADE_ABBR              = "Ne", -- needs check
+	TRADE_ABBR              = "Co", -- needs check
 	WORLDDEFENSE_ABBR       = "DG", -- needs check
 
 	BATTLEGROUND_ABBR        = "BG", -- needs check
