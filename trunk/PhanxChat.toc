@@ -7,8 +7,8 @@
 ## Notes-esMX: Eliminar desorden de la ventana de chat y añadir algunas funciones.
 ## Notes-ptBR: Remover a desordem da janela de bate-papo e adicionar algumas funcionalidades.
 ## Notes-ruRU: Удаляет беспорядок в окне чата и добавляет новые возможности.
-## Author: Phanx, Akkorian
-## X-Email: akkorian@hotmail.com
+## Author: Phanx
+## X-Email: addons@phanx.net
 ## X-Copyright: Copyright © 2006–2011 Phanx.
 ## X-License: Some rights reserved. See LICENSE.txt for details.
 ## X-CompatibleLocales: enUS, deDE, esES, esMX, frFR, ptBR, ruRU, koKR, zhCN, zhTW

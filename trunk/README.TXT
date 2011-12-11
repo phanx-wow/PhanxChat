@@ -2,7 +2,6 @@ PhanxChat
 =========
 
 * Written by Phanx <addons@phanx.net>
-* Maintained by Akkorian <akkorian@hotmail.com>
 * Copyright © 2006–2011 Phanx. Some rights reserved. See LICENSE.txt for details.
 * http://www.wowinterface.com/downloads/info6323-PhanxChat.html
 * http://wow.curse.com/downloads/wow-addons/details/phanxchat.aspx
@@ -57,4 +56,4 @@ on the addon’s download page. General questions and comments may be
 posted in the addon’s comments on wowinterface.com.
 
 If you need to contact me privately, you can send me a PM on either
-download site, or email me at akkorian@hotmail.com or addons@phanx.net.
+download site, or email me at addons@phanx.net.

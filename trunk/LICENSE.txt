@@ -1,5 +1,5 @@
 PhanxChat
-by Phanx <addons@phanx.net> and Akkorian <akkorian@hotmail.com>
+by Phanx <addons@phanx.net>
 http://www.wowinterface.com/downloads/info6323-PhanxChat.html
 http://wow.curse.com/downloads/wow-addons/details/phanxchat.aspx
 
