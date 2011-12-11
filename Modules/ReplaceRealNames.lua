@@ -111,6 +111,8 @@ table.insert(PhanxChat.RunOnLoad, PhanxChat.SetReplaceRealNames)
 
 local BN_WHO_LIST_FORMAT = WHO_LIST_FORMAT:replace("player:%s", "%s")
 local BN_WHO_LIST_GUILD_FORMAT = WHO_LIST_GUILD_FORMAT:replace("player:%s", "%s")
+local BN_WHO_LIST_REALM_FORMAT = BN_WHO_LIST_FORMAT .. " (%s)"
+local BN_WHO_LIST_GUILD_REALM_FORMAT = BN_WHO_LIST_GUILD_FORMAT .. " (%s)"
 
 local prehook_OnHyperlinkShow = ChatFrame_OnHyperlinkShow
 
@@ -142,13 +144,19 @@ function ChatFrame_OnHyperlinkShow(frame, link, text, button)
 						local color = ChatTypeInfo.SYSTEM
 						local fullName = format(BATTLENET_NAME_FORMAT, firstName, lastName)
 						if toonID then
-							local hasFocus, toonName, client, realm, faction, race, class, guild, zone, level, gameText = BNGetToonInfo(toonID)
+							local hasFocus, toonName, client, realmName, realmID, faction, race, class, guild, zoneName, level, gameText, broadcastText, broadcastTime = BNGetToonInfo(toonID)
 							if client ~= BNET_CLIENT_WOW then
 								return DEFAULT_CHAT_FRAME:AddMessage((L["%s is currently playing %s."]):format(fullName, gameText), color.r, color.g, color.b)
+							elseif realm == GetRealmName() then
+								if guild and guild ~= "" then
+									return DEFAULT_CHAT_FRAME:AddMessage((BN_WHO_LIST_GUILD_FORMAT):format(link, toonName, level, race, class, guild, zone), color.r, color.g, color.b)
+								else
+									return DEFAULT_CHAT_FRAME:AddMessage((BN_WHO_LIST_FORMAT):format(link, toonName, level, race, class, zone), color.r, color.g, color.b)
+								end
 							elseif guild and guild ~= "" then
-								return DEFAULT_CHAT_FRAME:AddMessage((BN_WHO_LIST_GUILD_FORMAT):format(link, toonName, level, race, class, guild, zone), color.r, color.g, color.b)
+								return DEFAULT_CHAT_FRAME:AddMessage((BN_WHO_LIST_GUILD_REALM_FORMAT):format(link, toonName, level, race, class, guild, zone, realmName), color.r, color.g, color.b)
 							else
-								return DEFAULT_CHAT_FRAME:AddMessage((BN_WHO_LIST_FORMAT):format(link, toonName, level, race, class, zone), color.r, color.g, color.b)
+								return DEFAULT_CHAT_FRAME:AddMessage((BN_WHO_LIST_REALM_FORMAT):format(link, toonName, level, race, class, zone, realmName), color.r, color.g, color.b)
 							end
 						else
 							return DEFAULT_CHAT_FRAME:AddMessage((L["%s is currently offline."]):format(fullName), color.r, color.g, color.b)
