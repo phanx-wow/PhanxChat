@@ -4,7 +4,7 @@
 	Written by Phanx <addons@phanx.net>
 	Copyright © 2006–2011 Phanx. Some rights reserved. See LICENSE.txt for details.
 	http://www.wowinterface.com/downloads/info6323-PhanxChat.html
-	http://wow.curse.com/downloads/wow-addons/details/phanxchat.aspx
+	http://www.curse.com/addons/wow/phanxchat
 ----------------------------------------------------------------------]]
 
 local STRING_STYLE  = "%s|| "
