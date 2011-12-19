@@ -5,7 +5,7 @@
 	Maintained by Akkorian <akkorian@hotmail.com>
 	Copyright © 2006–2011 Phanx. Some rights reserved. See LICENSE.txt for details.
 	http://www.wowinterface.com/downloads/info6323-PhanxChat.html
-	http://wow.curse.com/downloads/wow-addons/details/phanxchat.aspx
+	http://www.curse.com/addons/wow/phanxchat
 ------------------------------------------------------------------------
 	Localization: zhTW / Traditional Chinese / 正體中文
 	Last Updated: YYYY-MM-DD by YourName < ContactInfo >
