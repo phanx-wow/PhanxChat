@@ -22,7 +22,7 @@ PhanxChat.L = {
 
 	["Conversation"]     = "Conversa",
 	["General"]          = "Geral",
-	["GuildRecruitment"] = "RecrutamentoDaGuilda", -- needs check
+--	["GuildRecruitment"] = "",
 	["LocalDefense"]     = "DefesaLocal",
 	["LookingForGroup"]  = "ProcurandoGrupo",
 	["Trade"]            = "Comércio",
