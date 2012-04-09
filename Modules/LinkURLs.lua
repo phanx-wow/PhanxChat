@@ -91,6 +91,7 @@ function PhanxChat:SetLinkURLs(v)
 			showAlert = 1,
 			timeout = 0,
 			whileDead = 1,
+			preferredIndex = 3, -- helps prevent taint; see http://forums.wowace.com/showthread.php?t=19960
 			OnShow = function(self)
 				(self.icon or _G[self:GetName().."AlertIcon"]):Hide()
 
