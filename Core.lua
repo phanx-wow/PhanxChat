@@ -365,7 +365,10 @@ end
 
 PhanxChat.frame = CreateFrame("Frame")
 PhanxChat.frame:RegisterEvent("ADDON_LOADED")
-PhanxChat.frame:SetScript("OnEvent", function(self, event, ...) return PhanxChat[event] and PhanxChat[event](PhanxChat, ...) end)
+PhanxChat.frame:SetScript("OnEvent", function(self, event, ...)
+	-- print("PhanxChat: " .. event)
+	return PhanxChat[event] and PhanxChat[event](PhanxChat, ...)
+end)
 
 function PhanxChat:RegisterEvent(event) return self.frame:RegisterEvent(event) end
 function PhanxChat:UnregisterEvent(event) return self.frame:UnregisterEvent(event) end

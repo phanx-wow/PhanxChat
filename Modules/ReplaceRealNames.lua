@@ -65,6 +65,7 @@ end
 
 PhanxChat.BN_FRIEND_ACCOUNT_ONLINE = UpdateShortNames
 PhanxChat.BN_FRIEND_TOON_ONLINE = UpdateShortNames
+PhanxChat.PLAYER_ALIVE = UpdateShortNames
 PhanxChat.PLAYER_ENTERING_WORLD = UpdateShortNames
 
 PhanxChat.bnToonNames = toonNames
@@ -83,12 +84,12 @@ end
 ------------------------------------------------------------------------
 
 function PhanxChat:SetReplaceRealNames(v)
-	if self.debug then print("PhanxChat: SetReplaceRealNames", v) end
+	-- print("PhanxChat: SetReplaceRealNames", v)
 	if type(v) == "boolean" then
 		self.db.ReplaceRealNames = v
 	end
 
-	if self.db.ReplaceRealNames then
+	if self.db.ReplaceRealNames or self.db.ShortenPlayerNames then
 		ChatFrame_AddMessageEventFilter("BN_INLINE_TOAST_ALERT", RemoveExtraName)
 		self:RegisterEvent("BN_FRIEND_ACCOUNT_ONLINE")
 		self:RegisterEvent("BN_FRIEND_TOON_ONLINE")
