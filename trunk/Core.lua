@@ -287,6 +287,11 @@ function PhanxChat:ProcessFrame(frame)
 		end
 	end
 
+	-- #TODO: Move this to a separate module?
+	if db.FontSize then
+		FCF_SetChatWindowFontSize(nil, frame, db.FontSize)
+	end
+
 	if not self.isLoading then
 		for _, func in ipairs(self.RunOnProcessFrame) do
 			func(self, frame)
