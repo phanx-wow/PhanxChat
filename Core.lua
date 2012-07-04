@@ -27,9 +27,11 @@ local CUSTOM_CHANNELS = {
 	-- ["mychannel"] = "MC",
 }
 
+------------------------------------------------------------------------
+
 local DEFAULT_STRINGS = {
 	-- If you play in a non-English locale, you'll need to edit the
-	-- relevant file in the Locales subfolder instead of this table.
+	-- relevant file in the Locales subfolder, instead of this table.
 
 	CONVERSATION_ABBR       =    "",
 	GENERAL_ABBR            =   "G",
@@ -85,11 +87,12 @@ CHAT_TAB_HIDE_DELAY = 0
 	-- Default is 1.
 
 ------------------------------------------------------------------------
---	Beyond here lies nothin'
+--	Beyond here lies nothin'.
 ------------------------------------------------------------------------
 
 local PHANXCHAT, PhanxChat = ...
 
+PhanxChat.name = PHANXCHAT
 PhanxChat.debug = false
 
 PhanxChat.RunOnLoad = { }
@@ -110,12 +113,11 @@ local db
 ------------------------------------------------------------------------
 
 if not string.replace then
-	local function replace(s, a, b)
+	function string.replace(s, a, b)
 		a = a:gsub("([%^%$%(%)%%%.%[%]%*%+%-%?])", "[%%%1]")
 		b = b:gsub("([%^%$%(%)%%%.%[%]%*%+%-%?])", "[%%%1]")
 		return s:gsub(a,b)
 	end
-	string.replace = replace
 end
 
 ------------------------------------------------------------------------
@@ -246,34 +248,50 @@ end
 
 local playerRealm = GetRealmName()
 
-hooksecurefunc("ChatEdit_ParseText", function(editBox)
-	if not editBox.autoCompleteParams then
-		local text = editBox:GetText()
-		local command = text:match("^(/[^%s]+) ")
-		if command == "/tt" or command == "/wt" then
-			if UnitExists("target") and UnitIsPlayer("target") and (UnitIsFriend("player", "target") or UnitIsCharmed("target")) then
-				local targetName, targetRealm = UnitName("target")
-				if targetRealm and targetRealm ~= "" and targetRealm ~= playerRealm then
-					targetName = string.format("%s-%s", targetName, targetRealm)
-				end
-				editBox:SetAttribute("chatType", "WHISPER")
-				editBox:SetAttribute("tellTarget", targetName)
-				editBox:SetText(text:match("^/[tw]t (.*)"))
-				ChatEdit_UpdateHeader(editBox)
-			end
-		end
+hooksecurefunc("ChatEdit_OnSpacePressed", function(editBox)
+	if editBox.autoCompleteParams then
+		return print("autoCompleteParams")
+	end
+	local command, message = editBox:GetText():match("^/[tw]t (.*)")
+	if command and UnitIsPlayer("target") and UnitCanCooperate("player", "target") then
+		editBox:SetAttribute("chatType", "WHISPER")
+		editBox:SetAttribute("tellTarget", GetUnitName("target", true):gsub("%s", ""))
+		editBox:SetText(message or "")
+		ChatEdit_UpdateHeader(editBox)
 	end
 end)
+
+SLASH_TELLTARGET1 = "/tt"
+SLASH_TELLTARGET2 = "/wt"
+
+SlashCmdList.TELLTARGET = function(message)
+	if UnitIsPlayer("target") and UnitCanCooperate("player", "target") then
+		SendChatMessage(message, "WHISPER", nil, GetUnitName("target", true):gsub("%s", ""))
+	elseif UnitExists("target") then
+		DEFAULT_CHAT_FRAME:AddMessage("|cffffff00"..PHANXCHAT..":|r "..L["You can't whisper that target!"])
+	else
+		DEFAULT_CHAT_FRAME:AddMessage("|cffffff00"..PHANXCHAT..":|r "..L["You don't have a target to whisper!"])
+	end
+end
 
 ------------------------------------------------------------------------
 
 function PhanxChat:ProcessFrame(frame)
 	if frames[frame] then return end
 
+	local history = {}
+	for i = 1, frame:GetNumMessages() do
+		local text, accessID, lineID, extraData = frame:GetMessageInfo(i)
+		history[i] = text
+	end
+	frame:SetMaxLines(512)
+	for i = 1, #history do
+		frame:AddMessage(history[i])
+	end
+
 	frame:SetClampRectInsets(0, 0, 0, 0)
-	frame:SetMaxLines(250)
 	frame:SetMaxResize(UIParent:GetWidth(), UIParent:GetHeight())
-	frame:SetMinResize(150, 25)
+	frame:SetMinResize(200, 40)
 
 	if self.debug then print("PhanxChat: ProcessFrame", frame:GetName()) end
 
