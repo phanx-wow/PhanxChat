@@ -1,8 +1,8 @@
 PhanxChat
 =========
 
-* Written by Phanx <addons@phanx.net>
-* Copyright © 2006–2012 Phanx. Some rights reserved. See LICENSE.txt for details.
+* Copyright (c) 2006-2012 Phanx <addons@phanx.net>. All rights reserved.
+* See the accompanying README and LICENSE files for more information.
 * http://www.wowinterface.com/downloads/info6323-PhanxChat.html
 * http://www.curse.com/addons/wow/phanxchat
 
@@ -38,12 +38,14 @@ Usage
 Localization
 ------------
 
-Compatible with English, Deutsch, Español, Français, Português, Русский,
-한국어, 简体中文, and 正體中文 game clients.
+Compatible with English, Deutsch, Español (EU), Español (AL), Français,
+Italiano, Português, Русский, 한국어, 简体中文, and 正體中文 game clients.
 
 Translated into English, Deutsch, Español, Français, Português, Русский,
-한국어, and 简体中文. If you can provide translations for another locale,
-please see the Localization tab on the CurseForge project page:
+한국어, and 简体中文.
+
+To add or update translations for any language, see the Localization tab
+on the CurseForge project page:
 
 http://wow.curseforge.com/addons/phanxchat/localization/
 
@@ -51,9 +53,15 @@ http://wow.curseforge.com/addons/phanxchat/localization/
 Feedback
 --------
 
-Bugs and feature requests should be directed to the ticket tracker
-on the addon’s download page. General questions and comments may be
-posted in the addon’s comments on wowinterface.com.
+Bugs, errors, or other problems:
+	Submit a bug report ticket on either download page.
 
-If you need to contact me privately, you can send me a PM on either
-download site, or email me at addons@phanx.net.
+Feature requests or other suggestions:
+	Submit a feature request ticket system on either download page.
+
+General questions or comments:
+	Post a comment on the WoWInterface download page.
+
+If you need to contact me privately for a reason other than those listed
+above, you can send me a private message on either download site, or
+email me at <addons@phanx.net>.
