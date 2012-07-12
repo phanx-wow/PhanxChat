@@ -1,8 +1,8 @@
 --[[--------------------------------------------------------------------
 	PhanxChat
 	Reduces chat frame clutter and enhances chat frame functionality.
-	Written by Phanx <addons@phanx.net>
-	Copyright © 2006–2012 Phanx. Some rights reserved. See LICENSE.txt for details.
+	Copyright (c) 2006-2012 Phanx <addons@phanx.net>. All rights reserved.
+	See the accompanying README and LICENSE files for more information.
 	http://www.wowinterface.com/downloads/info6323-PhanxChat.html
 	http://www.curse.com/addons/wow/phanxchat
 ----------------------------------------------------------------------]]
@@ -203,9 +203,5 @@ function PhanxChat:SetEnableResizeEdges(v)
 	end
 end
 
-------------------------------------------------------------------------
-
 table.insert(PhanxChat.RunOnLoad, PhanxChat.SetEnableResizeEdges)
 table.insert(PhanxChat.RunOnProcessFrame, PhanxChat.EnableResizeEdges)
-
-------------------------------------------------------------------------

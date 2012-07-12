@@ -1,5 +1,5 @@
-## Interface: 40300
-## Version: 4.3.3.wowi:revision
+## Interface: 50001
+## Version: 5.0.1.wowi:revision-beta
 
 ## Title: PhanxChat
 ## Notes: Removes chat frame clutter and adds some functionality.
@@ -7,11 +7,12 @@
 ## Notes-esMX: Eliminar desorden de la ventana de chat y añadir algunas funciones.
 ## Notes-ptBR: Remover a desordem da janela de bate-papo e adicionar algumas funcionalidades.
 ## Notes-ruRU: Удаляет беспорядок в окне чата и добавляет новые возможности.
+
 ## Author: Phanx
 ## X-Email: addons@phanx.net
-## X-Copyright: Copyright © 2006–2012 Phanx.
-## X-License: Some rights reserved. See LICENSE.txt for details.
-## X-CompatibleLocales: enUS, deDE, esES, esMX, frFR, ptBR, ruRU, koKR, zhCN, zhTW
+## X-Copyright: Copyright (c) 2006-2012 Phanx. All rights reserved.
+## X-License: See the accompanying LICENSE file for details.
+## X-CompatibleLocales: enUS, deDE, esES, esMX, frFR, itIT, ptBR, ruRU, koKR, zhCN, zhTW
 ## X-Localizations: enUS, deDE, esES, esMX, frFR, ptBR, ruRU, koKR, zhCN
 ## X-Website: http://www.wowinterface.com/downloads/info6323-PhanxChat.html
 ## X-Curse-Project-ID: phanxchat
