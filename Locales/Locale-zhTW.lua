@@ -6,7 +6,7 @@
 	http://www.wowinterface.com/downloads/info6323-PhanxChat.html
 	http://www.curse.com/addons/wow/phanxchat
 ------------------------------------------------------------------------
-	Localization: zhTW / Traditional Chinese / 正體中文
+	Localization: zhTW / Traditional Chinese / 繁體中文
 	Last Updated: YYYY-MM-DD by YourName < ContactInfo >
 ----------------------------------------------------------------------]]
 
