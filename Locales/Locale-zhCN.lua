@@ -19,7 +19,7 @@ PhanxChat.L = {
 --	These must exactly match the channel names used in your locale.
 ------------------------------------------------------------------------
 
-	Conversation = CHAT_BN_CONVERSATION_SEND and CHAT_BN_CONVERSATION_SEND:match("%.%s?(%.-)%]") or "", -- needs check
+	Conversation = 4CHAT_BN_CONVERSATION_SEND:match("%.%s?(%.-)%]"), -- needs check
 	General = "综合",
 	GuildRecruitment = "公会招募",
 	LocalDefense = "本地防务",
