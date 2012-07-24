@@ -25,7 +25,7 @@ PhanxChat.L = {
 	["LocalDefense"]     = "LokaleVerteidigung",
 	["LookingForGroup"]  = "SucheNachGruppe",
 	["Trade"]            = "Handel",
-	["WorldDefense"]     = "GlobaleVerteidigung",
+	["WorldDefense"]     = "Weltverteidigung",
 
 ------------------------------------------------------------------------
 --	Abbreviated Channel Names

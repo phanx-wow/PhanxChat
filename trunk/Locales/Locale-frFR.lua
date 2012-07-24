@@ -21,11 +21,11 @@ PhanxChat.L = {
 
 	["Conversation"]     = "Conversation",
 	["General"]          = "Général",
-	["GuildRecruitment"] = "Recrutement de guilde",
-	["LocalDefense"]     = "Défense Locale",
-	["LookingForGroup"]  = "Recherche de groupe",
+	["GuildRecruitment"] = "RecrutementDeGuilde",
+	["LocalDefense"]     = "DéfenseLocale",
+	["LookingForGroup"]  = "RechercheDeGroupe",
 	["Trade"]            = "Commerce",
-	["WorldDefense"]     = "Défense",
+	["WorldDefense"]     = "DéfenseUniverselle",
 
 ------------------------------------------------------------------------
 --	Abbreviated Channel Names
