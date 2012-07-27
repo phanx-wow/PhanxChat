@@ -18,25 +18,25 @@ function PhanxChat:MoveEditBox(frame)
 		editBox:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", -5, 2)
 		editBox:SetPoint("BOTTOMRIGHT", frame, "TOPRIGHT", 5, 2)
 
-		InterfaceOptionsSocialPanelChatStyle_SetChatStyle("classic")
-		InterfaceOptionsSocialPanelChatStyleButton:Disable()
-		-- InterfaceOptionsSocialPanelChatStyleText:SetAlpha(0)
-		InterfaceOptionsSocialPanelChatStyle.tooltip = PhanxChat.L["This option cannot be changed while the edit box is at the top of the chat frame."]
-
-		SetCVar("wholeChatWindowClickable", "0")
-		InterfaceOptionsSocialPanelWholeChatWindowClickable:SetChecked(false)
-		InterfaceOptionsPanel_CheckButton_Update(InterfaceOptionsSocialPanelWholeChatWindowClickable)
-		InterfaceOptionsSocialPanelWholeChatWindowClickable:Disable()
-		InterfaceOptionsSocialPanelWholeChatWindowClickable:Hide()
+		if not InterfaceOptionsSocialPanelChatStyle.orig_tooltip then
+			SetCVar("chatStyle", "classic")
+			InterfaceOptionsSocialPanelChatStyle_SetChatStyle("classic")
+			InterfaceOptionsSocialPanelChatStyleButton:Disable()
+			InterfaceOptionsSocialPanelChatStyleText:SetAlpha(0.5)
+			InterfaceOptionsSocialPanelChatStyle.orig_tooltip = InterfaceOptionsSocialPanelChatStyle
+			InterfaceOptionsSocialPanelChatStyle.tooltip = string.format(PhanxChat.L["This option is locked by PhanxChat. If you wish to change it, you must first disable the \"%s\" option in PhanxChat."], PhanxChat.L["Move edit box"])
+		end
 	else
 		editBox:ClearAllPoints()
 		editBox:SetPoint("TOPLEFT", frame, "BOTTOMLEFT", -5, -2)
 		editBox:SetPoint("TOPRIGHT", frame, "BOTTOMRIGHT", 5, -2)
 
-		InterfaceOptionsSocialPanelChatStyleButton:Enable()
-		InterfaceOptionsSocialPanelWholeChatWindowClickable:Enable()
-
-		InterfaceOptionsSocialPanelChatStyle_SetChatStyle(GetCVar("chatStyle"))
+		if InterfaceOptionsSocialPanelChatStyle.orig_tooltip then
+			InterfaceOptionsSocialPanelChatStyleButton:Enable()
+			InterfaceOptionsSocialPanelChatStyleText:SetAlpha(1)
+			InterfaceOptionsSocialPanelChatStyle.tooltip = InterfaceOptionsSocialPanelChatStyle.orig_tooltip
+			InterfaceOptionsSocialPanelChatStyle.orig_tooltip = nil
+		end
 	end
 end
 

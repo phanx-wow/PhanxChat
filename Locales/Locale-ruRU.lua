@@ -96,7 +96,8 @@ PhanxChat.L = {
 	["Font size"] = "Размер шрифта",
 	["Set the font size for all chat frames."] = "Установить размер шрифта для всех окон чата.",
 	["Note that this is just a shortcut to configuring each chat frame individually through the Blizzard chat options."] = "Заметьте, что это просто настраивает каждую вкладку индивидуально, как вы могли бы сделать обычным способом, через управление чатом в меню.",
-
-------------------------------------------------------------------------
-
+	--["Show class colors"] = "",
+	--["Show class colors in all channels."] = "",
+	--["Note that this is just a shortcut to configuring each chat channel individually through the Blizzard chat options."] = "",
+	--["This option is locked by PhanxChat. If you wish to change it, you must first disable the \"%s\" option in PhanxChat."] = "",
 }

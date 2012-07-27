@@ -250,7 +250,7 @@ local playerRealm = GetRealmName()
 
 hooksecurefunc("ChatEdit_OnSpacePressed", function(editBox)
 	if editBox.autoCompleteParams then
-		return print("autoCompleteParams")
+		return -- print("autoCompleteParams")
 	end
 	local command, message = editBox:GetText():match("^/[tw]t (.*)")
 	if command and UnitIsPlayer("target") and UnitCanCooperate("player", "target") then
@@ -358,6 +358,30 @@ function PhanxChat:ADDON_LOADED(addon)
 	for k, v in pairs(self.defaults) do
 		if type(db[k]) ~= type(v) then
 			db[k] = v
+		end
+	end
+
+	if db.ShowClassColors then
+		for i = 1, #CHAT_CONFIG_CHAT_LEFT do
+			ToggleChatColorNamesByClassGroup(true, CHAT_CONFIG_CHAT_LEFT[i].type)
+			local check = _G["ChatConfigChatSettingsLeftCheckBox"..i.."ColorClasses"]
+			if check then
+				check:Disable()
+			end
+		end
+		for i = 1, 50 do
+			ToggleChatColorNamesByClassGroup(true, "CHANNEL"..i)
+		end
+	else
+		for i = 1, #CHAT_CONFIG_CHAT_LEFT do
+			ToggleChatColorNamesByClassGroup(false, CHAT_CONFIG_CHAT_LEFT[i].type)
+			local check = _G["ChatConfigChatSettingsLeftCheckBox"..i.."ColorClasses"]
+			if check then
+				check:Enable()
+			end
+		end
+		for i = 1, 50 do
+			ToggleChatColorNamesByClassGroup(false, "CHANNEL"..i)
 		end
 	end
 

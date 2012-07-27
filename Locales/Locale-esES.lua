@@ -95,8 +95,9 @@ PhanxChat.L = {
 	["Set the time, in minutes, to wait before fading chat text. A setting of 0 will disable fading."] = "Desaparecer el texto en la ventana de chat después de estos minutos. Establecer en 0 para mantener el texto siempre.",
 	["Font size"] = "Tamaño de fuente",
 	["Set the font size for all chat frames."] = "Establecer el tamaño de fuente para todas las ventanas de chat.",
-	["Note that this is just a shortcut to configuring each chat frame individually through the Blizzard chat options."] = "Observe que esto es simplemente un acceso rápido para la configuración de cada ventana de chat por separado en las opciones principal de chat.",
-
-------------------------------------------------------------------------
-
+	["Note that this is just a shortcut to configuring each chat frame individually through the Blizzard chat options."] = "Observe que esto es simplemente un acceso rápido para configurar todos las ventanas de chat por separado en las opciones de chat del juego.",
+	["Show class colors"] = "Colores de clase",
+	["Show class colors in all channels."] = "Mostrar colores de clase en todas las canales.",
+	["Note that this is just a shortcut to configuring each chat channel individually through the Blizzard chat options."] = "Observe que esto es solamente un acceso rrápido para configurar todos las canales por separado en las opciones de chat del juego.",
+	["This option is locked by PhanxChat. If you wish to change it, you must first disable the \"%s\" option in PhanxChat."] = "Esta opción está bloqueado por PhanxChat. Para cambiarlo, primero desactivar la opción \"%s\" de PhanxChat.",
 }
