@@ -216,7 +216,7 @@ local panel = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( PHANXCHA
 		db.ShowClassColors = checked
 		if checked then
 			for i = 1, 18 do
-				local check = _G["ChatConfigChatSettingsLeftCheckBox"..i.."Check"]
+				local check = _G["ChatConfigChatSettingsLeftCheckBox"..i.."ColorClasses"]
 				if check then
 					check:SetChecked(true)
 					check:Disable()
@@ -228,7 +228,7 @@ local panel = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( PHANXCHA
 			end
 		else
 			for i = 1, 18 do
-				local check = _G["ChatConfigChatSettingsLeftCheckBox"..i.."Check"]
+				local check = _G["ChatConfigChatSettingsLeftCheckBox"..i.."ColorClasses"]
 				if check then
 					check:SetChecked(false)
 					check:Enable()
@@ -281,5 +281,3 @@ SlashCmdList.PHANXCHAT = function(v)
 		InterfaceOptionsFrame_OpenToCategory(panel)
 	end
 end
-
-------------------------------------------------------------------------

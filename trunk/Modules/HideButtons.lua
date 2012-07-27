@@ -65,6 +65,17 @@ function PhanxChat:HideButtons(frame)
 			self.hooks[bottomButton].OnClick = bottomButton:GetScript("OnClick")
 			bottomButton:SetScript("OnClick", BottomButton_OnClick)
 		end
+
+		if not InterfaceOptionsSocialPanelChatStyle.orig_value then
+			InterfaceOptionsSocialPanelChatStyle.orig_value = GetCVar("chatMouseScroll")
+			InterfaceOptionsSocialPanelChatStyle.orig_tooltip = InterfaceOptionsSocialPanelChatStyle.tooltip
+
+			SetCVar("chatMouseScroll", "1")
+			InterfaceOptionsSocialPanelChatMouseScroll_SetScrolling("1")
+			InterfaceOptionsSocialPanelChatMouseScroll:Disable()
+			InterfaceOptionsSocialPanelChatMouseScrollText:SetAlpha(0.5)
+			InterfaceOptionsSocialPanelChatStyle.tooltip = string.format(PhanxChat.L["This option is locked by PhanxChat. If you wish to change it, you must first disable the \"%s\" option in PhanxChat."], PhanxChat.L["Hide buttons"])
+		end
 	else
 		buttonFrame.Show = nil
 		buttonFrame:Show()
@@ -84,6 +95,17 @@ function PhanxChat:HideButtons(frame)
 		if self.hooks[bottomButton] and self.hooks[bottomButton].OnClick then
 			bottomButton:SetScript("OnClick", self.hooks[bottomButton].OnClick)
 			self.hooks[bottomButton].OnClick = nil
+		end
+
+		if InterfaceOptionsSocialPanelChatStyle.value_orig then
+			SetCVar("chatMouseScroll", InterfaceOptionsSocialPanelChatStyle.value_orig)
+			InterfaceOptionsSocialPanelChatMouseScroll_SetScrolling(InterfaceOptionsSocialPanelChatStyle.value_orig)
+			InterfaceOptionsSocialPanelChatMouseScroll:Enable()
+			InterfaceOptionsSocialPanelChatMouseScrollText:SetAlpha(1)
+			InterfaceOptionsSocialPanelChatStyle.tooltip = InterfaceOptionsSocialPanelChatStyle.tooltip_orig
+
+			InterfaceOptionsSocialPanelChatStyle.value_orig = nil
+			InterfaceOptionsSocialPanelChatStyle.tooltip_orig = nil
 		end
 
 		FCF_UpdateButtonSide(frame)

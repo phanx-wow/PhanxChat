@@ -96,7 +96,8 @@ PhanxChat.L = {
 	["Font size"] = "글꼴 크기",
 	["Set the font size for all chat frames."] = "대화창 모두에 적용할 글꼴 크기를 설정합니다.",
 	["Note that this is just a shortcut to configuring each chat frame individually through the Blizzard chat options."] = "이것은 블리자드 대화창 옵션을 통해 각각의 대화창을 개별적으로 설정하기 위한 하나의 지름길이란 점에 유의하십시요.",
-
-------------------------------------------------------------------------
-
+	--["Show class colors"] = "",
+	--["Show class colors in all channels."] = "",
+	--["Note that this is just a shortcut to configuring each chat channel individually through the Blizzard chat options."] = "",
+	--["This option is locked by PhanxChat. If you wish to change it, you must first disable the \"%s\" option in PhanxChat."] = "",
 }
