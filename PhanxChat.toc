@@ -56,3 +56,4 @@ Modules\LockTabs.lua
 Modules\MoveEditBox.lua
 Modules\ReplaceRealNames.lua
 Modules\ShortenChannelNames.lua
+Modules\ShowClassColors.lua

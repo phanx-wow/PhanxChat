@@ -55,6 +55,7 @@ local panel = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( PHANXCHA
 	EnableArrows.desc = L["Enable arrow keys in the chat edit box."]
 	EnableArrows:SetPoint("TOPLEFT", ReplaceRealNames, "BOTTOMLEFT", 0, -8)
 	EnableArrows.OnClick = function(self, checked)
+		if PhanxChat.debug then print("PhanxChat: ReplaceRealNames", checked) end
 		PhanxChat:SetEnableArrows(checked)
 	end
 
@@ -64,6 +65,7 @@ local panel = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( PHANXCHA
 	EnableResizeEdges.desc = L["Enable resize controls at all edges of chat frames, instead of only the bottom right corner."]
 	EnableResizeEdges:SetPoint("TOPLEFT", EnableArrows, "BOTTOMLEFT", 0, -8)
 	EnableResizeEdges.OnClick = function(self, checked)
+		if PhanxChat.debug then print("PhanxChat: SetEnableResizeEdges", checked) end
 		PhanxChat:SetEnableResizeEdges(checked)
 	end
 
@@ -73,6 +75,7 @@ local panel = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( PHANXCHA
 	LinkURLs.desc = L["Transform URLs in chat into clickable links for easy copying."]
 	LinkURLs:SetPoint("TOPLEFT", EnableResizeEdges, "BOTTOMLEFT", 0, -8)
 	LinkURLs.OnClick = function(self, checked)
+		if PhanxChat.debug then print("PhanxChat: SetLinkURLs", checked) end
 		PhanxChat:SetLinkURLs(checked)
 	end
 
@@ -82,6 +85,7 @@ local panel = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( PHANXCHA
 	LockTabs.desc = L["Prevent docked chat tabs from being dragged unless the Shift key is down."]
 	LockTabs:SetPoint("TOPLEFT", LinkURLs, "BOTTOMLEFT", 0, -8)
 	LockTabs.OnClick = function(self, checked)
+		if PhanxChat.debug then print("PhanxChat: SetLockTabs", checked) end
 		PhanxChat:SetLockTabs(checked)
 	end
 
@@ -91,6 +95,7 @@ local panel = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( PHANXCHA
 	MoveEditBox.desc = L["Move chat edit boxes to the top their respective chat frame."]
 	MoveEditBox:SetPoint("TOPLEFT", LockTabs, "BOTTOMLEFT", 0, -8)
 	MoveEditBox.OnClick = function(self, checked)
+		if PhanxChat.debug then print("PhanxChat: SetMoveEditBox", checked) end
 		PhanxChat:SetMoveEditBox(checked)
 	end
 
@@ -100,6 +105,7 @@ local panel = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( PHANXCHA
 	HideNotices.desc = L["Hide channel notification messages."]
 	HideNotices:SetPoint("TOPLEFT", MoveEditBox, "BOTTOMLEFT", 0, -8)
 	HideNotices.OnClick = function(self, checked)
+		if PhanxChat.debug then print("PhanxChat: SetHideNotices", checked) end
 		PhanxChat:SetHideNotices(checked)
 	end
 
@@ -109,6 +115,7 @@ local panel = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( PHANXCHA
 	HideRepeats.desc = L["Hide repeated messages in public channels."]
 	HideRepeats:SetPoint("TOPLEFT", HideNotices, "BOTTOMLEFT", 0, -8)
 	HideRepeats.OnClick = function(self, checked)
+		if PhanxChat.debug then print("PhanxChat: SetHideRepeats", checked) end
 		PhanxChat:SetHideRepeats(checked)
 	end
 
@@ -119,6 +126,7 @@ local panel = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( PHANXCHA
 	HideButtons.desc = L["Hide the chat frame menu and scroll buttons."]
 	HideButtons:SetPoint("TOPLEFT", notes, "BOTTOM", 2, -12)
 	HideButtons.OnClick = function(self, checked)
+		if PhanxChat.debug then print("PhanxChat: SetHideButtons", checked) end
 		PhanxChat:SetHideButtons(checked)
 	end
 
@@ -128,6 +136,7 @@ local panel = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( PHANXCHA
 	HideTextures.desc = L["Hide the extra textures on chat tabs and chat edit boxes added in patch 3.3.5."]
 	HideTextures:SetPoint("TOPLEFT", HideButtons, "BOTTOMLEFT", 0, -8)
 	HideTextures.OnClick = function(self, checked)
+		if PhanxChat.debug then print("PhanxChat: SetHideTextures", checked) end
 		PhanxChat:SetHideTextures(checked)
 	end
 
@@ -137,6 +146,7 @@ local panel = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( PHANXCHA
 	HideFlash.desc = L["Disable the flashing effect on chat tabs that receive new messages."]
 	HideFlash:SetPoint("TOPLEFT", HideTextures, "BOTTOMLEFT", 0, -8)
 	HideFlash.OnClick = function(self, checked)
+		if PhanxChat.debug then print("PhanxChat: SetHideFlash", checked) end
 		PhanxChat:SetHideFlash(checked)
 	end
 
@@ -150,6 +160,7 @@ local panel = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( PHANXCHA
 	local EnableSticky
 	do
 		local function OnClick(self)
+		if PhanxChat.debug then print("PhanxChat: SetEnableSticky", self.value) end
 			PhanxChat:SetEnableSticky(self.value)
 			EnableSticky:SetValue(self.value, self.text)
 		end
@@ -190,6 +201,7 @@ local panel = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( PHANXCHA
 	FadeTime:SetPoint("TOPRIGHT", EnableSticky, "BOTTOMRIGHT", 0, -12)
 	FadeTime.OnValueChanged = function(self, value)
 		value = math.floor(value + 0.5)
+		if PhanxChat.debug then print("PhanxChat: SetFadeTime", value) end
 		PhanxChat:SetFadeTime(value)
 		return value
 	end
@@ -201,6 +213,7 @@ local panel = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( PHANXCHA
 	FontSize:SetPoint("TOPLEFT", FadeTime, "BOTTOMLEFT", 0, -10)
 	FontSize:SetPoint("TOPRIGHT", FadeTime, "BOTTOMRIGHT", 0, -10)
 	FontSize.OnValueChanged = function(self, value)
+		if PhanxChat.debug then print("PhanxChat: FCF_SetChatWindowFontSize", value) end
 		db.FontSize = value
 		for frame in pairs(PhanxChat.frames) do
 			FCF_SetChatWindowFontSize(nil, frame, value)
@@ -213,52 +226,30 @@ local panel = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( PHANXCHA
 	ShowClassColors.desc = L["Show class colors in all channels."] .. "\n\n" .. L["Note that this is just a shortcut to configuring each chat channel individually through the Blizzard chat options."]
 	ShowClassColors:SetPoint("TOPLEFT", FontSize, "BOTTOMLEFT", 0, -8)
 	ShowClassColors.OnClick = function(self, checked)
-		db.ShowClassColors = checked
-		if checked then
-			for i = 1, 18 do
-				local check = _G["ChatConfigChatSettingsLeftCheckBox"..i.."ColorClasses"]
-				if check then
-					check:SetChecked(true)
-					check:Disable()
-					ToggleChatColorNamesByClassGroup(true, check:GetParent().type)
-				end
-			end
-			for i = 1, 50 do
-				ToggleChatColorNamesByClassGroup(true, "CHANNEL"..i)
-			end
-		else
-			for i = 1, 18 do
-				local check = _G["ChatConfigChatSettingsLeftCheckBox"..i.."ColorClasses"]
-				if check then
-					check:SetChecked(false)
-					check:Enable()
-					ToggleChatColorNamesByClassGroup(false, check:GetParent().type)
-				end
-			end
-			for i = 1, 50 do
-				ToggleChatColorNamesByClassGroup(false, "CHANNEL"..i)
-			end
-		end
+		if PhanxChat.debug then print("PhanxChat: SetShowClassColors", checked) end
+		PhanxChat:SetShowClassColors(checked)
 	end
 
 	--------------------------------------------------------------------
 
 	self.refresh = function(self)
-		HideFlash:SetChecked(db.HideFlash)
+		ShortenChannelNames:SetChecked(db.ShortenChannelNames)
+		ShortenPlayerNames:SetChecked(db.ShortenPlayerNames)
+		ReplaceRealNames:SetChecked(db.ReplaceRealNames)
 		EnableArrows:SetChecked(db.EnableArrows)
 		EnableResizeEdges:SetChecked(db.EnableResizeEdges)
-		HideButtons:SetChecked(db.HideButtons)
-		HideTextures:SetChecked(db.HideTextures)
 		LinkURLs:SetChecked(db.LinkURLs)
 		LockTabs:SetChecked(db.LockTabs)
 		MoveEditBox:SetChecked(db.MoveEditBox)
-		ShortenChannelNames:SetChecked(db.ShortenChannelNames)
-		ShortenPlayerNames:SetChecked(db.ShortenPlayerNames)
+		HideNotices:SetChecked(db.HideNotices)
+		HideRepeats:SetChecked(db.HideRepeats)
+
+		HideButtons:SetChecked(db.HideButtons)
+		HideTextures:SetChecked(db.HideTextures)
+		HideFlash:SetChecked(db.HideFlash)
 		EnableSticky:SetValue(db.EnableSticky, stickyValues[db.EnableSticky])
 		FadeTime:SetValue(db.FadeTime)
 		FontSize:SetValue(db.FontSize or math.floor(select(2, ChatFrame1:GetFont()) + 0.5))
-		HideNotices:SetChecked(db.HideNotices)
-		HideRepeats:SetChecked(db.HideRepeats)
 		ShowClassColors:SetChecked(db.ShowClassColors)
 	end
 
