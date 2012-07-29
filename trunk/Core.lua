@@ -361,30 +361,6 @@ function PhanxChat:ADDON_LOADED(addon)
 		end
 	end
 
-	if db.ShowClassColors then
-		for i = 1, #CHAT_CONFIG_CHAT_LEFT do
-			ToggleChatColorNamesByClassGroup(true, CHAT_CONFIG_CHAT_LEFT[i].type)
-			local check = _G["ChatConfigChatSettingsLeftCheckBox"..i.."ColorClasses"]
-			if check then
-				check:Disable()
-			end
-		end
-		for i = 1, 50 do
-			ToggleChatColorNamesByClassGroup(true, "CHANNEL"..i)
-		end
-	else
-		for i = 1, #CHAT_CONFIG_CHAT_LEFT do
-			ToggleChatColorNamesByClassGroup(false, CHAT_CONFIG_CHAT_LEFT[i].type)
-			local check = _G["ChatConfigChatSettingsLeftCheckBox"..i.."ColorClasses"]
-			if check then
-				check:Enable()
-			end
-		end
-		for i = 1, 50 do
-			ToggleChatColorNamesByClassGroup(false, "CHANNEL"..i)
-		end
-	end
-
 	self.isLoading = true
 
 	for i = 1, NUM_CHAT_WINDOWS do
@@ -423,4 +399,5 @@ function PhanxChat:UnregisterEvent(event) return self.frame:UnregisterEvent(even
 ------------------------------------------------------------------------
 
 _G.PhanxChat = PhanxChat
-_G.SLASH_RELOAD3 = "/rl"
+_G.SLASH_RELOADUI1 = "/rl"
+_G.SlashCmdList.RELOADUI = ReloadUI
