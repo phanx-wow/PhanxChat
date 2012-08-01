@@ -19,9 +19,8 @@ PhanxChat.L = {
 --	These must exactly match the channel names used in your locale.
 ------------------------------------------------------------------------
 
-	Conversation = CHAT_BN_CONVERSATION_SEND:match("%.%s?(%.-)%]"), -- needs check
+	Conversation = "对话",
 	General = "综合",
-	GuildRecruitment = "公会招募",
 	LocalDefense = "本地防务",
 	LookingForGroup = "寻求组队",
 	Trade = "交易",
@@ -32,9 +31,8 @@ PhanxChat.L = {
 --	These should be one- or two-character abbreviations.
 ------------------------------------------------------------------------
 
---	CONVERSATION_ABBR = "", -- needs translation
+	CONVERSATION_ABBR = "话",
 	GENERAL_ABBR = "综",
-	GUILDRECRUITMENT_ABBR = "招",
 	LOCALDEFENSE_ABBR = "本",
 	LOOKINGFORGROUP_ABBR = "寻",
 	TRADE_ABBR = "交",
@@ -51,8 +49,8 @@ PhanxChat.L = {
 	RAID_LEADER_ABBR = "领",
 	RAID_WARNING_ABBR = "警",
 	SAY_ABBR = "说",
-	WHISPER_ABBR = "密自",
-	WHISPER_INFORM_ABBR = "密往",
+	WHISPER_ABBR = "密自", -- incoming
+	WHISPER_INFORM_ABBR = "密往", -- outgoing
 	YELL_ABBR = "喊",
 
 ------------------------------------------------------------------------

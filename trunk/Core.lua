@@ -9,7 +9,7 @@
 
 local STRING_STYLE  = "%s|| "
 	-- %s = chat string (eg. "Guild", "2. Trade") (required)
-	-- Pipe characters must be escaped by doubling them.
+	-- Pipe characters must be escaped by doubling them: | -> ||
 
 local CHANNEL_STYLE = "%d"
 	-- %d = channel number (optional)
@@ -35,26 +35,25 @@ local DEFAULT_STRINGS = {
 
 	CONVERSATION_ABBR       =    "",
 	GENERAL_ABBR            =   "G",
-	GUILDRECRUITMENT_ABBR   =  "GR",
 	LOCALDEFENSE_ABBR       =  "LD",
 	LOOKINGFORGROUP_ABBR    = "LFG",
 	TRADE_ABBR              =   "T",
 	WORLDDEFENSE_ABBR       =  "WD",
 
-	BATTLEGROUND_ABBR        = "bg",
-	BATTLEGROUND_LEADER_ABBR = "BG",
-	GUILD_ABBR               =  "g",
-	OFFICER_ABBR             =  "o",
-	PARTY_ABBR               =  "p",
-	PARTY_GUIDE_ABBR         =  "P",
-	PARTY_LEADER_ABBR        =  "P",
-	RAID_ABBR                =  "r",
-	RAID_LEADER_ABBR         =  "R",
-	RAID_WARNING_ABBR        = "RW",
-	SAY_ABBR                 =  "s",
-	YELL_ABBR                =  "y",
-	WHISPER_ABBR             =  "F",
-	WHISPER_INFORM_ABBR      =  "T",
+	BATTLEGROUND_ABBR        = "b",
+	BATTLEGROUND_LEADER_ABBR = "B",
+	GUILD_ABBR               = "g",
+	OFFICER_ABBR             = "o",
+	PARTY_ABBR               = "p",
+	PARTY_GUIDE_ABBR         = "P",
+	PARTY_LEADER_ABBR        = "P",
+	RAID_ABBR                = "r",
+	RAID_LEADER_ABBR         = "R",
+	RAID_WARNING_ABBR        = "W",
+	SAY_ABBR                 = "s",
+	YELL_ABBR                = "y",
+	WHISPER_ABBR             = "w",
+	WHISPER_INFORM_ABBR      = "@",
 }
 
 ------------------------------------------------------------------------
@@ -142,7 +141,6 @@ local PLAYER_BN_LINK = "|HBNplayer:%s|h" .. PLAYER_STYLE .. "%s|h"
 local ChannelNames = {
 	[L["Conversation"]]	    = L.CONVERSATION_ABBR,
 	[L["General"]]          = L.GENERAL_ABBR,
-	[L["GuildRecruitment"]] = L.GUILDRECRUITMENT_ABBR,
 	[L["LocalDefense"]]     = L.LOCALDEFENSE_ABBR,
 	[L["LookingForGroup"]]  = L.LOOKINGFORGROUP_ABBR,
 	[L["Trade"]]            = L.TRADE_ABBR,

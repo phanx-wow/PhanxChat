@@ -21,7 +21,6 @@ PhanxChat.L = {
 
 	["Conversation"]     = "Conversation",
 	["General"]          = "Général",
-	["GuildRecruitment"] = "RecrutementDeGuilde",
 	["LocalDefense"]     = "DéfenseLocale",
 	["LookingForGroup"]  = "RechercheDeGroupe",
 	["Trade"]            = "Commerce",
