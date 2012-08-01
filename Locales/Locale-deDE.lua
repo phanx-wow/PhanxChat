@@ -19,19 +19,18 @@ PhanxChat.L = {
 --	These must exactly match the channel names used in your locale.
 ------------------------------------------------------------------------
 
-	["Conversation"]     = CHAT_BN_CONVERSATION_SEND:match("%. (%w+)%]"),
+	["Conversation"]     = "Chat",
 	["General"]          = "Allgemein",
-	["GuildRecruitment"] = "Gildenrekrutierung",
 	["LocalDefense"]     = "LokaleVerteidigung",
 	["LookingForGroup"]  = "SucheNachGruppe",
 	["Trade"]            = "Handel",
-	["WorldDefense"]     = "Weltverteidigung",
+	["WorldDefense"]     = "WeltVerteidigung",
 
 ------------------------------------------------------------------------
 --	Abbreviated Channel Names
 ------------------------------------------------------------------------
 
-	CONVERSATION_ABBR       = "C", -- needs check
+	CONVERSATION_ABBR       = "C",
 	GENERAL_ABBR            = "A",
 	GUILDRECRUITMENT_ABBR   = "GR",
 	LOCALDEFENSE_ABBR       = "LV",

@@ -21,9 +21,8 @@ PhanxChat.L = {
 
 	["Conversation"]     = "Conversación",
 	["General"]          = "General",
---	["GuildRecruitment"] = "",
 	["LocalDefense"]     = "DefensaLocal",
-	["LookingForGroup"]  = "BuscaGrupo",
+	["LookingForGroup"]  = "BuscarGrupo",
 	["Trade"]            = "Comercio",
 	["WorldDefense"]     = "DefensaGeneral",
 
@@ -32,7 +31,7 @@ PhanxChat.L = {
 --	These should be one- or two-character abbreviations.
 ------------------------------------------------------------------------
 
-	CONVERSATION_ABBR       = "",
+	CONVERSATION_ABBR       = "BN",
 	GENERAL_ABBR            = "G",
 	GUILDRECRUITMENT_ABBR   = "R",
 	LOCALDEFENSE_ABBR       = "D",

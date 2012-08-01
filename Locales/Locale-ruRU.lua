@@ -21,11 +21,10 @@ PhanxChat.L = {
 
 	["Conversation"]     = "Разговор",
 	["General"]          = "Общий",
-	["GuildRecruitment"] = "Гильдии",
-	["LocalDefense"]     = "Оборона",
-	["LookingForGroup"]  = "Поиск спутников",
+	["LocalDefense"]     = "ОборонаЛокальный",
+	["LookingForGroup"]  = "ПоискСпутников",
 	["Trade"]            = "Торговля",
-	["WorldDefense"]     = "Оборона: глобальный",
+	["WorldDefense"]     = "ОборонаГлобальный",
 
 ------------------------------------------------------------------------
 --	Abbreviated Channel Names
@@ -34,11 +33,10 @@ PhanxChat.L = {
 
 	CONVERSATION_ABBR       = "Ра",
 	GENERAL_ABBR            = "О",
-	GUILDRECRUITMENT_ABBR   = "НвГ",
-	LOCALDEFENSE_ABBR       = "ЛО",
-	LOOKINGFORGROUP_ABBR    = "ЛФГ",
+	LOCALDEFENSE_ABBR       = "ОЛ",
+	LOOKINGFORGROUP_ABBR    = "ПС",
 	TRADE_ABBR              = "Т",
-	WORLDDEFENSE_ABBR       = "МО",
+	WORLDDEFENSE_ABBR       = "ОГ",
 
 	BATTLEGROUND_ABBR        = "ПБ",
 	BATTLEGROUND_LEADER_ABBR = "ЛПБ",
@@ -53,7 +51,7 @@ PhanxChat.L = {
 	SAY_ABBR                 = "С",
 	YELL_ABBR                = "К",
 	WHISPER_ABBR             = "Ш", -- incoming
-	WHISPER_INFORM_ABBR      = "Ш", -- outgoing
+	WHISPER_INFORM_ABBR      = "@", -- outgoing
 
 ------------------------------------------------------------------------
 --	User Interface Strings

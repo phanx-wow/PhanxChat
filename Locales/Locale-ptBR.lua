@@ -21,7 +21,6 @@ PhanxChat.L = {
 
 	["Conversation"]     = "Conversa",
 	["General"]          = "Geral",
---	["GuildRecruitment"] = "",
 	["LocalDefense"]     = "DefesaLocal",
 	["LookingForGroup"]  = "ProcurandoGrupo",
 	["Trade"]            = "Comércio",
@@ -32,28 +31,27 @@ PhanxChat.L = {
 --	These should be one- or two-character abbreviations.
 ------------------------------------------------------------------------
 
-	CONVERSATION_ABBR       = "C", -- needs check
-	GENERAL_ABBR            = "Ge", -- needs check
-	GUILDRECRUITMENT_ABBR   = "RG", -- needs check
-	LOCALDEFENSE_ABBR       = "DL", -- needs check
-	LOOKINGFORGROUP_ABBR    = "PG", -- needs check
-	TRADE_ABBR              = "Co", -- needs check
-	WORLDDEFENSE_ABBR       = "DG", -- needs check
+	CONVERSATION_ABBR       = "C",
+	GENERAL_ABBR            = "Ge",
+	LOCALDEFENSE_ABBR       = "DL",
+	LOOKINGFORGROUP_ABBR    = "PG",
+	TRADE_ABBR              = "Co",
+	WORLDDEFENSE_ABBR       = "DG",
 
-	BATTLEGROUND_ABBR        = "BG", -- needs check
-	BATTLEGROUND_LEADER_ABBR = "LCB", -- needs check
-	GUILD_ABBR               = "Gd", -- needs check
-	OFFICER_ABBR             = "O", -- needs check
-	PARTY_ABBR               = "G", -- needs check
-	PARTY_GUIDE_ABBR         = "LG", -- needs check
-	PARTY_LEADER_ABBR        = "LG", -- needs check
-	RAID_ABBR                = "R", -- needs check
-	RAID_LEADER_ABBR         = "LR", -- needs check
-	RAID_WARNING_ABBR        = "AR", -- needs check
-	SAY_ABBR                 = "D", -- needs check
-	YELL_ABBR                = "Gr", -- needs check
-	WHISPER_ABBR             = "d", -- incoming -- needs check
-	WHISPER_INFORM_ABBR      = "p", -- outgoing -- needs check
+	BATTLEGROUND_ABBR        = "BG",
+	BATTLEGROUND_LEADER_ABBR = "LCB",
+	GUILD_ABBR               = "Gd",
+	OFFICER_ABBR             = "O",
+	PARTY_ABBR               = "G",
+	PARTY_GUIDE_ABBR         = "LG",
+	PARTY_LEADER_ABBR        = "LG",
+	RAID_ABBR                = "R",
+	RAID_LEADER_ABBR         = "LR",
+	RAID_WARNING_ABBR        = "AR",
+	SAY_ABBR                 = "D",
+	YELL_ABBR                = "Gr",
+	WHISPER_ABBR             = "d", -- incoming
+	WHISPER_INFORM_ABBR      = "p", -- outgoing
 
 ------------------------------------------------------------------------
 --	User Interface Strings
@@ -92,12 +90,12 @@ PhanxChat.L = {
 	["Default"] = "Padrão",
 	["None"] = "Nenhum",
 	["Fade time"] = "Tempo para desvanecer",
-	["Set the time, in minutes, to wait before fading chat text. A setting of 0 will disable fading."] = "Definir o tempo, em minutos, para esperar antes de desvanecer mensagens de bate-papo. Uma configuração de 0 desativa a desvanecer-se.",
+	["Set the time, in minutes, to wait before fading chat text. A setting of 0 will disable fading."] = "Definir o tempo, em minutos, para esperar antes de desvanecer mensagens de bate-papo. Uma configuração de 0 desativa a desvanecer.",
 	["Font size"] = "Tamanho do texto",
 	["Set the font size for all chat frames."] = "Definir o tamanho da fonte para todas as janelas de bate-papo.",
 	["Note that this is just a shortcut to configuring each chat frame individually through the Blizzard chat options."] = "Note que este é apenas um atalho para a configuração de cada janela de bate-papo individualmente com as opções da Blizzard.",
-	--["Show class colors"] = "",
-	--["Show class colors in all channels."] = "",
-	--["Note that this is just a shortcut to configuring each chat channel individually through the Blizzard chat options."] = "",
-	--["This option is locked by PhanxChat. If you wish to change it, you must first disable the %q option in PhanxChat."] = "",
+	["Show class colors"] = "Cores de classes",
+	["Show class colors in all channels."] = "Mostrar cores de classes em todos os cainais.",
+	["Note that this is just a shortcut to configuring each chat channel individually through the Blizzard chat options."] = "Note que este é apenas um atalho para a configuração de cada canal de bate-papo individualmente com as opções da Blizzard.",
+	["This option is locked by PhanxChat. If you wish to change it, you must first disable the %q option in PhanxChat."] = "Este opção está bloqueado por PhanxChat. Se você quiser mudá-lo, primeiro você deve desabilitar a opção de %q no PhanxChat.",
 }

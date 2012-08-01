@@ -21,7 +21,6 @@ PhanxChat.L = {
 
 	["Conversation"]     = "대화",
 	["General"]          = "공개",
-	["GuildRecruitment"] = "길드모집",
 	["LocalDefense"]     = "수비",
 	["LookingForGroup"]  = "파티찾기",
 	["Trade"]            = "거래",
@@ -34,7 +33,6 @@ PhanxChat.L = {
 
 	CONVERSATION_ABBR     = "대화",
 	GENERAL_ABBR          = "공",
-	GUILDRECRUITMENT_ABBR = "길모",
 	LOCALDEFENSE_ABBR     = "수",
 	LOOKINGFORGROUP_ABBR  = "파찾",
 	TRADE_ABBR            = "거",

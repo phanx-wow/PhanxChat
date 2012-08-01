@@ -19,9 +19,8 @@ PhanxChat.L = {
 --	These must exactly match the channel names used in your locale.
 ------------------------------------------------------------------------
 
-	["Conversation"]     = CHAT_BN_CONVERSATION_SEND:match("%.%s?(%.-)%]"), -- needs check
+	["Conversation"]     = "對話",
 	["General"]          = "綜合",
-	["GuildRecruitment"] = "公會招募",
 	["LocalDefense"]     = "本地防務",
 	["LookingForGroup"]  = "尋求組隊",
 	["Trade"]            = "交易",
@@ -32,28 +31,27 @@ PhanxChat.L = {
 --	These should be one- or two-character abbreviations.
 ------------------------------------------------------------------------
 
---	CONVERSATION_ABBR       = "", -- needs translation
+	CONVERSATION_ABBR       = "話",
 	GENERAL_ABBR            = "綜",
-	GUILDRECRUITMENT_ABBR   = "招",
 	LOCALDEFENSE_ABBR       = "本",
 	LOOKINGFORGROUP_ABBR    = "尋",
 	TRADE_ABBR              = "交",
 	WORLDDEFENSE_ABBR       = "世",
 
 	BATTLEGROUND_ABBR        = "戰",
-	BATTLEGROUND_LEADER_ABBR = "戰領",
+	BATTLEGROUND_LEADER_ABBR = "領",
 	GUILD_ABBR               = "公",
 	OFFICER_ABBR             = "官",
 	PARTY_ABBR               = "隊",
---	PARTY_GUIDE_ABBR         = "",
---	PARTY_LEADER_ABBR        = "",
+	PARTY_GUIDE_ABBR         = "領",
+	PARTY_LEADER_ABBR        = "領",
 	RAID_ABBR                = "團",
 	RAID_LEADER_ABBR         = "領",
 	RAID_WARNING_ABBR        = "警",
 	SAY_ABBR                 = "說",
 	YELL_ABBR                = "喊",
-	WHISPER_ABBR             = "密自", -- incoming
-	WHISPER_INFORM_ABBR      = "密往", -- outgoing
+	WHISPER_ABBR             = "自", -- incoming
+	WHISPER_INFORM_ABBR      = "往", -- outgoing
 
 ------------------------------------------------------------------------
 --	User Interface Strings
