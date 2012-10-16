@@ -7,7 +7,7 @@
 	http://www.curse.com/addons/wow/phanxchat
 ------------------------------------------------------------------------
 	Localization: zhCN / Simplified Chinese / 简体中文
-	Last Updated: 2011-03-03 by tss1398383123 @ CurseForge
+	Last Updated: 2012-09-10 by tss1398383123 @ CurseForge
 ----------------------------------------------------------------------]]
 
 if GetLocale() ~= "zhCN" then return end
@@ -94,8 +94,8 @@ PhanxChat.L = {
 	["Font size"] = "字体大小",
 	["Set the font size for all chat frames."] = "为所有聊天框设置字体大小。",
 	["Note that this is just a shortcut to configuring each chat frame individually through the Blizzard chat options."] = "注意，这只是链接到暴雪每个单独的聊天框设置的快捷方式。",
-	--["Show class colors"] = "",
-	--["Show class colors in all channels."] = "",
-	--["Note that this is just a shortcut to configuring each chat channel individually through the Blizzard chat options."] = "",
-	--["This option is locked by PhanxChat. If you wish to change it, you must first disable the %q option in PhanxChat."] = "",
+	["Show class colors"] = "显示职业颜色",
+	["Show class colors in all channels."] = "在所有频道显示职业颜色。",
+	["Note that this is just a shortcut to configuring each chat channel individually through the Blizzard chat options."] = "注意：这只是一个独立于暴雪聊天选项来设置各频道设置的快捷方式。",
+	["This option is locked by PhanxChat. If you wish to change it, you must first disable the %q option in PhanxChat."] = "此选项被 PhanxChat 锁定。如果你想改变设置，必须先在 PhanxChat 里禁用 %q 选项。",
 }
