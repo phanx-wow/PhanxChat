@@ -22,45 +22,47 @@ local shortNames = { }
 local toonNames = { }
 
 local function UpdateShortNames()
-	-- print("UpdateShortNames")
+	--print("UpdateShortNames")
 	wipe(shortNames)
 	wipe(toonNames)
-
 	for i = 1, BNGetNumFriends() do
-		local pID, gName, sName, _, tID, client, online, _, _, _, note = BNGetFriendInfo(i)
-		-- print("Checking friend", pID, gName, sName, client, online, note)
-		if note and note:len() > 0 and note:len() < gName:match("|k(.+)|k"):len() then
-			-- print("shortName NOTE", note)
-			shortNames[pID] = note
-		else
-			-- print("shortName", gName)
-			shortNames[pID] = gName
+		local pID, realName, battleTag, isBTagFriend, charName, charID, client, online, _, _, _, _, note, isRIDFriend = BNGetFriendInfo(i)
+		--print(pID, realName, isRIDFriend, battleTag, isBTagFriend, online, client, charID, charName)
+		if isRIDFriend then
+			-- This works because the game ignores extra placeholders in the string:
+			local short = gsub(realName, "|Kf", "|Kg")
+			shortNames[pID] = short
+			--print("Using first name", short)
+		elseif isBTagFriend then
+			local short = gsub(battleTag, "#.+", "")
+			shortNames[pID] = short
+			--print("Using BattleTag", short)
 		end
-		if online and tID and client == BNET_CLIENT_WOW then
-			-- print("Online in WoW")
-			local _, name, _, realm, _, _, _, class = BNGetToonInfo(tID)
+		if online and charID and client == BNET_CLIENT_WOW then
+			--print("Online in WoW")
+			local _, charName, _, realm, _, _, _, class = BNGetToonInfo(charID)
 			local token = classTokens[class]
 			local color = token and (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[token]
 			if color then
-				-- print("Valid class", class, token)
+				--print("Valid class", class, token)
 				if realm and realm:len() > 0 and realm ~= playerRealm then
-					-- print("Other realm", realm)
-					toonNames[pID] = string.format("|cff%02x%02x%02x%s-%s|r", color.r * 255, color.g * 255, color.b * 255, name, realm)
+					--print("Other realm", realm)
+					toonNames[pID] = string.format("|cff%02x%02x%02x%s-%s|r", color.r * 255, color.g * 255, color.b * 255, charName, realm)
 				else
-					-- print("Same realm")
-					toonNames[pID] = string.format("|cff%02x%02x%02x%s|r", color.r * 255, color.g * 255, color.b * 255, name)
+					--print("Same realm")
+					toonNames[pID] = string.format("|cff%02x%02x%02x%s|r", color.r * 255, color.g * 255, color.b * 255, charName)
 				end
 			else
-				-- print("Invalid class", class)
+				--print("Invalid class", class)
 			end
 		end
 		if not toonNames[pID] then
-			-- print("Failed, using first name.")
+			--print("Failed, using first name.")
 			toonNames[pID] = shortNames[pID]
 		end
-		-- print("toonName:", toonNames[pID])
+		--print("toonName:", toonNames[pID])
 	end
-	-- print("Done.")
+	--print("Done.")
 end
 
 PhanxChat.BN_FRIEND_ACCOUNT_ONLINE = UpdateShortNames
