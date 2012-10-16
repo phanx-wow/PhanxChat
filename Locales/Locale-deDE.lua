@@ -7,7 +7,7 @@
 	http://www.curse.com/addons/wow/phanxchat
 ------------------------------------------------------------------------
 	Localization: deDE / German / Deutsch
-	Last Updated: 2010-07-30 by ac3r < wowinterface.com >
+	Last Updated: 2012-09-11 by staratnight @ CurseForge, 2010-07-30 by ac3r @ WoWInterface
 ----------------------------------------------------------------------]]
 
 if GetLocale() ~= "deDE" then return end
@@ -94,8 +94,8 @@ PhanxChat.L = {
 	["Font size"] = "Schriftgröße",
 	["Set the font size for all chat frames."] = "Schriftgröße für alle Chatfenster festlegen.",
 	["Note that this is just a shortcut to configuring each chat frame individually through the Blizzard chat options."] = "Beachte, dass dies nur eine Kurzform zum Konfigurieren jedes einzelne Chatfenster durch die Blizzard Chatoptionen ist.",
-	--["Show class colors"] = "",
-	--["Show class colors in all channels."] = "",
-	--["Note that this is just a shortcut to configuring each chat channel individually through the Blizzard chat options."] = "",
-	--["This option is locked by PhanxChat. If you wish to change it, you must first disable the %q option in PhanxChat."] = "",
+	["Show class colors"] = "Klassenfarben anzeigen",
+	["Show class colors in all channels."] = "Klassenfarben in allen Chatkanälen anzeigen.",
+	["Note that this is just a shortcut to configuring each chat channel individually through the Blizzard chat options."] = "Beachte, dass dies nur eine Abkürzung zu den Blizzard-Einstellungen für einzelne Chatkanäle darstellt.",
+	["This option is locked by PhanxChat. If you wish to change it, you must first disable the %q option in PhanxChat."] = "Diese Option ist in PhanxChat gesperrt. Wenn du sie ändern möchtest, musst du zunächst die Option %q in PhanxChat deaktivieren.",
 }
