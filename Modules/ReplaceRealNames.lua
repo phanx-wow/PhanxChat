@@ -19,12 +19,12 @@ for k, v in pairs(LOCALIZED_CLASS_NAMES_FEMALE) do classTokens[v] = k end
 for k, v in pairs(LOCALIZED_CLASS_NAMES_MALE) do classTokens[v] = k end
 
 local shortNames = { }
-local toonNames = { }
+local charNames = { }
 
 local function UpdateShortNames()
 	--print("UpdateShortNames")
 	wipe(shortNames)
-	wipe(toonNames)
+	wipe(charNames)
 	for i = 1, BNGetNumFriends() do
 		local pID, realName, battleTag, isBTagFriend, charName, charID, client, online, _, _, _, _, note, isRIDFriend = BNGetFriendInfo(i)
 		--print(pID, realName, isRIDFriend, battleTag, isBTagFriend, online, client, charID, charName)
@@ -47,20 +47,20 @@ local function UpdateShortNames()
 				--print("Valid class", class, token)
 				if realm and realm:len() > 0 and realm ~= playerRealm then
 					--print("Other realm", realm)
-					toonNames[pID] = string.format("|cff%02x%02x%02x%s-%s|r", color.r * 255, color.g * 255, color.b * 255, charName, realm)
+					charNames[pID] = string.format("|cff%02x%02x%02x%s-%s|r", color.r * 255, color.g * 255, color.b * 255, charName, realm)
 				else
 					--print("Same realm")
-					toonNames[pID] = string.format("|cff%02x%02x%02x%s|r", color.r * 255, color.g * 255, color.b * 255, charName)
+					charNames[pID] = string.format("|cff%02x%02x%02x%s|r", color.r * 255, color.g * 255, color.b * 255, charName)
 				end
 			else
 				--print("Invalid class", class)
 			end
 		end
-		if not toonNames[pID] then
+		if not charNames[pID] then
 			--print("Failed, using first name.")
-			toonNames[pID] = shortNames[pID]
+			charNames[pID] = shortNames[pID]
 		end
-		--print("toonName:", toonNames[pID])
+		--print("charName:", charNames[pID])
 	end
 	--print("Done.")
 end
@@ -70,7 +70,7 @@ PhanxChat.BN_FRIEND_TOON_ONLINE = UpdateShortNames
 PhanxChat.PLAYER_ALIVE = UpdateShortNames
 PhanxChat.PLAYER_ENTERING_WORLD = UpdateShortNames
 
-PhanxChat.bnToonNames = toonNames
+PhanxChat.bncharNames = charNames
 PhanxChat.bnShortNames = shortNames
 
 ------------------------------------------------------------------------
@@ -103,7 +103,7 @@ function PhanxChat:SetReplaceRealNames(v)
 		self:UnregisterEvent("BN_FRIEND_TOON_ONLINE")
 		self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 		wipe(shortNames)
-		wipe(toonNames)
+		wipe(charNames)
 	end
 end
 
@@ -116,8 +116,6 @@ local BN_WHO_LIST_GUILD_FORMAT = WHO_LIST_GUILD_FORMAT:replace("player:%s", "%s"
 local BN_WHO_LIST_REALM_FORMAT = BN_WHO_LIST_FORMAT .. " (%s)"
 local BN_WHO_LIST_GUILD_REALM_FORMAT = BN_WHO_LIST_GUILD_FORMAT .. " (%s)"
 
-local prehook_OnHyperlinkShow = ChatFrame_OnHyperlinkShow
-
 local dialogs = {
 	"ADD_FRIEND",
 	"ADD_GUILDMEMBER",
@@ -128,46 +126,58 @@ local dialogs = {
 	"CHANNEL_INVITE",
 }
 
-function ChatFrame_OnHyperlinkShow(frame, link, text, button)
+hooksecurefunc("ChatFrame_OnHyperlinkShow", function(frame, link, text, button)
 	if link:sub(1, 8) == "BNplayer" then
 		local linkID = tonumber(link:match("|Kf(%d+)"))
-		if linkID and IsModifiedClick("CHATLINK") and not ChatEdit_GetActiveWindow() and not HelpFrameOpenTicketEditBox:IsVisible() then
-			local dialogUp
-			for _, dialog in ipairs(dialogs) do
-				if StaticPopup_Visible(dialog) then
-					dialogUp = true
-					break
-				end
+		if not linkID or not IsModifiedClick("CHATLINK") or ChatEdit_GetActiveWindow() or HelpFrameOpenTicketEditBox:IsVisible() then
+			return
+		end
+		for _, dialog in ipairs(dialogs) do
+			if StaticPopup_Visible(dialog) then
+				return
 			end
-			if not dialogUp then
-				for i = 1, BNGetNumFriends() do
-					local pID, firstName, lastName, _, toonID = BNGetFriendInfo(i)
-					if pID == linkID then
-						local color = ChatTypeInfo.SYSTEM
-						local fullName = format(BATTLENET_NAME_FORMAT, firstName, lastName)
-						if toonID then
-							local hasFocus, toonName, client, realmName, realmID, faction, race, class, guild, zoneName, level, gameText, broadcastText, broadcastTime = BNGetToonInfo(toonID)
-							if client ~= BNET_CLIENT_WOW then
-								return DEFAULT_CHAT_FRAME:AddMessage((L["%s is currently playing %s."]):format(fullName, gameText), color.r, color.g, color.b)
-							elseif realm == GetRealmName() then
-								if guild and guild ~= "" then
-									return DEFAULT_CHAT_FRAME:AddMessage((BN_WHO_LIST_GUILD_FORMAT):format(link, toonName, level, race, class, guild, zone), color.r, color.g, color.b)
-								else
-									return DEFAULT_CHAT_FRAME:AddMessage((BN_WHO_LIST_FORMAT):format(link, toonName, level, race, class, zone), color.r, color.g, color.b)
-								end
-							elseif guild and guild ~= "" then
-								return DEFAULT_CHAT_FRAME:AddMessage((BN_WHO_LIST_GUILD_REALM_FORMAT):format(link, toonName, level, race, class, guild, zone, realmName), color.r, color.g, color.b)
-							else
-								return DEFAULT_CHAT_FRAME:AddMessage((BN_WHO_LIST_REALM_FORMAT):format(link, toonName, level, race, class, zone, realmName), color.r, color.g, color.b)
-							end
-						else
-							return DEFAULT_CHAT_FRAME:AddMessage((L["%s is currently offline."]):format(fullName), color.r, color.g, color.b)
+		end
+		for i = 1, BNGetNumFriends() do
+			local pID, realName, battleTag, isBTagFriend, charName, charID, client, online, _, _, _, _, note, isRIDFriend = BNGetFriendInfo(i)
+			local showName = isRIDFriend and realName or battleTag
+			if pID == linkID then
+				local color = ChatTypeInfo.SYSTEM
+				if charID then
+					local hasFocus, charName, _, realmName, _, faction, race, class, guild, zoneName, level, gameText = BNGetToonInfo(charID)
+					if client ~= BNET_CLIENT_WOW then
+						if client == BNET_CLIENT_D3 then
+							gameText = "Diablo III"
+						elseif client == BNET_CLIENT_SC2 then
+							gameText = "StarCraft II"
 						end
-						break
+						return DEFAULT_CHAT_FRAME:AddMessage(format(L["%s is currently playing %s."],
+							showName, gameText),
+							color.r, color.g, color.b)
+					elseif realm == GetRealmName() then
+						if guild and guild ~= "" then
+							return DEFAULT_CHAT_FRAME:AddMessage(format(BN_WHO_LIST_GUILD_FORMAT,
+								link, charName, level, race, class, guild, zone),
+								color.r, color.g, color.b)
+						else
+							return DEFAULT_CHAT_FRAME:AddMessage(format(BN_WHO_LIST_FORMAT,
+							link, charName, level, race, class, zone),
+							color.r, color.g, color.b)
+						end
+					elseif guild and guild ~= "" then
+						return DEFAULT_CHAT_FRAME:AddMessage(format(BN_WHO_LIST_GUILD_REALM_FORMAT,
+							link, charName, level, race, class, guild, zone, realmName),
+							color.r, color.g, color.b)
+					else
+						return DEFAULT_CHAT_FRAME:AddMessage(format(BN_WHO_LIST_REALM_FORMAT,
+							link, charName, level, race, class, zone, realmName),
+							color.r, color.g, color.b)
 					end
+				else
+					return DEFAULT_CHAT_FRAME:AddMessage(format(L["%s is currently offline."],
+						showName),
+						color.r, color.g, color.b)
 				end
 			end
 		end
 	end
-	return prehook_OnHyperlinkShow(frame, link, text, button)
-end
+end)
