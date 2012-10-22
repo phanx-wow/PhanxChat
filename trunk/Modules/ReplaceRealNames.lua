@@ -70,7 +70,7 @@ PhanxChat.BN_FRIEND_TOON_ONLINE = UpdateShortNames
 PhanxChat.PLAYER_ALIVE = UpdateShortNames
 PhanxChat.PLAYER_ENTERING_WORLD = UpdateShortNames
 
-PhanxChat.bncharNames = charNames
+PhanxChat.bnToonNames = charNames
 PhanxChat.bnShortNames = shortNames
 
 ------------------------------------------------------------------------
