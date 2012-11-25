@@ -33,27 +33,29 @@ local DEFAULT_STRINGS = {
 	-- If you play in a non-English locale, you'll need to edit the
 	-- relevant file in the Locales subfolder, instead of this table.
 
-	CONVERSATION_ABBR       =    "",
-	GENERAL_ABBR            =   "G",
-	LOCALDEFENSE_ABBR       =  "LD",
-	LOOKINGFORGROUP_ABBR    = "LFG",
-	TRADE_ABBR              =   "T",
-	WORLDDEFENSE_ABBR       =  "WD",
+	CONVERSATION_ABBR        =    "",
+	GENERAL_ABBR             =   "G",
+	LOCALDEFENSE_ABBR        =  "LD",
+	LOOKINGFORGROUP_ABBR     = "LFG",
+	TRADE_ABBR               =   "T",
+	WORLDDEFENSE_ABBR        =  "WD",
 
-	BATTLEGROUND_ABBR        = "b",
-	BATTLEGROUND_LEADER_ABBR = "B",
-	GUILD_ABBR               = "g",
-	OFFICER_ABBR             = "o",
-	PARTY_ABBR               = "p",
-	PARTY_GUIDE_ABBR         = "P",
-	PARTY_LEADER_ABBR        = "P",
-	RAID_ABBR                = "r",
-	RAID_LEADER_ABBR         = "R",
-	RAID_WARNING_ABBR        = "W",
-	SAY_ABBR                 = "s",
-	YELL_ABBR                = "y",
-	WHISPER_ABBR             = "w",
-	WHISPER_INFORM_ABBR      = "@",
+	BATTLEGROUND_ABBR         = "b", -- #TODO: Remove after 5.1
+	BATTLEGROUND_LEADER_ABBR  = "B", -- #TODO: Remove after 5.1
+	GUILD_ABBR                = "g",
+	OFFICER_ABBR              = "o",
+	PARTY_ABBR                = "p",
+	PARTY_GUIDE_ABBR          = "P",
+	PARTY_LEADER_ABBR         = "P",
+	RAID_ABBR                 = "r",
+	RAID_LEADER_ABBR          = "R",
+	RAID_WARNING_ABBR         = "W",
+	INSTANCE_CHAT_ABBR        = "b",
+	INSTANCE_CHAT_LEADER_ABBR = "B",
+	SAY_ABBR                  = "s",
+	YELL_ABBR                 = "y",
+	WHISPER_ABBR              = "w",
+	WHISPER_INFORM_ABBR       = "@",
 }
 
 ------------------------------------------------------------------------
