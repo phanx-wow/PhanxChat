@@ -80,7 +80,7 @@ local function RemoveExtraName( _, _, message, ... )
 	if icon then
 		message = message:replace( "|TInterface\FriendsFrame\UI-Toast-ToastIcons.tga:16:16:0:128:64:2:29:34:61|t", icon )
 	end
-	return true, message:gsub( " %(.-%)", "", 1 ), ...
+	return true, gsub( message, " %(.-%)", "", 1 ), ...
 end
 
 ------------------------------------------------------------------------
@@ -111,10 +111,10 @@ table.insert(PhanxChat.RunOnLoad, PhanxChat.SetReplaceRealNames)
 
 ------------------------------------------------------------------------
 
-local BN_WHO_LIST_FORMAT = WHO_LIST_FORMAT:replace("player:%s", "%s")
-local BN_WHO_LIST_GUILD_FORMAT = WHO_LIST_GUILD_FORMAT:replace("player:%s", "%s")
-local BN_WHO_LIST_REALM_FORMAT = BN_WHO_LIST_FORMAT .. " (%s)"
-local BN_WHO_LIST_GUILD_REALM_FORMAT = BN_WHO_LIST_GUILD_FORMAT .. " (%s)"
+local BN_WHO_LIST_FORMAT = WHO_LIST_FORMAT:gsub("|Hplayer:", "|H")
+local BN_WHO_LIST_GUILD_FORMAT = WHO_LIST_GUILD_FORMAT:gsub("|Hplayer:", "|H")
+local BN_WHO_LIST_REALM_FORMAT = BN_WHO_LIST_FORMAT .. " %s"
+local BN_WHO_LIST_GUILD_REALM_FORMAT = BN_WHO_LIST_GUILD_FORMAT .. " %s"
 
 local dialogs = {
 	"ADD_FRIEND",
@@ -127,8 +127,8 @@ local dialogs = {
 }
 
 hooksecurefunc("ChatFrame_OnHyperlinkShow", function(frame, link, text, button)
-	if link:sub(1, 8) == "BNplayer" then
-		local linkID = tonumber(link:match("|Kf(%d+)"))
+	if strsub(link, 1, 8) == "BNplayer" then
+		local linkID = tonumber(strmatch(link, "|Kf(%d+)"))
 		if not linkID or not IsModifiedClick("CHATLINK") or ChatEdit_GetActiveWindow() or HelpFrameOpenTicketEditBox:IsVisible() then
 			return
 		end
@@ -153,23 +153,23 @@ hooksecurefunc("ChatFrame_OnHyperlinkShow", function(frame, link, text, button)
 						return DEFAULT_CHAT_FRAME:AddMessage(format(L["%s is currently playing %s."],
 							showName, gameText),
 							color.r, color.g, color.b)
-					elseif realm == GetRealmName() then
+					elseif realm == GetRealmName() then -- #TODO: Check in the future if Blizz fixes zone being nil
 						if guild and guild ~= "" then
-							return DEFAULT_CHAT_FRAME:AddMessage(format(BN_WHO_LIST_GUILD_FORMAT,
-								link, charName, level, race, class, guild, zone),
+							return DEFAULT_CHAT_FRAME:AddMessage(gsub(format(BN_WHO_LIST_GUILD_FORMAT,
+								link, charName, level, race, class, guild, ""), "  ", " "),
 								color.r, color.g, color.b)
 						else
-							return DEFAULT_CHAT_FRAME:AddMessage(format(BN_WHO_LIST_FORMAT,
-							link, charName, level, race, class, zone),
+							return DEFAULT_CHAT_FRAME:AddMessage(gsub(format(BN_WHO_LIST_FORMAT,
+							link, charName, level, race, class, ""), "  ", " "),
 							color.r, color.g, color.b)
 						end
 					elseif guild and guild ~= "" then
-						return DEFAULT_CHAT_FRAME:AddMessage(format(BN_WHO_LIST_GUILD_REALM_FORMAT,
-							link, charName, level, race, class, guild, zone, realmName),
+						return DEFAULT_CHAT_FRAME:AddMessage(gsub(format(BN_WHO_LIST_GUILD_REALM_FORMAT,
+							link, charName, level, race, class, guild, "", realmName), "  ", " "),
 							color.r, color.g, color.b)
 					else
-						return DEFAULT_CHAT_FRAME:AddMessage(format(BN_WHO_LIST_REALM_FORMAT,
-							link, charName, level, race, class, zone, realmName),
+						return DEFAULT_CHAT_FRAME:AddMessage(gsub(format(BN_WHO_LIST_REALM_FORMAT,
+							link, charName, level, race, class, "", realmName), "  ", " "),
 							color.r, color.g, color.b)
 					end
 				else
