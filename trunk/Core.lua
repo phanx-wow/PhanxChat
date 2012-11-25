@@ -113,16 +113,6 @@ local db
 
 ------------------------------------------------------------------------
 
-if not string.replace then
-	function string.replace(s, a, b)
-		a = a:gsub("([%^%$%(%)%%%.%[%]%*%+%-%?])", "[%%%1]")
-		b = b:gsub("([%^%$%(%)%%%.%[%]%*%+%-%?])", "[%%%1]")
-		return s:gsub(a,b)
-	end
-end
-
-------------------------------------------------------------------------
-
 if not PhanxChat.L then
 	PhanxChat.L = DEFAULT_STRINGS
 end
@@ -135,7 +125,7 @@ end })
 
 ------------------------------------------------------------------------
 
-local CHANNEL_LINK   = "|h" .. STRING_STYLE:format(CHANNEL_STYLE) .. "|h"
+local CHANNEL_LINK   = "|h" .. format(STRING_STYLE, CHANNEL_STYLE) .. "|h"
 
 local PLAYER_LINK    = "|Hplayer:%s|h" .. PLAYER_STYLE .. "|h"
 local PLAYER_BN_LINK = "|HBNplayer:%s|h" .. PLAYER_STYLE .. "%s|h"
@@ -177,12 +167,12 @@ local AddMessage = function(frame, message, ...)
 		if pdata then
 			if db.ShortenPlayerNames then
 				if pname:match("|cff") then
-					pname = pname:gsub("%-[^|]+", "")
+					pname = gsub(pname, "%-[^|]+", "")
 				else
-					pname = pname:match("[^%-]+")
+					pname = match(pname, "[^%-]+")
 				end
 			end
-			message = message:gsub(PLAYER_PATTERN, PLAYER_LINK:format(pdata, pname))
+			message = gsub(message, PLAYER_PATTERN, format(PLAYER_LINK, pdata, pname))
 		end
 
 		local bnData, bnName, bnID, bnExtra = message:match(BNPLAYER_PATTERN)
@@ -192,19 +182,19 @@ local AddMessage = function(frame, message, ...)
 				local toonName = PhanxChat.bnToonNames[bnID]
 				if toonName then
 					if db.ShortenPlayerNames then
-							bnName = toonName:gsub("%-[^|]+", "")
+						bnName = gsub(toonName, "%-[^|]+", "")
 					else
-							bnName = toonName
+						bnName = toonName
 					end
 					if bnExtra then
-						bnExtra = bnExtra:gsub(" %(.-%)", "")
+						bnExtra = gsub(bnExtra, " %(.-%)", "")
 					end
 				end
 			elseif db.ShortenPlayerNames then
 				bnName = PhanxChat.bnShortNames[bnID] or bnName
 			end
-			local link = PLAYER_BN_LINK:format(bnData, bnName, bnExtra or "")
-			message = message:gsub( BNPLAYER_PATTERN, link )
+			local link = format(PLAYER_BN_LINK, bnData, bnName, bnExtra or "")
+			message = gsub(message, BNPLAYER_PATTERN, link)
 		end
 	end
 	hooks[frame].AddMessage(frame, message, ...)
@@ -374,8 +364,8 @@ function PhanxChat:ADDON_LOADED(addon)
 		return frame
 	end
 
-	for _, func in ipairs(self.RunOnLoad) do
-		func(self)
+	for i = 1, #self.RunOnLoad do
+		self.RunOnLoad[i](self)
 	end
 
 	self.isLoading = nil
@@ -399,5 +389,6 @@ function PhanxChat:UnregisterEvent(event) return self.frame:UnregisterEvent(even
 ------------------------------------------------------------------------
 
 _G.PhanxChat = PhanxChat
+
 _G.SLASH_RELOADUI1 = "/rl"
 _G.SlashCmdList.RELOADUI = ReloadUI
