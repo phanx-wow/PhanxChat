@@ -7,7 +7,7 @@
 	http://www.curse.com/addons/wow/phanxchat
 ------------------------------------------------------------------------
 	Localization: ptBR / Portuguese (Brazil) / Português (Brasil)
-	Last Updated: 2011-12-06 by Phanx < translate.google.com >
+	Last Updated: 2012-11-23 by mgaedke @ Curse
 ----------------------------------------------------------------------]]
 
 if GetLocale() ~= "ptBR" then return end
@@ -94,8 +94,8 @@ PhanxChat.L = {
 	["Font size"] = "Tamanho do texto",
 	["Set the font size for all chat frames."] = "Definir o tamanho da fonte para todas as janelas de bate-papo.",
 	["Note that this is just a shortcut to configuring each chat frame individually through the Blizzard chat options."] = "Note que este é apenas um atalho para a configuração de cada janela de bate-papo individualmente com as opções da Blizzard.",
-	["Show class colors"] = "Cores de classes",
-	["Show class colors in all channels."] = "Mostrar cores de classes em todos os cainais.",
-	["Note that this is just a shortcut to configuring each chat channel individually through the Blizzard chat options."] = "Note que este é apenas um atalho para a configuração de cada canal de bate-papo individualmente com as opções da Blizzard.",
-	["This option is locked by PhanxChat. If you wish to change it, you must first disable the %q option in PhanxChat."] = "Este opção está bloqueado por PhanxChat. Se você quiser mudá-lo, primeiro você deve desabilitar a opção de %q no PhanxChat.",
+	["Show class colors"] = "Cores das classes",
+	["Show class colors in all channels."] = "Mostrar cores das classes em todos os canais.",
+	["Note that this is just a shortcut to configuring each chat channel individually through the Blizzard chat options."] = "Note-se que este é apenas um atalho para a configuração de cada canal de chat individualmente através das opções de bate-papo da Blizzard.",
+	["This option is locked by PhanxChat. If you wish to change it, you must first disable the %q option in PhanxChat."] = "Esta opção está bloqueado por PhanxChat. Se você deseja mudá-lo, você deve primeiro desativar a opção %q em PhanxChat."
 }
