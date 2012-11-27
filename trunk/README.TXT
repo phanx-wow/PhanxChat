@@ -1,8 +1,15 @@
+
 PhanxChat
 =========
 
-* Copyright (c) 2006-2012 Phanx <addons@phanx.net>. All rights reserved.
+  Removes chat frame clutter and adds some functionality.
+
+* Copyright (c) 2006-2012 Phanx <addons@phanx.net>.
 * See the accompanying README and LICENSE files for more information.
+
+Download
+--------
+
 * http://www.wowinterface.com/downloads/info6323-PhanxChat.html
 * http://www.curse.com/addons/wow/phanxchat
 
@@ -38,30 +45,34 @@ Usage
 Localization
 ------------
 
-Compatible with English, Deutsch, Español (EU), Español (AL), Français,
-Italiano, Português, Русский, 한국어, 简体中文, and 繁體中文 game clients.
+  Compatible with English, Deutsch, Español (EU), Español (AL), Français,
+  Italiano, Português, Русский, 한국어, 简体中文, and 繁體中文 game clients.
 
-Translated into English, Deutsch, Español, Français, Português, Русский,
-한국어, and 简体中文.
+  Translated into English, Deutsch, Español, Français, Português,
+  Русский, 한국어, and 简体中文.
 
-To add or update translations for any language, see the Localization tab
-on the CurseForge project page:
+  To add or update translations for any language, see the Localization
+  tab on the [CurseForge project page] [1].
 
-http://wow.curseforge.com/addons/phanxchat/localization/
+  [1]: http://wow.curseforge.com/addons/phanxchat/localization/
 
 
 Feedback
 --------
 
-Bugs, errors, or other problems:
-	Submit a bug report ticket on either download page.
+  Bugs, errors, or other problems:
+  Submit a bug report ticket on either download page.
 
-Feature requests or other suggestions:
-	Submit a feature request ticket system on either download page.
+  Feature requests or other suggestions:
+  Submit a feature request ticket system on either download page.
 
-General questions or comments:
-	Post a comment on the WoWInterface download page.
+  General questions or comments:
+  Post a comment on the WoWInterface download page.
 
-If you need to contact me privately for a reason other than those listed
-above, you can send me a private message on either download site, or
-email me at <addons@phanx.net>.
+  If you need to contact me privately for a reason *not* listed above,
+  you can send a private message to Phanx on either download site, or
+  email me at <addons@phanx.net>.
+
+  Please note that I do not have time to provide any addon help by
+  email or PM, and any such messages will be ignored. Post a ticket
+  or comment instead!
