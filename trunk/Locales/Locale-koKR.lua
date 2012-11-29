@@ -38,8 +38,8 @@ PhanxChat.L = {
 	TRADE_ABBR            = "거",
 	WORLDDEFENSE_ABBR     = "쟁",
 
-	BATTLEGROUND_ABBR        = "전장",
-	BATTLEGROUND_LEADER_ABBR = "전지",
+	INSTANCE_CHAT_ABBR        = "전장",
+	INSTANCE_CHAT_LEADER_ABBR = "전지",
 	GUILD_ABBR               = "길",
 	OFFICER_ABBR             = "관",
 	PARTY_ABBR               = "파",

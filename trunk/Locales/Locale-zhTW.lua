@@ -38,8 +38,8 @@ PhanxChat.L = {
 	TRADE_ABBR              = "交",
 	WORLDDEFENSE_ABBR       = "世",
 
-	BATTLEGROUND_ABBR        = "戰",
-	BATTLEGROUND_LEADER_ABBR = "領",
+	INSTANCE_CHAT_ABBR        = "戰",
+	INSTANCE_CHAT_LEADER_ABBR = "領",
 	GUILD_ABBR               = "公",
 	OFFICER_ABBR             = "官",
 	PARTY_ABBR               = "隊",

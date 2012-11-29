@@ -39,9 +39,9 @@ PhanxChat.L = {
 	TRADE_ABBR              = "E",
 	WORLDDEFENSE_ABBR       = "DM",
 
-	BATTLEGROUND_ABBR        = "SF",
-	BATTLEGROUND_LEADER_ABBR = "SFL",
 	GUILD_ABBR               = "G",
+	INSTANCE_CHAT_ABBR        = "SF",
+	INSTANCE_CHAT_LEADER_ABBR = "SFL",
 	OFFICER_ABBR             = "O",
 	PARTY_ABBR               = "G",
 	PARTY_GUIDE_ABBR         = "GL",

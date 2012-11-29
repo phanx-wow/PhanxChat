@@ -38,8 +38,8 @@ PhanxChat.L = {
 	TRADE_ABBR              = "Т",
 	WORLDDEFENSE_ABBR       = "ОГ",
 
-	BATTLEGROUND_ABBR        = "ПБ",
-	BATTLEGROUND_LEADER_ABBR = "ЛПБ",
+	INSTANCE_CHAT_ABBR        = "ПБ",
+	INSTANCE_CHAT_LEADER_ABBR = "ЛПБ",
 	GUILD_ABBR               = "Г",
 	OFFICER_ABBR             = "Оф",
 	PARTY_ABBR               = "Гр",
