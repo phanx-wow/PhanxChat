@@ -40,8 +40,6 @@ local DEFAULT_STRINGS = {
 	TRADE_ABBR               =   "T",
 	WORLDDEFENSE_ABBR        =  "WD",
 
-	BATTLEGROUND_ABBR         = "b", -- #TODO: Remove after 5.1
-	BATTLEGROUND_LEADER_ABBR  = "B", -- #TODO: Remove after 5.1
 	GUILD_ABBR                = "g",
 	OFFICER_ABBR              = "o",
 	PARTY_ABBR                = "p",
@@ -149,17 +147,19 @@ local CHANNEL_PATTERN_PLUS = GetLocale() == "ruRU" and "|h%[(%d+)%.%s?(([^%]%-%s
 local PLAYER_PATTERN = "|Hplayer:(.-)|h%[(.-)%]|h"
 local BNPLAYER_PATTERN = "|HBNplayer:(.-)|h%[(|Kf(%d+).-)%](.*)|h"
 
+local format, gsub, strlower, strmatch, strsub, tonumber, type = format, gsub, strlower, strmatch, strsub, tonumber, type
+
 local AddMessage = function(frame, message, ...)
 	if type(message) == "string" then
 		if db.ShortenChannelNames then
 			local cnum, cname, csname = message:match(CHANNEL_PATTERN_PLUS)
 			if cnum then
 				if csname then -- ruRU
-					cname = ChannelNames[cname] or ChannelNames[csname] or ChannelNames[cname:lower()] or cname:sub(1, 2)
+					cname = ChannelNames[cname] or ChannelNames[csname] or ChannelNames[strlower(cname)] or strsub(cname, 1, 2)
 				else
 					cname = ChannelNames[cname] or ChannelNames[cname:lower()] or cname:sub(1, 2)
 				end
-				message = message:gsub(CHANNEL_PATTERN, (CHANNEL_LINK:gsub("%%d", cnum):gsub("%%s", cname)))
+				message = gsub(message, CHANNEL_PATTERN, (CHANNEL_LINK:gsub("%%d", cnum):gsub("%%s", cname)))
 			end
 		end
 
@@ -169,7 +169,7 @@ local AddMessage = function(frame, message, ...)
 				if pname:match("|cff") then
 					pname = gsub(pname, "%-[^|]+", "")
 				else
-					pname = match(pname, "[^%-]+")
+					pname = strmatch(pname, "[^%-]+")
 				end
 			end
 			message = gsub(message, PLAYER_PATTERN, format(PLAYER_LINK, pdata, pname))

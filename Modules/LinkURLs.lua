@@ -119,8 +119,6 @@ table.insert(PhanxChat.RunOnLoad, PhanxChat.SetLinkURLs)
 ------------------------------------------------------------------------
 
 URL_EVENTS = {
-	"CHAT_MSG_BATTLEGROUND",		-- #TODO: Remove after 5.1
-	"CHAT_MSG_BATTLEGROUND_LEADER",	-- #TODO: Remove after 5.1
 	"CHAT_MSG_BN_CONVERSATION",
 	"CHAT_MSG_BN_WHISPER",
 	"CHAT_MSG_BN_WHISPER_INFORM",

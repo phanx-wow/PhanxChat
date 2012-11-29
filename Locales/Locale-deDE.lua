@@ -19,39 +19,39 @@ PhanxChat.L = {
 --	These must exactly match the channel names used in your locale.
 ------------------------------------------------------------------------
 
-	["Conversation"]     = "Chat",
-	["General"]          = "Allgemein",
-	["LocalDefense"]     = "LokaleVerteidigung",
-	["LookingForGroup"]  = "SucheNachGruppe",
-	["Trade"]            = "Handel",
-	["WorldDefense"]     = "WeltVerteidigung",
+	["Conversation"]    = "Chat",
+	["General"]         = "Allgemein",
+	["LocalDefense"]    = "LokaleVerteidigung",
+	["LookingForGroup"] = "SucheNachGruppe",
+	["Trade"]           = "Handel",
+	["WorldDefense"]    = "WeltVerteidigung",
 
 ------------------------------------------------------------------------
 --	Abbreviated Channel Names
 ------------------------------------------------------------------------
 
-	CONVERSATION_ABBR       = "C",
-	GENERAL_ABBR            = "A",
-	GUILDRECRUITMENT_ABBR   = "GR",
-	LOCALDEFENSE_ABBR       = "LV",
-	LOOKINGFORGROUP_ABBR    = "LFG",
-	TRADE_ABBR              = "H",
-	WORLDDEFENSE_ABBR       = "GV",
+	CONVERSATION_ABBR     = "C",
+	GENERAL_ABBR          = "A",
+	GUILDRECRUITMENT_ABBR = "GR",
+	LOCALDEFENSE_ABBR     = "LV",
+	LOOKINGFORGROUP_ABBR  = "LFG",
+	TRADE_ABBR            = "H",
+	WORLDDEFENSE_ABBR     = "GV",
 
-	BATTLEGROUND_ABBR        = "SF",
-	BATTLEGROUND_LEADER_ABBR = "SFL",
-	GUILD_ABBR               = "G",
-	OFFICER_ABBR             = "O",
-	PARTY_ABBR               = "G",
-	PARTY_GUIDE_ABBR         = "GL",
-	PARTY_LEADER_ABBR        = "GL",
-	RAID_ABBR                = "SZ",
-	RAID_LEADER_ABBR         = "SZL",
-	RAID_WARNING_ABBR        = "SZW",
-	SAY_ABBR                 = "S",
-	YELL_ABBR                = "S",
-	WHISPER_ABBR             = "W <", -- incoming
-	WHISPER_INFORM_ABBR      = "W >", -- outgoing
+	GUILD_ABBR                = "G",
+	INSTANCE_CHAT_ABBR        = "SF",
+	INSTANCE_CHAT_LEADER_ABBR = "SFL",
+	OFFICER_ABBR              = "O",
+	PARTY_ABBR                = "G",
+	PARTY_GUIDE_ABBR          = "GL",
+	PARTY_LEADER_ABBR         = "GL",
+	RAID_ABBR                 = "SZ",
+	RAID_LEADER_ABBR          = "SZL",
+	RAID_WARNING_ABBR         = "SZW",
+	SAY_ABBR                  = "S",
+	YELL_ABBR                 = "S",
+	WHISPER_ABBR              = "W", -- incoming
+	WHISPER_INFORM_ABBR       = "@", -- outgoing
 
 ------------------------------------------------------------------------
 --	User Interface Strings

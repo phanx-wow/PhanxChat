@@ -39,20 +39,20 @@ PhanxChat.L = {
 	TRADE_ABBR              = "C",
 	WORLDDEFENSE_ABBR       = "D",
 
-	BATTLEGROUND_ABBR        = "Cb",
-	BATTLEGROUND_LEADER_ABBR = "Lb",
-	GUILD_ABBR               = "H",
-	OFFICER_ABBR             = "O",
-	PARTY_ABBR               = "G",
-	PARTY_GUIDE_ABBR         = "Lg",
-	PARTY_LEADER_ABBR        = "Lg",
-	RAID_ABBR                = "B",
-	RAID_LEADER_ABBR         = "Lb",
-	RAID_WARNING_ABBR        = "Ab",
-	SAY_ABBR                 = "D",
-	YELL_ABBR                = "Gr",
-	WHISPER_ABBR             = "S de", -- incoming
-	WHISPER_INFORM_ABBR      = "S a", -- outgoing
+	GUILD_ABBR                = "H",
+	INSTANCE_CHAT_ABBR        = "Cb",
+	INSTANCE_CHAT_LEADER_ABBR = "Lb",
+	OFFICER_ABBR              = "O",
+	PARTY_ABBR                = "G",
+	PARTY_GUIDE_ABBR          = "Lg",
+	PARTY_LEADER_ABBR         = "Lg",
+	RAID_ABBR                 = "B",
+	RAID_LEADER_ABBR          = "Lb",
+	RAID_WARNING_ABBR         = "Ab",
+	SAY_ABBR                  = "D",
+	YELL_ABBR                 = "Gr",
+	WHISPER_ABBR              = "S", -- incoming
+	WHISPER_INFORM_ABBR       = "@", -- outgoing
 
 ------------------------------------------------------------------------
 --	User Interface Strings

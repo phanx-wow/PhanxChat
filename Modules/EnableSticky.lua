@@ -9,42 +9,22 @@
 
 local _, PhanxChat = ...
 
-local ChatTypeInfo = ChatTypeInfo
-local StickyChannels
+local ChatTypeInfo = getmetatable(ChatTypeInfo).__index -- WTF Blizz?
 
-if not ChatTypeInfo.BATTLEGROUND then -- #TODO: Clean up after 5.1
-	ChatTypeInfo = getmetatable(ChatTypeInfo).__index -- WTF Blizz?
-
-	StickyChannels = {
-		BN_CONVERSATION	= ChatTypeInfo.BN_CONVERSATION.sticky,	-- 1
-		BN_WHISPER		= ChatTypeInfo.BN_WHISPER.sticky,		-- 1
-		CHANNEL			= ChatTypeInfo.CHANNEL.sticky,			-- 1
-		EMOTE 			= ChatTypeInfo.EMOTE.sticky,			-- 0
-		GUILD 			= ChatTypeInfo.GUILD.sticky,			-- 1
-		INSTANCE_CHAT	= ChatTypeInfo.INSTANCE_CHAT.sticky,	-- 1
-		OFFICER 		= ChatTypeInfo.OFFICER.sticky,			-- 1
-		PARTY 			= ChatTypeInfo.PARTY.sticky,			-- 1
-		RAID 			= ChatTypeInfo.RAID.sticky,				-- 1
-		SAY 			= ChatTypeInfo.SAY.sticky,				-- 1
-		WHISPER 		= ChatTypeInfo.WHISPER.sticky,			-- 1
-		YELL 			= ChatTypeInfo.YELL.sticky,				-- 0
-	}
-else
-	StickyChannels = {
-		BATTLEGROUND	= ChatTypeInfo.BATTLEGROUND.sticky,		-- 1
-		BN_CONVERSATION	= ChatTypeInfo.BN_CONVERSATION.sticky,	-- 1
-		BN_WHISPER		= ChatTypeInfo.BN_WHISPER.sticky,		-- 1
-		CHANNEL			= ChatTypeInfo.CHANNEL.sticky,			-- 1
-		EMOTE 			= ChatTypeInfo.EMOTE.sticky,			-- 0
-		GUILD 			= ChatTypeInfo.GUILD.sticky,			-- 1
-		OFFICER 		= ChatTypeInfo.OFFICER.sticky,			-- 1
-		PARTY 			= ChatTypeInfo.PARTY.sticky,			-- 1
-		RAID 			= ChatTypeInfo.RAID.sticky,				-- 1
-		SAY 			= ChatTypeInfo.SAY.sticky,				-- 1
-		WHISPER 		= ChatTypeInfo.WHISPER.sticky,			-- 1
-		YELL 			= ChatTypeInfo.YELL.sticky,				-- 0
-	}
-end
+local StickyChannels = {
+	BN_CONVERSATION	= ChatTypeInfo.BN_CONVERSATION.sticky,	-- 1
+	BN_WHISPER		= ChatTypeInfo.BN_WHISPER.sticky,		-- 1
+	CHANNEL			= ChatTypeInfo.CHANNEL.sticky,			-- 1
+	EMOTE 			= ChatTypeInfo.EMOTE.sticky,			-- 0
+	GUILD 			= ChatTypeInfo.GUILD.sticky,			-- 1
+	INSTANCE_CHAT	= ChatTypeInfo.INSTANCE_CHAT.sticky,	-- 1
+	OFFICER 		= ChatTypeInfo.OFFICER.sticky,			-- 1
+	PARTY 			= ChatTypeInfo.PARTY.sticky,			-- 1
+	RAID 			= ChatTypeInfo.RAID.sticky,				-- 1
+	SAY 			= ChatTypeInfo.SAY.sticky,				-- 1
+	WHISPER 		= ChatTypeInfo.WHISPER.sticky,			-- 1
+	YELL 			= ChatTypeInfo.YELL.sticky,				-- 0
+}
 
 function PhanxChat:SetEnableSticky(v)
 	if self.debug then print("PhanxChat: SetEnableSticky", v) end
