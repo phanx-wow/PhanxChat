@@ -7,7 +7,7 @@
 	http://www.curse.com/addons/wow/phanxchat
 ------------------------------------------------------------------------
 	Localization: frFR / French / Français
-	Last Updated: 2010-09-03 by Strigx < Curse.com >
+	Last Updated: 2012-11-28 by L0relei on Curse
 ----------------------------------------------------------------------]]
 
 if GetLocale() ~= "frFR" then return end
@@ -35,24 +35,24 @@ PhanxChat.L = {
 	GENERAL_ABBR            = "G",
 	GUILDRECRUITMENT_ABBR   = "R",
 	LOCALDEFENSE_ABBR       = "DL",
-	LOOKINGFORGROUP_ABBR    = "RDG",
+	LOOKINGFORGROUP_ABBR    = "RG",
 	TRADE_ABBR              = "E",
 	WORLDDEFENSE_ABBR       = "DM",
 
-	GUILD_ABBR               = "G",
-	INSTANCE_CHAT_ABBR        = "SF",
-	INSTANCE_CHAT_LEADER_ABBR = "SFL",
-	OFFICER_ABBR             = "O",
+	INSTANCE_CHAT_ABBR        = "cb",
+	INSTANCE_CHAT_LEADER_ABBR = "CB",
+	GUILD_ABBR               = "g",
+	OFFICER_ABBR             = "o",
 	PARTY_ABBR               = "G",
-	PARTY_GUIDE_ABBR         = "GL",
-	PARTY_LEADER_ABBR        = "GL",
+	PARTY_GUIDE_ABBR         = "CG",
+	PARTY_LEADER_ABBR        = "CG",
 	RAID_ABBR                = "R",
-	RAID_LEADER_ABBR         = "RL",
+	RAID_LEADER_ABBR         = "CR",
 	RAID_WARNING_ABBR        = "AR",
 	SAY_ABBR                 = "D",
 	YELL_ABBR                = "C",
 	WHISPER_ABBR             = "De", -- incoming
-	WHISPER_INFORM_ABBR      = "À", -- outgoing
+	WHISPER_INFORM_ABBR      = "À",  -- outgoing
 
 ------------------------------------------------------------------------
 --	User Interface Strings
