@@ -31,12 +31,12 @@ PhanxChat.L = {
 --	These should be one- or two-character abbreviations.
 ------------------------------------------------------------------------
 
-	CONVERSATION_ABBR       = "C",
+	CONVERSATION_ABBR       = "c",
 	GENERAL_ABBR            = "G",
 	GUILDRECRUITMENT_ABBR   = "R",
 	LOCALDEFENSE_ABBR       = "DL",
 	LOOKINGFORGROUP_ABBR    = "RG",
-	TRADE_ABBR              = "E",
+	TRADE_ABBR              = "C",
 	WORLDDEFENSE_ABBR       = "DM",
 
 	INSTANCE_CHAT_ABBR        = "cb",
