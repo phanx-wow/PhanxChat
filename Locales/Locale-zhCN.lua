@@ -38,20 +38,20 @@ PhanxChat.L = {
 	TRADE_ABBR = "交",
 	WORLDDEFENSE_ABBR = "世",
 
-	INSTANCE_CHAT_ABBR = "战",
-	INSTANCE_CHAT_LEADER_ABBR = "战领",
-	GUILD_ABBR = "公",
-	OFFICER_ABBR = "官",
-	PARTY_ABBR = "队",
-	PARTY_GUIDE_ABBR = "领队",
-	PARTY_LEADER_ABBR = "队长",
-	RAID_ABBR = "团",
-	RAID_LEADER_ABBR = "领",
-	RAID_WARNING_ABBR = "警",
-	SAY_ABBR = "说",
-	WHISPER_ABBR = "密自", -- incoming
-	WHISPER_INFORM_ABBR = "密往", -- outgoing
-	YELL_ABBR = "喊",
+	INSTANCE_CHAT_ABBR			= "副本",
+	INSTANCE_CHAT_LEADER_ABBR	= "副本长",
+	GUILD_ABBR 			= "公",
+	OFFICER_ABBR		= "官",
+	PARTY_ABBR			= "队",
+	PARTY_GUIDE_ABBR	= "领队",
+	PARTY_LEADER_ABBR	= "队长",
+	RAID_ABBR			= "团",
+	RAID_LEADER_ABBR	= "领",
+	RAID_WARNING_ABBR	= "警",
+	SAY_ABBR			= "说",
+	WHISPER_ABBR		= "密自", -- incoming
+	WHISPER_INFORM_ABBR	= "密往", -- outgoing
+	YELL_ABBR			= "喊",
 
 ------------------------------------------------------------------------
 --	User Interface Strings
