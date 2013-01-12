@@ -109,6 +109,8 @@ local noop = function() return end
 
 local db
 
+local format, gsub, strlower, strmatch, strsub, tonumber, type = format, gsub, strlower, strmatch, strsub, tonumber, type
+
 ------------------------------------------------------------------------
 
 if not PhanxChat.L then
@@ -138,7 +140,7 @@ local ChannelNames = {
 }
 
 for name, abbr in pairs(CUSTOM_CHANNELS) do
-	ChannelNames[name:lower()] = abbr
+	ChannelNames[strlower(name)] = abbr
 end
 
 local CHANNEL_PATTERN = GetLocale() == "ruRU" and "|h%[(%d+)%.%s?(([^%]%-%s:]+):? ?[^%]%-%s]*)%]|h%s?" or "|h%[(%d+)%.%s?([^%]%-%s]+)%]|h%s?"
@@ -147,26 +149,24 @@ local CHANNEL_PATTERN_PLUS = GetLocale() == "ruRU" and "|h%[(%d+)%.%s?(([^%]%-%s
 local PLAYER_PATTERN = "|Hplayer:(.-)|h%[(.-)%]|h"
 local BNPLAYER_PATTERN = "|HBNplayer:(.-)|h%[(|Kf(%d+).-)%](.*)|h"
 
-local format, gsub, strlower, strmatch, strsub, tonumber, type = format, gsub, strlower, strmatch, strsub, tonumber, type
-
 local AddMessage = function(frame, message, ...)
 	if type(message) == "string" then
 		if db.ShortenChannelNames then
-			local cnum, cname, csname = message:match(CHANNEL_PATTERN_PLUS)
+			local cnum, cname, csname = strmatch(message, CHANNEL_PATTERN_PLUS)
 			if cnum then
 				if csname then -- ruRU
 					cname = ChannelNames[cname] or ChannelNames[csname] or ChannelNames[strlower(cname)] or strsub(cname, 1, 2)
 				else
-					cname = ChannelNames[cname] or ChannelNames[cname:lower()] or cname:sub(1, 2)
+					cname = ChannelNames[cname] or ChannelNames[strlower(cname)] or strsub(cname, 1, 2)
 				end
 				message = gsub(message, CHANNEL_PATTERN, (CHANNEL_LINK:gsub("%%d", cnum):gsub("%%s", cname)))
 			end
 		end
 
-		local pdata, pname = message:match(PLAYER_PATTERN)
+		local pdata, pname = strmatch(message, PLAYER_PATTERN)
 		if pdata then
 			if db.ShortenPlayerNames then
-				if pname:match("|cff") then
+				if strmatch(pname, "|cff") then
 					pname = gsub(pname, "%-[^|]+", "")
 				else
 					pname = strmatch(pname, "[^%-]+")
@@ -175,7 +175,7 @@ local AddMessage = function(frame, message, ...)
 			message = gsub(message, PLAYER_PATTERN, format(PLAYER_LINK, pdata, pname))
 		end
 
-		local bnData, bnName, bnID, bnExtra = message:match(BNPLAYER_PATTERN)
+		local bnData, bnName, bnID, bnExtra = strmatch(message, BNPLAYER_PATTERN)
 		if bnData then
 			bnID = tonumber(bnID)
 			if db.ReplaceRealNames then
@@ -202,6 +202,12 @@ end
 
 ------------------------------------------------------------------------
 
+local IsControlKeyDown, IsShiftKeyDown = IsControlKeyDown, IsShiftKeyDown
+
+local bottomButton = setmetatable({}, { __function(t, self)
+	t[self] = _G[self:GetName() .. "ButtonFrameBottomButton"]
+end })
+
 function FloatingChatFrame_OnMouseScroll(self, delta)
 	if delta > 0 then
 		if IsShiftKeyDown() then
@@ -227,9 +233,9 @@ function FloatingChatFrame_OnMouseScroll(self, delta)
 
 	if db.HideButtons then
 		if self:AtBottom() then
-			_G[self:GetName() .. "ButtonFrameBottomButton"]:Hide()
+			bottomButton[self]:Hide()
 		else
-			_G[self:GetName() .. "ButtonFrameBottomButton"]:Show()
+			bottomButton[self]:Show()
 		end
 	end
 end
@@ -242,7 +248,7 @@ hooksecurefunc("ChatEdit_OnSpacePressed", function(editBox)
 	if editBox.autoCompleteParams then
 		return -- print("autoCompleteParams")
 	end
-	local command, message = editBox:GetText():match("^/[tw]t (.*)")
+	local command, message = strmatch(editBox:GetText(), "^/[tw]t (.*)")
 	if command and UnitIsPlayer("target") and UnitCanCooperate("player", "target") then
 		editBox:SetAttribute("chatType", "WHISPER")
 		editBox:SetAttribute("tellTarget", GetUnitName("target", true):gsub("%s", ""))
