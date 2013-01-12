@@ -1,21 +1,17 @@
 
 PhanxChat
-=========
+=============
 
-  Removes chat frame clutter and adds some functionality.
-
-* Copyright (c) 2006-2012 Phanx <addons@phanx.net>.
-* See the accompanying README and LICENSE files for more information.
-
-Download
---------
-
-* http://www.wowinterface.com/downloads/info6323-PhanxChat.html
-* http://www.curse.com/addons/wow/phanxchat
+	World of Warcraft user interface addon:
+	Reduces chat frame clutter and improves chat frame usability.
+	Copyright (c) 2006-2013 Phanx
+	See the accompanying LICENSE files for more information.
+	http://www.wowinterface.com/downloads/info6323-PhanxChat
+	http://www.curse.com/addons/wow/phanxchat
 
 
 Features
---------
+------------
 
 * Shortens chat channel names
 * Shortens cross-realm and Real ID player names
@@ -35,7 +31,7 @@ Features
 
 
 Usage
------
+---------
 
 * Type “/pchat” for options, or find them in the Interface Options.
 * Type “/pchat clear” to clear all chat windows.
@@ -43,36 +39,32 @@ Usage
 
 
 Localization
-------------
+----------------
 
-  Compatible with English, Deutsch, Español (EU), Español (AL), Français,
-  Italiano, Português, Русский, 한국어, 简体中文, and 繁體中文 game clients.
+Compatible with English, Deutsch, Español (EU), Español (AL), Français,
+Italiano, Português, Русский, 한국어, 简体中文, and 繁體中文 game clients.
 
-  Translated into English, Deutsch, Español, Français, Português,
-  Русский, 한국어, and 简体中文.
+Translated into English, Deutsch, Español, Français, Português,
+Русский, 한국어, and 简体中文.
 
-  To add or update translations for any language, see the Localization
-  tab on the [CurseForge project page] [1].
+To add or update translations for any language, see the Localization
+tab on the [CurseForge project page] [1].
 
-  [1]: http://wow.curseforge.com/addons/phanxchat/localization/
+	[1]: http://wow.curseforge.com/addons/phanxchat/localization/
 
 
 Feedback
 --------
 
-  Bugs, errors, or other problems:
-  Submit a bug report ticket on either download page.
+To report a bug or suggest a feature, use the ticket tracker on either
+download site.
 
-  Feature requests or other suggestions:
-  Submit a feature request ticket system on either download page.
+For general questions and comments, post a comment on WoWInterface.
 
-  General questions or comments:
-  Post a comment on the WoWInterface download page.
+If you need to contact me privately for some other reason, you can email
+me at <addons@phanx.net> or send a PM to Phanx on either download site.
 
-  If you need to contact me privately for a reason *not* listed above,
-  you can send a private message to Phanx on either download site, or
-  email me at <addons@phanx.net>.
-
-  Please note that I do not have time to provide any addon help by
-  email or PM, and any such messages will be ignored. Post a ticket
-  or comment instead!
+Please *do not* email or PM me about addon bugs, addon requests, addon
+help, or programming help. I do not have time to provide free individual
+support or tutoring, and will not reply to such messages. Post a ticket,
+comment, or forum thread instead!
