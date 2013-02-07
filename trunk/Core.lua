@@ -94,15 +94,15 @@ local PHANXCHAT, PhanxChat = ...
 PhanxChat.name = PHANXCHAT
 PhanxChat.debug = false
 
-PhanxChat.RunOnLoad = { }
-PhanxChat.RunOnProcessFrame = { }
+PhanxChat.RunOnLoad = {}
+PhanxChat.RunOnProcessFrame = {}
 
 PhanxChat.STRING_STYLE = STRING_STYLE
 
-local frames = { }
+local frames = {}
 PhanxChat.frames = frames
 
-local hooks = { }
+local hooks = {}
 PhanxChat.hooks = hooks
 
 local noop = function() return end
@@ -143,8 +143,8 @@ for name, abbr in pairs(CUSTOM_CHANNELS) do
 	ChannelNames[strlower(name)] = abbr
 end
 
-local CHANNEL_PATTERN = GetLocale() == "ruRU" and "|h%[(%d+)%.%s?(([^%]%-%s:]+):? ?[^%]%-%s]*)%]|h%s?" or "|h%[(%d+)%.%s?([^%]%-%s]+)%]|h%s?"
-local CHANNEL_PATTERN_PLUS = GetLocale() == "ruRU" and "|h%[(%d+)%.%s?(([^%]%-%s:]+):? ?[^%]%-%s]*)%]|h%s?[^%.].+" or "|h%[(%d+)%.%s?([^%]%-%s]+)%]|h%s?.+"
+local CHANNEL_PATTERN = "|h%[(%d+)%.%s?([^%]%:%-%s]+)[^%]]*%]|h%s?"
+local CHANNEL_PATTERN_PLUS = "|h%[(%d+)%.%s?([^%]%:%-%s]+)[^%]]*%]|h%s?.+"
 
 local PLAYER_PATTERN = "|Hplayer:(.-)|h%[(.-)%]|h"
 local BNPLAYER_PATTERN = "|HBNplayer:(.-)|h%[(|Kf(%d+).-)%](.*)|h"
@@ -152,27 +152,23 @@ local BNPLAYER_PATTERN = "|HBNplayer:(.-)|h%[(|Kf(%d+).-)%](.*)|h"
 local AddMessage = function(frame, message, ...)
 	if type(message) == "string" then
 		if db.ShortenChannelNames then
-			local cnum, cname, csname = strmatch(message, CHANNEL_PATTERN_PLUS)
-			if cnum then
-				if csname then -- ruRU
-					cname = ChannelNames[cname] or ChannelNames[csname] or ChannelNames[strlower(cname)] or strsub(cname, 1, 2)
-				else
-					cname = ChannelNames[cname] or ChannelNames[strlower(cname)] or strsub(cname, 1, 2)
-				end
-				message = gsub(message, CHANNEL_PATTERN, (CHANNEL_LINK:gsub("%%d", cnum):gsub("%%s", cname)))
+			local channelID, channelName = strmatch(message, CHANNEL_PATTERN_PLUS)
+			if channelID then
+				channelName = ChannelNames[channelName] or ChannelNames[strlower(channelName)] or strsub(channelName, 1, 2)
+				message = gsub(message, CHANNEL_PATTERN, (CHANNEL_LINK:gsub("%%d", channelID):gsub("%%s", channelName)))
 			end
 		end
 
-		local pdata, pname = strmatch(message, PLAYER_PATTERN)
-		if pdata then
+		local playerData, playerName = strmatch(message, PLAYER_PATTERN)
+		if playerData then
 			if db.ShortenPlayerNames then
-				if strmatch(pname, "|cff") then
-					pname = gsub(pname, "%-[^|]+", "")
+				if strmatch(playerName, "|cff") then
+					playerName = gsub(playerName, "%-[^|]+", "")
 				else
-					pname = strmatch(pname, "[^%-]+")
+					playerName = strmatch(playerName, "[^%-]+")
 				end
 			end
-			message = gsub(message, PLAYER_PATTERN, format(PLAYER_LINK, pdata, pname))
+			message = gsub(message, PLAYER_PATTERN, format(PLAYER_LINK, playerData, playerName))
 		end
 
 		local bnData, bnName, bnID, bnExtra = strmatch(message, BNPLAYER_PATTERN)
@@ -204,8 +200,10 @@ end
 
 local IsControlKeyDown, IsShiftKeyDown = IsControlKeyDown, IsShiftKeyDown
 
-local bottomButton = setmetatable({}, { __function(t, self)
-	t[self] = _G[self:GetName() .. "ButtonFrameBottomButton"]
+local bottomButton = setmetatable({}, { __index = function(t, self)
+	local button = _G[self:GetName() .. "ButtonFrameBottomButton"]
+	t[self] = button
+	return button
 end })
 
 function FloatingChatFrame_OnMouseScroll(self, delta)
@@ -293,7 +291,7 @@ function PhanxChat:ProcessFrame(frame)
 
 	if frame ~= COMBATLOG then
 		if not hooks[frame] then
-			hooks[frame] = { }
+			hooks[frame] = {}
 		end
 		if not hooks[frame].AddMessage then
 			hooks[frame].AddMessage = frame.AddMessage
@@ -346,7 +344,7 @@ function PhanxChat:ADDON_LOADED(addon)
 	}
 
 	if not PhanxChatDB then
-		PhanxChatDB = { }
+		PhanxChatDB = {}
 	end
 	self.db = PhanxChatDB
 	db = PhanxChatDB -- faster access for AddMessage
