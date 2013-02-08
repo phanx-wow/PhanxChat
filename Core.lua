@@ -394,5 +394,5 @@ function PhanxChat:UnregisterEvent(event) return self.frame:UnregisterEvent(even
 
 _G.PhanxChat = PhanxChat
 
-_G.SLASH_RELOADUI1 = "/rl"
-_G.SlashCmdList.RELOADUI = ReloadUI
+SLASH_RELOADUI1 = "/rl"
+SlashCmdList.RELOADUI = ReloadUI
