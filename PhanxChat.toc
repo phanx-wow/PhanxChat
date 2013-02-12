@@ -18,7 +18,7 @@
 ## X-Curse-Project-ID: phanxchat
 ## X-WoWI-ID: 6323
 
-## OptionalDependencies: LibAboutPanel, PhanxConfigWidgets
+## OptionalDependencies: LibAboutPanel, PhanxConfigWidgets, LibChatAnims
 ## SavedVariables: PhanxChatDB
 
 Libs\LibStub\LibStub.lua
@@ -29,6 +29,8 @@ Libs\PhanxConfig-EditBox\PhanxConfig-EditBox.lua
 Libs\PhanxConfig-Header\PhanxConfig-Header.lua
 Libs\PhanxConfig-OptionsPanel\PhanxConfig-OptionsPanel.lua
 Libs\PhanxConfig-Slider\PhanxConfig-Slider.lua
+
+Libs\LibChatAnims\LibChatAnims.lua
 
 Locales\Locale-deDE.lua
 Locales\Locale-esES.lua
