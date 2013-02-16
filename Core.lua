@@ -143,8 +143,8 @@ for name, abbr in pairs(CUSTOM_CHANNELS) do
 	ChannelNames[strlower(name)] = abbr
 end
 
-local CHANNEL_PATTERN = "|h%[(%d+)%.%s?([^%]%:%-%s]+)[^%]]*%]|h%s?"
-local CHANNEL_PATTERN_PLUS = "|h%[(%d+)%.%s?([^%]%:%-%s]+)[^%]]*%]|h%s?.+"
+local CHANNEL_PATTERN      = "|h%[(%d+)%.%s?([^%]%:%-]-)%s?[%:%-]?[^%]]*%]|h%s?"
+local CHANNEL_PATTERN_PLUS = "|h%[(%d+)%.%s?([^%]%:%-]-)%s?[%:%-]?[^%]]*%]|h%s?.+"
 
 local PLAYER_PATTERN = "|Hplayer:(.-)|h%[(.-)%]|h"
 local BNPLAYER_PATTERN = "|HBNplayer:(.-)|h%[(|Kf(%d+).-)%](.*)|h"
