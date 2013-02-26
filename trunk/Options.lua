@@ -9,7 +9,7 @@
 
 local PHANXCHAT, PhanxChat = ...
 
-local panel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(PHANXCHAT, nil, function(self)
+PhanxChat.OptionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(PHANXCHAT, nil, function(self)
 	local L = PhanxChat.L
 	local db = PhanxChat.db
 
@@ -30,17 +30,17 @@ local panel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(PHANXCHAT, 
 
 	--------------------------------------------------------------------
 
-	local ShortenPlayerNames = self:CreateCheckbox(L.ShortenPlayerNames, L.ShortenPlayerNames_Desc)
-	ShortenPlayerNames:SetPoint("TOPLEFT", ShortenChannelNames, "BOTTOMLEFT", 0, -8)
-	ShortenPlayerNames.OnValueChanged = function(self, value)
-		if PhanxChat.debug then print("PhanxChat: ShortenPlayerNames", checked) end
-		db.ShortenPlayerNames = value
+	local RemoveRealmNames = self:CreateCheckbox(L.RemoveRealmNames, L.RemoveRealmNames_Desc)
+	RemoveRealmNames:SetPoint("TOPLEFT", ShortenChannelNames, "BOTTOMLEFT", 0, -8)
+	RemoveRealmNames.OnValueChanged = function(self, value)
+		if PhanxChat.debug then print("PhanxChat: RemoveRealmNames", checked) end
+		db.RemoveRealmNames = value
 	end
 
 	--------------------------------------------------------------------
 
 	local ReplaceRealNames = self:CreateCheckbox(L.ReplaceRealNames, L.ReplaceRealNames_Desc)
-	ReplaceRealNames:SetPoint("TOPLEFT", ShortenPlayerNames, "BOTTOMLEFT", 0, -8)
+	ReplaceRealNames:SetPoint("TOPLEFT", RemoveRealmNames, "BOTTOMLEFT", 0, -8)
 	ReplaceRealNames.OnValueChanged = function(self, value)
 		if PhanxChat.debug then print("PhanxChat: ReplaceRealNames", checked) end
 		PhanxChat:SetReplaceRealNames(checked)
@@ -65,27 +65,28 @@ local panel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(PHANXCHAT, 
 			local info = UIDropDownMenu_CreateInfo()
 			local selected = db.ShortenRealNames
 
-			info.text = L["Replace with BattleTag"]
+			info.text = L.ShortenRealNames_UseBattleTag
 			info.value = "BATTLETAG"
-			info.func = OnValueChanged
 			info.checked = "BATTLETAG" == selected
+			info.func = OnValueChanged
 			UIDropDownMenu_AddButton(info)
 
-			info.text = L["Show first name only"]
+			info.text = L.ShortenRealNames_UseFirstName
 			info.value = "FIRSTNAME"
-			info.func = OnValueChanged
 			info.checked = "FIRSTNAME" == selected
+			info.func = OnValueChanged
 			UIDropDownMenu_AddButton(info)
 
-			info.text = L["Keep full name"]
+			info.text = L.ShortenRealNames_UseFullName
 			info.value = "FULLNAME"
-			info.func = OnValueChanged
 			info.checked = "FULLNAME" == selected
+			info.func = OnValueChanged
 			UIDropDownMenu_AddButton(info)
 		end)
+		ShortenRealNames:SetPoint("TOPLEFT", ReplaceRealNames, "BOTTOMLEFT", 0, -8)
+		--ShortenRealNames:SetPoint("TOPRIGHT", notes, "BOTTOM", -8, -24 - (ReplaceRealNames:GetHeight() * 3))
+		ShortenRealNames:SetWidth(200)
 	end
-	ShortenRealNames:SetPoint("TOPLEFT", ReplaceRealNames, "BOTTOMLEFT", 0, -8)
-	ShortenRealNames:SetPoint("TOPRIGHT", notes, "BOTTOM", -8, -24 - (ReplaceRealNames:GetHeight() * 3))
 
 	--------------------------------------------------------------------
 
@@ -201,37 +202,39 @@ local panel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(PHANXCHAT, 
 			EnableSticky:SetValue(self.value, self.text)
 		end
 
-		EnableSticky = self:CreateDropdown(L.EnableSticky, L.EnableSticky_Desc function()
+		EnableSticky = self:CreateDropdown(L.EnableSticky, L.EnableSticky_Desc, function()
 			local info = UIDropDownMenu_CreateInfo()
 			local selected = db.EnableSticky
 
 			info.text = L.All
 			info.value = "ALL"
-			info.func = OnValueChanged
 			info.checked = "ALL" == selected
+			info.func = OnValueChanged
 			UIDropDownMenu_AddButton(info)
 
 			info.text = L.Default
 			info.value = "BLIZZARD"
-			info.func = OnValueChanged
 			info.checked = "BLIZZARD" == selected
+			info.func = OnValueChanged
 			UIDropDownMenu_AddButton(info)
 
 			info.text = L.None
 			info.value = "NONE"
-			info.func = OnValueChanged
 			info.checked = "NONE" == selected
+			info.func = OnValueChanged
 			UIDropDownMenu_AddButton(info)
 		end)
+		EnableSticky:SetPoint("TOPLEFT", ShowClassColors, "BOTTOMLEFT", 0, -14)
+		--EnableSticky:SetPoint("TOPRIGHT", notes, "BOTTOMRIGHT", -2, -18 - ((ShowClassColors:GetHeight() + 8) * 4))
+		EnableSticky:SetWidth(200)
 	end
-	EnableSticky:SetPoint("TOPLEFT", ShowClassColors, "BOTTOMLEFT", 0, -14)
-	EnableSticky:SetPoint("TOPRIGHT", notes, "BOTTOMRIGHT", -2, -18 - ((ShowClassColors:GetHeight() + 8) * 4))
 
 	--------------------------------------------------------------------
 
 	local FadeTime = self:CreateSlider(L.FadeTime, L.FadeTime_Desc, 0, 10, 1)
 	FadeTime:SetPoint("TOPLEFT", EnableSticky, "BOTTOMLEFT", 0, -12)
-	FadeTime:SetPoint("TOPRIGHT", EnableSticky, "BOTTOMRIGHT", 0, -12)
+	--FadeTime:SetPoint("TOPRIGHT", EnableSticky, "BOTTOMRIGHT", 0, -12)
+	FadeTime:SetWidth(200)
 	FadeTime.OnValueChanged = function(self, value)
 		value = math.floor(value + 0.5)
 		if PhanxChat.debug then print("PhanxChat: SetFadeTime", value) end
@@ -242,8 +245,9 @@ local panel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(PHANXCHAT, 
 	--------------------------------------------------------------------
 
 	local FontSize = self:CreateSlider(L.FontSize, L.FontSize_Desc .. "\n\n" .. L.FontSize_Note, 8, 24, 1)
-	FontSize:SetPoint("TOPLEFT", FadeTime, "BOTTOMLEFT", 0, -10)
-	FontSize:SetPoint("TOPRIGHT", FadeTime, "BOTTOMRIGHT", 0, -10)
+	FontSize:SetPoint("TOPLEFT", FadeTime, "BOTTOMLEFT", 0, -12)
+	--FontSize:SetPoint("TOPRIGHT", FadeTime, "BOTTOMRIGHT", 0, -12)
+	FontSize:SetWidth(200)
 	FontSize.OnValueChanged = function(self, value)
 		if PhanxChat.debug then print("PhanxChat: FCF_SetChatWindowFontSize", value) end
 		db.FontSize = value
@@ -256,7 +260,7 @@ local panel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(PHANXCHAT, 
 
 	self.refresh = function(self)
 		ShortenChannelNames:SetChecked(db.ShortenChannelNames)
-		RemoveServerNames:SetChecked(db.RemoveServerNames)
+		RemoveRealmNames:SetChecked(db.RemoveRealmNames)
 		ReplaceRealNames:SetChecked(db.ReplaceRealNames)
 		ShortenRealNames:SetValue(db.ShortenRealNames, bnetValues[db.ShortenRealNames])
 		EnableArrows:SetChecked(db.EnableArrows)
@@ -279,19 +283,20 @@ local panel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(PHANXCHAT, 
 	self:refresh()
 end)
 
-LibStub("LibAboutPanel").new(PHANXCHAT, PHANXCHAT)
+PhanxChat.AboutPanel = LibStub("LibAboutPanel").new(PHANXCHAT, PHANXCHAT)
 
 ------------------------------------------------------------------------
 --	Slash command
 ------------------------------------------------------------------------
 
 SLASH_PHANXCHAT1 = "/pchat"
-SlashCmdList.PHANXCHAT = function(v)
-	if v == "clear" then
+
+SlashCmdList.PHANXCHAT = function(cmd)
+	if cmd == "clear" then
 		for i = 1, NUM_CHAT_WINDOWS do
 			_G["ChatFrame"..i]:Clear()
 		end
-	else
-		InterfaceOptionsFrame_OpenToCategory(panel)
+		return
 	end
+	InterfaceOptionsFrame_OpenToCategory(PhanxChat.OptionsPanel)
 end
