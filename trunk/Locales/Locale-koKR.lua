@@ -96,6 +96,7 @@ PhanxChat.L = {
 	["Note that this is just a shortcut to configuring each chat frame individually through the Blizzard chat options."] = "이것은 블리자드 대화창 옵션을 통해 각각의 대화창을 개별적으로 설정하기 위한 하나의 지름길이란 점에 유의하십시요.",
 	--["Show class colors"] = "",
 	--["Show class colors in all channels."] = "",
-	--["Note that this is just a shortcut to configuring each chat channel individually through the Blizzard chat options."] = "",
+	--["Note that this will override the individual options in the Blizzard chat options window."] = "",
+	--["This option is locked by PhanxChat. Use the %q option in PhanxChat instead."] = "",
 	--["This option is locked by PhanxChat. If you wish to change it, you must first disable the %q option in PhanxChat."] = "",
 }
