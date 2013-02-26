@@ -275,8 +275,8 @@ function PhanxChat:ADDON_LOADED(addon)
 	self.defaults = {
 		EnableArrows        = true,
 		EnableResizeEdges   = true,
-		EnableSticky        = "ALL",  -- ALL, BLIZZARD, NONE
-		FadeTime			= 1,      -- 0 disables fading
+		EnableSticky        = "ALL", -- ALL, BLIZZARD, NONE
+		FadeTime			= 1, -- minutes; 0 disables fading
 		HideButtons         = true,
 		HideFlash           = false,
 		HideNotices         = false,
@@ -285,9 +285,10 @@ function PhanxChat:ADDON_LOADED(addon)
 		LinkURLs            = true,
 		LockTabs            = true,
 		MoveEditBox         = true,
-		RemoveServerNames   = true,
-		ReplaceRealNames    = "FIRSTNAME", -- BATTLETAG, FIRSTNAME, FULLNAME
+		RemoveRealmNames    = true,
+		ReplaceRealNames    = true,
 		ShortenChannelNames = true,
+		ShortenRealNames    = "FIRSTNAME", -- BATTLETAG, FIRSTNAME, FULLNAME
 	}
 
 	if not PhanxChatDB then
