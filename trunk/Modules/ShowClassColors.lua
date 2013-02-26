@@ -24,7 +24,7 @@ function PhanxChat:SetShowClassColors(enable)
 			checkbox:SetChecked(enable)
 			checkbox:Disable()
 			checkbox:SetMotionScriptsWhileDisabled(true)
-			checkbox.tooltip = format(L["This option is locked by PhanxChat. Use the %q option in PhanxChat instead."], L["Show class colors"])
+			checkbox.tooltip = format(L.OptionLocked, L.ShowClassColors)
 		end
 		ToggleChatColorNamesByClassGroup(enable, CHAT_CONFIG_CHAT_LEFT[i].type)
 	end
@@ -35,7 +35,7 @@ function PhanxChat:SetShowClassColors(enable)
 			checkbox:SetChecked(enable)
 			checkbox:Disable()
 			checkbox:SetMotionScriptsWhileDisabled(true)
-			checkbox.tooltip = format(L["This option is locked by PhanxChat. Use the %q option in PhanxChat instead."], L["Show class colors"])
+			checkbox.tooltip = format(L.OptionLocked, L.ShowClassColors)
 		end
 		ToggleChatColorNamesByClassGroup(enable, "CHANNEL"..i)
 	end

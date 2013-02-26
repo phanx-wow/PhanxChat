@@ -32,15 +32,16 @@ Libs\PhanxConfig-Slider\PhanxConfig-Slider.lua
 
 Libs\LibChatAnims\LibChatAnims.lua
 
-Locales\Locale-deDE.lua
-Locales\Locale-esES.lua
-Locales\Locale-frFR.lua
-Locales\Locale-itIT.lua
-Locales\Locale-ptBR.lua
-Locales\Locale-koKR.lua
-Locales\Locale-ruRU.lua
-Locales\Locale-zhCN.lua
-Locales\Locale-zhTW.lua
+Locales\Locale-EN.lua
+Locales\Locale-DE.lua
+Locales\Locale-ES.lua
+Locales\Locale-FR.lua
+Locales\Locale-IT.lua
+Locales\Locale-PT.lua
+Locales\Locale-KO.lua
+Locales\Locale-RU.lua
+Locales\Locale-ZH-CN.lua
+Locales\Locale-ZH-TW.lua
 
 Core.lua
 Options.lua

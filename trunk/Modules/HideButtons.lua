@@ -8,6 +8,7 @@
 ----------------------------------------------------------------------]]
 
 local _, PhanxChat = ...
+local L = PhanxChat.L
 
 local noop = function() end
 
@@ -74,7 +75,7 @@ function PhanxChat:HideButtons(frame)
 			InterfaceOptionsSocialPanelChatMouseScroll_SetScrolling("1")
 			InterfaceOptionsSocialPanelChatMouseScroll:Disable()
 			InterfaceOptionsSocialPanelChatMouseScrollText:SetAlpha(0.5)
-			InterfaceOptionsSocialPanelChatStyle.tooltip = string.format(PhanxChat.L["This option is locked by PhanxChat. If you wish to change it, you must first disable the \"%s\" option in PhanxChat."], PhanxChat.L["Hide buttons"])
+			InterfaceOptionsSocialPanelChatStyle.tooltip = format(L.OptionLockedConditional, L.HideButtons)
 		end
 	else
 		buttonFrame.Show = nil

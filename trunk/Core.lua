@@ -29,35 +29,6 @@ local CUSTOM_CHANNELS = {
 
 ------------------------------------------------------------------------
 
-local DEFAULT_STRINGS = {
-	-- If you play in a non-English locale, you'll need to edit the
-	-- relevant file in the Locales subfolder, instead of this table.
-
-	CONVERSATION_ABBR        =    "",
-	GENERAL_ABBR             =   "G",
-	LOCALDEFENSE_ABBR        =  "LD",
-	LOOKINGFORGROUP_ABBR     = "LFG",
-	TRADE_ABBR               =   "T",
-	WORLDDEFENSE_ABBR        =  "WD",
-
-	GUILD_ABBR                = "g",
-	OFFICER_ABBR              = "o",
-	PARTY_ABBR                = "p",
-	PARTY_GUIDE_ABBR          = "P",
-	PARTY_LEADER_ABBR         = "P",
-	RAID_ABBR                 = "r",
-	RAID_LEADER_ABBR          = "R",
-	RAID_WARNING_ABBR         = "W",
-	INSTANCE_CHAT_ABBR        = "i",
-	INSTANCE_CHAT_LEADER_ABBR = "I",
-	SAY_ABBR                  = "s",
-	YELL_ABBR                 = "y",
-	WHISPER_ABBR              = "w",
-	WHISPER_INFORM_ABBR       = "@",
-}
-
-------------------------------------------------------------------------
-
 DEFAULT_CHATFRAME_ALPHA = 0.25
 	-- Opacity of chat frames when the mouse is over them.
 	-- Default is 0.25.
@@ -90,6 +61,7 @@ CHAT_TAB_HIDE_DELAY = 0
 ------------------------------------------------------------------------
 
 local PHANXCHAT, PhanxChat = ...
+local L, C, S = PhanxChat.L, PhanxChat.ChannelNames, PhanxChat.ShortStrings
 
 PhanxChat.name = PHANXCHAT
 PhanxChat.debug = false
@@ -113,30 +85,18 @@ local format, gsub, strlower, strmatch, strsub, tonumber, type = format, gsub, s
 
 ------------------------------------------------------------------------
 
-if not PhanxChat.L then
-	PhanxChat.L = DEFAULT_STRINGS
-end
-
-local L = setmetatable(PhanxChat.L, { __index = function(t, k)
-	if type(k) ~= "string" then return "" end
-	t[k] = k
-	return k
-end })
-
-------------------------------------------------------------------------
-
 local CHANNEL_LINK   = "|h" .. format(STRING_STYLE, CHANNEL_STYLE) .. "|h"
 
 local PLAYER_LINK    = "|Hplayer:%s|h" .. PLAYER_STYLE .. "|h"
 local PLAYER_BN_LINK = "|HBNplayer:%s|h" .. PLAYER_STYLE .. "%s|h"
 
 local ChannelNames = {
-	[L["Conversation"]]	    = L.CONVERSATION_ABBR,
-	[L["General"]]          = L.GENERAL_ABBR,
-	[L["LocalDefense"]]     = L.LOCALDEFENSE_ABBR,
-	[L["LookingForGroup"]]  = L.LOOKINGFORGROUP_ABBR,
-	[L["Trade"]]            = L.TRADE_ABBR,
-	[L["WorldDefense"]]     = L.WORLDDEFENSE_ABBR,
+	[C.Conversation]	= S.Conversation,
+	[C.General]			= S.General,
+	[C.LocalDefense]	= S.LocalDefense,
+	[C.LookingForGroup]	= S.LookingForGroup,
+	[C.Trade]			= S.Trade,
+	[C.WorldDefense]	= S.WorldDefense,
 }
 
 for name, abbr in pairs(CUSTOM_CHANNELS) do
@@ -249,9 +209,9 @@ SlashCmdList.TELLTARGET = function(message)
 	if UnitIsPlayer("target") and UnitCanCooperate("player", "target") then
 		SendChatMessage(message, "WHISPER", nil, GetUnitName("target", true):gsub("%s", ""))
 	elseif UnitExists("target") then
-		DEFAULT_CHAT_FRAME:AddMessage("|cffffff00"..PHANXCHAT..":|r "..L["You can't whisper that target!"])
+		DEFAULT_CHAT_FRAME:AddMessage(format("|cffffff00%s:|r %s", PHANXCHAT, L.Whisper_BadTarget))
 	else
-		DEFAULT_CHAT_FRAME:AddMessage("|cffffff00"..PHANXCHAT..":|r "..L["You don't have a target to whisper!"])
+		DEFAULT_CHAT_FRAME:AddMessage(format("|cffffff00%s:|r %s", PHANXCHAT, L.Whisper_NoTarget))
 	end
 end
 
@@ -315,7 +275,7 @@ function PhanxChat:ADDON_LOADED(addon)
 	self.defaults = {
 		EnableArrows        = true,
 		EnableResizeEdges   = true,
-		EnableSticky        = "ALL",  -- may be ALL, BLIZZARD, or NONE
+		EnableSticky        = "ALL",  -- ALL, BLIZZARD, NONE
 		FadeTime			= 1,      -- 0 disables fading
 		HideButtons         = true,
 		HideFlash           = false,
@@ -326,7 +286,7 @@ function PhanxChat:ADDON_LOADED(addon)
 		LockTabs            = true,
 		MoveEditBox         = true,
 		RemoveServerNames   = true,
-		ReplaceRealNames    = "FIRSTNAME", -- BATTLETAG, CHARACTER, FIRSTNAME, FULLNAME
+		ReplaceRealNames    = "FIRSTNAME", -- BATTLETAG, FIRSTNAME, FULLNAME
 		ShortenChannelNames = true,
 	}
 

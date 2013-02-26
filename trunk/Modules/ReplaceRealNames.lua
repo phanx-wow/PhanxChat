@@ -144,7 +144,7 @@ hooksecurefunc("ChatFrame_OnHyperlinkShow", function(frame, link, text, button)
 						elseif client == BNET_CLIENT_SC2 then
 							gameText = "StarCraft II"
 						end
-						return DEFAULT_CHAT_FRAME:AddMessage(format(L["%s is currently playing %s."],
+						return DEFAULT_CHAT_FRAME:AddMessage(format(L.WhoStatus_PlayingOtherGame,
 							showName, gameText),
 							color.r, color.g, color.b)
 					elseif realm == GetRealmName() then -- #TODO: Check in the future if Blizz fixes zone being nil
@@ -167,7 +167,7 @@ hooksecurefunc("ChatFrame_OnHyperlinkShow", function(frame, link, text, button)
 							color.r, color.g, color.b)
 					end
 				else
-					return DEFAULT_CHAT_FRAME:AddMessage(format(L["%s is currently offline."],
+					return DEFAULT_CHAT_FRAME:AddMessage(format(L.WhoStatus_Offline,
 						showName),
 						color.r, color.g, color.b)
 				end
