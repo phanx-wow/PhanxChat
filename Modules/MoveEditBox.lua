@@ -8,6 +8,7 @@
 ----------------------------------------------------------------------]]
 
 local _, PhanxChat = ...
+local L = PhanxChat.L
 
 function PhanxChat:MoveEditBox(frame)
 	local editBox = frame.editBox or _G[frame:GetName() .. "EditBox"]
@@ -24,7 +25,7 @@ function PhanxChat:MoveEditBox(frame)
 			InterfaceOptionsSocialPanelChatStyleButton:Disable()
 			InterfaceOptionsSocialPanelChatStyleText:SetAlpha(0.5)
 			InterfaceOptionsSocialPanelChatStyle.orig_tooltip = InterfaceOptionsSocialPanelChatStyle
-			InterfaceOptionsSocialPanelChatStyle.tooltip = string.format(PhanxChat.L["This option is locked by PhanxChat. If you wish to change it, you must first disable the \"%s\" option in PhanxChat."], PhanxChat.L["Move edit box"])
+			InterfaceOptionsSocialPanelChatStyle.tooltip = format(L.OptionLockedConditional, L.MoveEditBox)
 		end
 	else
 		editBox:ClearAllPoints()

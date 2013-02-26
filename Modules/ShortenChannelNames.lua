@@ -8,10 +8,29 @@
 ----------------------------------------------------------------------]]
 
 local _, PhanxChat = ...
-local L = PhanxChat.L
+local S = PhanxChat.ShortStrings
+local STRING_STYLE = PhanxChat.STRING_STYLE
 
-local ChannelStrings
 local hooks = { }
+
+local ChannelStrings = {
+	CHAT_BN_WHISPER_GET           = format(STRING_STYLE, S.WhisperIncoming) .. "%s:\32",
+	CHAT_BN_WHISPER_INFORM_GET    = format(STRING_STYLE, S.WhisperOutgoing) .. "%s:\32",
+	CHAT_GUILD_GET                = "|Hchannel:guild|h" .. format(STRING_STYLE, S.Guild) .. "|h%s:\32",
+	CHAT_INSTANCE_CHAT_GET        = "|Hchannel:battleground|h" .. format(STRING_STYLE, S.InstanceChat) .. "|h%s:\32",
+	CHAT_INSTANCE_CHAT_LEADER_GET = "|Hchannel:battleground|h" .. format(STRING_STYLE, S.InstanceChatLeader) .. "|h%s:\32",
+	CHAT_OFFICER_GET              = "|Hchannel:o|h" .. format(STRING_STYLE, S.Officer) .. "|h%s:\32",
+	CHAT_PARTY_GET                = "|Hchannel:party|h" .. format(STRING_STYLE, S.Party) .. "|h%s:\32",
+	CHAT_PARTY_GUIDE_GET          = "|Hchannel:party|h" .. format(STRING_STYLE, S.PartyGuide) .. "|h%s:\32",
+	CHAT_PARTY_LEADER_GET         = "|Hchannel:party|h" .. format(STRING_STYLE, S.PartyLeader) .. "|h%s:\32",
+	CHAT_RAID_GET                 = "|Hchannel:raid|h" .. format(STRING_STYLE, S.Raid) .. "|h%s:\32",
+	CHAT_RAID_LEADER_GET          = "|Hchannel:raid|h" .. format(STRING_STYLE, S.RaidLeader) .. "|h%s:\32",
+	CHAT_RAID_WARNING_GET         = format(STRING_STYLE, S.RaidWarning) .. "%s:\32",
+	CHAT_SAY_GET                  = format(STRING_STYLE, S.Say) .. "%s:\32",
+	CHAT_WHISPER_GET              = format(STRING_STYLE, S.WhisperIncoming) .. "%s:\32",
+	CHAT_WHISPER_INFORM_GET       = format(STRING_STYLE, S.WhisperOutgoing) .. "%s:\32",
+	CHAT_YELL_GET                 = format(STRING_STYLE, S.Yell) .. "%s:\32",
+}
 
 function PhanxChat:SetShortenChannelNames(v)
 	if self.debug then print("PhanxChat: SetShortenChannelNames", v) end
@@ -37,26 +56,3 @@ function PhanxChat:SetShortenChannelNames(v)
 end
 
 table.insert(PhanxChat.RunOnLoad, PhanxChat.SetShortenChannelNames)
-
-------------------------------------------------------------------------
-
-local STRING_STYLE = PhanxChat.STRING_STYLE
-
-ChannelStrings = {
-	CHAT_GUILD_GET                = "|Hchannel:Guild|h" .. STRING_STYLE:format(L.GUILD_ABBR) .. "|h%s:\32",
-	CHAT_OFFICER_GET              = "|Hchannel:o|h" .. STRING_STYLE:format(L.OFFICER_ABBR) .. "|h%s:\32",
-	CHAT_PARTY_GET                = "|Hchannel:Party|h" .. STRING_STYLE:format(L.PARTY_ABBR) .. "|h%s:\32",
-	CHAT_PARTY_GUIDE_GET          = "|Hchannel:party|h" .. STRING_STYLE:format(L.PARTY_GUIDE_ABBR) .. "|h%s:\32",
-	CHAT_PARTY_LEADER_GET         = "|Hchannel:party|h" .. STRING_STYLE:format(L.PARTY_LEADER_ABBR) .. "|h%s:\32",
-	CHAT_RAID_GET                 = "|Hchannel:raid|h" .. STRING_STYLE:format(L.RAID_ABBR) .. "|h%s:\32",
-	CHAT_RAID_LEADER_GET          = "|Hchannel:raid|h" .. STRING_STYLE:format(L.RAID_LEADER_ABBR) .. "|h%s:\32",
-	CHAT_RAID_WARNING_GET         = STRING_STYLE:format(L.RAID_WARNING_ABBR) .. "%s:\32",
-	CHAT_INSTANCE_CHAT_GET        = "|Hchannel:Battleground|h" .. STRING_STYLE:format(L.INSTANCE_CHAT_ABBR) .. "|h%s:\32",
-	CHAT_INSTANCE_CHAT_LEADER_GET = "|Hchannel:Battleground|h" .. STRING_STYLE:format(L.INSTANCE_CHAT_LEADER_ABBR) .. "|h%s:\32",
-	CHAT_SAY_GET                  = STRING_STYLE:format(L.SAY_ABBR) .. "%s:\32",
-	CHAT_YELL_GET                 = STRING_STYLE:format(L.YELL_ABBR) .. "%s:\32",
-	CHAT_WHISPER_GET              = STRING_STYLE:format(L.WHISPER_ABBR) .. "%s:\32",
-	CHAT_WHISPER_INFORM_GET       = STRING_STYLE:format(L.WHISPER_INFORM_ABBR) .. "%s:\32",
-	CHAT_BN_WHISPER_GET           = STRING_STYLE:format(L.WHISPER_ABBR) .. "%s:\32",
-	CHAT_BN_WHISPER_INFORM_GET    = STRING_STYLE:format(L.WHISPER_INFORM_ABBR) .. "%s:\32",
-}
