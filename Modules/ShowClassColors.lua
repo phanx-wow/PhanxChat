@@ -8,52 +8,40 @@
 ----------------------------------------------------------------------]]
 
 local _, PhanxChat = ...
+local L = PhanxChat.L
 
 function PhanxChat:SetShowClassColors(enable)
-	if self.debug then print("PhanxChat: SetShowClassColors", v) end
+	if self.debug then print("PhanxChat: SetShowClassColors", enable) end
 	if type(enable) == "boolean" then
 		self.db.ShowClassColors = enable
-	end
-	if self.db.ShowClassColors then
-		local checkbox
-		for i = 1, #CHAT_CONFIG_CHAT_LEFT do
-			checkbox = _G["ChatConfigChatSettingsLeftCheckBox"..i.."ColorClasses"]
-			if checkbox then
-				checkbox:SetChecked(true)
-				checkbox:Disable()
-			end
-			ToggleChatColorNamesByClassGroup(true, CHAT_CONFIG_CHAT_LEFT[i].type)
-		end
-		for i = 1, 50 do
-			checkbox = _G["ChatConfigChannelSettingsLeftCheckBox"..i.."ColorClasses"]
-			if checkbox then
-				checkbox:SetChecked(true)
-				checkbox:Disable()
-			end
-			ToggleChatColorNamesByClassGroup(true, "CHANNEL"..i)
-		end
 	else
-		local checkbox
-		for i = 1, #CHAT_CONFIG_CHAT_LEFT do
-			checkbox = _G["ChatConfigChatSettingsLeftCheckBox"..i.."ColorClasses"]
-			if checkbox then
-				checkbox:SetChecked(false)
-				checkbox:Enable()
-			end
-			ToggleChatColorNamesByClassGroup(false, CHAT_CONFIG_CHAT_LEFT[i].type)
+		enable = self.db.ShowClassColors
+	end
+
+	for i = 1, #CHAT_CONFIG_CHAT_LEFT do
+		local checkbox = _G["ChatConfigChatSettingsLeftCheckBox"..i.."ColorClasses"]
+		if checkbox then
+			checkbox:SetChecked(enable)
+			checkbox:Disable()
+			checkbox:SetMotionScriptsWhileDisabled(true)
+			checkbox.tooltip = format(L["This option is locked by PhanxChat. Use the %q option in PhanxChat instead."], L["Show class colors"])
 		end
-		for i = 1, 50 do
-			checkbox = _G["ChatConfigChannelSettingsLeftCheckBox"..i.."ColorClasses"]
-			if checkbox then
-				checkbox:SetChecked(false)
-				checkbox:Enable()
-			end
-			ToggleChatColorNamesByClassGroup(false, "CHANNEL"..i)
+		ToggleChatColorNamesByClassGroup(enable, CHAT_CONFIG_CHAT_LEFT[i].type)
+	end
+
+	for i = 1, 50 do
+		local checkbox = _G["ChatConfigChannelSettingsLeftCheckBox"..i.."ColorClasses"]
+		if checkbox then
+			checkbox:SetChecked(enable)
+			checkbox:Disable()
+			checkbox:SetMotionScriptsWhileDisabled(true)
+			checkbox.tooltip = format(L["This option is locked by PhanxChat. Use the %q option in PhanxChat instead."], L["Show class colors"])
 		end
+		ToggleChatColorNamesByClassGroup(enable, "CHANNEL"..i)
 	end
 end
 
-table.insert(PhanxChat.RunOnLoad, PhanxChat.SetShowClassColors)
+tinsert(PhanxChat.RunOnLoad, PhanxChat.SetShowClassColors)
 
 hooksecurefunc("ChatConfig_UpdateCheckboxes", function(frame)
 	if frame == ChatConfigChatSettingsLeft or frame == ChatConfigChannelSettingsLeft then

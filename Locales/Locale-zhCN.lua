@@ -96,6 +96,7 @@ PhanxChat.L = {
 	["Note that this is just a shortcut to configuring each chat frame individually through the Blizzard chat options."] = "注意，这只是链接到暴雪每个单独的聊天框设置的快捷方式。",
 	["Show class colors"] = "显示职业颜色",
 	["Show class colors in all channels."] = "在所有频道显示职业颜色。",
-	["Note that this is just a shortcut to configuring each chat channel individually through the Blizzard chat options."] = "注意：这只是一个独立于暴雪聊天选项来设置各频道设置的快捷方式。",
+	--["Note that this will override the individual options in the Blizzard chat options window."] = "",
+	--["This option is locked by PhanxChat. Use the %q option in PhanxChat instead."] = "",
 	["This option is locked by PhanxChat. If you wish to change it, you must first disable the %q option in PhanxChat."] = "此选项被 PhanxChat 锁定。如果你想改变设置，必须先在 PhanxChat 里禁用 %q 选项。",
 }
