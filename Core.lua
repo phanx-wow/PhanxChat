@@ -161,7 +161,7 @@ local AddMessage = function(frame, message, ...)
 
 		local playerData, playerName = strmatch(message, PLAYER_PATTERN)
 		if playerData then
-			if db.ShortenPlayerNames then
+			if db.RemoveServerNames then
 				if strmatch(playerName, "|cff") then
 					playerName = gsub(playerName, "%-[^|]+", "")
 				else
@@ -173,21 +173,8 @@ local AddMessage = function(frame, message, ...)
 
 		local bnData, bnName, bnID, bnExtra = strmatch(message, BNPLAYER_PATTERN)
 		if bnData then
-			bnID = tonumber(bnID)
-			if db.ReplaceRealNames then
-				local toonName = PhanxChat.bnToonNames[bnID]
-				if toonName then
-					if db.ShortenPlayerNames then
-						bnName = gsub(toonName, "%-[^|]+", "")
-					else
-						bnName = toonName
-					end
-					if bnExtra then
-						bnExtra = gsub(bnExtra, " %(.-%)", "")
-					end
-				end
-			elseif db.ShortenPlayerNames then
-				bnName = PhanxChat.bnShortNames[bnID] or bnName
+			if db.ReplaceRealNames or db.ShortenRealNames ~= "FULLNAME" then
+				bnName = PhanxChat.bnetNames[tonumber(bnID) or ""] or bnName
 			end
 			local link = format(PLAYER_BN_LINK, bnData, bnName, bnExtra or "")
 			message = gsub(message, BNPLAYER_PATTERN, link)
@@ -338,9 +325,9 @@ function PhanxChat:ADDON_LOADED(addon)
 		LinkURLs            = true,
 		LockTabs            = true,
 		MoveEditBox         = true,
+		RemoveServerNames   = true,
+		ReplaceRealNames    = "FIRSTNAME", -- BATTLETAG, CHARACTER, FIRSTNAME, FULLNAME
 		ShortenChannelNames = true,
-		ShortenPlayerNames  = false,
-		ShowBNetCharacters  = false,
 	}
 
 	if not PhanxChatDB then
