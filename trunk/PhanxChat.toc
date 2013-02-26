@@ -12,8 +12,8 @@
 ## X-Email: addons@phanx.net
 ## X-Copyright: Copyright (c) 2006-2013 Phanx. All rights reserved.
 ## X-License: See the accompanying LICENSE file for details.
-## X-CompatibleLocales: enUS, deDE, esES, esMX, frFR, itIT, ptBR, ruRU, koKR, zhCN, zhTW
-## X-Localizations: enUS, deDE, esES, esMX, frFR, itIT, ptBR, ruRU, koKR, zhCN, zhTW
+## X-CompatibleLocales: enUS, deDE, esES, esMX, frFR, itIT, ptBR, ptPT, ruRU, koKR, zhCN, zhTW
+## X-Localizations: enUS, deDE, esES, esMX, frFR, itIT, ptBR, ptPT, ruRU, koKR, zhCN, zhTW
 ## X-Website: http://www.wowinterface.com/downloads/info6323-PhanxChat
 ## X-Curse-Project-ID: phanxchat
 ## X-WoWI-ID: 6323
@@ -32,16 +32,16 @@ Libs\PhanxConfig-Slider\PhanxConfig-Slider.lua
 
 Libs\LibChatAnims\LibChatAnims.lua
 
-Locales\Locale-EN.lua
-Locales\Locale-DE.lua
-Locales\Locale-ES.lua
-Locales\Locale-FR.lua
-Locales\Locale-IT.lua
-Locales\Locale-PT.lua
-Locales\Locale-KO.lua
-Locales\Locale-RU.lua
-Locales\Locale-ZH-CN.lua
-Locales\Locale-ZH-TW.lua
+Locales\Locale-en.lua
+Locales\Locale-de.lua
+Locales\Locale-es.lua
+Locales\Locale-fr.lua
+Locales\Locale-it.lua
+Locales\Locale-pt.lua
+Locales\Locale-ru.lua
+Locales\Locale-ko.lua
+Locales\Locale-zhCN.lua
+Locales\Locale-zhTW.lua
 
 Core.lua
 Options.lua

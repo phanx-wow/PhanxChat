@@ -8,7 +8,7 @@
 ------------------------------------------------------------------------
 	Traditional Chinese localization
 	Last updated 2012-07-29 by yunrong @ CurseForge
-	***
+	See the end of this file for a complete list of translators.
 ----------------------------------------------------------------------]]
 
 if GetLocale() ~= "zhTW" then return end
@@ -107,3 +107,10 @@ L.ReplaceRealNames_Desc = "以玩家角色名取代顯示戰網ID。"
 --L.Whisper_NoTarget = "You don't have a target to whisper!"
 --L.WhoStatus_Offline = "%s is currently offline."
 --L.WhoStatus_PlayingOtherGame = "%s is currently playing %s."
+
+--[[--------------------------------------------------------------------
+	Special thanks to the following people who have contributed
+	Traditional Chinese translations for PhanxChat:
+	- BNSSNB @ Curse
+	- yunrong @ Curse
+----------------------------------------------------------------------]]
