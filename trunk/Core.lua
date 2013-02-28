@@ -104,19 +104,17 @@ for name, abbr in pairs(CUSTOM_CHANNELS) do
 end
 
 local CHANNEL_PATTERN      = "|h%[(%d+)%.%s?([^%]%:%-]-)%s?[%:%-]?[^%]]*%]|h%s?"
-local CHANNEL_PATTERN_PLUS = "|h%[(%d+)%.%s?([^%]%:%-]-)%s?[%:%-]?[^%]]*%]|h%s?.+"
+local CHANNEL_PATTERN_PLUS = CHANNEL_PATTERN .. ".+"
 
 local PLAYER_PATTERN = "|Hplayer:(.-)|h%[(.-)%]|h"
 local BNPLAYER_PATTERN = "|HBNplayer:(.-)|h%[(|Kf(%d+).-)%](.*)|h"
 
 local AddMessage = function(frame, message, ...)
 	if type(message) == "string" then
-		if db.ShortenChannelNames then
-			local channelID, channelName = strmatch(message, CHANNEL_PATTERN_PLUS)
-			if channelID then
-				channelName = ChannelNames[channelName] or ChannelNames[strlower(channelName)] or strsub(channelName, 1, 2)
-				message = gsub(message, CHANNEL_PATTERN, (CHANNEL_LINK:gsub("%%d", channelID):gsub("%%s", channelName)))
-			end
+		local channelID, channelName = strmatch(message, CHANNEL_PATTERN_PLUS)
+		if channelID and db.ShortenChannelNames then
+			local shortName = ChannelNames[channelName] or ChannelNames[strlower(channelName)] or strsub(channelName, 1, 2)
+			message = gsub(message, CHANNEL_PATTERN, (CHANNEL_LINK:gsub("%%d", channelID):gsub("%%s", channelName)))
 		end
 
 		local playerData, playerName = strmatch(message, PLAYER_PATTERN)
@@ -129,6 +127,9 @@ local AddMessage = function(frame, message, ...)
 				end
 			end
 			message = gsub(message, PLAYER_PATTERN, format(PLAYER_LINK, playerData, playerName))
+		elseif channelID then
+			-- WorldDefense messages don't have a sender; remove the extra colon and space.
+			message = gsub(message, "(|Hchannel:.-|h): ", "%1", 1)
 		end
 
 		local bnData, bnName, bnID, bnExtra = strmatch(message, BNPLAYER_PATTERN)
