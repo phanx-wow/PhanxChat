@@ -85,7 +85,7 @@ function PhanxChat:SetReplaceRealNames(v)
 		self.db.ReplaceRealNames = v
 	end
 
-	if self.db.ReplaceRealNames or self.db.ShortenPlayerNames then
+	if self.db.ReplaceRealNames or self.db.ShortenRealNames then
 		ChatFrame_AddMessageEventFilter("BN_INLINE_TOAST_ALERT", RemoveExtraName)
 		self:RegisterEvent("BN_FRIEND_ACCOUNT_ONLINE")
 		self:RegisterEvent("BN_FRIEND_TOON_ONLINE")
