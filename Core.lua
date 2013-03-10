@@ -114,7 +114,7 @@ local AddMessage = function(frame, message, ...)
 		local channelID, channelName = strmatch(message, CHANNEL_PATTERN_PLUS)
 		if channelID and db.ShortenChannelNames then
 			local shortName = ChannelNames[channelName] or ChannelNames[strlower(channelName)] or strsub(channelName, 1, 2)
-			message = gsub(message, CHANNEL_PATTERN, (CHANNEL_LINK:gsub("%%d", channelID):gsub("%%s", channelName)))
+			message = gsub(message, CHANNEL_PATTERN, (CHANNEL_LINK:gsub("%%d", channelID):gsub("%%s", shortName)))
 		end
 
 		local playerData, playerName = strmatch(message, PLAYER_PATTERN)
