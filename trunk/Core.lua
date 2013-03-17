@@ -103,11 +103,14 @@ for name, abbr in pairs(CUSTOM_CHANNELS) do
 	ChannelNames[strlower(name)] = abbr
 end
 
-local CHANNEL_PATTERN      = "|h%[(%d+)%.%s?([^%]%:%-]-)%s?[%:%-]?[^%]]*%]|h%s?"
+-- |Hchannel:channel:2|h[2. Trade]|h |Hplayer:Konquered:1281:CHANNEL:2|h|cffbf8cffKonquered|r|h: lf 2s partner
+local CHANNEL_PATTERN      = "|h%[(%d+)%.%s?([^:%-%]]+)%s?[:%-]?%s?[^|%]]*%]?|h%s?"
 local CHANNEL_PATTERN_PLUS = CHANNEL_PATTERN .. ".+"
 
 local PLAYER_PATTERN = "|Hplayer:(.-)|h%[(.-)%]|h"
 local BNPLAYER_PATTERN = "|HBNplayer:(.-)|h%[(|Kf(%d+).-)%](.*)|h"
+
+local PRINTED = {}
 
 local AddMessage = function(frame, message, ...)
 	if type(message) == "string" then
