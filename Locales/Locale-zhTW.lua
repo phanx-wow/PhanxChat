@@ -7,7 +7,7 @@
 	http://www.curse.com/addons/wow/phanxchat
 ------------------------------------------------------------------------
 	Traditional Chinese localization
-	Last updated 2012-07-29 by yunrong @ CurseForge
+	Last updated 2013-03-18 by BNSSNB
 	See the end of this file for a complete list of translators.
 ----------------------------------------------------------------------]]
 
@@ -64,13 +64,13 @@ L.EnableArrows = "輸入框中使用方向鍵"
 L.EnableArrows_Desc = "允許在輸入框中使用方向鍵。"
 L.EnableResizeEdges = "開啟邊緣調整"
 L.EnableResizeEdges_Desc = "開啟聊天框邊緣調整，而不只是在右下角調整。"
---L.EnableSticky = "Sticky chat"
---L.EnableSticky_Desc = "Set which chat types should be sticky."
+L.EnableSticky = "保持聊天頻道與類型"
+L.EnableSticky_Desc = "設定哪一聊天輸出頻道將被保持。"
 L.FadeTime = "漸隱時間"
---L.FadeTime_Desc = "Set the time, in minutes, to wait before fading chat text. A setting of 0 will disable fading."
+L.FadeTime_Desc = "設置文字消失時間，以分為單位，設為0將不消失。"
 L.FontSize = "字體大小"
---L.FontSize_Desc = "Set the font size for all chat frames."
---L.FontSize_Note = "Note that this is just a shortcut to configuring each chat frame individually through the Blizzard chat options."
+L.FontSize_Desc = "為所有聊天框設置字體大小。"
+L.FontSize_Note = "注意，這只是連結到暴雪每個單獨的聊天框設置的快捷方式。"
 L.HideButtons = "隱藏按鈕"
 L.HideButtons_Desc = "隱藏聊天視窗選單和滾動按鈕。"
 L.HideFlash = "隱藏標籤閃爍"
@@ -80,37 +80,37 @@ L.HideNotices_Desc = "隱藏聊天框內的警告訊息。"
 L.HideRepeats = "隱藏重複訊息"
 L.HideRepeats_Desc = "隱藏公共頻道中的重複刷頻訊息。"
 L.HideTextures = "隱藏額外材質"
---L.HideTextures_Desc = "Hide the extra textures on chat tabs and chat edit boxes added in patch 3.3.5."
---L.LinkURLs = "Link URLs"
---L.LinkURLs_Desc = "Transform URLs in chat into clickable links for easy copying."
---L.LockTabs = "Lock docked tabs"
---L.LockTabs_Desc = "Prevent docked chat tabs from being dragged unless the Shift key is down."
+L.HideTextures_Desc = "隱藏在3.3.5中為聊天框標籤和聊天輸入框額外加入的材質。"
+L.LinkURLs = "URL連結快速複製"
+L.LinkURLs_Desc = "轉換聊天中的URL為可點擊的連結以便複製。"
+L.LockTabs = "鎖定附著標籤"
+L.LockTabs_Desc = "鎖定已附著的聊天標籤（按住Shift移動）。"
 L.MoveEditBox = "移動聊天輸入框"
 L.MoveEditBox_Desc = "移動聊天輸入框到該訊息框頂部。"
 L.None = "無"
---L.OptionLocked = "This option is locked by PhanxChat. Use the %q option in PhanxChat instead."
---L.OptionLockedConditional = "This option is locked by PhanxChat. If you wish to change it, you must first disable the %q option in PhanxChat."
---L.RemoveRealmNames = "Remove realm names"
---L.RemoveRealmNames_Desc = "Shorten player names by removing realm names."
+L.OptionLocked = "此選項已由PhanxChat鎖定。使用PhanxChat中的 %q 選項來替代。"
+L.OptionLockedConditional = "此選項已由PhanxChat鎖定。如果你想要改動，你必須先取消PhanxChat中 %q 的選項。"
+L.RemoveRealmNames = "移除伺服器名稱"
+L.RemoveRealmNames_Desc = "移除伺服器名稱以縮短玩家名稱。"
 L.ReplaceRealNames = "替換玩家實名"
 L.ReplaceRealNames_Desc = "以玩家角色名取代顯示戰網ID。"
---L.ShortenChannelNames = "Short channel names"
---L.ShortenChannelNames_Desc = "Shorten channel names and chat strings."
---L.ShortenRealNames = "Shorten real names"
---L.ShortenRealNames_Desc = "Choose how to shorten Real ID names, if at all."
---L.ShortenRealNames_UseBattleTag = "Replace with BattleTag"
---L.ShortenRealNames_UseFirstName = "Show first name only"
---L.ShortenRealNames_UseFullName = "Keep full name"
---L.ShowClassColors = "Show class colors"
---L.ShowClassColors_Desc = "Show class colors in all channels."
---L.Whisper_BadTarget = "You can't whisper that target!"
---L.Whisper_NoTarget = "You don't have a target to whisper!"
---L.WhoStatus_Offline = "%s is currently offline."
---L.WhoStatus_PlayingOtherGame = "%s is currently playing %s."
+L.ShortenChannelNames = "縮短頻道名"
+L.ShortenChannelNames_Desc = "縮短頻道名和聊天類型名。"
+L.ShortenRealNames = "縮短玩家實名"
+L.ShortenRealNames_Desc = "選擇如何縮短玩家實名，如果是所有。"
+L.ShortenRealNames_UseBattleTag = "替換為BattleTag"
+L.ShortenRealNames_UseFirstName = "僅顯示姓"
+L.ShortenRealNames_UseFullName = "保留全名"
+L.ShowClassColors = "顯示職業顏色"
+L.ShowClassColors_Desc = "顯示職業顏色在所有頻道。"
+L.Whisper_BadTarget = "你無法密語目標! "
+L.Whisper_NoTarget = "你沒有目標可密語!"
+L.WhoStatus_Offline = "%s 目前為離線。"
+L.WhoStatus_PlayingOtherGame = "%s 目前正在玩 %s。"
 
 --[[--------------------------------------------------------------------
 	Special thanks to the following people who have contributed
 	Traditional Chinese translations for PhanxChat:
-	- BNSSNB @ Curse
-	- yunrong @ Curse
+	- BNSSNB
+	- yunrong
 ----------------------------------------------------------------------]]
