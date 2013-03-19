@@ -7,7 +7,7 @@
 	http://www.curse.com/addons/wow/phanxchat
 ------------------------------------------------------------------------
 	German localization
-	Last updated 2012-09-11 by staratnight
+	Last updated 2013-03-08 by bigx2
 	See the end of this file for a complete list of translators.
 ----------------------------------------------------------------------]]
 
@@ -88,7 +88,7 @@ L.LockTabs_Desc = "Verhindert, dass fixierte Tabs verschoben werden. Zum Verschi
 L.MoveEditBox = "Eingabefeld verschieben"
 L.MoveEditBox_Desc = "Das Eingabefeld über dem Chatfenster anzeigen."
 L.None = "Keine"
---L.OptionLocked = "This option is locked by PhanxChat. Use the %q option in PhanxChat instead."
+L.OptionLocked = "Diese Option wurde von PhanxChat gesperrt. Benutze die %q Option in PhanxChat stattdessen."
 L.OptionLockedConditional = "Diese Option ist in PhanxChat gesperrt. Wenn du sie ändern möchtest, musst du zunächst die Option %q in PhanxChat deaktivieren."
 L.RemoveRealmNames = "Servernamen entfernen"
 L.RemoveRealmNames_Desc = "Kürze die Spielernamen, indem der Servername entfernt werden."
@@ -96,21 +96,22 @@ L.ReplaceRealNames = "Echte Namen ersetzen"
 L.ReplaceRealNames_Desc = "Ersetzt die echten Namen mit den Charakternamen."
 L.ShortenChannelNames = "Channelnamen abkürzen"
 L.ShortenChannelNames_Desc = "Abkürzen der Channelnamen und Chat-Bezeichnungen."
-L.ShortenRealNames = ""
-L.ShortenRealNames_Desc = ""
-L.ShortenRealNames_UseBattleTag = ""
-L.ShortenRealNames_UseFirstName = ""
-L.ShortenRealNames_UseFullName = ""
+L.ShortenRealNames = "Echter Namen abkürzen"
+--L.ShortenRealNames_Desc = ""
+L.ShortenRealNames_UseBattleTag = "Ersetzt mit BattleTag"
+L.ShortenRealNames_UseFirstName = "Anzeigt nur die Vornamen "
+L.ShortenRealNames_UseFullName = "Erhaltet der volle Name"
 L.ShowClassColors = "Klassenfarben anzeigen"
 L.ShowClassColors_Desc = "Klassenfarben in allen Chatkanälen anzeigen."
---L.Whisper_BadTarget = "You can't whisper that target!"
---L.Whisper_NoTarget = "You don't have a target to whisper!"
---L.WhoStatus_Offline = "%s is currently offline."
---L.WhoStatus_PlayingOtherGame = "%s is currently playing %s."
+L.Whisper_BadTarget = "Du kannst dieses Ziel nicht anflüstern!"
+L.Whisper_NoTarget = "Du hast kein Ziel zum anflüstern!"
+L.WhoStatus_Offline = "%s ist zur Zeit offline."
+L.WhoStatus_PlayingOtherGame = "%s spielt zur Zeit %s."
 
 --[[--------------------------------------------------------------------
 	Special thanks to the following people who have contributed
 	German translations for PhanxChat:
 	- ac3r @ WoWInterface
-	- staratnight @ Curse
+	- bigx2 @ CurseForge
+	- staratnight @ CurseForge
 ----------------------------------------------------------------------]]
