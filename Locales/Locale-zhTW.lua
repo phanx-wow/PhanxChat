@@ -111,6 +111,6 @@ L.WhoStatus_PlayingOtherGame = "%s 目前正在玩 %s。"
 --[[--------------------------------------------------------------------
 	Special thanks to the following people who have contributed
 	Traditional Chinese translations for PhanxChat:
-	- BNSSNB
-	- yunrong
+	- BNSSNB @ CurseForge
+	- yunrong @ CurseForge
 ----------------------------------------------------------------------]]
