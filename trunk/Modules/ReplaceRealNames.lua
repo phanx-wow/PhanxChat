@@ -69,16 +69,6 @@ PhanxChat.bnetNames = bnetNames
 
 ------------------------------------------------------------------------
 
-local function RemoveExtraName( _, _, message, ... )
-	local icon = strmatch( message, "|TInterface\ChatFrame\UI-ChatIcon[^|]|t" )
-	if icon then
-		message = gsub( message, "|TInterface\FriendsFrame\UI-Toast-ToastIcons.tga:16:16:0:128:64:2:29:34:61|t", icon )
-	end
-	return true, gsub( message, " %(.-%)", "", 1 ), ...
-end
-
-------------------------------------------------------------------------
-
 function PhanxChat:SetReplaceRealNames(v)
 	-- print("PhanxChat: SetReplaceRealNames", v)
 	if type(v) == "boolean" then
@@ -86,13 +76,11 @@ function PhanxChat:SetReplaceRealNames(v)
 	end
 
 	if self.db.ReplaceRealNames or self.db.ShortenRealNames then
-		ChatFrame_AddMessageEventFilter("BN_INLINE_TOAST_ALERT", RemoveExtraName)
 		self:RegisterEvent("BN_FRIEND_ACCOUNT_ONLINE")
 		self:RegisterEvent("BN_FRIEND_TOON_ONLINE")
 		self:RegisterEvent("PLAYER_ENTERING_WORLD")
 		UpdateBNetNames()
 	else
-		ChatFrame_RemoveMessageEventFilter("BN_INLINE_TOAST_ALERT", RemoveExtraName)
 		self:UnregisterEvent("BN_FRIEND_ACCOUNT_ONLINE")
 		self:UnregisterEvent("BN_FRIEND_TOON_ONLINE")
 		self:UnregisterEvent("PLAYER_ENTERING_WORLD")
