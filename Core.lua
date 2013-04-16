@@ -139,6 +139,16 @@ local AddMessage = function(frame, message, ...)
 		if bnData then
 			if db.ReplaceRealNames or db.ShortenRealNames ~= "FULLNAME" then
 				bnName = PhanxChat.bnetNames[tonumber(bnID) or ""] or bnName
+
+				local toastIcon = strmatch(message, [[|TInterface\FriendsFrame\UI%-Toast%-ToastIcons]])
+				-- [BN] John Doe ([WoW] Charguy) has come online. -> [WoW] Charguy has come online.
+				if toastIcon then
+					local gameIcon = strmatch(message, [[|TInterface\ChatFrame\UI%-ChatIcon.-|t]])
+					if gameIcon then
+						message = gsub(message, toastIcon, gameIcon, 1)
+					end
+					message = gsub(message, " %(.-%)", "", 1)
+				end
 			end
 			local link = format(PLAYER_BN_LINK, bnData, bnName, bnExtra or "")
 			message = gsub(message, BNPLAYER_PATTERN, link)
