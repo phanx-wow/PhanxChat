@@ -13,11 +13,7 @@ PhanxChat.OptionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(
 	local L = PhanxChat.L
 	local db = PhanxChat.db
 
-	self.CreateCheckbox = LibStub("PhanxConfig-Checkbox").CreateCheckbox
-	self.CreateDropdown = LibStub("PhanxConfig-Dropdown").CreateDropdown
-	self.CreateSlider = LibStub("PhanxConfig-Slider").CreateSlider
-
-	local title, notes = LibStub("PhanxConfig-Header").CreateHeader(self, self.name, GetAddOnMetadata(PHANXCHAT, "Notes"))
+	local title, notes = self:CreateHeader(self.name, GetAddOnMetadata(PHANXCHAT, "Notes"))
 
 	--------------------------------------------------------------------
 
@@ -229,15 +225,27 @@ PhanxChat.OptionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(
 
 	--------------------------------------------------------------------
 
-	local FadeTime = self:CreateSlider(L.FadeTime, L.FadeTime_Desc, 0, 10, 1)
+	local FadeTime = self:CreateSlider(L.FadeTime, L.FadeTime_Desc, 0, 5, 0.25)
 	FadeTime:SetPoint("TOPLEFT", EnableSticky, "BOTTOMLEFT", 0, -12)
 	--FadeTime:SetPoint("TOPRIGHT", EnableSticky, "BOTTOMRIGHT", 0, -12)
 	FadeTime:SetWidth(200)
 	FadeTime.OnValueChanged = function(self, value)
-		value = math.floor(value + 0.5)
 		if PhanxChat.debug then print("PhanxChat: SetFadeTime", value) end
 		PhanxChat:SetFadeTime(value)
 		return value
+	end
+	FadeTime.SetText = function(self, value)
+		local m = floor(value)
+		local s = 60 * (value - m)
+		if m > 0 and s > 0 then
+			self.valueText:SetFormattedText("%dm %ds", m, s)
+		elseif m > 0 then
+			self.valueText:SetFormattedText("%dm", m)
+		elseif s > 0 then
+			self.valueText:SetFormattedText("%ds", s)
+		else
+			self.valueText:SetText("Disabled")
+		end
 	end
 
 	--------------------------------------------------------------------
@@ -290,7 +298,7 @@ PhanxChat.AboutPanel = LibStub("LibAboutPanel").new(PHANXCHAT, PHANXCHAT)
 SLASH_PHANXCHAT1 = "/pchat"
 
 SlashCmdList.PHANXCHAT = function(cmd)
-	if cmd == "clear" then
+	if strlower(cmd) == "clear" then
 		for i = 1, NUM_CHAT_WINDOWS do
 			_G["ChatFrame"..i]:Clear()
 		end
