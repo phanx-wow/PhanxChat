@@ -225,7 +225,7 @@ PhanxChat.OptionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(
 
 	--------------------------------------------------------------------
 
-	local FadeTime = self:CreateSlider(L.FadeTime, L.FadeTime_Desc, 0, 5, 0.25)
+	local FadeTime = self:CreateSlider(L.FadeTime, L.FadeTime_Desc, 0, 5, 0.25, nil, true)
 	FadeTime:SetPoint("TOPLEFT", EnableSticky, "BOTTOMLEFT", 0, -12)
 	--FadeTime:SetPoint("TOPRIGHT", EnableSticky, "BOTTOMRIGHT", 0, -12)
 	FadeTime:SetWidth(200)
