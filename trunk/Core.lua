@@ -104,13 +104,41 @@ for name, abbr in pairs(CUSTOM_CHANNELS) do
 end
 
 -- |Hchannel:channel:2|h[2. Trade]|h |Hplayer:Konquered:1281:CHANNEL:2|h|cffbf8cffKonquered|r|h: lf 2s partner
-local CHANNEL_PATTERN      = "|h%[(%d+)%.%s?([^:%-%]]+)%s?[:%-]?%s?[^|%]]*%]?|h%s?"
+local CHANNEL_PATTERN      = "|h%[(%d+)%.%s?([^:%-%]]+)%s?[:%-]?%s?[^|%]]*%]|h%s?"
 local CHANNEL_PATTERN_PLUS = CHANNEL_PATTERN .. ".+"
 
 local PLAYER_PATTERN = "|Hplayer:(.-)|h%[(.-)%]|h"
 local BNPLAYER_PATTERN = "|HBNplayer:(.-)|h%[(|Kf(%d+).-)%](.*)|h"
 
-local PRINTED = {}
+local CHANNEL_PLAIN = format(STRING_STYLE, CHANNEL_STYLE)
+local CHANNEL_PATTERN_PLAIN = "%[(%d+)%. ?([^:%-%]]+)[^%]]*%](.*)" -- see also CHAT_CHANNEL_SEND
+hooksecurefunc("ChatEdit_UpdateHeader", function(editBox)
+	if db.ShortenChannelNames and editBox:GetAttribute("chatType") == "CHANNEL" then
+		local header = _G[editBox:GetName() .. "Header"]
+		local text = header:GetText()
+		local channelID, channelName, headerSuffix = strmatch(text, CHANNEL_PATTERN_PLAIN)
+		if channelID then
+			header:SetWidth(0)
+
+			local shortName = ChannelNames[channelName] or ChannelNames[strlower(channelName)] or strsub(channelName, 1, 2)
+			--print(text, "=>", channelID, channelName, "=>", shortName)
+			channelName = CHANNEL_PLAIN:gsub("%%d", channelID):gsub("%%s", shortName)
+			header:SetFormattedText("%s%s", channelName, headerSuffix or "")
+
+			local headerSuffix = _G[editBox:GetName() .. "HeaderSuffix"]
+			local headerWidth = (header:GetRight() or 0) - (header:GetLeft() or 0)
+			local editBoxWidth = editBox:GetRight() - editBox:GetLeft()
+			if headerWidth * 2 > editBoxWidth then
+				header:SetWidth(editBoxWidth / 2)
+				headerSuffix:Show()
+				editBox:SetTextInsets(15 + header:GetWidth() + headerSuffix:GetWidth(), 13, 0, 0)
+			else
+				headerSuffix:Hide()
+				editBox:SetTextInsets(15 + header:GetWidth(), 13, 0, 0)
+			end
+		end
+	end
+end)
 
 local AddMessage = function(frame, message, ...)
 	if type(message) == "string" then
