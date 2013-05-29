@@ -7,8 +7,7 @@
 	http://www.curse.com/addons/wow/phanxchat
 ------------------------------------------------------------------------
 	French localization
-	Last updated 2012-11-30 by L0relei @ Curse
-	***
+	See the end of this file for a complete list of translators.
 ----------------------------------------------------------------------]]
 
 if GetLocale() ~= "frFR" then return end
@@ -107,3 +106,9 @@ L.ShowClassColors_Desc = "Afficher les couleurs de classe dans tous les canaux."
 --L.Whisper_NoTarget = "You don't have a target to whisper!"
 --L.WhoStatus_Offline = "%s is currently offline."
 --L.WhoStatus_PlayingOtherGame = "%s is currently playing %s."
+
+--[[--------------------------------------------------------------------
+	Special thanks to the following people who have contributed
+	French translations for PhanxChat:
+	- L0relei @ CurseForge
+----------------------------------------------------------------------]]

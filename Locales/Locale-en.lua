@@ -7,7 +7,6 @@
 	http://www.curse.com/addons/wow/phanxchat
 ------------------------------------------------------------------------
 	English localization
-	Last updated 2013-02-26 by Phanx
 	These strings will be used if no localized version overrides them.
 ----------------------------------------------------------------------]]
 

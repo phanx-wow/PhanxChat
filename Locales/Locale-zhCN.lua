@@ -7,8 +7,7 @@
 	http://www.curse.com/addons/wow/phanxchat
 ------------------------------------------------------------------------
 	Simplified Chinese localization
-	Last updated 2012-09-10 by tss1398383123 @ CurseForge
-	***
+	See the end of this file for a complete list of translators.
 ----------------------------------------------------------------------]]
 
 if GetLocale() ~= "zhCN" then return end
@@ -88,22 +87,28 @@ L.LockTabs_Desc = "锁定已附着的聊天标签（按住Shift移动）。"
 L.MoveEditBox = "移动聊天输入框"
 L.MoveEditBox_Desc = "移动聊天输入框到该信息框顶部。"
 L.None = "无"
---L.OptionLocked = "This option is locked by PhanxChat. Use the %q option in PhanxChat instead."
+L.OptionLocked = "此选项已被 PhanxChat 锁定。使用 PhanxChat 的 %q 选项代替。"
 L.OptionLockedConditional = "此选项被 PhanxChat 锁定。如果你想改变设置，必须先在 PhanxChat 里禁用 %q 选项。"
-L.RemoveRealmNames = "Remove realm names"
---L.RemoveRealmNames_Desc = "Shorten player names by removing realm names."
---L.ReplaceRealNames = "替换玩家实名"
+L.RemoveRealmNames = "移除服务器名"
+L.RemoveRealmNames_Desc = "移除玩家服务器名来缩短名字长度。"
+L.ReplaceRealNames = "替换玩家实名"
 L.ReplaceRealNames_Desc = "以玩家角色名替换显示战网实名。"
 L.ShortenChannelNames = "缩短频道名"
 L.ShortenChannelNames_Desc = "缩短频道名和聊天类型名。"
---L.ShortenRealNames = "Shorten real names"
---L.ShortenRealNames_Desc = "Choose how to shorten Real ID names, if at all."
---L.ShortenRealNames_UseBattleTag = "Replace with BattleTag"
---L.ShortenRealNames_UseFirstName = "Show first name only"
---L.ShortenRealNames_UseFullName = "Keep full name"
+L.ShortenRealNames = "缩短玩家实名"
+L.ShortenRealNames_Desc = "如果可行，选择如何去缩短玩家实名。"
+L.ShortenRealNames_UseBattleTag = "用战网昵称代替"
+L.ShortenRealNames_UseFirstName = "只显示角色名"
+L.ShortenRealNames_UseFullName = "保持全名"
 L.ShowClassColors = "显示职业颜色"
 L.ShowClassColors_Desc = "在所有频道显示职业颜色。"
---L.Whisper_BadTarget = "You can't whisper that target!"
---L.Whisper_NoTarget = "You don't have a target to whisper!"
---L.WhoStatus_Offline = "%s is currently offline."
---L.WhoStatus_PlayingOtherGame = "%s is currently playing %s."
+L.Whisper_BadTarget = "你无法密语此目标！"
+L.Whisper_NoTarget = "你无法在没有目标时密语！"
+L.WhoStatus_Offline = "%s 离线。"
+L.WhoStatus_PlayingOtherGame = "%s 在线 %s。"
+
+--[[--------------------------------------------------------------------
+	Special thanks to the following people who have contributed
+	Simplified Chinese translations for PhanxChat:
+	- tss1398383123 @ CurseForge
+----------------------------------------------------------------------]]

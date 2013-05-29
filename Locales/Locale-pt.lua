@@ -7,8 +7,7 @@
 	http://www.curse.com/addons/wow/phanxchat
 ------------------------------------------------------------------------
 	Portuguese localization
-	Last updated 2012-11-23 by mgaedke @ Curse
-	***
+	See the end of this file for a complete list of translators.
 ----------------------------------------------------------------------]]
 
 if not strmatch(GetLocale(), "^pt") then return end
@@ -107,3 +106,9 @@ L.ShowClassColors_Desc = "Mostrar cores das classes em todos os canais."
 --L.Whisper_NoTarget = "You don't have a target to whisper!"
 --L.WhoStatus_Offline = "%s is currently offline."
 --L.WhoStatus_PlayingOtherGame = "%s is currently playing %s."
+
+--[[--------------------------------------------------------------------
+	Special thanks to the following people who have contributed
+	Portuguese translations for PhanxChat:
+	- mgaedke @ Curse
+----------------------------------------------------------------------]]

@@ -7,8 +7,7 @@
 	http://www.curse.com/addons/wow/phanxchat
 ------------------------------------------------------------------------
 	Korean localization
-	Last updated 2010-12-30 by talkswind @ Curse
-	***
+	See the end of this file for a complete list of translators.
 ----------------------------------------------------------------------]]
 
 if GetLocale() ~= "koKR" then return end
@@ -107,3 +106,9 @@ L.ShortenChannelNames_Desc = "채널 이름과 대화 구문열을 줄입니다.
 --L.Whisper_NoTarget = "You don't have a target to whisper!"
 --L.WhoStatus_Offline = "%s is currently offline."
 --L.WhoStatus_PlayingOtherGame = "%s is currently playing %s."
+
+--[[--------------------------------------------------------------------
+	Special thanks to the following people who have contributed
+	Korean translations for PhanxChat:
+	- talkswind @ Curse
+----------------------------------------------------------------------]]

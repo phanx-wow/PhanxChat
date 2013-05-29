@@ -7,7 +7,6 @@
 	http://www.curse.com/addons/wow/phanxchat
 ------------------------------------------------------------------------
 	Traditional Chinese localization
-	Last updated 2013-03-18 by BNSSNB
 	See the end of this file for a complete list of translators.
 ----------------------------------------------------------------------]]
 

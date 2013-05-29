@@ -7,7 +7,6 @@
 	http://www.curse.com/addons/wow/phanxchat
 ------------------------------------------------------------------------
 	German localization
-	Last updated 2013-03-08 by bigx2
 	See the end of this file for a complete list of translators.
 ----------------------------------------------------------------------]]
 
@@ -97,7 +96,7 @@ L.ReplaceRealNames_Desc = "Ersetzt die echten Namen mit den Charakternamen."
 L.ShortenChannelNames = "Channelnamen abkürzen"
 L.ShortenChannelNames_Desc = "Abkürzen der Channelnamen und Chat-Bezeichnungen."
 L.ShortenRealNames = "Echter Namen abkürzen"
---L.ShortenRealNames_Desc = ""
+L.ShortenRealNames_Desc = "Wählen, um Real ID Namen abzukürzen."
 L.ShortenRealNames_UseBattleTag = "Ersetzt mit BattleTag"
 L.ShortenRealNames_UseFirstName = "Anzeigt nur die Vornamen "
 L.ShortenRealNames_UseFullName = "Erhaltet der volle Name"
