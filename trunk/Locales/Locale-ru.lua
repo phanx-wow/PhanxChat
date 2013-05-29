@@ -7,8 +7,7 @@
 	http://www.curse.com/addons/wow/phanxchat
 ------------------------------------------------------------------------
 	Russian localization
-	Last updated 2010-08-06 by hungry2 @ Curse
-	***
+	See the end of this file for a complete list of translators.
 ----------------------------------------------------------------------]]
 
 if GetLocale() ~= "ruRU" then return end
@@ -107,3 +106,9 @@ L.ShortenChannelNames_Desc = "Сокращать имена каналов и с
 --L.Whisper_NoTarget = "You don't have a target to whisper!"
 --L.WhoStatus_Offline = "%s is currently offline."
 --L.WhoStatus_PlayingOtherGame = "%s is currently playing %s."
+
+--[[--------------------------------------------------------------------
+	Special thanks to the following people who have contributed
+	Russian translations for PhanxChat:
+	- hungry2 @ CurseForge
+----------------------------------------------------------------------]]
