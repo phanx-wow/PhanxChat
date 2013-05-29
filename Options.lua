@@ -180,6 +180,7 @@ PhanxChat.OptionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(
 	ShowClassColors.OnValueChanged = function(self, value)
 		if PhanxChat.debug then print("PhanxChat: SetShowClassColors", value) end
 		PhanxChat:SetShowClassColors(value)
+		PhanxChat:SetReplaceRealNames() -- need to flush the bnetName cache
 	end
 
 	--------------------------------------------------------------------
