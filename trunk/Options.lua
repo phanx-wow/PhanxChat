@@ -35,8 +35,6 @@ PhanxChat.OptionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(
 
 	--------------------------------------------------------------------
 
-	local ShortenRealNames
-
 	local ReplaceRealNames = self:CreateCheckbox(L.ReplaceRealNames, L.ReplaceRealNames_Desc)
 	ReplaceRealNames:SetPoint("TOPLEFT", RemoveRealmNames, "BOTTOMLEFT", 0, -8)
 	ReplaceRealNames.ApplyValue = function(self, value)
@@ -46,6 +44,7 @@ PhanxChat.OptionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(
 
 	--------------------------------------------------------------------
 
+	local ShortenRealNames
 	local bnetValues = {
 		BATTLETAG = L.ShortenRealNames_UseBattleTag,
 		FIRSTNAME = L.ShortenRealNames_UseFirstName,
@@ -62,23 +61,21 @@ PhanxChat.OptionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(
 			local selected = db.ShortenRealNames
 
 			local info = UIDropDownMenu_CreateInfo()
+			info.func = ApplyValue
 
 			info.text = L.ShortenRealNames_UseBattleTag
 			info.value = "BATTLETAG"
 			info.checked = "BATTLETAG" == selected
-			info.func = ApplyValue
 			UIDropDownMenu_AddButton(info)
 
 			info.text = L.ShortenRealNames_UseFirstName
 			info.value = "FIRSTNAME"
 			info.checked = "FIRSTNAME" == selected
-			info.func = ApplyValue
 			UIDropDownMenu_AddButton(info)
 
 			info.text = L.ShortenRealNames_UseFullName
 			info.value = "FULLNAME"
 			info.checked = "FULLNAME" == selected
-			info.func = ApplyValue
 			UIDropDownMenu_AddButton(info)
 		end)
 		ShortenRealNames:SetPoint("TOPLEFT", ReplaceRealNames, "BOTTOMLEFT", 0, -8)

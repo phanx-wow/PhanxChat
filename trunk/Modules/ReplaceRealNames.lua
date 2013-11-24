@@ -81,6 +81,8 @@ function PhanxChat:SetReplaceRealNames(v)
 	-- print("PhanxChat: SetReplaceRealNames", v)
 	if type(v) == "boolean" then
 		self.db.ReplaceRealNames = v
+	elseif type(v) == "string" then
+		self.db.ShortenRealNames = v
 	end
 
 	if self.db.ReplaceRealNames or self.db.ShortenRealNames then
