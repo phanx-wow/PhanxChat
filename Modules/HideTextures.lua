@@ -67,16 +67,16 @@ function PhanxChat:HideTextures(frame)
 
 		local tab =  _G[name .. "Tab"]
 		tab.frame = frame
-		tab.left = _G[name .. "TabLeft"]
+		tab.left  = _G[name .. "TabLeft"]
 		tab.right = _G[name .. "TabRight"]
-		tab.mid = _G[name .. "TabMiddle"]
-		tab.text = _G[name .. "TabText"]
+		tab.mid   = _G[name .. "TabMiddle"]
+		tab.text  = _G[name .. "TabText"]
 		frame.tab = tab
 
 		local editBox = frame.editBox
-		editBox.left = _G[name .. "EditBoxLeft"]
+		editBox.left  = _G[name .. "EditBoxLeft"]
 		editBox.right = _G[name .. "EditBoxRight"]
-		editBox.mid = _G[name .. "EditBoxMid"]
+		editBox.mid   = _G[name .. "EditBoxMid"]
 
 		local highlight = tab:CreateTexture(nil, "HIGHLIGHT")
 		highlight:SetTexture([[Interface\PaperDollInfoFrame\UI-Character-Tab-Highlight]])
@@ -143,7 +143,7 @@ function PhanxChat:HideTextures(frame)
 		end
 		if not hooks[tab].OnEnter then
 			hooks[tab].OnEnter = tab:GetScript("OnEnter")
-			tab:SetScript("OnLeave", Tab_OnEnter)
+			tab:SetScript("OnEnter", Tab_OnEnter)
 		end
 		if not hooks[tab].OnLeave then
 			hooks[tab].OnLeave = tab:GetScript("OnLeave")

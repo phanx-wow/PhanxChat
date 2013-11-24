@@ -113,8 +113,8 @@ local BNPLAYER_PATTERN = "|HBNplayer:(.-)|h%[(|Kf(%d+).-)%](.*)|h"
 local CHANNEL_PLAIN = format(STRING_STYLE, CHANNEL_STYLE)
 local CHANNEL_PATTERN_PLAIN = "%[(%d+)%. ?([^:%-%]]+)[^%]]*%](.*)" -- see also CHAT_CHANNEL_SEND
 hooksecurefunc("ChatEdit_UpdateHeader", function(editBox)
-	if db.ShortenChannelNames and editBox:GetAttribute("chatType") == "CHANNEL" then
-		local header = _G[editBox:GetName() .. "Header"]
+	local header = editBox.header -- _G[editBox:GetName() .. "Header"]
+	if header and db.ShortenChannelNames and editBox:GetAttribute("chatType") == "CHANNEL" then
 		local text = header:GetText()
 		local channelID, channelName, headerSuffix = strmatch(text, CHANNEL_PATTERN_PLAIN)
 		if channelID then
@@ -125,7 +125,7 @@ hooksecurefunc("ChatEdit_UpdateHeader", function(editBox)
 			channelName = CHANNEL_PLAIN:gsub("%%d", channelID):gsub("%%s", shortName)
 			header:SetFormattedText("%s%s", channelName, headerSuffix or "")
 
-			local headerSuffix = _G[editBox:GetName() .. "HeaderSuffix"]
+			local headerSuffix = editBox.headerSuffix -- _G[editBox:GetName() .. "HeaderSuffix"]
 			local headerWidth = (header:GetRight() or 0) - (header:GetLeft() or 0)
 			local editBoxWidth = editBox:GetRight() - editBox:GetLeft()
 			if headerWidth * 2 > editBoxWidth then
@@ -168,10 +168,10 @@ local AddMessage = function(frame, message, ...)
 			if db.ReplaceRealNames or db.ShortenRealNames ~= "FULLNAME" then
 				bnName = PhanxChat.bnetNames[tonumber(bnID) or ""] or bnName
 
-				local toastIcon = strmatch(message, [[|TInterface\FriendsFrame\UI%-Toast%-ToastIcons]])
+				local toastIcon = strmatch(message, "\124TInterface\\FriendsFrame\\UI%-Toast%-ToastIcons.tga:.-\124t")
 				-- [BN] John Doe ([WoW] Charguy) has come online. -> [WoW] Charguy has come online.
 				if toastIcon then
-					local gameIcon = strmatch(message, [[|TInterface\ChatFrame\UI%-ChatIcon.-|t]])
+					local gameIcon = strmatch(message, "\124TInterface\\ChatFrame\\UI%-ChatIcon.-\124t")
 					if gameIcon then
 						message = gsub(message, toastIcon, gameIcon, 1)
 					end
@@ -228,8 +228,6 @@ function FloatingChatFrame_OnMouseScroll(self, delta)
 end
 
 ------------------------------------------------------------------------
-
-local playerRealm = GetRealmName()
 
 hooksecurefunc("ChatEdit_OnSpacePressed", function(editBox)
 	if editBox.autoCompleteParams then
