@@ -10,6 +10,13 @@
 local _, PhanxChat = ...
 local L = PhanxChat.L
 
+InterfaceOptionsSocialPanelChatStyle:HookScript("OnEnter", function(this)
+	if PhanxChat.db.MoveEditBox then
+		GameTooltip:AddLine(format(L.OptionLockedConditional, L.MoveEditBox), 1, 1, 1, true)
+		GameTooltip:Show()
+	end
+end)
+
 function PhanxChat:MoveEditBox(frame)
 	local editBox = frame.editBox or _G[frame:GetName() .. "EditBox"]
 	if not editBox then return end
@@ -19,25 +26,20 @@ function PhanxChat:MoveEditBox(frame)
 		editBox:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", -5, 2)
 		editBox:SetPoint("BOTTOMRIGHT", frame, "TOPRIGHT", 5, 2)
 
-		if not InterfaceOptionsSocialPanelChatStyle.orig_tooltip then
-			SetCVar("chatStyle", "classic")
-			InterfaceOptionsSocialPanelChatStyle_SetChatStyle("classic")
-			InterfaceOptionsSocialPanelChatStyleButton:Disable()
-			InterfaceOptionsSocialPanelChatStyleText:SetAlpha(0.5)
-			InterfaceOptionsSocialPanelChatStyle.orig_tooltip = InterfaceOptionsSocialPanelChatStyle
-			InterfaceOptionsSocialPanelChatStyle.tooltip = format(L.OptionLockedConditional, L.MoveEditBox)
-		end
+		SetCVar("chatStyle", "classic")
+		InterfaceOptionsSocialPanelChatStyle_SetChatStyle("classic")
+
+		InterfaceOptionsSocialPanelChatStyleButton:Disable()
+		InterfaceOptionsSocialPanelChatStyleLabel:SetVertexColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b)
+		InterfaceOptionsSocialPanelChatStyleText:SetVertexColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b)
 	else
 		editBox:ClearAllPoints()
 		editBox:SetPoint("TOPLEFT", frame, "BOTTOMLEFT", -5, -2)
 		editBox:SetPoint("TOPRIGHT", frame, "BOTTOMRIGHT", 5, -2)
 
-		if InterfaceOptionsSocialPanelChatStyle.orig_tooltip then
-			InterfaceOptionsSocialPanelChatStyleButton:Enable()
-			InterfaceOptionsSocialPanelChatStyleText:SetAlpha(1)
-			InterfaceOptionsSocialPanelChatStyle.tooltip = InterfaceOptionsSocialPanelChatStyle.orig_tooltip
-			InterfaceOptionsSocialPanelChatStyle.orig_tooltip = nil
-		end
+		InterfaceOptionsSocialPanelChatStyleButton:Enable()
+		InterfaceOptionsSocialPanelChatStyleLabel:SetVertexColor(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)
+		InterfaceOptionsSocialPanelChatStyleText:SetVertexColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b)
 	end
 end
 
