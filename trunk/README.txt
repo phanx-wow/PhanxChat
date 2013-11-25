@@ -2,25 +2,23 @@
 PhanxChat
 =============
 
-	World of Warcraft user interface addon:
-	Reduces chat frame clutter and improves chat frame usability.
-	Copyright (c) 2006-2013 Phanx
-	See the accompanying LICENSE files for more information.
+	A World of Warcraft user interface addon.
+	Copyright (c) 2006-2013 Phanx. See LICENSE.txt for more information.
 	http://www.wowinterface.com/downloads/info6323-PhanxChat
 	http://www.curse.com/addons/wow/phanxchat
-
 
 Features
 ------------
 
 * Shortens chat channel names
-* Shortens cross-realm and Real ID player names
-* Replaces Real ID names with character names
-* Enables arrow keys without the Alt key
+* Shortens cross-realm player names
+* Shortens Real ID names to BattleTag names or first names only
+* Replaces Real ID and BattleTag names with WoW character names
+* Enables arrow keys in the chat input box without the Alt key (^1)
 * Enables resizing chat frames by their edges
-* Enables sticky behavior for all channels
+* Enables sticky behavior for all channels (^2)
 * Makes URLs clickable for easy copying
-* Moves the input box above the chat frame
+* Moves the chat input box to the top of the chat frame
 * Sets the delay time for chat text fading
 * Stops docked chat tabs from being dragged
 * Hides the scroll, menu, and social buttons
@@ -29,6 +27,11 @@ Features
 * Hides channel notification messages
 * Hides repeated messages in public channels
 
+^1: Note that the Alt key is still required with the up/down arrows to
+    access previously entered chat lines, due to a Blizzard bug.
+
+^2: “Sticky” means that the chat box remembers which channel you last typed
+    into, instead of making you type “/g” or “/ra” again.
 
 Usage
 ---------
@@ -41,30 +44,29 @@ Usage
 Localization
 ----------------
 
-Compatible with English, Deutsch, Español (EU), Español (AL), Français,
-Italiano, Português, Русский, 한국어, 简体中文, and 繁體中文 game clients.
+Compatible with English, Deutsch, Español, Français, Italiano,
+Português, Русский, 한국어, 简体中文, and 繁體中文 game clients.
 
 Translated into English, Deutsch, Español, Français, Português,
-Русский, 한국어, and 简体中文.
+Русский, 한국어, 简体中文, and 繁體中文.
 
 To add or update translations for any language, see the Localization
-tab on the [CurseForge project page] [1].
+section on the [CurseForge project page] [1] or send me a PM.
 
 	[1]: http://wow.curseforge.com/addons/phanxchat/localization/
 
 
 Feedback
---------
+-----------
 
-To report a bug or suggest a feature, use the ticket tracker on either
-download site.
+To report a bug or suggest a feature, please use the links on either
+download page to submit a ticket.
 
-For general questions and comments, post a comment on WoWInterface.
+For general questions and comments, post a comment on the WoWInterface
+download page, or post an “Other”-type ticket on Curse.
 
 If you need to contact me privately for some other reason, you can email
-me at <addons@phanx.net> or send a PM to Phanx on either download site.
-
-Please *do not* email or PM me about addon bugs, addon requests, addon
-help, or programming help. I do not have time to provide free individual
-support or tutoring, and will not reply to such messages. Post a ticket,
-comment, or forum thread instead!
+me at <addons@phanx.net> or send a PM to “Phanx” on either download site.
+Please do not use PMs or email to report bugs, suggest features, or ask
+for help with addons or addon programming; I do not provide private support
+and will not reply to such messages. Post a ticket or comment instead!

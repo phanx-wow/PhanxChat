@@ -8,6 +8,7 @@
 ## Notes-esMX: Eliminar desorden de la ventana de chat y añadir algunas funciones.
 ## Notes-ptBR: Remover a desordem da janela de bate-papo e adicionar algumas funcionalidades.
 ## Notes-ruRU: Удаляет беспорядок в окне чата и добавляет новые возможности.
+## Notes-zhTW: 移除聊天框架的雜亂並新增一些功能。
 
 ## Author: Phanx
 ## X-Email: addons@phanx.net
