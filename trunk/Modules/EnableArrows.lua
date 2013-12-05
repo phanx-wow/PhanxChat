@@ -22,11 +22,17 @@ local function AddHistoryLine(frame, text)
 		return
 	end
 	--print("AddHistoryLine", text)
+	for i = 1, #history[frame] do
+		if history[frame][i] == text then
+			index[frame] = i + 1
+			return
+		end
+	end
 	tinsert(history[frame], text)
 	while #history[frame] > frame:GetHistoryLines() do
 		tremove(history[frame], 1)
 	end
-	index[frame] = #history[frame]
+	index[frame] = #history[frame] + 1
 end
 
 local function IncrementHistorySelection(frame, increment)
@@ -34,7 +40,13 @@ local function IncrementHistorySelection(frame, increment)
 	if #history[frame] == 0 then
 		return
 	end
-	local target = index[frame]
+	local target = index[frame] + increment
+	if target < 1 then
+		target = #history[frame]
+	elseif target > #history[frame] then
+		target = 1
+	end
+	index[frame] = target
 
 	local prev = frame:GetText()
 	local text = history[frame][target]
@@ -43,22 +55,15 @@ local function IncrementHistorySelection(frame, increment)
 		frame:SetCursorPosition(strlen(text))
 	end
 
-	target = target + increment
-	if target < 1 then
-		target = #history[frame]
-	elseif target > #history[frame] then
-		target = 1
-	end
-	index[frame] = target
 end
 
 local function OnArrowPressed(self, key)
 	--print("OnArrowPressed", key)
 	if PhanxChat.db.EnableArrows and not AutoCompleteBox:IsShown() then
 		if key == "UP" then
-			return IncrementHistorySelection(self, 1)
-		elseif key == "DOWN" then
 			return IncrementHistorySelection(self, -1)
+		elseif key == "DOWN" then
+			return IncrementHistorySelection(self, 1)
 		end
 	end
 end
