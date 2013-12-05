@@ -30,7 +30,7 @@ local function AddHistoryLine(frame, text)
 end
 
 local function IncrementHistorySelection(frame, increment)
-	print("IncrementHistorySelection", increment)
+	--print("IncrementHistorySelection", increment)
 	if #history[frame] == 0 then
 		return
 	end
