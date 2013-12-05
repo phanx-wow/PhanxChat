@@ -30,17 +30,26 @@ local function AddHistoryLine(frame, text)
 end
 
 local function IncrementHistorySelection(frame, increment)
-	--print("IncrementHistorySelection", increment)
-	local target = index[frame] + increment
+	print("IncrementHistorySelection", increment)
+	if #history[frame] == 0 then
+		return
+	end
+	local target = index[frame]
+
+	local prev = frame:GetText()
+	local text = history[frame][target]
+	if text ~= prev then
+		frame:SetText(text)
+		frame:SetCursorPosition(strlen(text))
+	end
+
+	target = target + increment
 	if target < 1 then
 		target = #history[frame]
 	elseif target > #history[frame] then
 		target = 1
 	end
 	index[frame] = target
-	local text = history[frame][target]
-	frame:SetText(text)
-	frame:SetCursorPosition(strlen(text))
 end
 
 local function OnArrowPressed(self, key)
