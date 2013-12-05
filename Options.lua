@@ -85,7 +85,7 @@ PhanxChat.OptionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(
 
 	--------------------------------------------------------------------
 
-	local EnableArrows = self:CreateCheckbox(L.EnableArrows, L.EnableArrows_Desc)
+	local EnableArrows = self:CreateCheckbox(L.EnableArrows, L.EnableArrows_Desc .. "\n" .. L.EnableArrows_Desc2)
 	EnableArrows:SetPoint("TOPLEFT", ShortenRealNames, "BOTTOMLEFT", 0, -8)
 	EnableArrows.ApplyValue = function(self, value)
 		if PhanxChat.debug then print("PhanxChat: EnableArrows", value) end
