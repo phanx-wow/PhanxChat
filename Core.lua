@@ -150,7 +150,7 @@ local AddMessage = function(frame, message, ...)
 
 		local playerData, playerName = strmatch(message, PLAYER_PATTERN)
 		if playerData then
-			if db.RemoveServerNames then
+			if db.RemoveRealmNames then
 				if strmatch(playerName, "|cff") then
 					playerName = gsub(playerName, "%-[^|]+", "")
 				else
@@ -316,7 +316,7 @@ function PhanxChat:ADDON_LOADED(addon)
 		EnableArrows        = true,
 		EnableResizeEdges   = true,
 		EnableSticky        = "ALL", -- ALL, BLIZZARD, NONE
-		FadeTime			= 1, -- minutes; 0 disables fading
+		FadeTime            = 1, -- minutes; 0 disables fading
 		HideButtons         = true,
 		HideFlash           = false,
 		HideNotices         = false,
