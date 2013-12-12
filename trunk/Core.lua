@@ -234,7 +234,7 @@ hooksecurefunc("ChatEdit_OnSpacePressed", function(editBox)
 		return -- print("autoCompleteParams")
 	end
 	local command, message = strmatch(editBox:GetText(), "^/[tw]t (.*)")
-	if command and UnitIsPlayer("target") and UnitCanCooperate("player", "target") then
+	if command and UnitIsPlayer("target") and (UnitIsUnit("player", "target") or UnitCanCooperate("player", "target")) then
 		editBox:SetAttribute("chatType", "WHISPER")
 		editBox:SetAttribute("tellTarget", GetUnitName("target", true):gsub("%s", ""))
 		editBox:SetText(message or "")
@@ -246,7 +246,7 @@ SLASH_TELLTARGET1 = "/tt"
 SLASH_TELLTARGET2 = "/wt"
 
 SlashCmdList.TELLTARGET = function(message)
-	if UnitIsPlayer("target") and UnitCanCooperate("player", "target") then
+	if UnitIsPlayer("target") and (UnitIsUnit("player", "target") or UnitCanCooperate("player", "target")) then
 		SendChatMessage(message, "WHISPER", nil, GetUnitName("target", true):gsub("%s", ""))
 	elseif UnitExists("target") then
 		DEFAULT_CHAT_FRAME:AddMessage(format("|cffffff00%s:|r %s", PHANXCHAT, L.Whisper_BadTarget))
