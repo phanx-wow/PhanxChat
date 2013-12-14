@@ -125,7 +125,7 @@ function PhanxChat.FCF_SetWindowAlpha(frame, a, doNotSave)
 	PhanxChat.hooks.FCF_SetWindowAlpha(frame, a, doNotSave)
 
 	if not frame.resizeTopLeft then
-		if not self.db.EnableResizeEdges then
+		if not PhanxChat.db.EnableResizeEdges then
 			return
 		end
 		PhanxChat:EnableResizeEdges(frame)
@@ -141,7 +141,7 @@ function PhanxChat.FCF_SetWindowColor(frame, r, g, b, doNotSave)
 	PhanxChat.hooks.FCF_SetWindowColor(frame, r, g, b, doNotSave)
 
 	if not frame.resizeTopLeft then
-		if not self.db.EnableResizeEdges then
+		if not PhanxChat.db.EnableResizeEdges then
 			return
 		end
 		PhanxChat:EnableResizeEdges(frame)
@@ -157,7 +157,7 @@ function PhanxChat.SetChatWindowLocked(i, locked, ...)
 	local frame = _G["ChatFrame" .. i]
 
 	if not frame.resizeTopLeft then
-		if not self.db.EnableResizeEdges then
+		if not PhanxChat.db.EnableResizeEdges then
 			return
 		end
 		PhanxChat:EnableResizeEdges(frame)
