@@ -81,7 +81,8 @@ local noop = function() return end
 
 local db
 
-local format, gsub, strlower, strmatch, strsub, tonumber, type = format, gsub, strlower, strmatch, strsub, tonumber, type
+local format, gsub, strlower, strmatch, strsub, tonumber, type
+    = format, gsub, strlower, strmatch, strsub, tonumber, type
 
 ------------------------------------------------------------------------
 
@@ -91,12 +92,12 @@ local PLAYER_LINK    = "|Hplayer:%s|h" .. PLAYER_STYLE .. "|h"
 local PLAYER_BN_LINK = "|HBNplayer:%s|h" .. PLAYER_STYLE .. "%s|h"
 
 local ChannelNames = {
-	[C.Conversation]	= S.Conversation,
-	[C.General]			= S.General,
-	[C.LocalDefense]	= S.LocalDefense,
-	[C.LookingForGroup]	= S.LookingForGroup,
-	[C.Trade]			= S.Trade,
-	[C.WorldDefense]	= S.WorldDefense,
+	[C.Conversation]    = S.Conversation,
+	[C.General]         = S.General,
+	[C.LocalDefense]    = S.LocalDefense,
+	[C.LookingForGroup] = S.LookingForGroup,
+	[C.Trade]           = S.Trade,
+	[C.WorldDefense]    = S.WorldDefense,
 }
 
 for name, abbr in pairs(CUSTOM_CHANNELS) do
@@ -140,6 +141,13 @@ hooksecurefunc("ChatEdit_UpdateHeader", function(editBox)
 	end
 end)
 
+local function escape(str)
+	return gsub(str, "([%%%+%-%.%[%]%*%?])", "%%%1")
+end
+local function unescape(str)
+	return gsub(str, "%%([%%%+%-%.%[%]%*%?])", "%1")
+end
+
 local AddMessage = function(frame, message, ...)
 	if type(message) == "string" then
 		local channelID, channelName = strmatch(message, CHANNEL_PATTERN_PLUS)
@@ -167,19 +175,18 @@ local AddMessage = function(frame, message, ...)
 		if bnData then
 			if db.ReplaceRealNames or db.ShortenRealNames ~= "FULLNAME" then
 				bnName = PhanxChat.bnetNames[tonumber(bnID) or ""] or bnName
-
-				local toastIcon = strmatch(message, "\124TInterface\\FriendsFrame\\UI%-Toast%-ToastIcons.tga:.-\124t")
+				local toastIcon = strmatch(message, "|TInterface\\FriendsFrame\\UI%-Toast%-ToastIcons.-|t")
 				-- [BN] John Doe ([WoW] Charguy) has come online. -> [WoW] Charguy has come online.
+				-- |TInterface\\FriendsFrame\\UI-Toast-ToastIcons.tga:16:16:0:0:128:64:2:29:34:61|t|HBNplayer:|Kf5|k000000000000|k:5:1880:BN_INLINE_TOAST_ALERT:0|h[|Kf5|k000000000000|k] (|TInterface\\ChatFrame\\UI-ChatIcon-WOW:14:14:0:0|tCharname)|h has come online.
 				if toastIcon then
-					local gameIcon = strmatch(message, "\124TInterface\\ChatFrame\\UI%-ChatIcon.-\124t")
+					local gameIcon = strmatch(message, "|TInterface\\ChatFrame\\UI%-ChatIcon.-|t")
 					if gameIcon then
-						message = gsub(message, toastIcon, gameIcon, 1)
+						message = gsub(message, escape(toastIcon), gameIcon, 1)
+						bnExtra = gsub(bnExtra, "%s?%(.-%)", "")
 					end
-					message = gsub(message, " %(.-%)", "", 1)
 				end
 			end
-			local link = format(PLAYER_BN_LINK, bnData, bnName, bnExtra or "")
-			message = gsub(message, BNPLAYER_PATTERN, link)
+			message = gsub(message, BNPLAYER_PATTERN, format(PLAYER_BN_LINK, bnData, bnName, bnExtra or ""))
 		end
 	end
 	hooks[frame].AddMessage(frame, message, ...)
