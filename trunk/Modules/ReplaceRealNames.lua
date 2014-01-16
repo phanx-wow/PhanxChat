@@ -26,51 +26,41 @@ local function UpdateBNetNames()
 	for i = 1, BNGetNumFriends() do
 		local pID, realName, battleTag, isBTagFriend, charName, charID, client, online, _, _, _, _, note, isRIDFriend = BNGetFriendInfo(i)
 		--print(pID, realName, isRIDFriend, battleTag, isBTagFriend, online, client, charID, charName)
-		if online and charID and client == BNET_CLIENT_WOW and PhanxChatDB.ReplaceRealNames then
+		local color
+		if online and charID and client == BNET_CLIENT_WOW and PhanxChat.db.ShowClassColors then
 			--print("Online in WoW")
 			local _, charName, _, realm, _, _, _, class = BNGetToonInfo(charID)
 			local token = classTokens[class]
-			local color = token and (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[token]
-			if color then
-				--print("Valid class:", class, token)
-				if realm and realm:len() > 0 and realm ~= playerRealm then
-					--print("Other realm:", realm)
-					if PhanxChat.db.ShowClassColors then
-						bnetNames[pID] = format("|cff%02x%02x%02x%s-%s|r", color.r * 255, color.g * 255, color.b * 255, charName, realm)
-					else
-						bnetNames[pID] = format("%s-%s", charName, realm)
-					end
-				else
-					--print("Same realm")
-					if PhanxChat.db.ShowClassColors then
-						bnetNames[pID] = format("|cff%02x%02x%02x%s|r", color.r * 255, color.g * 255, color.b * 255, charName)
-					else
-						bnetNames[pID] = charName
-					end
-				end
+			color = token and (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[token]
+		end
+
+		local name
+		if PhanxChatDB.ReplaceRealNames then
+			if realm and strlen(realm) > 0 and realm ~= playerRealm then
+				name = format("%s-%s", charName, realm)
 			else
-				--print("Invalid class:", class)
+				name = charName
 			end
 		elseif not isRIDFriend or PhanxChatDB.ShortenRealNames == "BATTLETAG" then
-			bnetNames[pID] = battleTag
+			name = gsub(battleTag, "#%d+", "")
 			--print("Using BattleTag:", battleTag)
 		elseif PhanxChatDB.ShortenRealNames == "FIRSTNAME" then
 			-- This works because the game ignores extra placeholders in the string:
-			local short = gsub(realName, "|Kf", "|Kg")
-			bnetNames[pID] = short
+			name = gsub(realName, "|Kf", "|Kg")
 			--print("Using first name:", short)
 		else
 			-- Fall back to full name
-			bnetNames[pID] = realName
+			name = realName
 			--print("Using full name:", realName)
 		end
+
+		bnetNames[pID] = color and format("|cff%02x%02x%02x%s|r", color.r * 255, color.g * 255, color.b * 255, name) or name
 	end
 	--print("Done.")
 end
 
 PhanxChat.BN_FRIEND_ACCOUNT_ONLINE = UpdateBNetNames
 PhanxChat.BN_FRIEND_TOON_ONLINE = UpdateBNetNames
-PhanxChat.PLAYER_ALIVE = UpdateBNetNames
 PhanxChat.PLAYER_ENTERING_WORLD = UpdateBNetNames
 
 PhanxChat.bnetNames = bnetNames
@@ -94,7 +84,6 @@ function PhanxChat:SetReplaceRealNames(v)
 		self:UnregisterEvent("BN_FRIEND_ACCOUNT_ONLINE")
 		self:UnregisterEvent("BN_FRIEND_TOON_ONLINE")
 		self:UnregisterEvent("PLAYER_ENTERING_WORLD")
-		wipe(bnetNames)
 		wipe(bnetNames)
 	end
 end
