@@ -23,7 +23,8 @@ local bnetNames = { }
 local function UpdateBNetNames()
 	--print("UpdateBNetNames")
 	wipe(bnetNames)
-	for i = 1, BNGetNumFriends() do
+	local _, numOnline = BNGetNumFriends()
+	for i = 1, numOnline do
 		local pID, realName, battleTag, isBTagFriend, charName, charID, client, online, _, _, _, _, note, isRIDFriend = BNGetFriendInfo(i)
 		--print(pID, realName, isRIDFriend, battleTag, isBTagFriend, online, client, charID, charName)
 		local color
