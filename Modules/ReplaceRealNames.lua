@@ -14,55 +14,57 @@ local L = PhanxChat.L
 
 local playerRealm = GetRealmName()
 
-local classTokens = { }
+local classTokens = {}
 for k, v in pairs(LOCALIZED_CLASS_NAMES_FEMALE) do classTokens[v] = k end
 for k, v in pairs(LOCALIZED_CLASS_NAMES_MALE) do classTokens[v] = k end
 
-local bnetNames = { }
+local bnetNames = setmetatable({}, { __index = function(bnetNames, presenceID)
+	local _, realName, battleTag, isBTagFriend, charName, charID, client, online, _, _, _, _, note, isRIDFriend = BNGetFriendInfoByID(presenceID)
+	--print(presenceID, realName, isRIDFriend, battleTag, isBTagFriend, online, client, charID, charName)
 
-local function UpdateBNetNames()
-	--print("UpdateBNetNames")
-	wipe(bnetNames)
-	local _, numOnline = BNGetNumFriends()
-	for i = 1, numOnline do
-		local pID, realName, battleTag, isBTagFriend, charName, charID, client, online, _, _, _, _, note, isRIDFriend = BNGetFriendInfo(i)
-		--print(pID, realName, isRIDFriend, battleTag, isBTagFriend, online, client, charID, charName)
-		local color
-		if online and charID and client == BNET_CLIENT_WOW and PhanxChat.db.ShowClassColors then
-			--print("Online in WoW")
-			local _, charName, _, realm, _, _, _, class = BNGetToonInfo(charID)
-			local token = classTokens[class]
-			color = token and (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[token]
-		end
-
-		local name
-		if PhanxChatDB.ReplaceRealNames then
-			if realm and strlen(realm) > 0 and realm ~= playerRealm then
-				name = format("%s-%s", charName, realm)
-			else
-				name = charName
-			end
-		elseif not isRIDFriend or PhanxChatDB.ShortenRealNames == "BATTLETAG" then
-			name = gsub(battleTag, "#%d+", "")
-			--print("Using BattleTag:", battleTag)
-		elseif PhanxChatDB.ShortenRealNames == "FIRSTNAME" then
-			-- This works because the game ignores extra placeholders in the string:
-			name = gsub(realName, "|Kf", "|Kg")
-			--print("Using first name:", short)
-		else
-			-- Fall back to full name
-			name = realName
-			--print("Using full name:", realName)
-		end
-
-		bnetNames[pID] = color and format("|cff%02x%02x%02x%s|r", color.r * 255, color.g * 255, color.b * 255, name) or name
+	local color
+	if online and charID and client == BNET_CLIENT_WOW and PhanxChat.db.ShowClassColors then
+		--print("Online in WoW")
+		local _, charName, _, realm, _, _, _, class = BNGetToonInfo(charID)
+		local token = classTokens[class]
+		color = token and (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[token]
 	end
+
+	local name
+	if PhanxChatDB.ReplaceRealNames then
+		if realm and strlen(realm) > 0 and realm ~= playerRealm then
+			name = format("%s-%s", charName, realm)
+		else
+			name = charName
+		end
+	elseif not isRIDFriend or PhanxChatDB.ShortenRealNames == "BATTLETAG" then
+		name = gsub(battleTag, "#%d+", "")
+		--print("Using BattleTag:", battleTag)
+	elseif PhanxChatDB.ShortenRealNames == "FIRSTNAME" then
+		-- This works because the game ignores extra placeholders in the string:
+		name = gsub(realName, "|Kf", "|Kg")
+		--print("Using first name:", short)
+	else
+		-- Fall back to full name
+		name = realName
+		--print("Using full name:", realName)
+	end
+
+	name = color and format("|cff%02x%02x%02x%s|r", color.r * 255, color.g * 255, color.b * 255, name) or name
+	bnetNames[presenceID] = name
+	return name
+end })
+
+function PhanxChat:ClearBNetNameCache()
+	--print("ClearBNetNameCache")
+	wipe(bnetNames)
 	--print("Done.")
 end
 
-PhanxChat.BN_FRIEND_ACCOUNT_ONLINE = UpdateBNetNames
-PhanxChat.BN_FRIEND_TOON_ONLINE = UpdateBNetNames
-PhanxChat.PLAYER_ENTERING_WORLD = UpdateBNetNames
+PhanxChat.BN_CONNECTED = PhanxChat.ClearBNetNameCache
+PhanxChat.BN_FRIEND_ACCOUNT_ONLINE = PhanxChat.ClearBNetNameCache
+PhanxChat.BN_FRIEND_TOON_ONLINE = PhanxChat.ClearBNetNameCache
+PhanxChat.PLAYER_ENTERING_WORLD = PhanxChat.ClearBNetNameCache
 
 PhanxChat.bnetNames = bnetNames
 
@@ -76,16 +78,17 @@ function PhanxChat:SetReplaceRealNames(v)
 		self.db.ShortenRealNames = v
 	end
 
+	self:ClearBNetNameCache()
 	if self.db.ReplaceRealNames or self.db.ShortenRealNames then
+		self:RegisterEvent("BN_CONNECTED")
 		self:RegisterEvent("BN_FRIEND_ACCOUNT_ONLINE")
 		self:RegisterEvent("BN_FRIEND_TOON_ONLINE")
 		self:RegisterEvent("PLAYER_ENTERING_WORLD")
-		UpdateBNetNames()
 	else
+		self:UnregisterEvent("BN_CONNECTED")
 		self:UnregisterEvent("BN_FRIEND_ACCOUNT_ONLINE")
 		self:UnregisterEvent("BN_FRIEND_TOON_ONLINE")
 		self:UnregisterEvent("PLAYER_ENTERING_WORLD")
-		wipe(bnetNames)
 	end
 end
 
