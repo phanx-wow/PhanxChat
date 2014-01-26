@@ -3,7 +3,7 @@ PhanxChat
 =============
 
 	A World of Warcraft user interface addon.
-	Copyright (c) 2006-2013 Phanx. See LICENSE.txt for more information.
+	Copyright (c) 2006-2014 Phanx. See LICENSE.txt for more information.
 	http://www.wowinterface.com/downloads/info6323-PhanxChat
 	http://www.curse.com/addons/wow/phanxchat
 
