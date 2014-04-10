@@ -10,6 +10,12 @@
 local _, PhanxChat = ...
 local L = PhanxChat.L
 
+local BNET_CLIENT_TEXT = {
+	[BNET_CLIENT_D3]   = "Diablo III",
+	[BNET_CLIENT_WTCG] = "Hearthstone",
+	[BNET_CLIENT_SC2]  = "StarCraft II",
+}
+
 ------------------------------------------------------------------------
 
 local playerRealm = GetRealmName()
@@ -19,46 +25,45 @@ for k, v in pairs(LOCALIZED_CLASS_NAMES_FEMALE) do classTokens[v] = k end
 for k, v in pairs(LOCALIZED_CLASS_NAMES_MALE) do classTokens[v] = k end
 
 local bnetNames = setmetatable({}, { __index = function(bnetNames, presenceID)
-	local _, realName, battleTag, isBTagFriend, charName, charID, client, online, _, _, _, _, note, isRIDFriend = BNGetFriendInfoByID(presenceID)
-	--print(presenceID, realName, isRIDFriend, battleTag, isBTagFriend, online, client, charID, charName)
+	local _, presenceName, battleTag, isBTagFriend, charName, charID, client, online, _, _, _, _, _, isRIDFriend = BNGetFriendInfoByID(presenceID)
+	-- print(presenceID, presenceName, isRIDFriend, battleTag, isBTagFriend, online, client, charID, charName)
 
-	local color
+	local realmName, classColor
 	if online and charID and client == BNET_CLIENT_WOW and PhanxChat.db.ShowClassColors then
-		--print("Online in WoW")
-		local _, charName, _, realm, _, _, _, class = BNGetToonInfo(charID)
+		-- print("Online in WoW")
+		local _, _, _, realm, _, _, _, class = BNGetToonInfo(charID)
+		realmName = realm and realm ~= "" and realm ~= playerRealm and gsub(realm, "%s", "")
+
 		local token = classTokens[class]
-		color = token and (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[token]
+		classColor = token and (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[token]
 	end
 
-	local name
 	if PhanxChatDB.ReplaceRealNames then
-		if realm and strlen(realm) > 0 and realm ~= playerRealm then
-			name = format("%s-%s", charName, realm)
-		else
-			name = charName
-		end
-	elseif not isRIDFriend or PhanxChatDB.ShortenRealNames == "BATTLETAG" then
-		name = gsub(battleTag, "#%d+", "")
-		--print("Using BattleTag:", battleTag)
-	elseif PhanxChatDB.ShortenRealNames == "FIRSTNAME" then
-		-- This works because the game ignores extra placeholders in the string:
-		name = gsub(realName, "|Kf", "|Kg")
-		--print("Using first name:", short)
+		presenceName = realmName and format("%s-%s", charName, realmName) or charName
+	elseif isRIDFriend and PhanxChatDB.ShortenRealNames == "FIRSTNAME" then
+		-- This works because the game ignores extra placeholders:
+		presenceName = gsub(presenceName, "|Kf", "|Kg")
+		-- print("Using first name:", presenceName)
+	elseif PhanxChatDB.ShortenRealNames == "BATTLETAG" then
+		presenceName = strsplit("#", battleTag, 2)
+		-- print("Using BattleTag:", presenceName)
 	else
 		-- Fall back to full name
-		name = realName
-		--print("Using full name:", realName)
+		-- print("Using full name:", presenceName)
 	end
 
-	name = color and format("|cff%02x%02x%02x%s|r", color.r * 255, color.g * 255, color.b * 255, name) or name
-	bnetNames[presenceID] = name
-	return name
+	if classColor then
+		presenceName = format("|cff%02x%02x%02x%s|r", classColor.r * 255, classColor.g * 255, classColor.b * 255, presenceName)
+	end
+
+	bnetNames[presenceID] = presenceName
+	return presenceName
 end })
 
 function PhanxChat:ClearBNetNameCache()
-	--print("ClearBNetNameCache")
+	-- print("ClearBNetNameCache")
 	wipe(bnetNames)
-	--print("Done.")
+	-- print("Done.")
 end
 
 PhanxChat.BN_CONNECTED = PhanxChat.ClearBNetNameCache
@@ -123,20 +128,15 @@ hooksecurefunc("ChatFrame_OnHyperlinkShow", function(frame, link, text, button)
 			end
 		end
 		for i = 1, BNGetNumFriends() do
-			local pID, realName, battleTag, isBTagFriend, charName, charID, client, online, _, _, _, _, note, isRIDFriend = BNGetFriendInfo(i)
-			local showName = isRIDFriend and realName or battleTag
+			local pID, presenceName, battleTag, isBTagFriend, charName, charID, client, online, _, _, _, _, note, isRIDFriend = BNGetFriendInfo(i)
 			if pID == linkID then
 				local color = ChatTypeInfo.SYSTEM
 				if charID then
 					local hasFocus, charName, _, realmName, _, faction, race, class, guild, zoneName, level, gameText = BNGetToonInfo(charID)
 					if client ~= BNET_CLIENT_WOW then
-						if client == BNET_CLIENT_D3 then
-							gameText = "Diablo III"
-						elseif client == BNET_CLIENT_SC2 then
-							gameText = "StarCraft II"
-						end
+						gameText = BNET_CLIENT_TEXT[client]
 						return DEFAULT_CHAT_FRAME:AddMessage(format(L.WhoStatus_PlayingOtherGame,
-							showName, gameText),
+							presenceName, gameText),
 							color.r, color.g, color.b)
 					elseif realm == GetRealmName() then -- #TODO: Check in the future if Blizz fixes zone being nil
 						if guild and guild ~= "" then
@@ -159,7 +159,7 @@ hooksecurefunc("ChatFrame_OnHyperlinkShow", function(frame, link, text, button)
 					end
 				else
 					return DEFAULT_CHAT_FRAME:AddMessage(format(L.WhoStatus_Offline,
-						showName),
+						presenceName),
 						color.r, color.g, color.b)
 				end
 			end
