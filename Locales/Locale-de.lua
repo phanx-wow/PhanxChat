@@ -104,6 +104,7 @@ L.ShowClassColors = "Klassenfarben anzeigen"
 L.ShowClassColors_Desc = "Klassenfarben in allen Chatkanälen anzeigen."
 L.Whisper_BadTarget = "Du kannst dieses Ziel nicht anflüstern!"
 L.Whisper_NoTarget = "Du hast kein Ziel zum anflüstern!"
+L.WhoStatus_Battlenet = "%s ist in der Battle.net-Software eingeloggt."
 L.WhoStatus_Offline = "%s ist zur Zeit offline."
 L.WhoStatus_PlayingOtherGame = "%s spielt zur Zeit %s."
 

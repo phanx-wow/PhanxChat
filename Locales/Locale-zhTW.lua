@@ -104,6 +104,7 @@ L.ShowClassColors = "顯示職業顏色"
 L.ShowClassColors_Desc = "顯示職業顏色在所有頻道。"
 L.Whisper_BadTarget = "你無法密語目標! "
 L.Whisper_NoTarget = "你沒有目標可密語!"
+--L.WhoStatus_Battlenet = "%s is currently in the Battle.net Desktop App."
 L.WhoStatus_Offline = "%s 目前為離線。"
 L.WhoStatus_PlayingOtherGame = "%s 目前正在玩 %s。"
 

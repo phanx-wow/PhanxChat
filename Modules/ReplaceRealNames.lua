@@ -133,7 +133,11 @@ hooksecurefunc("ChatFrame_OnHyperlinkShow", function(frame, link, text, button)
 				local color = ChatTypeInfo.SYSTEM
 				if charID then
 					local hasFocus, charName, _, realmName, _, faction, race, class, guild, zoneName, level, gameText = BNGetToonInfo(charID)
-					if client ~= BNET_CLIENT_WOW then
+					if client == "" then
+						return DEFAULT_CHAT_FRAME:AddMessage(format(L.WhoStatus_Battlenet,
+							presenceName, gameText),
+							color.r, color.g, color.b)
+					elseif client ~= BNET_CLIENT_WOW then
 						gameText = BNET_CLIENT_TEXT[client]
 						return DEFAULT_CHAT_FRAME:AddMessage(format(L.WhoStatus_PlayingOtherGame,
 							presenceName, gameText),

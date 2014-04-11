@@ -104,6 +104,7 @@ L.ShortenChannelNames_Desc = "채널 이름과 대화 구문열을 줄입니다.
 --L.ShowClassColors_Desc = "Show class colors in all channels."
 --L.Whisper_BadTarget = "You can't whisper that target!"
 --L.Whisper_NoTarget = "You don't have a target to whisper!"
+--L.WhoStatus_Battlenet = "%s is currently in the Battle.net Desktop App."
 --L.WhoStatus_Offline = "%s is currently offline."
 --L.WhoStatus_PlayingOtherGame = "%s is currently playing %s."
 
