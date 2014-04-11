@@ -11,9 +11,11 @@ local _, PhanxChat = ...
 local L = PhanxChat.L
 
 local BNET_CLIENT_TEXT = {
+	-- ["App"] = "Battle.net Desktop App",
 	[BNET_CLIENT_D3]   = "Diablo III",
 	[BNET_CLIENT_WTCG] = "Hearthstone",
 	[BNET_CLIENT_SC2]  = "StarCraft II",
+	[BNET_CLIENT_WOW]  = "World of Warcraft",
 }
 
 ------------------------------------------------------------------------
@@ -133,15 +135,15 @@ hooksecurefunc("ChatFrame_OnHyperlinkShow", function(frame, link, text, button)
 				local color = ChatTypeInfo.SYSTEM
 				if charID then
 					local hasFocus, charName, _, realmName, _, faction, race, class, guild, zoneName, level, gameText = BNGetToonInfo(charID)
-					if client == "" then
-						return DEFAULT_CHAT_FRAME:AddMessage(format(L.WhoStatus_Battlenet,
-							presenceName, gameText),
-							color.r, color.g, color.b)
-					elseif client ~= BNET_CLIENT_WOW then
+					if client ~= BNET_CLIENT_WOW then
 						gameText = BNET_CLIENT_TEXT[client]
-						return DEFAULT_CHAT_FRAME:AddMessage(format(L.WhoStatus_PlayingOtherGame,
-							presenceName, gameText),
-							color.r, color.g, color.b)
+						if gameText then
+							return DEFAULT_CHAT_FRAME:AddMessage(format(L.WhoStatus_PlayingOtherGame, presenceName, gameText),
+								color.r, color.g, color.b)
+						else
+							return DEFAULT_CHAT_FRAME:AddMessage(format(L.WhoStatus_Battlenet, presenceName),
+								color.r, color.g, color.b)
+						end
 					elseif realm == GetRealmName() then -- #TODO: Check in the future if Blizz fixes zone being nil
 						if guild and guild ~= "" then
 							return DEFAULT_CHAT_FRAME:AddMessage(gsub(format(BN_WHO_LIST_GUILD_FORMAT,
