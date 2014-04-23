@@ -53,6 +53,8 @@ S.WhisperIncoming    = "Sd"
 S.WhisperOutgoing    = "Sa"
 S.Yell               = "Ur"
 
+S.PET_BATTLE_COMBAT_LOG = "Scontro"
+
 ------------------------------------------------------------------------
 -- Options Panel
 ------------------------------------------------------------------------
