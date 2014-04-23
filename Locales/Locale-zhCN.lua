@@ -53,6 +53,8 @@ S.WhisperIncoming    = "密自"
 S.WhisperOutgoing    = "密往"
 S.Yell               = "喊"
 
+S.PET_BATTLE_COMBAT_LOG = PET_BATTLE_COMBAT_LOG -- default is ok
+
 ------------------------------------------------------------------------
 -- Options Panel
 ------------------------------------------------------------------------

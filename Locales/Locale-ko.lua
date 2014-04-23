@@ -53,6 +53,8 @@ S.WhisperIncoming    = "귓받"
 S.WhisperOutgoing    = "귓전"
 S.Yell               = "외"
 
+S.PET_BATTLE_COMBAT_LOG = PET_BATTLE_COMBAT_LOG -- default is ok
+
 ------------------------------------------------------------------------
 -- Options Panel
 ------------------------------------------------------------------------

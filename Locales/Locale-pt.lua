@@ -53,6 +53,8 @@ S.WhisperIncoming    = "d"
 S.WhisperOutgoing    = "p"
 S.Yell               = "Gr"
 
+S.PET_BATTLE_COMBAT_LOG = "Confronto"
+
 ------------------------------------------------------------------------
 -- Options Panel
 ------------------------------------------------------------------------
