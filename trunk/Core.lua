@@ -12,8 +12,8 @@ local STRING_STYLE  = "%s|| "
 	-- Pipe characters must be escaped by doubling them: | -> ||
 
 local CHANNEL_STYLE = "%d"
-	-- %d = channel number (optional)
-	-- %s = channel name (optional)
+	-- %2$d = channel number (optional)
+	-- %3$s = channel name (optional)
 	-- Will be used with STRING_STYLE for numbered channels.
 
 local PLAYER_STYLE  = "%s"
@@ -86,7 +86,7 @@ local format, gsub, strlower, strmatch, strsub, tonumber, type
 
 ------------------------------------------------------------------------
 
-local CHANNEL_LINK   = "|h" .. format(STRING_STYLE, CHANNEL_STYLE) .. "|h"
+local CHANNEL_LINK   = "|Hchannel:%1$s|h" .. format(STRING_STYLE, CHANNEL_STYLE) .. "|h"
 
 local PLAYER_LINK    = "|Hplayer:%s|h" .. PLAYER_STYLE .. "|h"
 local PLAYER_BN_LINK = "|HBNplayer:%s|h" .. PLAYER_STYLE .. "%s|h"
@@ -105,26 +105,25 @@ for name, abbr in pairs(CUSTOM_CHANNELS) do
 end
 
 -- |Hchannel:channel:2|h[2. Trade]|h |Hplayer:Konquered:1281:CHANNEL:2|h|cffbf8cffKonquered|r|h: lf 2s partner
-local CHANNEL_PATTERN      = "|h%[(%d+)%.%s?([^:%-%]]+)%s?[:%-]?%s?[^|%]]*%]|h%s?"
+local CHANNEL_PATTERN      = "|Hchannel:(.-)|h%[(%d+)%.%s?([^:%-%]]+)%s?[:%-]?%s?[^|%]]*%]|h%s?"
 local CHANNEL_PATTERN_PLUS = CHANNEL_PATTERN .. ".+"
 
 local PLAYER_PATTERN = "|Hplayer:(.-)|h%[(.-)%]|h"
 local BNPLAYER_PATTERN = "|HBNplayer:(.-)|h%[(|Kf(%d+).-)%](.*)|h"
 
-local CHANNEL_PLAIN = format(STRING_STYLE, CHANNEL_STYLE)
-local CHANNEL_PATTERN_PLAIN = "%[(%d+)%. ?([^:%-%]]+)[^%]]*%](.*)" -- see also CHAT_CHANNEL_SEND
+local CHANNEL_HEADER = format(STRING_STYLE, CHANNEL_STYLE) .. "%s"
+local CHANNEL_HEADER_PATTERN = "%[(%d+)%. ?([^:%-%]]+)[^%]]*%](.*)" -- see also CHAT_CHANNEL_SEND
 hooksecurefunc("ChatEdit_UpdateHeader", function(editBox)
 	local header = editBox.header -- _G[editBox:GetName() .. "Header"]
 	if header and db.ShortenChannelNames and editBox:GetAttribute("chatType") == "CHANNEL" then
 		local text = header:GetText()
-		local channelID, channelName, headerSuffix = strmatch(text, CHANNEL_PATTERN_PLAIN)
+		local channelID, channelName, headerSuffix = strmatch(text, CHANNEL_HEADER_PATTERN)
 		if channelID then
 			header:SetWidth(0)
 
 			local shortName = ChannelNames[channelName] or ChannelNames[strlower(channelName)] or strsub(channelName, 1, 2)
 			--print(text, "=>", channelID, channelName, "=>", shortName)
-			channelName = CHANNEL_PLAIN:gsub("%%d", channelID):gsub("%%s", shortName)
-			header:SetFormattedText("%s%s", channelName, headerSuffix or "")
+			header:SetFormattedText(CHANNEL_PLAIN, channelID, shortName, headerSuffix or "")
 
 			local headerSuffix = editBox.headerSuffix -- _G[editBox:GetName() .. "HeaderSuffix"]
 			local headerWidth = (header:GetRight() or 0) - (header:GetLeft() or 0)
@@ -150,10 +149,10 @@ end
 
 local AddMessage = function(frame, message, ...)
 	if type(message) == "string" then
-		local channelID, channelName = strmatch(message, CHANNEL_PATTERN_PLUS)
-		if channelID and db.ShortenChannelNames then
+		local channelData, channelID, channelName = strmatch(message, CHANNEL_PATTERN_PLUS)
+		if channelData and db.ShortenChannelNames then
 			local shortName = ChannelNames[channelName] or ChannelNames[strlower(channelName)] or strsub(channelName, 1, 2)
-			message = gsub(message, CHANNEL_PATTERN, (CHANNEL_LINK:gsub("%%d", channelID):gsub("%%s", shortName)))
+			message = gsub(message, CHANNEL_PATTERN, format(CHANNEL_LINK, channelData, channelID, shortName))
 		end
 
 		local playerData, playerName = strmatch(message, PLAYER_PATTERN)
