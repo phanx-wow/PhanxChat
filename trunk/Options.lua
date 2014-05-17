@@ -236,6 +236,8 @@ PhanxChat.OptionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(
 		return value
 	end
 	function FadeTime.valueText:SetText(text)
+		local v = self:GetParent():GetValue()
+		print(type(v), tostring(v), "SetText", type(text), tostring(text))
 		local m = floor(text)
 		local s = 60 * (text - m)
 		if m > 0 and s > 0 then
@@ -245,7 +247,7 @@ PhanxChat.OptionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(
 		elseif s > 0 then
 			self:SetFormattedText("%ds", s)
 		else
-			self:SetText("Disabled")
+			self:SetFormattedText("Disabled") -- use instead of SetText to avoid infinite loop
 		end
 	end
 
