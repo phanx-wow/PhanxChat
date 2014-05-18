@@ -91,6 +91,13 @@ local CHANNEL_LINK   = "|Hchannel:%1$s|h" .. format(STRING_STYLE, CHANNEL_STYLE)
 local PLAYER_LINK    = "|Hplayer:%s|h" .. PLAYER_STYLE .. "|h"
 local PLAYER_BN_LINK = "|HBNplayer:%s|h" .. PLAYER_STYLE .. "%s|h"
 
+-- |Hchannel:channel:2|h[2. Trade]|h |Hplayer:Konquered:1281:CHANNEL:2|h|cffbf8cffKonquered|r|h: lf 2s partner
+local CHANNEL_PATTERN      = "|Hchannel:(.-)|h%[(%d+)%.%s?([^:%-%]]+)%s?[:%-]?%s?[^|%]]*%]|h%s?"
+local CHANNEL_PATTERN_PLUS = CHANNEL_PATTERN .. ".+"
+
+local PLAYER_PATTERN = "|Hplayer:(.-)|h%[(.-)%]|h"
+local BNPLAYER_PATTERN = "|HBNplayer:(.-)|h%[(|Kf(%d+).-)%](.*)|h"
+
 local ChannelNames = {
 	[C.Conversation]    = S.Conversation,
 	[C.General]         = S.General,
@@ -104,45 +111,12 @@ for name, abbr in pairs(CUSTOM_CHANNELS) do
 	ChannelNames[strlower(name)] = abbr
 end
 
--- |Hchannel:channel:2|h[2. Trade]|h |Hplayer:Konquered:1281:CHANNEL:2|h|cffbf8cffKonquered|r|h: lf 2s partner
-local CHANNEL_PATTERN      = "|Hchannel:(.-)|h%[(%d+)%.%s?([^:%-%]]+)%s?[:%-]?%s?[^|%]]*%]|h%s?"
-local CHANNEL_PATTERN_PLUS = CHANNEL_PATTERN .. ".+"
-
-local PLAYER_PATTERN = "|Hplayer:(.-)|h%[(.-)%]|h"
-local BNPLAYER_PATTERN = "|HBNplayer:(.-)|h%[(|Kf(%d+).-)%](.*)|h"
-
-local CHANNEL_HEADER = format(STRING_STYLE, CHANNEL_STYLE) .. "%s"
-local CHANNEL_HEADER_PATTERN = "%[(%d+)%. ?([^:%-%]]+)[^%]]*%](.*)" -- see also CHAT_CHANNEL_SEND
-hooksecurefunc("ChatEdit_UpdateHeader", function(editBox)
-	local header = editBox.header -- _G[editBox:GetName() .. "Header"]
-	if header and db.ShortenChannelNames and editBox:GetAttribute("chatType") == "CHANNEL" then
-		local text = header:GetText()
-		local channelID, channelName, headerSuffix = strmatch(text, CHANNEL_HEADER_PATTERN)
-		if channelID then
-			header:SetWidth(0)
-
-			local shortName = ChannelNames[channelName] or ChannelNames[strlower(channelName)] or strsub(channelName, 1, 2)
-			--print(text, "=>", channelID, channelName, "=>", shortName)
-			header:SetFormattedText(CHANNEL_PLAIN, channelID, shortName, headerSuffix or "")
-
-			local headerSuffix = editBox.headerSuffix -- _G[editBox:GetName() .. "HeaderSuffix"]
-			local headerWidth = (header:GetRight() or 0) - (header:GetLeft() or 0)
-			local editBoxWidth = editBox:GetRight() - editBox:GetLeft()
-			if headerWidth * 2 > editBoxWidth then
-				header:SetWidth(editBoxWidth / 2)
-				headerSuffix:Show()
-				editBox:SetTextInsets(15 + header:GetWidth() + headerSuffix:GetWidth(), 13, 0, 0)
-			else
-				headerSuffix:Hide()
-				editBox:SetTextInsets(15 + header:GetWidth(), 13, 0, 0)
-			end
-		end
-	end
-end)
+_G.PhanxChat_ChannelNames = ChannelNames
 
 local function escape(str)
 	return gsub(str, "([%%%+%-%.%[%]%*%?])", "%%%1")
 end
+
 local function unescape(str)
 	return gsub(str, "%%([%%%+%-%.%[%]%*%?])", "%1")
 end
@@ -190,6 +164,38 @@ local AddMessage = function(frame, message, ...)
 	end
 	hooks[frame].AddMessage(frame, message, ...)
 end
+
+------------------------------------------------------------------------
+
+local CHANNEL_HEADER = format(STRING_STYLE, CHANNEL_STYLE) .. "%s"
+local CHANNEL_HEADER_PATTERN = "%[(%d+)%. ?([^%s:%-%]]+)[^%]]*%](.*)" -- see also CHAT_CHANNEL_SEND
+
+hooksecurefunc("ChatEdit_UpdateHeader", function(editBox)
+	local header = editBox.header -- _G[editBox:GetName() .. "Header"]
+	if header and db.ShortenChannelNames and editBox:GetAttribute("chatType") == "CHANNEL" then
+		local text = header:GetText()
+		local channelID, channelName, headerSuffix = strmatch(text, CHANNEL_HEADER_PATTERN)
+		if channelID then
+			header:SetWidth(0)
+
+			local shortName = ChannelNames[channelName] or ChannelNames[strlower(channelName)] or strsub(channelName, 1, 2)
+			--print("UpdateHeader", text, "=>", channelID, '"'..channelName..'"', "=>", ChannelNames[channelName], "/", shortName)
+			header:SetFormattedText(CHANNEL_HEADER, channelID, shortName, headerSuffix or "")
+
+			local headerSuffix = editBox.headerSuffix -- _G[editBox:GetName() .. "HeaderSuffix"]
+			local headerWidth = (header:GetRight() or 0) - (header:GetLeft() or 0)
+			local editBoxWidth = editBox:GetRight() - editBox:GetLeft()
+			if headerWidth * 2 > editBoxWidth then
+				header:SetWidth(editBoxWidth / 2)
+				headerSuffix:Show()
+				editBox:SetTextInsets(21 + header:GetWidth() + headerSuffix:GetWidth(), 13, 0, 0)
+			else
+				headerSuffix:Hide()
+				editBox:SetTextInsets(21 + header:GetWidth(), 13, 0, 0)
+			end
+		end
+	end
+end)
 
 ------------------------------------------------------------------------
 
