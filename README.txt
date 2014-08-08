@@ -1,11 +1,11 @@
-
 PhanxChat
 =============
 
-	A World of Warcraft user interface addon.
-	Copyright (c) 2006-2014 Phanx. See LICENSE.txt for more information.
-	http://www.wowinterface.com/downloads/info6323-PhanxChat
-	http://www.curse.com/addons/wow/phanxchat
+Removes chat frame clutter and adds some functionality.
+
+Download from [Curse](http://www.curse.com/addons/wow/phanxchat) or
+[WoWInterface](http://www.wowinterface.com/downloads/info6323-PhanxChat.html).
+
 
 Features
 ------------
@@ -45,10 +45,10 @@ Localization
 ----------------
 
 Compatible with English, Deutsch, Español, Français, Italiano,
-Português, Русский, 한국어, 简体中文, and 繁體中文 game clients.
+Português, Русский, 한국어, 简体中文 and 繁體中文 game clients.
 
 Translated into English, Deutsch, Español, Français, Português,
-Русский, 한국어, 简体中文, and 繁體中文.
+Русский, 한국어, 简体中文 and 繁體中文.
 
 To add or update translations for any language, see the Localization
 section on the [CurseForge project page] [1] or send me a PM.
@@ -59,14 +59,20 @@ section on the [CurseForge project page] [1] or send me a PM.
 Feedback
 -----------
 
-To report a bug or suggest a feature, please use the links on either
-download page to submit a ticket.
+Post a ticket on either download site, or a comment on WoWInterface.
 
-For general questions and comments, post a comment on the WoWInterface
-download page, or post an “Other”-type ticket on Curse.
+If you are reporting a bug, please include directions I can follow to
+reproduce the bug, whether it still happens when all other addons are
+disabled, and the exact text of the related error message (if any) from 
+[BugSack](http://www.wowinterface.com/downloads/info5995-BugSack.html).
 
-If you need to contact me privately for some other reason, you can email
-me at <addons@phanx.net> or send a PM to “Phanx” on either download site.
-Please do not use PMs or email to report bugs, suggest features, or ask
-for help with addons or addon programming; I do not provide private support
-and will not reply to such messages. Post a ticket or comment instead!
+If you need to contact me privately, you can send me a private message
+on either download site, or email me at <addons@phanx.net>.
+
+
+License
+----------
+
+Copyright (c) 2006-2014 Phanx. All rights reserved.  
+See the accompanying LICENSE file for information about the conditions
+under which redistribution and modification may be allowed.
