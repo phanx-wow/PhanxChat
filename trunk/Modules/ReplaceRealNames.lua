@@ -28,6 +28,7 @@ for k, v in pairs(LOCALIZED_CLASS_NAMES_MALE) do classTokens[v] = k end
 
 local bnetNames = setmetatable({}, { __index = function(bnetNames, presenceID)
 	local _, presenceName, battleTag, isBTagFriend, charName, charID, client, online, _, _, _, _, _, isRIDFriend = BNGetFriendInfoByID(presenceID)
+	if not presenceName then return end -- not initialized yet
 	-- print(presenceID, presenceName, isRIDFriend, battleTag, isBTagFriend, online, client, charID, charName)
 
 	local realmName, classColor
