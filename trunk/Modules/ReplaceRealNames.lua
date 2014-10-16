@@ -56,7 +56,10 @@ local bnetNames = setmetatable({}, { __index = function(bnetNames, presenceID)
 	end
 
 	if classColor then
-		presenceName = format("|cff%02x%02x%02x%s|r", classColor.r * 255, classColor.g * 255, classColor.b * 255, presenceName)
+		presenceName = format("|c%s%s|r", classColor.colorStr, presenceName)
+	elseif PhanxChat.db.ShowClassColors then
+		-- EXPERIMENTAL
+		presenceName = format("%s%s|r", FRIENDS_BNET_NAME_COLOR_CODE, presenceName)
 	end
 
 	bnetNames[presenceID] = presenceName
