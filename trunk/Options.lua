@@ -44,43 +44,18 @@ PhanxChat.OptionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(
 
 	--------------------------------------------------------------------
 
-	local ShortenRealNames
-	local bnetValues = {
-		BATTLETAG = L.ShortenRealNames_UseBattleTag,
-		FIRSTNAME = L.ShortenRealNames_UseFirstName,
-		FULLNAME = L.ShortenRealNames_UseFullName,
-	}
-	do
-		local function ApplyValue(self)
-			if PhanxChat.debug then print("PhanxChat: ShortenRealNames", self.value) end
-			PhanxChat:SetReplaceRealNames(self.value)
-			ShortenRealNames:SetValue(self.value, self.text or bnetValues[self.value])
-		end
+	local ShortenRealNames = self:CreateDropdown(L.ShortenRealNames, L.ShortenRealNames_Desc, {
+		{ value = BATTLETAG, text = L.ShortenRealNames_UseBattleTag },
+		{ value = FIRSTNAME, text = L.ShortenRealNames_UseFirstName },
+		{ value = FULLNAME, text = L.ShortenRealNames_UseFullName },
+	})
+	ShortenRealNames:SetPoint("TOPLEFT", ReplaceRealNames, "BOTTOMLEFT", 0, -8)
+	--ShortenRealNames:SetPoint("TOPRIGHT", notes, "BOTTOM", -8, -24 - (ReplaceRealNames:GetHeight() * 3))
+	ShortenRealNames:SetWidth(200)
 
-		ShortenRealNames = self:CreateDropdown(L.ShortenRealNames, L.ShortenRealNames_Desc, function()
-			local selected = db.ShortenRealNames
-
-			local info = UIDropDownMenu_CreateInfo()
-			info.func = ApplyValue
-
-			info.text = L.ShortenRealNames_UseBattleTag
-			info.value = "BATTLETAG"
-			info.checked = "BATTLETAG" == selected
-			UIDropDownMenu_AddButton(info)
-
-			info.text = L.ShortenRealNames_UseFirstName
-			info.value = "FIRSTNAME"
-			info.checked = "FIRSTNAME" == selected
-			UIDropDownMenu_AddButton(info)
-
-			info.text = L.ShortenRealNames_UseFullName
-			info.value = "FULLNAME"
-			info.checked = "FULLNAME" == selected
-			UIDropDownMenu_AddButton(info)
-		end)
-		ShortenRealNames:SetPoint("TOPLEFT", ReplaceRealNames, "BOTTOMLEFT", 0, -8)
-		--ShortenRealNames:SetPoint("TOPRIGHT", notes, "BOTTOM", -8, -24 - (ReplaceRealNames:GetHeight() * 3))
-		ShortenRealNames:SetWidth(200)
+	function ShortenRealNames:OnValueChanged(value, text)
+		if PhanxChat.debug then print("PhanxChat: ShortenRealNames", value) end
+		PhanxChat:SetReplaceRealNames(value)
 	end
 
 	--------------------------------------------------------------------
@@ -185,43 +160,18 @@ PhanxChat.OptionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(
 
 	--------------------------------------------------------------------
 
-	local stickyValues = {
-		ALL = L.All,
-		BLIZZARD = L.Default,
-		NONE = L.None,
-	}
-	local EnableSticky
-	do
-		local function Callback(self)
-			if PhanxChat.debug then print("PhanxChat: SetEnableSticky", self.value) end
-			PhanxChat:SetEnableSticky(self.value)
-			EnableSticky:SetValue(self.value, self:GetText())
-		end
+	local EnableSticky = self:CreateDropdown(L.EnableSticky, L.EnableSticky_Desc, {
+		{ value = "ALL", text = L.All },
+		{ value = "BLIZZARD", text = L.Default },
+		{ value = "NONE", text = L.None },
+	})
+	EnableSticky:SetPoint("TOPLEFT", ShowClassColors, "BOTTOMLEFT", 0, -14)
+	--EnableSticky:SetPoint("TOPRIGHT", notes, "BOTTOMRIGHT", -2, -18 - ((ShowClassColors:GetHeight() + 8) * 4))
+	EnableSticky:SetWidth(200)
 
-		EnableSticky = self:CreateDropdown(L.EnableSticky, L.EnableSticky_Desc, function()
-			local selected = db.EnableSticky
-
-			local info = UIDropDownMenu_CreateInfo()
-			info.func = Callback
-
-			info.text = L.All
-			info.value = "ALL"
-			info.checked = "ALL" == selected
-			UIDropDownMenu_AddButton(info)
-
-			info.text = L.Default
-			info.value = "BLIZZARD"
-			info.checked = "BLIZZARD" == selected
-			UIDropDownMenu_AddButton(info)
-
-			info.text = L.None
-			info.value = "NONE"
-			info.checked = "NONE" == selected
-			UIDropDownMenu_AddButton(info)
-		end)
-		EnableSticky:SetPoint("TOPLEFT", ShowClassColors, "BOTTOMLEFT", 0, -14)
-		--EnableSticky:SetPoint("TOPRIGHT", notes, "BOTTOMRIGHT", -2, -18 - ((ShowClassColors:GetHeight() + 8) * 4))
-		EnableSticky:SetWidth(200)
+	function EnableSticky:Callback(value, text)
+		if PhanxChat.debug then print("PhanxChat: SetEnableSticky", value) end
+		PhanxChat:SetEnableSticky(value)
 	end
 
 	--------------------------------------------------------------------
@@ -266,6 +216,17 @@ PhanxChat.OptionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(
 	end
 
 	--------------------------------------------------------------------
+
+	local bnetValues = {
+		BATTLETAG = L.ShortenRealNames_UseBattleTag,
+		FIRSTNAME = L.ShortenRealNames_UseFirstName,
+		FULLNAME = L.ShortenRealNames_UseFullName,
+	}
+	local stickyValues = {
+		ALL = L.All,
+		BLIZZARD = L.Default,
+		NONE = L.None,
+	}
 
 	self.refresh = function(self)
 		ShortenChannelNames:SetChecked(db.ShortenChannelNames)
