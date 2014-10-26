@@ -6,6 +6,7 @@
 ## Notes-deDE: Entfernt das Durcheinander des Chat-Fensters und fügt einige Funktionen hinzu.
 ## Notes-esES: Eliminar desorden de la ventana de chat y añadir algunas funciones.
 ## Notes-esMX: Eliminar desorden de la ventana de chat y añadir algunas funciones.
+## Notes-frFR: Retire les restrictions du chat et ajoute quelques fonctionnalités.
 ## Notes-ptBR: Remover a desordem da janela de bate-papo e adicionar algumas funcionalidades.
 ## Notes-ruRU: Удаляет беспорядок в окне чата и добавляет новые возможности.
 ## Notes-zhCN: 移除聊天框的杂物并加入一些功能。
