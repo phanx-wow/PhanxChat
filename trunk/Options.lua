@@ -12,6 +12,7 @@ local PHANXCHAT, PhanxChat = ...
 PhanxChat.OptionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(PHANXCHAT, nil, function(self)
 	local L = PhanxChat.L
 	local db = PhanxChat.db
+	local NEW = " |TInterface\\OptionsFrame\\UI-OptionsFrame-NewFeatureIcon:0|t"
 
 	local title, notes = self:CreateHeader(self.name, GetAddOnMetadata(PHANXCHAT, "Notes"))
 
@@ -122,9 +123,18 @@ PhanxChat.OptionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(
 	end
 
 	--------------------------------------------------------------------
+	
+	local HidePetCombatLog = self:CreateCheckbox(L.HidePetCombatLog .. NEW, L.HidePetCombatLog_Desc)
+	HidePetCombatLog:SetPoint("TOPLEFT", notes, "BOTTOM", 2, -12)
+	function HidePetCombatLog:Callback(value)
+		if PhanxChat.debug then print("PhanxChat: HidePetCombatLog", value) end
+		db.HidePetCombatLog = value
+	end
+	
+	--------------------------------------------------------------------
 
 	local HideButtons = self:CreateCheckbox(L.HideButtons, L.HideButtons_Desc)
-	HideButtons:SetPoint("TOPLEFT", notes, "BOTTOM", 2, -12)
+	HideButtons:SetPoint("TOPLEFT", HidePetCombatLog, "BOTTOMLEFT", 0, -8)
 	function HideButtons:Callback(value)
 		if PhanxChat.debug then print("PhanxChat: SetHideButtons", value) end
 		PhanxChat:SetHideButtons(value)
@@ -187,7 +197,7 @@ PhanxChat.OptionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(
 	end
 	function FadeTime.valueText:SetText(text)
 		local v = self:GetParent():GetValue()
-		print(type(v), tostring(v), "SetText", type(text), tostring(text))
+		if PhanxChat.debug then print(type(v), tostring(v), "SetText", type(text), tostring(text)) end
 		local m = floor(text)
 		local s = 60 * (text - m)
 		if m > 0 and s > 0 then
@@ -241,6 +251,7 @@ PhanxChat.OptionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(
 		HideNotices:SetChecked(db.HideNotices)
 		HideRepeats:SetChecked(db.HideRepeats)
 
+		HidePetCombatLog:SetChecked(db.HidePetCombatLog)
 		HideButtons:SetChecked(db.HideButtons)
 		HideTextures:SetChecked(db.HideTextures)
 		HideFlash:SetChecked(db.HideFlash)

@@ -332,6 +332,7 @@ function PhanxChat:ADDON_LOADED(addon)
 		HideButtons         = true,
 		HideFlash           = false,
 		HideNotices         = false,
+		HidePetCombatLog    = true,
 		HideRepeats         = true,
 		HideTextures        = true,
 		LinkURLs            = true,
@@ -362,8 +363,11 @@ function PhanxChat:ADDON_LOADED(addon)
 	end
 
 	hooks.FCF_OpenTemporaryWindow = FCF_OpenTemporaryWindow
-	FCF_OpenTemporaryWindow = function(...)
-		local frame = hooks.FCF_OpenTemporaryWindow(...)
+	FCF_OpenTemporaryWindow = function(chatType, ...)
+		if chatType == "PET_BATTLE_COMBAT_LOG" and db.HidePetCombatLog then
+			return
+		end
+		local frame = hooks.FCF_OpenTemporaryWindow(chatType, ...)
 		self:ProcessFrame(frame)
 		return frame
 	end
