@@ -195,19 +195,20 @@ PhanxChat.OptionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(
 		PhanxChat:SetFadeTime(value)
 		return value
 	end
+	local MINUTES_AND_SECONDS = MINUTE_ONELETTER_ABBR .. " " .. SECOND_ONELETTER_ABBR
 	function FadeTime.valueText:SetText(text)
 		local v = self:GetParent():GetValue()
 		if PhanxChat.debug then print(type(v), tostring(v), "SetText", type(text), tostring(text)) end
 		local m = floor(text)
 		local s = 60 * (text - m)
 		if m > 0 and s > 0 then
-			self:SetFormattedText("%dm %ds", m, s)
+			self:SetFormattedText(MINUTES_AND_SECONDS, m, s)
 		elseif m > 0 then
-			self:SetFormattedText("%dm", m)
+			self:SetFormattedText(MINUTE_ONELETTER_ABBR, m)
 		elseif s > 0 then
-			self:SetFormattedText("%ds", s)
+			self:SetFormattedText(SECOND_ONELETTER_ABBR, s)
 		else
-			self:SetFormattedText("Disabled") -- use instead of SetText to avoid infinite loop
+			self:SetFormattedText(VIDEO_OPTIONS_DISABLED) -- use instead of SetText to avoid infinite loop
 		end
 	end
 
