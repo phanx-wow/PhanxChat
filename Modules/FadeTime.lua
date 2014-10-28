@@ -11,10 +11,10 @@ local _, PhanxChat = ...
 
 function PhanxChat:FadeTime(frame)
 	if self.db.FadeTime > 0 then
-		frame:SetFading(1)
+		frame:SetFading(true)
 		frame:SetTimeVisible(self.db.FadeTime * 60)
 	else
-		frame:SetFading(0)
+		frame:SetFading(false)
 	end
 end
 
