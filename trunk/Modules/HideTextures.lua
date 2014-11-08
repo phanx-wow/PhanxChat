@@ -6,7 +6,7 @@
 	http://www.curse.com/addons/wow/phanxchat
 
 	Please DO NOT upload this addon to other websites, or post modified
-	versions of it. However, you are welcome to include this addon
+	versions of it. However, you are welcome to include a copy of it
 	WITHOUT CHANGES in compilations posted on Curse and/or WoWInterface.
 	You are also welcome to use any/all of its code in your own addon, as
 	long as you do not use my name or the name of this addon ANYWHERE in
@@ -244,8 +244,6 @@ function PhanxChat:HideTextures(frame)
 	PanelTemplates_TabResize(frame.tab, frame.tab.sizePadding or 0)
 	frame.tab.textWidth = frame.tab.text:GetWidth()
 end
-
-PET_BATTLE_COMBAT_LOG = PhanxChat.ShortStrings.PET_BATTLE_COMBAT_LOG -- TODO: put this somewhere else?
 
 hooksecurefunc("PanelTemplates_TabResize", function(tab, padding, dynTabSize)
 	if dynTabSize and tab.conversationIcon and PhanxChat.db.HideTextures then
