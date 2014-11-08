@@ -1,5 +1,5 @@
 ## Interface: 60000
-## Version: 6.0.2.wowi:revision
+## Version: 6.0.3.wowi:revision
 
 ## Title: PhanxChat
 ## Notes: Removes chat frame clutter and adds some functionality.
@@ -14,8 +14,8 @@
 
 ## Author: Phanx
 ## X-Email: addons@phanx.net
-## X-Copyright: Copyright (c) 2006-2014 Phanx. All rights reserved.
-## X-License: See the accompanying LICENSE file for details.
+## X-Copyright: Copyright (c) 2006-2014 Phanx.
+## X-License: All rights reserved.
 ## X-CompatibleLocales: enUS, deDE, esES, esMX, frFR, itIT, ptBR, ptPT, ruRU, koKR, zhCN, zhTW
 ## X-Localizations: enUS, deDE, esES, esMX, frFR, itIT, ptBR, ptPT, ruRU, koKR, zhCN, zhTW
 ## X-Website: http://www.wowinterface.com/downloads/info6323-PhanxChat
@@ -36,17 +36,7 @@ Libs\PhanxConfig-Slider\PhanxConfig-Slider.lua
 
 Libs\LibChatAnims\LibChatAnims.lua
 
-Locales\Locale-en.lua
-Locales\Locale-de.lua
-Locales\Locale-es.lua
-Locales\Locale-fr.lua
-Locales\Locale-it.lua
-Locales\Locale-pt.lua
-Locales\Locale-ru.lua
-Locales\Locale-ko.lua
-Locales\Locale-zhCN.lua
-Locales\Locale-zhTW.lua
-
+Localization.lua
 Core.lua
 Options.lua
 
