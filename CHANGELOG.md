@@ -1,6 +1,6 @@
-### Version 87
+### Version 6.0.3.87
 
-* 
+* Fixed option to disable chat fading
 
 ### Version 6.0.2.253
 

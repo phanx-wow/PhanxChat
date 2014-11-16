@@ -1,5 +1,5 @@
 ## Interface: 60000
-## Version: 6.0.2.253
+## Version: 6.0.3.87
 
 ## Title: PhanxChat
 ## Notes: Removes chat frame clutter and adds some functionality.
