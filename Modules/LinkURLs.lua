@@ -4,13 +4,7 @@
 	Copyright (c) 2006-2014 Phanx <addons@phanx.net>. All rights reserved.
 	http://www.wowinterface.com/downloads/info6323-PhanxChat.html
 	http://www.curse.com/addons/wow/phanxchat
-
-	Please DO NOT upload this addon to other websites, or post modified
-	versions of it. However, you are welcome to include a copy of it
-	WITHOUT CHANGES in compilations posted on Curse and/or WoWInterface.
-	You are also welcome to use any/all of its code in your own addon, as
-	long as you do not use my name or the name of this addon ANYWHERE in
-	your addon, including its name, outside of an optional attribution.
+	https://github.com/Phanx/PhanxChat
 ----------------------------------------------------------------------]]
 
 local URL_STYLE = "|cff33ccff%s|r"
