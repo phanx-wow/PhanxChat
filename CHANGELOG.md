@@ -1,3 +1,10 @@
+### Version 6.0.3.88
+
+* Fixed the term "battle.net" being turned into a clickable link.
+* Shift-clicking links into chat and cycling through previously entered chat lines will no longer insert an extra space.
+* The `/pchat clear` command is now just `/clear` and clears only visible chat frames by default. Use `/clear all` to clear all chat frames instead.
+* The `/pchat` command remains for opening the options window.
+
 ### Version 6.0.3.87
 
 * Fixed option to disable chat fading
