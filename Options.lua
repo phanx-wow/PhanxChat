@@ -274,11 +274,5 @@ PhanxChat.AboutPanel = LibStub("LibAboutPanel").new(PHANXCHAT, PHANXCHAT)
 SLASH_PHANXCHAT1 = "/pchat"
 
 SlashCmdList.PHANXCHAT = function(cmd)
-	if strlower(cmd) == "clear" then
-		for i = 1, NUM_CHAT_WINDOWS do
-			_G["ChatFrame"..i]:Clear()
-		end
-		return
-	end
 	InterfaceOptionsFrame_OpenToCategory(PhanxChat.OptionsPanel)
 end
