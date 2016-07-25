@@ -1,3 +1,8 @@
+### Version 7.0.3.0
+
+* Updated for WoW 7.0.3
+* Added toggles for the game's "Enable Mouse Wheel Scrolling" and "Remove Chat Hover Delay" settings, which are no longer exposed in the default Chat options panel.
+
 ### Version 6.0.3.88
 
 * Fixed the term "battle.net" being turned into a clickable link.

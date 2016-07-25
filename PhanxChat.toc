@@ -1,4 +1,4 @@
-## Interface: 60200
+## Interface: 70000
 ## Version: @project-version@
 
 ## Title: PhanxChat
@@ -14,14 +14,13 @@
 
 ## Author: Phanx
 ## X-Email: addons@phanx.net
-## X-Copyright: Copyright (c) 2006-2014 Phanx. All rights reserved.
+## X-Copyright: Copyright (c) 2006-2016 Phanx. All rights reserved.
 ## X-Website: https://github.com/Phanx/PhanxChat
 
-## OptionalDependencies: LibAboutPanel, PhanxConfigWidgets, LibChatAnims
+## OptionalDependencies: PhanxConfigWidgets, LibChatAnims
 ## SavedVariables: PhanxChatDB
 
 Libs\LibStub\LibStub.lua
-Libs\LibAboutPanel\LibAboutPanel.lua
 Libs\LibChatAnims\LibChatAnims.lua
 Libs\PhanxConfig-Checkbox\PhanxConfig-Checkbox.lua
 Libs\PhanxConfig-Dropdown\PhanxConfig-Dropdown.lua
@@ -49,3 +48,4 @@ Modules\MoveEditBox.lua
 Modules\ReplaceRealNames.lua
 Modules\ShortenChannelNames.lua
 Modules\ShowClassColors.lua
+
