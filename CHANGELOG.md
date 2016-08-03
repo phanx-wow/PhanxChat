@@ -111,7 +111,7 @@
 
 ### Version 5.1.0.187
 
-* Added [LibChatAnims](http://www.wowace.com/addons/libchatanims/) to work around public chat API functions tainting the talent frame due to Blizzard's stupidity
+* Added [LibChatAnims](https://www.wowace.com/addons/libchatanims/) to work around public chat API functions tainting the talent frame due to Blizzard's stupidity
 
 ### Version 5.1.0.186
 
