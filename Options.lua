@@ -124,6 +124,15 @@ PhanxChat.OptionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(
 
 	--------------------------------------------------------------------
 
+	local HideBackground = self:CreateCheckbox(L.HideBackground, L.HideBackground_Desc)
+	HideBackground:SetPoint("TOPLEFT", HideRepeats, "BOTTOMLEFT", 0, -8)
+	function HideBackground:OnValueChanged(value)
+		if PhanxChat.debug then print("PhanxChat: SetHideBackground", value) end
+		PhanxChat:SetHideBackground(value)
+	end
+
+	--------------------------------------------------------------------
+
 	local HidePetCombatLog = self:CreateCheckbox(L.HidePetCombatLog .. NEW, L.HidePetCombatLog_Desc)
 	HidePetCombatLog:SetPoint("TOPLEFT", notes, "BOTTOM", 2, -12)
 	function HidePetCombatLog:OnValueChanged(value)
@@ -267,6 +276,7 @@ PhanxChat.OptionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(
 		MoveEditBox:SetChecked(db.MoveEditBox)
 		HideNotices:SetChecked(db.HideNotices)
 		HideRepeats:SetChecked(db.HideRepeats)
+		HideBackground:SetChecked(db.HideBackground)
 
 		HidePetCombatLog:SetChecked(db.HidePetCombatLog)
 		HideButtons:SetChecked(db.HideButtons)
