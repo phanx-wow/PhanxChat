@@ -37,6 +37,7 @@ Modules\EnableArrows.lua
 Modules\EnableResizeEdges.lua
 Modules\EnableSticky.lua
 Modules\FadeTime.lua
+Modules\HideBackground.lua
 Modules\HideButtons.lua
 Modules\HideFlash.lua
 Modules\HideNotices.lua

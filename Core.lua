@@ -345,6 +345,7 @@ function PhanxChat:ADDON_LOADED(addon)
 		EnableResizeEdges   = true,
 		EnableSticky        = "ALL", -- ALL, BLIZZARD, NONE
 		FadeTime            = 1, -- minutes; 0 disables fading
+		HideBackground      = false,
 		HideButtons         = true,
 		HideFlash           = false,
 		HideNotices         = false,
