@@ -9,9 +9,9 @@ manual-changelog:
 externals:
    Libs/LibChatAnims: svn://svn.wowace.com/wow/libchatanims/mainline/trunk/LibChatAnims
    Libs/LibStub: svn://svn.wowace.com/wow/libstub/mainline/tags/1.0
-   Libs/PhanxConfig-Checkbox: git://github.com/Phanx/PhanxConfig-Checkbox.git
-   Libs/PhanxConfig-Dropdown: git://github.com/Phanx/PhanxConfig-Dropdown.git
-   Libs/PhanxConfig-EditBox: git://github.com/Phanx/PhanxConfig-EditBox.git
-   Libs/PhanxConfig-Header: svn://svn.wowinterface.com/PhanxConfigWidgets-486/trunk/PhanxConfig-Header
-   Libs/PhanxConfig-OptionsPanel: git://github.com/Phanx/PhanxConfig-OptionsPanel.git
-   Libs/PhanxConfig-Slider: git://github.com/Phanx/PhanxConfig-Slider.git
+   Libs/PhanxConfig-Checkbox: git://github.com/phanx-wow/PhanxConfig-Checkbox.git
+   Libs/PhanxConfig-Dropdown: git://github.com/phanx-wow/PhanxConfig-Dropdown.git
+   Libs/PhanxConfig-EditBox: git://github.com/phanx-wow/PhanxConfig-EditBox.git
+   Libs/PhanxConfig-Header: git://github.com/phanx-wow/PhanxConfig-Header.git
+   Libs/PhanxConfig-OptionsPanel: git://github.com/phanx-wow/PhanxConfig-OptionsPanel.git
+   Libs/PhanxConfig-Slider: git://github.com/phanx-wow/PhanxConfig-Slider.git
