@@ -1,3 +1,8 @@
+### Version 7.1.0.0
+
+* Updated for WoW 7.1
+* Fixed an error caused by Blizzard renaming the chat frame friends button
+
 ### Version 7.0.3.0
 
 * Updated for WoW 7.0.3
