@@ -269,7 +269,6 @@ end
 
 ------------------------------------------------------------------------
 
-
 SLASH_CLEARCHAT1 = "/clear"
 SLASH_CLEARCHAT2 = "/clearchat"
 
@@ -281,6 +280,24 @@ SlashCmdList.CLEARCHAT = function(cmd)
 			f:Clear()
 		end
 	end
+end
+
+------------------------------------------------------------------------
+
+hooks.SendChatMessage = SendChatMessage
+
+function SendChatMessage(text, chatType, ...)
+	chatType = strupper(chatType or "SAY")
+
+	if chatType == "INSTANCE_CHAT" and not IsInGroup(LE_PARTY_CATEGORY_INSTANCE) and IsInGroup(LE_PARTY_CATEGORY_HOME) then
+		-- Convert /i to /ra or /p
+		chatType = IsInRaid() and "RAID" or "PARTY"
+	elseif (chatType == "RAID" or chatType == "RAID_WARNING") and not IsInRaid() and IsInGroup() then
+		-- Convert /ra and /rw to /i or /p
+		chatType = IsInGroup(LE_PARTY_CATEGORY_INSTANCE) and "INSTANCE_CHAT" or "PARTY"
+	end
+
+	hooks.SendChatMessage(text, chatType, ...)
 end
 
 ------------------------------------------------------------------------
