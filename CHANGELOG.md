@@ -1,3 +1,8 @@
+### Version 7.1.0.1
+
+* Fixed an error when shift-clicking Battle.net player names in chat (ticket #13)
+* Added intelligent downgrading of group channels (/i is automatically converted to /ra or /p if you're not in an instance group, and /ra and /rw are converted to /i or /p if you're not in a raid group) (ticket #9)
+
 ### Version 7.1.0.0
 
 * Updated for WoW 7.1
