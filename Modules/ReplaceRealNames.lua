@@ -130,7 +130,7 @@ local dialogs = {
 hooksecurefunc("ChatFrame_OnHyperlinkShow", function(frame, link, text, button)
 	if strsub(link, 1, 8) == "BNplayer" then
 		local linkID = tonumber(strmatch(link, "|Kf(%d+)"))
-		if not linkID or not IsModifiedClick("CHATLINK") or ChatEdit_GetActiveWindow() or HelpFrameOpenTicketEditBox:IsVisible() then
+		if not linkID or not IsModifiedClick("CHATLINK") or ChatEdit_GetActiveWindow() then
 			return
 		end
 		for _, dialog in ipairs(dialogs) do
