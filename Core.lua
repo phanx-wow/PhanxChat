@@ -2,9 +2,9 @@
 	PhanxChat
 	Reduces chat frame clutter and enhances chat frame functionality.
 	Copyright (c) 2006-2016 Phanx <addons@phanx.net>. All rights reserved.
-	http://www.wowinterface.com/downloads/info6323-PhanxChat.html
+	https://www.wowinterface.com/downloads/info6323-PhanxChat.html
 	https://mods.curse.com/addons/wow/phanxchat
-	https://github.com/Phanx/PhanxChat
+	https://github.com/phanx-wow/PhanxChat
 ----------------------------------------------------------------------]]
 
 local STRING_STYLE  = "%s|| "
@@ -96,7 +96,9 @@ local CHANNEL_PATTERN      = "|Hchannel:(.-)|h%[(%d+)%.%s?([^:%-%]]+)%s?[:%-]?%s
 local CHANNEL_PATTERN_PLUS = CHANNEL_PATTERN .. ".+"
 
 local PLAYER_PATTERN = "|Hplayer:(.-)|h%[(.-)%]|h"
-local BNPLAYER_PATTERN = "|HBNplayer:(.-)|h%[(|Kb(%d+).-)%](.*)|h"
+
+-- |HBNplayer:|Kf1|k0000|k:2:893:BN_WHISPER:|Kf1|k0000|k|h[|Kf1|k0000|k]|
+local BNPLAYER_PATTERN = "|HBNplayer:(.-|k:(%d+).-)|h%[(.-)%](.*)|h"
 
 local ChannelNames = {
 	[C.Conversation]    = S.Conversation,
@@ -144,10 +146,10 @@ local AddMessage = function(frame, message, ...)
 			message = gsub(message, "(|Hchannel:.-|h): ", "%1", 1)
 		end
 
-		local bnData, bnName, bnID, bnExtra = strmatch(message, BNPLAYER_PATTERN)
-		if bnData then
+		local bnData, bnID, bnName, bnExtra = strmatch(message, BNPLAYER_PATTERN)
+		if bnData and bnID then
 			if db.ReplaceRealNames or db.ShortenRealNames ~= "FULLNAME" then
-				bnName = PhanxChat.bnetNames[tonumber(bnID) or ""] or bnName
+				bnName = PhanxChat.bnetNames[bnID] or bnName
 				local toastIcon = strmatch(message, "|TInterface\\FriendsFrame\\UI%-Toast%-ToastIcons.-|t")
 				-- [BN] John Doe ([WoW] Charguy) has come online. -> [WoW] Charguy has come online.
 				-- |TInterface\\FriendsFrame\\UI-Toast-ToastIcons.tga:16:16:0:0:128:64:2:29:34:61|t|HBNplayer:|Kf5|k000000000000|k:5:1880:BN_INLINE_TOAST_ALERT:0|h[|Kf5|k000000000000|k] (|TInterface\\ChatFrame\\UI-ChatIcon-WOW:14:14:0:0|tCharname)|h has come online.

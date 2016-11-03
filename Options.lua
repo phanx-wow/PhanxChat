@@ -46,9 +46,9 @@ PhanxChat.OptionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(
 	--------------------------------------------------------------------
 
 	local ShortenRealNames = self:CreateDropdown(L.ShortenRealNames, L.ShortenRealNames_Desc, {
-		{ value = BATTLETAG, text = L.ShortenRealNames_UseBattleTag },
-		{ value = FIRSTNAME, text = L.ShortenRealNames_UseFirstName },
-		{ value = FULLNAME, text = L.ShortenRealNames_UseFullName },
+		{ value = "BATTLETAG", text = L.ShortenRealNames_UseBattleTag },
+		{ value = "FIRSTNAME", text = L.ShortenRealNames_UseFirstName },
+		{ value = "FULLNAME",  text = L.ShortenRealNames_UseFullName },
 	})
 	ShortenRealNames:SetPoint("TOPLEFT", ReplaceRealNames, "BOTTOMLEFT", 0, -8)
 	--ShortenRealNames:SetPoint("TOPRIGHT", notes, "BOTTOM", -8, -24 - (ReplaceRealNames:GetHeight() * 3))
