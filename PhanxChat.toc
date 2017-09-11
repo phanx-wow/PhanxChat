@@ -1,4 +1,4 @@
-## Interface: 70100
+## Interface: 70300
 ## Version: @project-version@
 
 ## Title: PhanxChat
@@ -14,7 +14,7 @@
 
 ## Author: Phanx
 ## X-Email: addons@phanx.net
-## X-Copyright: Copyright (c) 2006-2016 Phanx. All rights reserved.
+## X-Copyright: Copyright (c) 2006-2017 Phanx. All rights reserved.
 ## X-Website: https://github.com/Phanx/PhanxChat
 ## X-Curse-Project-ID: 3331
 ## X-WoWI-ID: 6323
