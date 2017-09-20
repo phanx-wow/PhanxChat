@@ -2,9 +2,9 @@
 	PhanxChat
 	Reduces chat frame clutter and enhances chat frame functionality.
 	Copyright (c) 2006-2017 Phanx <addons@phanx.net>. All rights reserved.
-	http://www.wowinterface.com/downloads/info6323-PhanxChat.html
-	http://www.curse.com/addons/wow/phanxchat
-	https://github.com/Phanx/PhanxChat
+	https://www.wowinterface.com/downloads/info6323-PhanxChat.html
+	https://mods.curse.com/addons/wow/phanxchat
+	https://github.com/phanx-wow/PhanxChat
 ----------------------------------------------------------------------]]
 
 local URL_STYLE = "|cff33ccff%s|r"
@@ -94,7 +94,7 @@ function PhanxChat:SetLinkURLs(v)
 			showAlert = 1,
 			timeout = 0,
 			whileDead = 1,
-			preferredIndex = 3, -- helps prevent taint; see http://forums.wowace.com/showthread.php?t=19960
+			preferredIndex = 3, -- helps prevent taint; see https://forums.wowace.com/showthread.php?t=19960
 			OnShow = function(self)
 				(self.icon or _G[self:GetName().."AlertIcon"]):Hide()
 

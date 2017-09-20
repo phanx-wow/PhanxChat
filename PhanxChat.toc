@@ -14,12 +14,12 @@
 
 ## Author: Phanx
 ## X-Email: addons@phanx.net
-## X-Copyright: Copyright (c) 2006-2017 Phanx. All rights reserved.
-## X-Website: https://github.com/Phanx/PhanxChat
+## X-License: All rights reserved. See LICENSE.txt
+## X-Website: https://github.com/phanx-wow/PhanxChat
 ## X-Curse-Project-ID: 3331
 ## X-WoWI-ID: 6323
 
-## OptionalDependencies: PhanxConfigWidgets, LibChatAnims
+## OptionalDependencies: LibChatAnims
 ## SavedVariables: PhanxChatDB
 
 Libs\LibStub\LibStub.lua
@@ -50,4 +50,3 @@ Modules\MoveEditBox.lua
 Modules\ReplaceRealNames.lua
 Modules\ShortenChannelNames.lua
 Modules\ShowClassColors.lua
-
