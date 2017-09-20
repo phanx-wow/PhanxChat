@@ -337,6 +337,9 @@ function PhanxChat:ProcessFrame(frame)
 	if db.FontSize then
 		FCF_SetChatWindowFontSize(nil, frame, db.FontSize)
 	end
+	if db.LineSpacing then
+		frame:SetSpacing(db.LineSpacing)
+	end
 
 	if not self.isLoading then
 		for _, func in ipairs(self.RunOnProcessFrame) do
