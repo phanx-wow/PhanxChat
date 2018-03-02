@@ -1,3 +1,8 @@
+### Version 7.3.5.0
+
+* Added an option to adjust the chat frame line spacing
+* Rearranged the options panel
+
 ### Version 7.3.0.0
 
 * Updated for WoW 7.3
