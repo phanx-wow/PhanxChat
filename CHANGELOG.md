@@ -1,3 +1,7 @@
+### Version 7.3.5.1
+
+* Fixed localization
+
 ### Version 7.3.5.0
 
 * Added an option to adjust the chat frame line spacing

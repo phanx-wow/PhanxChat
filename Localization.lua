@@ -9,6 +9,7 @@
 
 local _, PhanxChat = ...
 local C, S, L = {}, {}, {}
+local LOCALE = GetLocale()
 PhanxChat.ChannelNames, PhanxChat.ShortStrings, PhanxChat.L = C, S, L
 
 -- Channel Names
