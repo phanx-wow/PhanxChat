@@ -607,8 +607,8 @@ if LOCALE == "ruRU" then
 -- Must match the default channel names shown in your game client.
 C.Conversation    = "Разговор"
 C.General         = "Общий"
-C.LocalDefense    = "ОборонаЛокальный"
-C.LookingForGroup = "ПоискСпутников"
+C.LocalDefense    = "Оборона"
+C.LookingForGroup = "Поиск спутников"
 C.Trade           = "Торговля"
 C.WorldDefense    = "ОборонаГлобальный"
 

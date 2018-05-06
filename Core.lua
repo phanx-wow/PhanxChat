@@ -87,13 +87,14 @@ local format, gsub, strlower, strmatch, strsub, tonumber, type
 ------------------------------------------------------------------------
 
 local CHANNEL_LINK   = "|Hchannel:%1$s|h" .. format(STRING_STYLE, CHANNEL_STYLE) .. "|h"
+local CHANNEL_LINK_VERBOSE = "|Hchannel:%1$s|h%3$s %4$s|h"
 
 local PLAYER_LINK    = "|Hplayer:%s|h" .. PLAYER_STYLE .. "|h"
 local PLAYER_BN_LINK = "|HBNplayer:%s|h" .. PLAYER_STYLE .. "%s|h"
 
 -- |Hchannel:channel:2|h[2. Trade]|h |Hplayer:Konquered:1281:CHANNEL:2|h|cffbf8cffKonquered|r|h: lf 2s partner
-local CHANNEL_PATTERN      = "|Hchannel:(.-)|h%[(%d+)%.%s?([^:%-%]]+)%s?[:%-]?%s?[^|%]]*%]|h%s?"
-local CHANNEL_PATTERN_PLUS = CHANNEL_PATTERN .. ".+"
+local CHANNEL_PATTERN      = "|Hchannel:(.-)|h%[(%d+)%.%s?([^:%-%]]+)%s?[:%-]?%s?([^|%]]*)%]|h%.?%s?"
+local CHANNEL_PATTERN_PLUS = CHANNEL_PATTERN .. "(.*)"
 
 local PLAYER_PATTERN = "|Hplayer:(.-)|h%[(.-)%]|h"
 
@@ -125,10 +126,15 @@ end
 
 local AddMessage = function(frame, message, ...)
 	if type(message) == "string" then
-		local channelData, channelID, channelName = strmatch(message, CHANNEL_PATTERN_PLUS)
+		local channelData, channelID, channelName, channelInfo, rest = strmatch(message, CHANNEL_PATTERN_PLUS)
 		if channelData and db.ShortenChannelNames then
-			local shortName = ChannelNames[channelName] or ChannelNames[strlower(channelName)] or strsub(channelName, 1, 2)
-			message = gsub(message, CHANNEL_PATTERN, format(CHANNEL_LINK, channelData, channelID, shortName))
+			if rest == "" then
+				-- system message, show full channel info
+				message = gsub(message, CHANNEL_PATTERN, format(CHANNEL_LINK_VERBOSE, channelData, channelID, channelName, channelInfo))
+			else
+				local shortName = ChannelNames[channelName] or ChannelNames[strlower(channelName)] or strsub(channelName, 1, 2)
+				message = gsub(message, CHANNEL_PATTERN, format(CHANNEL_LINK, channelData, channelID, shortName))
+			end
 		end
 
 		local playerData, playerName = strmatch(message, PLAYER_PATTERN)
