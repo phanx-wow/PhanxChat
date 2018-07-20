@@ -204,7 +204,7 @@ end)
 local IsControlKeyDown, IsShiftKeyDown = IsControlKeyDown, IsShiftKeyDown
 
 local bottomButton = setmetatable({}, { __index = function(t, self)
-	local button = _G[self:GetName() .. "ButtonFrameBottomButton"]
+	local button = _G[self:GetName()]["ScrollToBottomButton"]
 	t[self] = button
 	return button
 end })

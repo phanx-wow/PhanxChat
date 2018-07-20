@@ -22,36 +22,28 @@ local function BottomButton_OnClick(self, button)
 	else
 		frame:GetParent():ScrollToBottom()
 	end
-	_G[frame:GetName() .. "ButtonFrameBottomButton"]:Hide()
+	_G[frame:GetName()]["ScrollToBottomButton"]:Hide()
 end
 
 local function ChatFrame_OnShow(self)
 	if not PhanxChat.db.HideButtons then return end
 	if self:AtBottom() then
-		_G[self:GetName() .. "ButtonFrameBottomButton"]:Hide()
+		_G[self:GetName()]["ScrollToBottomButton"]:Hide()
 	else
-		_G[self:GetName() .. "ButtonFrameBottomButton"]:Show()
+		_G[self:GetName()]["ScrollToBottomButton"]:Show()
 	end
 end
 
 function PhanxChat:HideButtons(frame)
 	local name = frame:GetName()
 	local buttonFrame = _G[name .. "ButtonFrame"]
-	local upButton = _G[name .. "ButtonFrameUpButton"]
-	local downButton = _G[name .. "ButtonFrameDownButton"]
-	local bottomButton = _G[name .. "ButtonFrameBottomButton"]
-
+	local bottomButton = _G[name]["ScrollToBottomButton"]
 	frame:HookScript("OnShow", ChatFrame_OnShow)
 
 	if self.db.HideButtons then
 		buttonFrame.Show = noop
 		buttonFrame:Hide()
 
-		upButton.Show = noop
-		upButton:Hide()
-
-		downButton.Show = noop
-		downButton:Hide()
 
 		bottomButton:ClearAllPoints()
 		bottomButton:SetParent(frame)
@@ -69,13 +61,6 @@ function PhanxChat:HideButtons(frame)
 	else
 		buttonFrame.Show = nil
 		buttonFrame:Show()
-
-		upButton.Show = nil
-		upButton:Show()
-
-		downButton.Show = nil
-		downButton:Show()
-
 		bottomButton:ClearAllPoints()
 		bottomButton:SetParent(buttonFrame)
 		bottomButton:SetPoint("BOTTOM", buttonFrame, "BOTTOM", 0, -7)
@@ -111,8 +96,8 @@ function PhanxChat:SetHideButtons(v)
 		QuickJoinToastButton:Hide()
 
 		if not self.hooks.BN_TOAST_LEFT_OFFSET then
-			self.hooks.BN_TOAST_LEFT_OFFSET = BN_TOAST_LEFT_OFFSET
-			BN_TOAST_LEFT_OFFSET = BN_TOAST_LEFT_OFFSET + ChatFrame1ButtonFrame:GetWidth() + 5
+			self.hooks.BN_TOAST_LEFT_OFFSET = 1
+			BN_TOAST_LEFT_OFFSET = 1 + ChatFrame1ButtonFrame:GetWidth() + 5
 		end
 	elseif not self.isLoading then
 		ChatFrameMenuButton:SetScript("OnShow", nil)
