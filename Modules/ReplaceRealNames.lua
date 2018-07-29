@@ -81,7 +81,6 @@ end
 
 PhanxChat.BN_CONNECTED = PhanxChat.ClearBNetNameCache
 PhanxChat.BN_FRIEND_ACCOUNT_ONLINE = PhanxChat.ClearBNetNameCache
-PhanxChat.BN_FRIEND_TOON_ONLINE = PhanxChat.ClearBNetNameCache
 PhanxChat.PLAYER_ENTERING_WORLD = PhanxChat.ClearBNetNameCache
 
 PhanxChat.bnetNames = bnetNames
