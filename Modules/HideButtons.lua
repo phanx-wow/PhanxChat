@@ -94,22 +94,12 @@ function PhanxChat:SetHideButtons(v)
 
 		QuickJoinToastButton:SetScript("OnShow", QuickJoinToastButton.Hide)
 		QuickJoinToastButton:Hide()
-
-		if not self.hooks.BN_TOAST_LEFT_OFFSET then
-			self.hooks.BN_TOAST_LEFT_OFFSET = 1
-			BN_TOAST_LEFT_OFFSET = 1 + ChatFrame1ButtonFrame:GetWidth() + 5
-		end
 	elseif not self.isLoading then
 		ChatFrameMenuButton:SetScript("OnShow", nil)
 		ChatFrameMenuButton:Show()
 
 		QuickJoinToastButton:SetScript("OnShow", nil)
 		QuickJoinToastButton:Show()
-
-		if self.hooks.BN_TOAST_LEFT_OFFSET then
-			BN_TOAST_LEFT_OFFSET = self.hooks.BN_TOAST_LEFT_OFFSET
-			self.hooks.BN_TOAST_LEFT_OFFSET = nil
-		end
 	end
 end
 
