@@ -22,22 +22,22 @@ local function BottomButton_OnClick(self, button)
 	else
 		frame:GetParent():ScrollToBottom()
 	end
-	_G[frame:GetName()]["ScrollToBottomButton"]:Hide()
+	frame.ScrollToBottomButton:Hide()
 end
 
 local function ChatFrame_OnShow(self)
 	if not PhanxChat.db.HideButtons then return end
 	if self:AtBottom() then
-		_G[self:GetName()]["ScrollToBottomButton"]:Hide()
+		self.ScrollToBottomButton:Hide()
 	else
-		_G[self:GetName()]["ScrollToBottomButton"]:Show()
+		self.ScrollToBottomButton:Show()
 	end
 end
 
 function PhanxChat:HideButtons(frame)
 	local name = frame:GetName()
+	local bottomButton = frame.ScrollToBottomButton
 	local buttonFrame = _G[name .. "ButtonFrame"]
-	local bottomButton = _G[name]["ScrollToBottomButton"]
 	frame:HookScript("OnShow", ChatFrame_OnShow)
 
 	if self.db.HideButtons then
