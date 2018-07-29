@@ -1,3 +1,7 @@
+### Version 8.0.0.0
+
+* Updated for WoW 8.0 (thanks Sefriol!)
+
 ### Version 7.3.5.1
 
 * Fixed localization
