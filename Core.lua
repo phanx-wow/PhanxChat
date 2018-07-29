@@ -209,12 +209,6 @@ end)
 
 local IsControlKeyDown, IsShiftKeyDown = IsControlKeyDown, IsShiftKeyDown
 
-local bottomButton = setmetatable({}, { __index = function(t, self)
-	local button = _G[self:GetName()]["ScrollToBottomButton"]
-	t[self] = button
-	return button
-end })
-
 function FloatingChatFrame_OnMouseScroll(self, delta)
 	if delta > 0 then
 		if IsShiftKeyDown() then
@@ -240,9 +234,9 @@ function FloatingChatFrame_OnMouseScroll(self, delta)
 
 	if db.HideButtons then
 		if self:AtBottom() then
-			bottomButton[self]:Hide()
+			self.ScrollToBottomButton:Hide()
 		else
-			bottomButton[self]:Show()
+			self.ScrollToBottomButton:Show()
 		end
 	end
 end
