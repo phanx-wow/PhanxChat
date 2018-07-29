@@ -38,15 +38,11 @@ function PhanxChat:HideButtons(frame)
 	local name = frame:GetName()
 	local buttonFrame = _G[name .. "ButtonFrame"]
 	local bottomButton = frame.ScrollToBottomButton
-	local channelButton = ChatFrameChannelButton
 	frame:HookScript("OnShow", ChatFrame_OnShow)
 
 	if self.db.HideButtons then
 		buttonFrame.Show = noop
 		buttonFrame:Hide()
-
-		channelButton.Show = noop
-		channelButton:Hide()
 
 		bottomButton:ClearAllPoints()
 		bottomButton:SetParent(frame)
@@ -64,9 +60,6 @@ function PhanxChat:HideButtons(frame)
 	else
 		buttonFrame.Show = nil
 		buttonFrame:Show()
-
-		channelButton.Show = nil
-		channelButton:Show()
 
 		bottomButton:ClearAllPoints()
 		bottomButton:SetParent(buttonFrame)
@@ -96,12 +89,18 @@ function PhanxChat:SetHideButtons(v)
 	end
 
 	if self.db.HideButtons then
+		ChatFrameChannelButton:SetScript("OnShow", ChatFrameChannelButton.Hide)
+		ChatFrameChannelButton:Hide()
+
 		ChatFrameMenuButton:SetScript("OnShow", ChatFrameMenuButton.Hide)
 		ChatFrameMenuButton:Hide()
 
 		QuickJoinToastButton:SetScript("OnShow", QuickJoinToastButton.Hide)
 		QuickJoinToastButton:Hide()
 	elseif not self.isLoading then
+		ChatFrameChannelButton:SetScript("OnShow", nil)
+		ChatFrameChannelButton:Show()
+
 		ChatFrameMenuButton:SetScript("OnShow", nil)
 		ChatFrameMenuButton:Show()
 
