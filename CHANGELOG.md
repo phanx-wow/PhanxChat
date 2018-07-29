@@ -1,3 +1,8 @@
+### Version 8.0.0.1
+
+* Fixed moving chat frames near the edges of the screen
+* Removed special handling for the "scroll to bottom" button as it behaves nicely by default now
+
 ### Version 8.0.0.0
 
 * Updated for WoW 8.0 (thanks Sefriol!)
