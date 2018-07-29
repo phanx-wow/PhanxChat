@@ -11,7 +11,19 @@ local _, PhanxChat = ...
 local L = PhanxChat.L
 local hooks = PhanxChat.hooks
 
-InterfaceOptionsSocialPanelChatStyle:HookScript("OnEnter", function(this)
+function PhanxChat:SetClampRectInsets(frame)
+	if PhanxChat.db.MoveEditBox then
+		frame:SetClampRectInsets(0, 25, 35, -5)
+	else
+		frame:SetClampRectInsets(0, 25, 35, -30)
+	end
+end
+
+hooksecurefunc("FloatingChatFrame_UpdateBackgroundAnchors", function(self)
+	PhanxChat:SetClampRectInsets(self)
+end)
+
+InterfaceOptionsSocialPanelChatStyle:HookScript("OnEnter", function(self)
 	if PhanxChat.db.MoveEditBox then
 		GameTooltip:AddLine(format(L.OptionLockedConditional, L.MoveEditBox), 1, 1, 1, true)
 		GameTooltip:Show()
@@ -34,6 +46,8 @@ function PhanxChat:MoveEditBox(frame)
 		hooks[editBox].Insert = editBox.Insert
 		editBox.Insert = Insert
 	end
+
+	self:SetClampRectInsets(frame)
 
 	if self.db.MoveEditBox then
 		editBox:ClearAllPoints()
