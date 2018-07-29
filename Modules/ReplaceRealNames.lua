@@ -100,12 +100,10 @@ function PhanxChat:SetReplaceRealNames(v)
 	if self.db.ReplaceRealNames or self.db.ShortenRealNames then
 		self:RegisterEvent("BN_CONNECTED")
 		self:RegisterEvent("BN_FRIEND_ACCOUNT_ONLINE")
-		self:RegisterEvent("BN_FRIEND_TOON_ONLINE")
 		self:RegisterEvent("PLAYER_ENTERING_WORLD")
 	else
 		self:UnregisterEvent("BN_CONNECTED")
 		self:UnregisterEvent("BN_FRIEND_ACCOUNT_ONLINE")
-		self:UnregisterEvent("BN_FRIEND_TOON_ONLINE")
 		self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 	end
 end
