@@ -48,8 +48,10 @@ function PhanxChat:SetHideButtons(v)
 		ChatFrameMenuButton:SetScript("OnShow", ChatFrameMenuButton.Hide)
 		ChatFrameMenuButton:Hide()
 
-		QuickJoinToastButton:SetScript("OnShow", QuickJoinToastButton.Hide)
-		QuickJoinToastButton:Hide()
+		if PhanxChat.compatRelease then
+			QuickJoinToastButton:SetScript("OnShow", QuickJoinToastButton.Hide)
+			QuickJoinToastButton:Hide()
+		end
 	elseif not self.isLoading then
 		ChatFrameChannelButton:SetScript("OnShow", nil)
 		ChatFrameChannelButton:Show()
@@ -57,8 +59,10 @@ function PhanxChat:SetHideButtons(v)
 		ChatFrameMenuButton:SetScript("OnShow", nil)
 		ChatFrameMenuButton:Show()
 
-		QuickJoinToastButton:SetScript("OnShow", nil)
-		QuickJoinToastButton:Show()
+		if PhanxChat.compatRelease then
+			QuickJoinToastButton:SetScript("OnShow", nil)
+			QuickJoinToastButton:Show()
+		end
 	end
 end
 
