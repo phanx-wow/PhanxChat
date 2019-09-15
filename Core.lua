@@ -66,6 +66,8 @@ local L, C, S = PhanxChat.L, PhanxChat.ChannelNames, PhanxChat.ShortStrings
 PhanxChat.name = PHANXCHAT
 PhanxChat.debug = false
 
+PhanxChat.compatRelease = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE
+
 PhanxChat.RunOnLoad = {}
 PhanxChat.RunOnProcessFrame = {}
 
