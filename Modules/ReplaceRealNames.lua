@@ -29,15 +29,23 @@ for k, v in pairs(LOCALIZED_CLASS_NAMES_FEMALE) do classTokens[v] = k end
 for k, v in pairs(LOCALIZED_CLASS_NAMES_MALE) do classTokens[v] = k end
 
 local bnetNames = setmetatable({}, { __index = function(bnetNames, bnetIDAccount)
-	-- bnetIDAccount, accountName, battleTag, isBattleTag, characterName, bnetIDGameAccount, client, isOnline, lastOnline, isAFK, isDND, messageText, noteText, isRIDFriend, messageTime, canSoR, isReferAFriend, canSummonFriend
-	local _, accountName, battleTag, isBattleTag, characterName, bnetIDGameAccount, client, isOnline, _, _, _, _, _, isRIDFriend = BNGetFriendInfoByID(bnetIDAccount)
+	local bnetAccount = C_BattleNet.GetAccountInfoByID(bnetIDAccount)
+	local accountName = bnetAccount.accountName
+	local battleTag = bnetAccount.battleTag
+	local isBattleTag = bnetAccount.isBattleTagFriend
+	local characterName = bnetAccount.gameAccountInfo.characterName
+	local bnetIDGameAccount = bnetAccount.gameAccountInfo.gameAccountID
+	local client = bnetAccount.gameAccountInfo.clientProgram ~= "" and bnetAccount.gameAccountInfo.clientProgram or nil;
+	local isOnline = bnetAccount.gameAccountInfo.isOnline
+	local isRIDFriend = bnetAccount.isFriend
 	if not accountName then return end -- not initialized yet
 	-- print(bnetIDAccount, accountName, isRIDFriend, battleTag, isBattleTag, isOnline, client, bnetIDGameAccount, characterName)
 
 	local classColor
 	if isOnline and bnetIDGameAccount and client == BNET_CLIENT_WOW and PhanxChat.db.ShowClassColors then
 		-- print("Online in WoW")
-		local _, _, _, realmName, _, _, _, className = BNGetGameAccountInfo(bnetIDGameAccount)
+		local realmName = bnetAccount.gameAccountInfo.realmName 
+		local className = bnetAccount.gameAccountInfo.className
 		realmName = realmName and realmName ~= "" and realmName ~= playerRealm and gsub(realmName, "%s", "")
 		characterName = realmName and format("%s-%s", characterName, realmName) or characterName
 
@@ -128,7 +136,16 @@ hooksecurefunc("ChatFrame_OnHyperlinkShow", function(frame, link, text, button)
 			end
 		end
 
-		local _, accountName, battleTag, isBattleTag, characterName, bnetIDGameAccount, client, isOnline, _, _, _, _, note, isRIDFriend = BNGetFriendInfoByID(bnetIDAccount)
+		local bnetAccount = C_BattleNet.GetAccountInfoByID(bnetIDAccount)
+		local accountName = bnetAccount.accountName
+		local battleTag = bnetAccount.battleTag
+		local isBattleTag = bnetAccount.isBattleTagFriend
+		local characterName = bnetAccount.gameAccountInfo.characterName
+		local bnetIDGameAccount = bnetAccount.gameAccountInfo.gameAccountID
+		local client = bnetAccount.gameAccountInfo.clientProgram ~= "" and bnetAccount.gameAccountInfo.clientProgram or nil;
+		local isOnline = bnetAccount.gameAccountInfo.isOnline
+		local note = bnetAccount.note
+		local isRIDFriend = bnetAccount.isFriend
 		if not accountName then return end
 
 		local color = ChatTypeInfo.SYSTEM
@@ -138,7 +155,16 @@ hooksecurefunc("ChatFrame_OnHyperlinkShow", function(frame, link, text, button)
 				color.r, color.g, color.b)
 		end
 
-		local hasFocus, characterName, _, realmName, _, faction, race, class, guild, zoneName, level, gameText = BNGetGameAccountInfo(bnetIDGameAccount)
+		local hasFocus = bnetAccount.gameAccountInfo.hasFocus
+		local characterName = bnetAccount.gameAccountInfo.gameAccountInfo.characterName or ""
+		local realmName = bnetAccount.gameAccountInfo.realmName or ""
+		local faction = bnetAccount.gameAccountInfo.factionName or ""
+		local race = bnetAccount.gameAccountInfo.raceName or ""
+		local class = bnetAccount.gameAccountInfo.className or ""
+		local guild = ""; -- Deprecated?
+		local zoneName = bnetAccount.gameAccountInfo.gameAccountInfo.areaName or ""
+		local level = bnetAccount.gameAccountInfo.gameAccountInfo.characterLevel or ""
+		local gameText = bnetAccount.gameAccountInfo.gameAccountInfo.richPresence or ""
 		if client ~= BNET_CLIENT_WOW then
 			gameText = BNET_CLIENT_TEXT[client]
 			if gameText then
