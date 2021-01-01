@@ -120,9 +120,7 @@ table.insert(PhanxChat.RunOnLoad, PhanxChat.SetReplaceRealNames)
 ------------------------------------------------------------------------
 
 local BN_WHO_LIST_FORMAT = gsub(WHO_LIST_FORMAT, "|Hplayer:", "|H")
-local BN_WHO_LIST_GUILD_FORMAT = gsub(WHO_LIST_GUILD_FORMAT, "|Hplayer:", "|H")
 local BN_WHO_LIST_REALM_FORMAT = BN_WHO_LIST_FORMAT .. " (%s)"
-local BN_WHO_LIST_GUILD_REALM_FORMAT = BN_WHO_LIST_GUILD_FORMAT .. " (%s)"
 
 hooksecurefunc("ChatFrame_OnHyperlinkShow", function(frame, link, text, button)
 	if strsub(link, 1, 8) == "BNplayer" then
@@ -161,7 +159,6 @@ hooksecurefunc("ChatFrame_OnHyperlinkShow", function(frame, link, text, button)
 		local faction = bnetAccount.gameAccountInfo.factionName or ""
 		local race = bnetAccount.gameAccountInfo.raceName or ""
 		local class = bnetAccount.gameAccountInfo.className or ""
-		local guild = ""; -- Deprecated?
 		local zoneName = bnetAccount.gameAccountInfo.gameAccountInfo.areaName or ""
 		local level = bnetAccount.gameAccountInfo.gameAccountInfo.characterLevel or ""
 		local gameText = bnetAccount.gameAccountInfo.gameAccountInfo.richPresence or ""
@@ -175,18 +172,8 @@ hooksecurefunc("ChatFrame_OnHyperlinkShow", function(frame, link, text, button)
 					color.r, color.g, color.b)
 			end
 		elseif realm == GetRealmName() then -- #TODO: Check in the future if Blizz fixes zone being nil
-			if guild and guild ~= "" then
-				return DEFAULT_CHAT_FRAME:AddMessage(gsub(format(BN_WHO_LIST_GUILD_FORMAT,
-					link, characterName, level, race, class, guild, zoneName or ""), "  ", " "),
-					color.r, color.g, color.b)
-			else
-				return DEFAULT_CHAT_FRAME:AddMessage(gsub(format(BN_WHO_LIST_FORMAT,
-					link, characterName, level, race, class, zoneName or ""), "  ", " "),
-					color.r, color.g, color.b)
-			end
-		elseif guild and guild ~= "" then
-			return DEFAULT_CHAT_FRAME:AddMessage(gsub(format(BN_WHO_LIST_GUILD_REALM_FORMAT,
-				link, characterName, level, race, class, guild, zoneName or "", realmName), "  ", " "),
+			return DEFAULT_CHAT_FRAME:AddMessage(gsub(format(BN_WHO_LIST_FORMAT,
+				link, characterName, level, race, class, zoneName or ""), "  ", " "),
 				color.r, color.g, color.b)
 		else
 			return DEFAULT_CHAT_FRAME:AddMessage(gsub(format(BN_WHO_LIST_REALM_FORMAT,
